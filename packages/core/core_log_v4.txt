@@ -1,0 +1,7 @@
+Starting Super AI Plugin Core from /app
+[HookManager] Watching /app/hooks
+[AgentManager] Watching /app/agents
+[SkillManager] Watching /app/skills
+[PromptManager] Watching /app/prompts
+[ContextManager] Watching /app/context
+{"level":50,"time":1765835986575,"pid":3577,"hostname":"devbox","err":{"type":"Error","message":"listen EADDRINUSE: address already in use 0.0.0.0:3000","stack":"Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1940:16)\n    at listenInCluster (node:net:1997:12)\n    at node:net:2206:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","code":"EADDRINUSE","errno":-98,"syscall":"listen","address":"0.0.0.0","port":3000},"msg":"listen EADDRINUSE: address already in use 0.0.0.0:3000"}

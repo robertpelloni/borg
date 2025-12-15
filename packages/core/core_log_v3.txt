@@ -1,0 +1,19 @@
+Starting Super AI Plugin Core from /app
+[HookManager] Watching /app/hooks
+[AgentManager] Watching /app/agents
+[SkillManager] Watching /app/skills
+[PromptManager] Watching /app/prompts
+[ContextManager] Watching /app/context
+{"level":30,"time":1765835875254,"pid":2365,"hostname":"devbox","msg":"Server listening at http://0.0.0.0:3000"}
+Core Service running on port 3000
+[HookManager] Loaded 2 hooks
+[AgentManager] Loaded agent: Math Whiz
+[SkillManager] Loaded skill: calculator
+{"level":30,"time":1765835884934,"pid":2365,"hostname":"devbox","reqId":"req-1","req":{"method":"GET","url":"/api/config/mcp/json","hostname":"localhost:3000","remoteAddress":"127.0.0.1","remotePort":43410},"msg":"incoming request"}
+{"level":30,"time":1765835884940,"pid":2365,"hostname":"devbox","reqId":"req-1","res":{"statusCode":200},"responseTime":5.111399999994319,"msg":"request completed"}
+{"level":30,"time":1765835891551,"pid":2365,"hostname":"devbox","reqId":"req-2","req":{"method":"POST","url":"/api/mcp/start","hostname":"localhost:3000","remoteAddress":"127.0.0.1","remotePort":43422},"msg":"incoming request"}
+{"level":30,"time":1765835891553,"pid":2365,"hostname":"devbox","reqId":"req-2","msg":"Route POST:/api/mcp/start not found"}
+{"level":30,"time":1765835891553,"pid":2365,"hostname":"devbox","reqId":"req-2","res":{"statusCode":404},"responseTime":2.456250999995973,"msg":"request completed"}
+{"level":30,"time":1765835997161,"pid":2365,"hostname":"devbox","reqId":"req-3","req":{"method":"POST","url":"/api/mcp/start","hostname":"localhost:3000","remoteAddress":"127.0.0.1","remotePort":47636},"msg":"incoming request"}
+{"level":30,"time":1765835997162,"pid":2365,"hostname":"devbox","reqId":"req-3","msg":"Route POST:/api/mcp/start not found"}
+{"level":30,"time":1765835997162,"pid":2365,"hostname":"devbox","reqId":"req-3","res":{"statusCode":404},"responseTime":1.2514419999788515,"msg":"request completed"}

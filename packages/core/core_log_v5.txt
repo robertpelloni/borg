@@ -1,0 +1,18 @@
+Starting Super AI Plugin Core from /app
+[HookManager] Watching /app/hooks
+[AgentManager] Watching /app/agents
+[SkillManager] Watching /app/skills
+[PromptManager] Watching /app/prompts
+[ContextManager] Watching /app/context
+{"level":30,"time":1765836044648,"pid":4579,"hostname":"devbox","msg":"Server listening at http://0.0.0.0:3000"}
+Core Service running on port 3000
+[HookManager] Loaded 2 hooks
+[AgentManager] Loaded agent: Math Whiz
+[SkillManager] Loaded skill: calculator
+{"level":30,"time":1765836056125,"pid":4579,"hostname":"devbox","reqId":"req-1","req":{"method":"POST","url":"/api/mcp/start","hostname":"localhost:3000","remoteAddress":"127.0.0.1","remotePort":50458},"msg":"incoming request"}
+Spawning node /app/mcp-servers/test-server/index.js
+{"level":30,"time":1765836056146,"pid":4579,"hostname":"devbox","reqId":"req-1","res":{"statusCode":200},"responseTime":20.257320999982767,"msg":"request completed"}
+Mock MCP Server Started
+Test Server Running...
+{"level":30,"time":1765836066028,"pid":4579,"hostname":"devbox","reqId":"req-2","req":{"method":"GET","url":"/api/state","hostname":"localhost:3000","remoteAddress":"127.0.0.1","remotePort":54360},"msg":"incoming request"}
+{"level":30,"time":1765836066030,"pid":4579,"hostname":"devbox","reqId":"req-2","res":{"statusCode":200},"responseTime":1.074330999981612,"msg":"request completed"}
