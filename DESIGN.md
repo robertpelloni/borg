@@ -68,10 +68,13 @@ Inspired by `claude-lazy-loading` and `Switchboard`.
 - **`skills/`**: Markdown files (`.skill.md`) defining capabilities.
 - **`hooks/`**: Event handlers and configuration.
 - **`mcp-servers/`**: Managed MCP servers.
-- **`submodules/`**: Integration with `metamcp`.
-- **`references/`**: Collection of 20+ reference repos (Lootbox, Code Mode, etc.).
+- **`submodules/`**: Core integrations (`metamcp`, `mcpenetes`, `claude-mem`).
+- **`references/`**: Collection of 40+ reference repos serving as libraries or inspiration. See `docs/ECOSYSTEM_INTEGRATION.md` for details.
 - **`packages/core`**: The main Hub logic.
 - **`packages/ui`**: The Dashboard.
+
+## Ecosystem Integration
+The project leverages a vast ecosystem of submodules for specific capabilities. Please refer to [`docs/ECOSYSTEM_INTEGRATION.md`](./docs/ECOSYSTEM_INTEGRATION.md) for the detailed strategy on how `MCP-SuperAssistant`, `mux`, `smolagents`, and others are integrated into the architecture.
 
 ## Universal Client Integration
 To fulfill the vision of a "Super AI Plugin", the Hub must seamlessly integrate with the user's existing ecosystem. We will implement a **Client Manager** (inspired by `mcpenetes`) that:
