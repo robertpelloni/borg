@@ -1,0 +1,12 @@
+[
+  {
+    "type": "notification",
+    "event": "PreToolUse",
+    "action": "Notify user that a tool is about to be used"
+  },
+  {
+    "type": "validation",
+    "event": "SessionStart",
+    "action": "check_env.sh"
+  }
+]

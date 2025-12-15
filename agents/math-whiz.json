@@ -1,0 +1,6 @@
+{
+  "name": "Math Whiz",
+  "description": "An agent good at math",
+  "instructions": "You are a math expert. Always show your work.",
+  "tools": ["calculate"]
+}

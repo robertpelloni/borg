@@ -1,0 +1,13 @@
+{
+  "name": "super-ai-plugin",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "pnpm --filter @super-ai/core start",
+    "dev": "pnpm --filter @super-ai/core dev",
+    "build": "pnpm --filter \"./packages/*\" build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

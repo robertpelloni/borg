@@ -1,0 +1,22 @@
+{
+  "name": "@super-ai/core",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "socket.io": "^4.7.2",
+    "chokidar": "^3.5.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.10"
+  }
+}
