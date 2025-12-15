@@ -64,8 +64,16 @@ Inspired by `claude-lazy-loading` and `Switchboard`.
 - **`packages/core`**: The main Hub logic.
 - **`packages/ui`**: The Dashboard.
 
+## Universal Client Integration
+To fulfill the vision of a "Super AI Plugin", the Hub must seamlessly integrate with the user's existing ecosystem. We will implement a **Client Manager** (inspired by `mcpenetes`) that:
+1.  **Auto-Detects Clients:** Scans standard paths (documented in `docs/CLIENT_CONFIGS.md`) to find installed tools (VSCode, Cursor, Claude Desktop, etc.).
+2.  **Config Injection:** Automatically edits the `mcp-servers.json` or equivalent config file of detected clients to add the **Super AI Plugin** as an upstream MCP server.
+    - *Note:* This allows the user to install the Super Plugin once, and instantly have all their tools (VSCode, Chrome, CLI) connected to the Hub.
+3.  **Conflict Resolution:** Merges existing configurations with the Hub's proxy configuration.
+
 ## Roadmap
 1.  **Skeleton:** (Completed) Core service, UI, basic hooks.
 2.  **Hub Refactor:** (Next) Integrate `metamcp` logic, set up `pgvector`, implement `search_tools` and `run_code`.
 3.  **Code Mode:** Implement secure sandbox.
 4.  **Inspection:** Build "Mcpshark" UI features.
+5.  **Client Integration:** Implement the `ClientManager` to auto-configure the 50+ supported tools.

@@ -1,0 +1,21 @@
+[submodule "submodules/mcpenetes"]
+	path = submodules/mcpenetes
+	url = https://github.com/robertpelloni/mcpenetes
+[submodule "references/MCP-SuperAssistant"]
+	path = references/MCP-SuperAssistant
+	url = https://github.com/srbhptl39/MCP-SuperAssistant
+[submodule "references/magg"]
+	path = references/magg
+	url = https://github.com/sitbon/magg
+[submodule "references/mcphub"]
+	path = references/mcphub
+	url = https://github.com/samanhappy/mcphub
+[submodule "references/mcpproxy-go"]
+	path = references/mcpproxy-go
+	url = https://github.com/smart-mcp-proxy/mcpproxy-go
+[submodule "references/pluggedin-mcp"]
+	path = references/pluggedin-mcp
+	url = https://github.com/VeriTeknik/pluggedin-mcp
+[submodule "references/Super-MCP"]
+	path = references/Super-MCP
+	url = https://github.com/nspr-io/Super-MCP
