@@ -124,3 +124,12 @@
 [submodule "references/toon"]
 	path = references/toon
 	url = https://github.com/toon-format/toon
+[submodule "references/memory/vibeship-mind"]
+	path = references/memory/vibeship-mind
+	url = https://github.com/vibeforge1111/vibeship-mind
+[submodule "references/memory/beads"]
+	path = references/memory/beads
+	url = https://github.com/steveyegge/beads
+[submodule "references/memory/txtai"]
+	path = references/memory/txtai
+	url = https://github.com/neuml/txtai
