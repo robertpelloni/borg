@@ -16,6 +16,11 @@ This document compiles the design decisions, planned features, and submodule int
     *   [ ] **Traffic Inspection ("Mcpshark"):**
         *   Build a UI to inspect MCP traffic in real-time (Reference: `mcpshark`, `metamcp` inspector).
         *   Implement persistent logging to `pgvector` database.
+        *   **Cost & Usage Tracking:** Calculate and display token usage and estimated cost per session/agent.
+    *   [ ] **Context Visualization:**
+        *   **Attribution:** Track "what came from where" (source file, tool output, user input).
+        *   **Breakdown:** Visualize context composition (e.g., "30% Code, 20% Memory, 50% Conversation").
+        *   **Inspector:** Allow users to view the exact context window being sent to the model.
 
 ## 2. Universal Client Integration
 **Status:** Planned

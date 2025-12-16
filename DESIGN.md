@@ -15,7 +15,9 @@ We are adopting a **Hub/Proxy/Router** architecture, inspired by `metamcp`, `mcp
 ### Key Responsibilities of the Hub:
 1.  **Aggregation:** Connects to 50+ downstream MCP servers but presents a unified interface to the client.
 2.  **Progressive Disclosure:** Instead of exposing 1000 tools to the LLM context (costing 100k+ tokens), the Hub exposes only a few meta-tools (`search_tools`, `load_tool`, `run_code`).
-3.  **Traffic Inspection:** Acts as a "Wireshark for MCP" (Mcpshark), logging all requests/responses to a persistent database (Postgres + pgvector) for auditing and debugging.
+3.  **Traffic Inspection & Usage Tracking:**
+    - Acts as a "Wireshark for MCP" (Mcpshark), logging all requests/responses to a persistent database (Postgres + pgvector).
+    - **Cost Tracking:** Estimates token usage and cost per session based on model pricing and request size.
 4.  **Code Mode:** Provides a secure sandbox (Docker/V8) for the LLM to execute code (TypeScript/Python) that chains multiple tool calls efficiently.
 
 ## Detailed Feature Design
