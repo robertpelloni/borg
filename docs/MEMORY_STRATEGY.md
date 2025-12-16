@@ -24,7 +24,38 @@ Instead of losing context when a CLI session ends, we implement a "Handoff" syst
     - Resolved Issues
 - **Workflow:** Before answering, the Agent queries this semantic layer: "Have I solved a similar bug before?"
 
-## 4. Implementation Plan
+## 4. Context Composition & Mining
+Inspired by ChatGPT's context layering and "Context Mining".
+
+### Context Layers
+The Hub injects context in a specific order:
+1.  **System Instructions:** Core behavior + Safety.
+2.  **Developer Instructions:** Platform-specific constraints (`CLAUDE.md`).
+3.  **Session Metadata:** Ephemeral stats (tools used, current directory, git status).
+4.  **User Memory:** Persistent facts (Preferences, Goals).
+5.  **Conversation Summaries:** Condensed history of past sessions.
+6.  **Current Session:** Active sliding window.
+
+### Context Mining (The "Audit")
+Before closing a session, the Hub automatically triggers an "Analyst Mode":
+> "Analyze the meta-data of this conversation. Find the abandoned threads. Find the unstated connections between inputs."
+> The result is saved to the Knowledge Graph (`txtai`) for future retrieval.
+
+## 5. Memory System Evaluation & Recommendation
+We evaluated 20+ memory systems (e.g., `cognee`, `langmem`, `mem0`).
+
+### Top Contenders
+*   **[Mem0](https://github.com/mem0ai/mem0):** Best for "User Memory" (Profile/Preferences).
+*   **[Letta](https://github.com/letta-ai/letta):** Strong "Stateful" memory for agents (LLM OS concept).
+*   **[Cognee](https://github.com/topoteretes/cognee):** Graph-based memory for deeper relationships.
+
+### Recommendation
+**Hybrid Approach:**
+*   **Core:** `claude-mem` (Simple, vector-based, integrated).
+*   **User Layer:** `mem0` (Profile management).
+*   **Deep Layer:** `txtai` or `cognee` (Knowledge Graph).
+
+## 6. Implementation Plan
 1.  **File System Layer:** Implement a `ContextManager` in `packages/core` that watches the `.context/` directory (inspired by `beads`).
 2.  **Vector Layer:** Ensure `claude-mem` is running and indexing tool outputs.
 3.  **Handoff Hook:** Add a `SessionEnd` hook that triggers the snapshot routine.

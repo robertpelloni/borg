@@ -21,6 +21,9 @@ This document compiles the design decisions, planned features, and submodule int
         *   **Attribution:** Track "what came from where" (source file, tool output, user input).
         *   **Breakdown:** Visualize context composition (e.g., "30% Code, 20% Memory, 50% Conversation").
         *   **Inspector:** Allow users to view the exact context window being sent to the model.
+    *   [ ] **Context Mining:**
+        *   **Auto-Audit:** Trigger an "Analyst Mode" at session end to find abandoned threads and connections.
+        *   **Layering:** Inject metadata (System, Dev, User, Session) in strict order.
 
 ## 2. Universal Client Integration
 **Status:** Planned

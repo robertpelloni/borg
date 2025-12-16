@@ -133,3 +133,12 @@
 [submodule "references/memory/txtai"]
 	path = references/memory/txtai
 	url = https://github.com/neuml/txtai
+[submodule "references/memory/mem0"]
+	path = references/memory/mem0
+	url = https://github.com/mem0ai/mem0
+[submodule "references/memory/letta"]
+	path = references/memory/letta
+	url = https://github.com/letta-ai/letta
+[submodule "references/memory/cognee"]
+	path = references/memory/cognee
+	url = https://github.com/topoteretes/cognee
