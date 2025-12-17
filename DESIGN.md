@@ -25,8 +25,8 @@ We are adopting a **Hub/Proxy/Router** architecture, inspired by `metamcp`, `mcp
 ### 1. Code Mode (The "One Tool" Philosophy)
 Inspired by `Lootbox`, `code-executor-mcp`, and `pctx`, we will implement a `run_code` tool.
 - **Mechanism:** The LLM writes a script (TS/Python) to achieve a goal.
-- **Execution:** The script runs in a sandboxed environment (using `isolated-vm` or Docker).
-- **Tool Access:** The sandbox has a bridge to call any available MCP tool.
+- **Execution:** The script runs in a sandboxed environment. We use `isolated-vm` for secure V8 isolation, with a fallback to Node.js `vm` module for environments where native module builds are restricted.
+- **Tool Access:** The sandbox has a bridge to call any available MCP tool via `call_tool`.
 - **Benefit:** Reduces context usage by 98%. Instead of 4 round trips to "read file", "analyze", "write file", "commit", the LLM writes one script to do it all.
 - **TOON Support:** Results can be returned in "TOON" format (Token-Oriented Object Notation) - a compressed JSON/CSV hybrid - to further save tokens.
 
@@ -59,10 +59,10 @@ Inspired by `claude-lazy-loading` and `Switchboard`.
 
 ## Tech Stack
 - **Monorepo:** `pnpm workspaces`.
-- **Core Service (Backend):** Node.js + Fastify + Socket.io + TRPC.
+- **Core Service (Backend):** Node.js + Fastify (v5) + Socket.io + TRPC.
 - **Database:** Postgres + pgvector.
 - **Frontend:** React + Next.js (MetaMCP UI).
-- **Sandboxing:** `isolated-vm` (for fast JS execution) or Docker (for Python/heavy tasks).
+- **Sandboxing:** `isolated-vm` (preferred) or Node.js `vm` (fallback).
 - **Submodules:** Extensive use of reference implementations (`references/`) to guide development.
 
 ## Directory Structure
@@ -71,7 +71,7 @@ Inspired by `claude-lazy-loading` and `Switchboard`.
 - **`hooks/`**: Event handlers and configuration.
 - **`mcp-servers/`**: Managed MCP servers.
 - **`submodules/`**: Core integrations (`metamcp`, `mcpenetes`, `claude-mem`).
-- **`references/`**: Collection of 40+ reference repos serving as libraries or inspiration. See `docs/ECOSYSTEM_INTEGRATION.md` for details.
+- **`references/`**: Collection of 50+ reference repos serving as libraries or inspiration. See `docs/ECOSYSTEM_INTEGRATION.md` for details.
 - **`packages/core`**: The main Hub logic.
 - **`packages/ui`**: The Dashboard.
 
@@ -92,8 +92,8 @@ To fulfill the vision of a "Super AI Plugin", the Hub must seamlessly integrate 
 3.  **Conflict Resolution:** Merges existing configurations with the Hub's proxy configuration.
 
 ## Roadmap
-1.  **Skeleton:** (Completed) Core service, UI, basic hooks.
+1.  **Skeleton:** (Completed) Core service (Fastify v5), UI (React), basic hooks, Submodules added.
 2.  **Hub Refactor:** (Next) Integrate `metamcp` logic, set up `pgvector`, implement `search_tools` and `run_code`.
-3.  **Code Mode:** Implement secure sandbox.
+3.  **Code Mode:** Implement secure sandbox (currently using `vm` fallback).
 4.  **Inspection:** Build "Mcpshark" UI features.
 5.  **Client Integration:** Implement the `ClientManager` to auto-configure the 50+ supported tools.
