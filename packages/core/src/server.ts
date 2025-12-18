@@ -53,11 +53,11 @@ export class CoreService {
     this.contextManager = new ContextManager(path.join(rootDir, 'context'));
     this.mcpManager = new McpManager(path.join(rootDir, 'mcp-servers'));
     this.configGenerator = new ConfigGenerator(path.join(rootDir, 'mcp-servers'));
-    this.mcpInterface = new McpInterface();
     this.clientManager = new ClientManager();
     this.codeExecutionManager = new CodeExecutionManager();
     this.proxyManager = new McpProxyManager(this.mcpManager);
-    this.hubServer = new HubServer(this.proxyManager);
+    this.hubServer = new HubServer(this.proxyManager, this.codeExecutionManager);
+    this.mcpInterface = new McpInterface(this.hubServer);
     
     this.setupRoutes();
     this.setupSocket();
