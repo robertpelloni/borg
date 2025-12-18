@@ -14,6 +14,7 @@ import { McpInterface } from './interfaces/McpInterface.js';
 import { ClientManager } from './managers/ClientManager.js';
 import { CodeExecutionManager } from './managers/CodeExecutionManager.js';
 import { McpProxyManager } from './managers/McpProxyManager.js';
+import { LogManager } from './managers/LogManager.js';
 import { HubServer } from './hub/HubServer.js';
 import { HookEvent } from './types.js';
 
@@ -32,6 +33,7 @@ export class CoreService {
   private clientManager: ClientManager;
   private codeExecutionManager: CodeExecutionManager;
   private proxyManager: McpProxyManager;
+  private logManager: LogManager;
   private hubServer: HubServer;
 
   constructor(
@@ -55,7 +57,8 @@ export class CoreService {
     this.configGenerator = new ConfigGenerator(path.join(rootDir, 'mcp-servers'));
     this.clientManager = new ClientManager();
     this.codeExecutionManager = new CodeExecutionManager();
-    this.proxyManager = new McpProxyManager(this.mcpManager);
+    this.logManager = new LogManager();
+    this.proxyManager = new McpProxyManager(this.mcpManager, this.logManager);
     this.hubServer = new HubServer(this.proxyManager, this.codeExecutionManager);
     this.mcpInterface = new McpInterface(this.hubServer);
     
@@ -176,6 +179,7 @@ export class CoreService {
       });
     });
 
+    this.logManager.on('log', (log) => this.io.emit('traffic_log', log));
     this.agentManager.on('updated', (agents) => this.io.emit('agents_updated', agents));
     this.skillManager.on('updated', (skills) => this.io.emit('skills_updated', skills));
     this.hookManager.on('loaded', (hooks) => this.io.emit('hooks_updated', hooks));

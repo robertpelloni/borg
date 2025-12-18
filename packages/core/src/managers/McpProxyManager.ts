@@ -1,8 +1,12 @@
 import { McpManager } from './McpManager.js';
+import { LogManager } from './LogManager.js';
 import { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js';
 
 export class McpProxyManager {
-    constructor(private mcpManager: McpManager) {}
+    constructor(
+        private mcpManager: McpManager,
+        private logManager: LogManager
+    ) {}
 
     async listTools(): Promise<Tool[]> {
         const servers = this.mcpManager.getAllServers();
@@ -46,12 +50,36 @@ export class McpProxyManager {
         }
 
         try {
+            this.logManager.log({
+                source: 'Hub',
+                destination: serverName,
+                type: 'request',
+                method: 'tools/call',
+                payload: { name: toolName, arguments: args }
+            });
+
             const result = await client.callTool({
                 name: toolName,
                 arguments: args
             });
+
+            this.logManager.log({
+                source: serverName,
+                destination: 'Hub',
+                type: 'response',
+                method: 'tools/call',
+                payload: result
+            });
+
             return result as CallToolResult;
         } catch (e: any) {
+            this.logManager.log({
+                source: serverName,
+                destination: 'Hub',
+                type: 'response',
+                method: 'tools/call',
+                payload: { error: e.message }
+            });
             return {
                 content: [{ type: 'text', text: `Error: ${e.message}` }],
                 isError: true
