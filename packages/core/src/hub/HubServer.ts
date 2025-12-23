@@ -70,7 +70,10 @@ export class HubServer {
                     // Extract text content for the sandbox
                     // This is a simplification; handling errors/images needs more logic
                     const firstItem = res.content?.[0];
-                    const errorMessage = (firstItem && firstItem.type === 'text') ? firstItem.text : "Tool Error";
+                    const errorMessage =
+                        firstItem && firstItem.type === 'text' && firstItem.text
+                            ? firstItem.text
+                            : `Tool Error in "${toolName}" with args ${JSON.stringify(toolArgs)}`;
 
                     if (res.isError) throw new Error(errorMessage);
 

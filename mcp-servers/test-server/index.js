@@ -21,6 +21,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                     type: "object",
                     properties: {
                         message: { type: "string" }
+                    },
+                    required: ["message"]
+                }
+            },
+            {
+                name: "error_test",
+                description: "Tool for testing error handling",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        error_type: { 
+                            type: "string",
+                            enum: ["validation", "runtime", "custom"]
+                        }
                     }
                 }
             }
@@ -30,17 +44,47 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
+    
     if (name === "echo") {
+        // Test missing arguments
+        if (!args?.message) {
+            throw new Error("Missing required argument: message");
+        }
         return {
             content: [
                 {
                     type: "text",
-                    text: `Echo: ${args?.message}`
+                    text: `Echo: ${args.message}`
                 }
             ]
         };
     }
-    throw new Error("Tool not found");
+    
+    if (name === "error_test") {
+        const errorType = args?.error_type || "runtime";
+        
+        switch (errorType) {
+            case "validation":
+                throw new Error("Validation error: Invalid input format");
+            case "runtime":
+                throw new Error("Runtime error: Simulated failure during execution");
+            case "custom":
+                return {
+                    content: [
+                        {
+                            type: "text",
+                            text: "Error: Custom error message for testing"
+                        }
+                    ],
+                    isError: true
+                };
+            default:
+                throw new Error(`Unknown error type: ${errorType}`);
+        }
+    }
+    
+    // Test invalid tool name
+    throw new Error(`Tool not found: ${name}`);
 });
 
 const transport = new StdioServerTransport();

@@ -7,3 +7,5 @@ references/
 packages/core/core.log
 packages/ui/ui.log
 verification/
+packages/core/package-lock.json
+packages/core/tsconfig.tsbuildinfo

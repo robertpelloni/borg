@@ -15,17 +15,63 @@ export class McpManager extends EventEmitter {
         super();
     }
 
+    /**
+     * Heuristic to determine whether an argument is likely to be a file path.
+     * This avoids misclassifying URLs or CLI flags that contain slashes.
+     */
+    private isLikelyFilePath(arg: unknown): arg is string {
+        if (typeof arg !== 'string') {
+            return false;
+        }
+
+        // Absolute paths are always treated as file paths.
+        if (path.isAbsolute(arg)) {
+            return true;
+        }
+
+        // Common relative-path prefixes.
+        if (arg.startsWith('./') || arg.startsWith('../')) {
+            return true;
+        }
+
+        // Exclude obvious URLs, e.g. http://, https://, file://, etc.
+        const urlLikePattern = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//;
+        if (urlLikePattern.test(arg)) {
+            return false;
+        }
+
+        // Exclude long-form flags like --option=value/subvalue
+        if (arg.startsWith('--')) {
+            return false;
+        }
+
+        // If it has a file extension, it's likely a path.
+        const ext = path.extname(arg);
+        if (ext) {
+            return true;
+        }
+
+        // As a fallback, treat strings containing the path separator as paths,
+        // provided they are not URLs/flags (already excluded above).
+        if (arg.includes(path.sep)) {
+            return true;
+        }
+
+        return false;
+    }
+
     async startServerSimple(name: string, config: any) {
         const cmd = config.command || 'node';
         const args = config.args || [];
 
         // Resolve paths relative to repo root if they look like file paths
         const finalArgs = args.map((arg: any) => {
-             if (typeof arg === 'string' && arg.includes('/')) {
-                 // If the path is not absolute, resolve it relative to mcpDir
-                 return path.isAbsolute(arg) ? arg : path.resolve(this.mcpDir, arg);
-             }
-             return arg;
+            if (this.isLikelyFilePath(arg)) {
+                const strArg = arg as string;
+                // If the path is not absolute, resolve it relative to mcpDir
+                return path.isAbsolute(strArg) ? strArg : path.resolve(this.mcpDir, strArg);
+            }
+            return arg;
         });
 
         console.log(`Starting MCP Server ${name}: ${cmd} ${finalArgs.join(' ')}`);
@@ -80,12 +126,13 @@ export class McpManager extends EventEmitter {
 
         this.servers.set(name, {
             status: 'running',
-            process: child
+            process: child,
+            client: null
         });
 
         child.on('exit', (code) => {
             console.log(`Server ${name} exited with code ${code}`);
-            this.servers.set(name, { status: 'stopped', process: null });
+            this.servers.set(name, { status: 'stopped', process: null, client: null });
             this.emit('updated', this.getAllServers());
         });
 
@@ -101,6 +148,7 @@ export class McpManager extends EventEmitter {
                 console.error(`Error stopping server ${name}:`, e);
             }
             this.servers.set(name, { ...server, status: 'stopped', process: null, client: null });
+        }
         if (server && server.process) {
             server.process.kill();
             this.servers.set(name, { ...server, status: 'stopped', process: null });

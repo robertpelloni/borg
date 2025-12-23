@@ -87,7 +87,17 @@ export class ClientManager {
             currentConfig = json5.parse(content);
         } catch (err) {
             console.error(`Failed to parse config for ${clientName}, starting fresh.`, err);
-            fs.copyFileSync(client.configPath, client.configPath + '.bak');
+            try {
+                fs.copyFileSync(client.configPath, client.configPath + '.bak');
+            } catch (backupErr) {
+                console.error(
+                    `Failed to create backup config for ${clientName} at ${client.configPath}.`,
+                    backupErr
+                );
+                throw new Error(
+                    `Failed to back up existing configuration for ${clientName}. Aborting to avoid data loss.`
+                );
+            }
         }
     }
 

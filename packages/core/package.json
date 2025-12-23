@@ -12,7 +12,7 @@
     "@fastify/cors": "^11.2.0",
     "@modelcontextprotocol/sdk": "^1.25.1",
     "chokidar": "^3.5.3",
-    "fastify": "^5.6.2",
+    "fastify": "^4.24.3",
     "fuse.js": "^7.1.0",
     "isolated-vm": "^6.0.2",
     "json5": "^2.2.3",

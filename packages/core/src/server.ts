@@ -75,9 +75,9 @@ export class CoreService {
 
     this.app.post('/api/clients/configure', async (request: any, reply) => {
         const { clientName } = request.body;
-        // In a real scenario, we'd determine the script path dynamically
-        // Use process.argv[1] or similar to point to the current entry point
-        const scriptPath = path.resolve(process.argv[1]);
+        // Derive the current module path from import.meta.url instead of process.argv[1].
+        // This provides a more reliable entry point reference across different execution contexts.
+        const scriptPath = path.resolve(new URL(import.meta.url).pathname);
 
         try {
             const result = await this.clientManager.configureClient(clientName, {
@@ -212,7 +212,20 @@ export class CoreService {
     await this.promptManager.start();
     await this.contextManager.start();
     
-    // Start MCP Interface (Stdio) - Optional based on env?
+    /**
+     * Optionally start the MCP interface in stdio mode.
+     *
+     * When MCP_STDIO_ENABLED is set to the string "true", this process will
+     * act as a Model Context Protocol server over stdin/stdout by starting
+     * the McpInterface. This is typically used when the core service is
+     * launched by an MCP‑aware client that expects to communicate via
+     * stdio instead of HTTP.
+     *
+     * Enabling stdio mode does not disable the HTTP/Socket.IO server below;
+     * it adds an additional way to access MCP capabilities. Leave this unset
+     * or set it to any value other than "true" when running the core service
+     * primarily as an HTTP server.
+     */
     if (process.env.MCP_STDIO_ENABLED === 'true') {
         console.error('[Core] Starting MCP Stdio Interface...');
         this.mcpInterface.start();

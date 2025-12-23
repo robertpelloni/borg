@@ -1,11 +1,14 @@
 import vm from 'vm';
 
 export class CodeExecutionManager {
+    // Default timeout for code execution (in milliseconds)
+    private readonly executionTimeout: number = 5000; // 5 seconds
+
     constructor() {
     }
 
     async execute(code: string, toolCallback: (name: string, args: any) => Promise<any>): Promise<string> {
-        // Create a sandboxed context
+        // Create a sandboxed context with resource limits
         const context = {
             console: {
                 log: (...args: any[]) => console.log('[Sandbox]', ...args)
@@ -26,13 +29,23 @@ export class CodeExecutionManager {
         `;
 
         try {
-            // vm.runInContext returns the result of the last expression
-            // which is the promise from the IIFE
-            const resultPromise = vm.runInContext(wrappedCode, context);
+            // Execute with timeout to prevent resource exhaustion
+            // Note: vm.runInContext doesn't support timeout directly for async code,
+            // so we implement a Promise.race with a timeout
+            const resultPromise = vm.runInContext(wrappedCode, context, {
+                timeout: this.executionTimeout,
+                displayErrors: true
+            });
 
             let result;
             if (resultPromise && typeof resultPromise.then === 'function') {
-                result = await resultPromise;
+                // Race the execution against a timeout
+                result = await Promise.race([
+                    resultPromise,
+                    new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Code execution timeout exceeded')), this.executionTimeout)
+                    )
+                ]);
             } else {
                 result = resultPromise;
             }
