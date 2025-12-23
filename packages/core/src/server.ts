@@ -13,6 +13,9 @@ import { HookExecutor } from './utils/HookExecutor.js';
 import { McpInterface } from './interfaces/McpInterface.js';
 import { ClientManager } from './managers/ClientManager.js';
 import { CodeExecutionManager } from './managers/CodeExecutionManager.js';
+import { McpProxyManager } from './managers/McpProxyManager.js';
+import { LogManager } from './managers/LogManager.js';
+import { HubServer } from './hub/HubServer.js';
 import { HookEvent } from './types.js';
 
 export class CoreService {
@@ -29,6 +32,9 @@ export class CoreService {
   private mcpInterface: McpInterface;
   private clientManager: ClientManager;
   private codeExecutionManager: CodeExecutionManager;
+  private proxyManager: McpProxyManager;
+  private logManager: LogManager;
+  private hubServer: HubServer;
 
   constructor(
     private rootDir: string
@@ -49,9 +55,12 @@ export class CoreService {
     this.contextManager = new ContextManager(path.join(rootDir, 'context'));
     this.mcpManager = new McpManager(path.join(rootDir, 'mcp-servers'));
     this.configGenerator = new ConfigGenerator(path.join(rootDir, 'mcp-servers'));
-    this.mcpInterface = new McpInterface();
     this.clientManager = new ClientManager();
     this.codeExecutionManager = new CodeExecutionManager();
+    this.logManager = new LogManager();
+    this.proxyManager = new McpProxyManager(this.mcpManager, this.logManager);
+    this.hubServer = new HubServer(this.proxyManager, this.codeExecutionManager);
+    this.mcpInterface = new McpInterface(this.hubServer);
     
     this.setupRoutes();
     this.setupSocket();
@@ -135,6 +144,19 @@ export class CoreService {
         await this.mcpManager.stopServer(name);
         return { status: 'stopped' };
     });
+
+    // Hub Server Routes (SSE)
+    this.app.get('/api/hub/sse', async (request: any, reply) => {
+        await this.hubServer.handleSSE(request.raw, reply.raw);
+        // Fastify specific: prevent it from sending a response itself, handled by SSE
+        reply.hijack();
+    });
+
+    this.app.post('/api/hub/messages', async (request: any, reply) => {
+        const sessionId = request.query.sessionId as string;
+        await this.hubServer.handleMessage(sessionId, request.body, reply.raw);
+        reply.hijack();
+    });
   }
 
   private setupSocket() {
@@ -157,6 +179,7 @@ export class CoreService {
       });
     });
 
+    this.logManager.on('log', (log) => this.io.emit('traffic_log', log));
     this.agentManager.on('updated', (agents) => this.io.emit('agents_updated', agents));
     this.skillManager.on('updated', (skills) => this.io.emit('skills_updated', skills));
     this.hookManager.on('loaded', (hooks) => this.io.emit('hooks_updated', hooks));

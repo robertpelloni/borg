@@ -12,11 +12,11 @@ interface ClientConfig {
 export class ClientManager {
   private clients: ClientConfig[] = [];
 
-  constructor() {
-    this.detectClients();
+  constructor(extraPaths?: { name: string, paths: string[] }[]) {
+    this.detectClients(extraPaths);
   }
 
-  private detectClients() {
+  private detectClients(extraPaths?: { name: string, paths: string[] }[]) {
     const homeDir = os.homedir();
     const platform = os.platform();
 
@@ -49,6 +49,10 @@ export class ClientManager {
         ]
       }
     ];
+
+    if (extraPaths) {
+        potentialPaths.push(...extraPaths);
+    }
 
     this.clients = [];
 

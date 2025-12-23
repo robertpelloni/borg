@@ -1,3 +1,12 @@
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { HubServer } from "../hub/HubServer.js";
+
+export class McpInterface {
+    constructor(private hubServer: HubServer) {}
+
+    async start() {
+        const transport = new StdioServerTransport();
+        await this.hubServer.connect(transport);
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";

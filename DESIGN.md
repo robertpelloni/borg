@@ -81,6 +81,11 @@ The development is guided by a strict roadmap found in [`ROADMAP.md`](./ROADMAP.
 2.  **Extract Logic:** Port the core logic (e.g., client detection algorithms) into the Core Service (`packages/core`).
 3.  **Integrate:** Wire the logic into the Hub's Manager system.
 
+### Current Implementation Status
+- **Hub Server:** Implemented in `packages/core/src/hub/HubServer.ts` using `@modelcontextprotocol/sdk`. Exposes SSE endpoints.
+- **Proxy Manager:** `McpProxyManager.ts` aggregates tools from all running MCP servers managed by `McpManager`, namespacing them (e.g., `server__tool`) to prevent collisions.
+- **Protocol Bridge:** The Hub bridges SSE clients (Hub consumers) to Stdio servers (Downstream tools).
+
 ## Ecosystem Integration
 The project leverages a vast ecosystem of submodules for specific capabilities. Please refer to [`docs/ECOSYSTEM_INTEGRATION.md`](./docs/ECOSYSTEM_INTEGRATION.md) for the detailed strategy on how `MCP-SuperAssistant`, `mux`, `smolagents`, and others are integrated into the architecture.
 

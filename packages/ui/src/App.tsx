@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { Activity, Zap, Box, Brain, MessageSquare, FileText, ShoppingBag, Terminal, Monitor } from 'lucide-react';
+import { Mcpshark } from './components/Mcpshark';
 
 const socket = io('http://localhost:3000');
 
@@ -17,6 +18,7 @@ function App() {
   const [code, setCode] = useState("return 'Hello World';");
   const [codeOutput, setCodeOutput] = useState("");
   const [logs, setLogs] = useState<any[]>([]);
+  const [trafficLogs, setTrafficLogs] = useState<any[]>([]);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -40,6 +42,10 @@ function App() {
         setLogs(prev => [event, ...prev]);
     });
 
+    socket.on('traffic_log', (log) => {
+        setTrafficLogs(prev => [log, ...prev]);
+    });
+
     return () => {
       socket.off('connect');
       socket.off('state');
@@ -49,6 +55,7 @@ function App() {
       socket.off('prompts_updated');
       socket.off('context_updated');
       socket.off('hook_log');
+      socket.off('traffic_log');
     };
   }, []);
 
@@ -236,6 +243,11 @@ function App() {
               (Coming Soon)
           </p>
         </div>
+      </div>
+
+      {/* Mcpshark */}
+      <div className="mt-8">
+          <Mcpshark logs={trafficLogs} />
       </div>
 
       {/* Activity Log */}
