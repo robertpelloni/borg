@@ -1,0 +1,13 @@
+Name,Path,Category,Role,Description,Integration Strategy
+CopilotKit,references/frameworks/CopilotKit,Framework,Reference,Full-stack AI Copilot platform.,Use UI components and backend logic for Hub dashboard.
+claude-orchestration,references/orchestration/claude-orchestration,Orchestration,Reference,Orchestration patterns for Claude.,Integrate orchestration logic into AgentManager.
+agentic-qe,references/testing/agentic-qe,Testing,Capability,Quality Engineering for agents.,Implement self-testing loops for Hub agents.
+A2A,references/protocols/A2A,Protocol,Standard,Agent-to-Agent Protocol spec.,Implement A2A endpoints in Core Service.
+a2a-js,references/protocols/a2a-js,Protocol,Library,JS implementation of A2A.,Use as dependency for Core Service.
+a2a-python,references/protocols/a2a-python,Protocol,Library,Python implementation of A2A.,Use in Python-based subagents.
+MCP-SuperAssistant,references/MCP-SuperAssistant,Connectivity,Foundation,Browser extension interface.,Reference for browser integration.
+claude-mem,submodules/claude-mem,Memory,Core,Memory system for Claude.,Integrate as core memory provider.
+metamcp,submodules/metamcp,Infrastructure,Core,MCP proxy and router.,Base for Core Service.
+mcpenetes,submodules/mcpenetes,Infrastructure,Core,Client detection and config.,Port detection logic to Core Service.
+spec-kit,references/arch/spec-kit,Architecture,Library,Specification management.,Integrate into Spec Editor UI.
+CodeMachine-CLI,references/arch/CodeMachine-CLI,Architecture,Reference,CLI orchestration.,Adopt orchestration patterns.

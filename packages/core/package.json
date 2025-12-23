@@ -9,14 +9,20 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "fastify": "^4.24.3",
-    "socket.io": "^4.7.2",
+    "@fastify/cors": "^11.2.0",
+    "@modelcontextprotocol/sdk": "^1.25.1",
     "chokidar": "^3.5.3",
+    "fastify": "^5.6.2",
+    "fuse.js": "^7.1.0",
+    "isolated-vm": "^6.0.2",
+    "json5": "^2.2.3",
+    "socket.io": "^4.7.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
     "@types/node": "^20.10.0",
-    "@types/ws": "^8.5.10"
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.3.3"
   }
 }

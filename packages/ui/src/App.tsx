@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { Activity, Zap, Box, Brain, MessageSquare, FileText, ShoppingBag } from 'lucide-react';
+import { Activity, Zap, Box, Brain, MessageSquare, FileText, ShoppingBag, Terminal, Monitor } from 'lucide-react';
+import { Mcpshark } from './components/Mcpshark';
 
 const socket = io('http://localhost:3000');
 
@@ -10,14 +11,25 @@ function App() {
     skills: [], 
     hooks: [],
     prompts: [],
-    context: [] 
+    context: [],
+    mcpServers: {}
   });
+  const [clients, setClients] = useState<any[]>([]);
+  const [code, setCode] = useState("return 'Hello World';");
+  const [codeOutput, setCodeOutput] = useState("");
   const [logs, setLogs] = useState<any[]>([]);
+  const [trafficLogs, setTrafficLogs] = useState<any[]>([]);
 
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to Core');
     });
+
+    // Initial fetch of clients
+    fetch('http://localhost:3000/api/clients')
+        .then(res => res.json())
+        .then(data => setClients(data.clients || []))
+        .catch(console.error);
 
     socket.on('state', (data) => setState(data));
     socket.on('agents_updated', (agents) => setState(prev => ({ ...prev, agents })));
@@ -30,6 +42,10 @@ function App() {
         setLogs(prev => [event, ...prev]);
     });
 
+    socket.on('traffic_log', (log) => {
+        setTrafficLogs(prev => [log, ...prev]);
+    });
+
     return () => {
       socket.off('connect');
       socket.off('state');
@@ -39,8 +55,37 @@ function App() {
       socket.off('prompts_updated');
       socket.off('context_updated');
       socket.off('hook_log');
+      socket.off('traffic_log');
     };
   }, []);
+
+  const runCode = async () => {
+      try {
+          const res = await fetch('http://localhost:3000/api/code/run', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ code })
+          });
+          const data = await res.json();
+          setCodeOutput(JSON.stringify(data.result, null, 2));
+      } catch (e: any) {
+          setCodeOutput("Error: " + e.message);
+      }
+  };
+
+  const configureClient = async (clientName: string) => {
+      try {
+          const res = await fetch('http://localhost:3000/api/clients/configure', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ clientName })
+          });
+          const data = await res.json();
+          alert(`Configured ${clientName}: ${JSON.stringify(data)}`);
+      } catch (e: any) {
+          alert("Error: " + e.message);
+      }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -53,6 +98,52 @@ function App() {
             <span className="text-sm text-gray-400">{socket.connected ? 'Connected' : 'Disconnected'}</span>
         </div>
       </header>
+
+      {/* Code Mode & Clients */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+               <div className="flex items-center gap-2 mb-4 text-green-400">
+                <Terminal size={24} />
+                <h2 className="text-xl font-semibold">Code Mode Playground</h2>
+              </div>
+              <textarea
+                className="w-full bg-black/50 text-xs font-mono p-2 rounded h-24 mb-2 text-white border border-gray-600 focus:border-blue-500 outline-none"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <div className="flex justify-between items-center">
+                  <button onClick={runCode} className="bg-green-600 hover:bg-green-500 px-4 py-1 rounded text-sm font-bold">Run Code</button>
+                  <span className="text-xs text-gray-500">Isolate-VM (128MB)</span>
+              </div>
+              {codeOutput && (
+                  <pre className="mt-2 p-2 bg-black text-green-400 text-xs rounded overflow-auto">{codeOutput}</pre>
+              )}
+           </div>
+
+           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+               <div className="flex items-center gap-2 mb-4 text-blue-400">
+                <Monitor size={24} />
+                <h2 className="text-xl font-semibold">Client Integrations</h2>
+              </div>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
+                {clients.length === 0 && <p className="text-gray-500 italic">Scanning...</p>}
+                {clients.map((client: any) => (
+                    <div key={client.name} className="bg-gray-700/50 p-3 rounded flex justify-between items-center">
+                        <div>
+                            <div className="font-bold text-sm">{client.name}</div>
+                            <div className="text-xs text-gray-400">{client.exists ? 'Config Found' : 'Config Missing'}</div>
+                        </div>
+                        <button
+                            onClick={() => configureClient(client.name)}
+                            className="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded text-xs"
+                        >
+                            Inject Config
+                        </button>
+                    </div>
+                ))}
+              </div>
+           </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {/* Agents Card */}
@@ -152,6 +243,11 @@ function App() {
               (Coming Soon)
           </p>
         </div>
+      </div>
+
+      {/* Mcpshark */}
+      <div className="mt-8">
+          <Mcpshark logs={trafficLogs} />
       </div>
 
       {/* Activity Log */}
