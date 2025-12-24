@@ -11,14 +11,17 @@ The Ultimate "Meta-Orchestrator" for the Model Context Protocol (MCP). It acts a
     *   **Agent Executor:** Run autonomous ReAct agents defined in `agents/`.
     *   **Code Mode:** Secure sandboxed execution (TS/Python) for complex workflows.
     *   **Scheduler:** Run tools and agents on a Cron schedule.
+    *   **Prompt Improver:** Optimize prompts using the configured LLM.
 *   **Ecosystem Integration:**
     *   **MetaMCP:** Connects to the powerful Docker-based MetaMCP backend.
     *   **Mcpenetes:** Auto-installs configuration to Claude Desktop and VSCode.
 *   **Memory & Context:**
     *   **Native Memory:** `remember` and `recall` tools backed by local persistence.
+    *   **Document Ingestion:** Auto-ingest PDFs and text from `documents/` into memory.
     *   **Context Injection:** Automatically exposes `skills/` and `prompts/` to the LLM.
+*   **Profiles:** Switch between different server configurations (e.g., "Coding", "Writing").
 *   **Observability:**
-    *   **Mcpshark:** Live traffic inspection of all JSON-RPC messages.
+    *   **Mcpshark:** Live traffic inspection with Replay capability.
     *   **Dashboard:** Real-time UI for managing the entire stack.
 
 ## 🚀 Getting Started
@@ -42,11 +45,6 @@ The Ultimate "Meta-Orchestrator" for the Model Context Protocol (MCP). It acts a
     ```bash
     pnpm run start:all
     ```
-    This will:
-    1.  Build the Core Service.
-    2.  Build the Web UI.
-    3.  Start the Core Service (which serves the UI).
-
     *   **Access Dashboard:** `http://localhost:3000`
     *   **MCP Endpoint:** `http://localhost:3000/api/hub/sse`
 
@@ -62,9 +60,10 @@ To automatically configure Claude Desktop to use this Hub:
 
 *   `packages/core`: The main Node.js Hub service.
 *   `packages/ui`: React + Vite Dashboard.
-*   `packages/mcpenetes`: Go-based configuration injector.
+*   `packages/cli`: CLI tool (`super-ai`).
 *   `agents/`: JSON definitions for autonomous agents.
 *   `skills/`: Markdown files defining AI skills.
+*   `documents/`: PDFs and text files for ingestion.
 *   `commands/`: Slash command definitions.
 *   `mcp-servers/`: Directory for managed local MCP servers.
 
