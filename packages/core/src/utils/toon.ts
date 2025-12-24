@@ -32,3 +32,18 @@ function compactSingleTool(tool: any): string {
 
   return `def ${name}(${params.join(', ')})`;
 }
+
+export const FormatTranslatorTool = {
+    name: "translate_format",
+    description: "Translate JSON tool definitions into compact TOON format to save tokens.",
+    inputSchema: {
+        type: "object",
+        properties: {
+            data: {
+                type: "string",
+                description: "The JSON string to translate (array or object)"
+            }
+        },
+        required: ["data"]
+    }
+};

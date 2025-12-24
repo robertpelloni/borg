@@ -1,14 +1,18 @@
-import path from 'path';
 import { CoreService } from './server.js';
+import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Resolve root directory correctly regardless of CWD
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Dist is ./dist, so package root is ../
+const ROOT_DIR = path.resolve(__dirname, '..');
 
-// Assume we are running from packages/core/dist, so root is ../../..
-const ROOT_DIR = path.resolve(__dirname, '../../../');
-
-console.log(`Starting Super AI Plugin Core from ${ROOT_DIR}`);
+console.log(`[Core] Starting Super AI Plugin Hub from ${ROOT_DIR}`);
 
 const service = new CoreService(ROOT_DIR);
-service.start(3000);
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+
+service.start(PORT).catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+});

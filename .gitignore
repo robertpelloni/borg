@@ -3,3 +3,9 @@ dist
 .env
 .DS_Store
 coverage
+references/
+packages/core/core.log
+packages/ui/ui.log
+verification/
+.secrets.json
+.env.local

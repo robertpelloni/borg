@@ -5,7 +5,8 @@
   "scripts": {
     "start": "pnpm --filter @super-ai/core start",
     "dev": "pnpm --filter @super-ai/core dev",
-    "build": "pnpm --filter \"./packages/*\" build"
+    "build": "pnpm --filter \"./packages/*\" build",
+    "start:all": "pnpm run build && pnpm start"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

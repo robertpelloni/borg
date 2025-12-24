@@ -1,0 +1,183 @@
+[submodule "submodules/mcpenetes"]
+	path = submodules/mcpenetes
+	url = https://github.com/robertpelloni/mcpenetes
+[submodule "references/MCP-SuperAssistant"]
+	path = references/MCP-SuperAssistant
+	url = https://github.com/robertpelloni/MCP-SuperAssistant
+[submodule "references/magg"]
+	path = references/magg
+	url = https://github.com/robertpelloni/magg
+[submodule "references/mcphub"]
+	path = references/mcphub
+	url = https://github.com/robertpelloni/mcphub
+[submodule "references/mcpproxy-go"]
+	path = references/mcpproxy-go
+	url = https://github.com/robertpelloni/mcpproxy-go
+[submodule "references/pluggedin-mcp"]
+	path = references/pluggedin-mcp
+	url = https://github.com/robertpelloni/pluggedin-mcp
+[submodule "references/Super-MCP"]
+	path = references/Super-MCP
+	url = https://github.com/robertpelloni/Super-MCP
+[submodule "submodules/claude-mem"]
+	path = submodules/claude-mem
+	url = https://github.com/robertpelloni/claude-mem
+[submodule "references/opencode"]
+	path = references/opencode
+	url = https://github.com/opencode-ai/opencode
+[submodule "references/notebooklm-mcp"]
+	path = references/notebooklm-mcp
+	url = https://github.com/robertpelloni/notebooklm-mcp
+[submodule "references/voicemode"]
+	path = references/voicemode
+	url = https://github.com/robertpelloni/voicemode
+[submodule "references/pluggedin-app"]
+	path = references/pluggedin-app
+	url = https://github.com/robertpelloni/pluggedin-app
+[submodule "references/pctx"]
+	path = references/pctx
+	url = https://github.com/robertpelloni/pctx
+[submodule "references/mcp-server-code-execution-mode"]
+	path = references/mcp-server-code-execution-mode
+	url = https://github.com/robertpelloni/mcp-server-code-execution-mode
+[submodule "references/mux"]
+	path = references/mux
+	url = https://github.com/robertpelloni/mux
+[submodule "references/Puzld.ai"]
+	path = references/Puzld.ai
+	url = https://github.com/robertpelloni/Puzld.ai
+[submodule "references/emdash"]
+	path = references/emdash
+	url = https://github.com/robertpelloni/emdash
+[submodule "references/claude-squad"]
+	path = references/claude-squad
+	url = https://github.com/robertpelloni/claude-squad
+[submodule "references/mcpm.sh"]
+	path = references/mcpm.sh
+	url = https://github.com/robertpelloni/mcpm.sh
+[submodule "references/superpowers"]
+	path = references/superpowers
+	url = https://github.com/robertpelloni/superpowers
+[submodule "references/smolagents"]
+	path = references/smolagents
+	url = https://github.com/robertpelloni/smolagents
+[submodule "references/pal-mcp-server"]
+	path = references/pal-mcp-server
+	url = https://github.com/robertpelloni/pal-mcp-server
+[submodule "references/Polymcp"]
+	path = references/Polymcp
+	url = https://github.com/robertpelloni/Polymcp
+[submodule "references/lazy-mcp"]
+	path = references/lazy-mcp
+	url = https://github.com/robertpelloni/lazy-mcp
+[submodule "references/MCP-Zero"]
+	path = references/MCP-Zero
+	url = https://github.com/robertpelloni/MCP-Zero
+[submodule "references/mcp-tool-chainer"]
+	path = references/mcp-tool-chainer
+	url = https://github.com/robertpelloni/mcp-tool-chainer
+[submodule "references/prompt-eng-tutorial"]
+	path = references/prompt-eng-tutorial
+	url = https://github.com/anthropics/prompt-eng-interactive-tutorial
+[submodule "references/awesome-llm-apps"]
+	path = references/awesome-llm-apps
+	url = https://github.com/Shubhamsaboo/awesome-llm-apps
+[submodule "references/agents-md"]
+	path = references/agents-md
+	url = https://github.com/agentsmd/agents.md
+[submodule "references/claude-code-infrastructure-showcase"]
+	path = references/claude-code-infrastructure-showcase
+	url = https://github.com/diet103/claude-code-infrastructure-showcase
+[submodule "references/prompts/gemini-cli-tips"]
+	path = references/prompts/gemini-cli-tips
+	url = https://github.com/addyosmani/gemini-cli-tips
+[submodule "references/prompts/thoughtbox"]
+	path = references/prompts/thoughtbox
+	url = https://github.com/Kastalien-Research/thoughtbox
+[submodule "references/prompts/claude-code-system-prompts"]
+	path = references/prompts/claude-code-system-prompts
+	url = https://github.com/Piebald-AI/claude-code-system-prompts
+[submodule "references/config/claude-code-config"]
+	path = references/config/claude-code-config
+	url = https://github.com/drewipson/claude-code-config
+[submodule "references/arch/spec-kit"]
+	path = references/arch/spec-kit
+	url = https://github.com/github/spec-kit
+[submodule "references/arch/CodeMachine-CLI"]
+	path = references/arch/CodeMachine-CLI
+	url = https://github.com/moazbuilds/CodeMachine-CLI
+[submodule "references/skills/dev-browser"]
+	path = references/skills/dev-browser
+	url = https://github.com/SawyerHood/dev-browser
+[submodule "references/arch/claude-code-router"]
+	path = references/arch/claude-code-router
+	url = https://github.com/musistudio/claude-code-router
+[submodule "references/agents/BMAD-METHOD"]
+	path = references/agents/BMAD-METHOD
+	url = https://github.com/bmad-code-org/BMAD-METHOD
+[submodule "references/skills/oai-skills"]
+	path = references/skills/oai-skills
+	url = https://github.com/eliasjudin/oai-skills
+[submodule "references/skills/skrills"]
+	path = references/skills/skrills
+	url = https://github.com/athola/skrills
+[submodule "references/toon"]
+	path = references/toon
+	url = https://github.com/toon-format/toon
+[submodule "references/memory/vibeship-mind"]
+	path = references/memory/vibeship-mind
+	url = https://github.com/vibeforge1111/vibeship-mind
+[submodule "references/memory/beads"]
+	path = references/memory/beads
+	url = https://github.com/steveyegge/beads
+[submodule "references/memory/txtai"]
+	path = references/memory/txtai
+	url = https://github.com/neuml/txtai
+[submodule "references/memory/mem0"]
+	path = references/memory/mem0
+	url = https://github.com/mem0ai/mem0
+[submodule "references/memory/letta"]
+	path = references/memory/letta
+	url = https://github.com/letta-ai/letta
+[submodule "references/memory/cognee"]
+	path = references/memory/cognee
+	url = https://github.com/topoteretes/cognee
+[submodule "references/orchestration/laddr"]
+	path = references/orchestration/laddr
+	url = https://github.com/AgnetLabs/laddr
+[submodule "references/orchestration/claude-squad-smtg"]
+	path = references/orchestration/claude-squad-smtg
+	url = https://github.com/smtg-ai/claude-squad
+[submodule "references/agents/OpenHands"]
+	path = references/agents/OpenHands
+	url = https://github.com/OpenHands/OpenHands
+[submodule "references/agents/amplifier"]
+	path = references/agents/amplifier
+	url = https://github.com/microsoft/amplifier
+[submodule "references/agents/magentic-ui"]
+	path = references/agents/magentic-ui
+	url = https://github.com/microsoft/magentic-ui
+[submodule "references/agents/autogen"]
+	path = references/agents/autogen
+	url = https://github.com/microsoft/autogen
+[submodule "references/agents/agent-zero"]
+	path = references/agents/agent-zero
+	url = https://github.com/agent0ai/agent-zero
+[submodule "references/agents/openagents"]
+	path = references/agents/openagents
+	url = https://github.com/openagents-org/openagents
+[submodule "references/frameworks/CopilotKit"]
+	path = references/frameworks/CopilotKit
+	url = https://github.com/CopilotKit/CopilotKit
+[submodule "references/orchestration/claude-orchestration"]
+	path = references/orchestration/claude-orchestration
+	url = https://github.com/mbruhler/claude-orchestration
+[submodule "references/testing/agentic-qe"]
+	path = references/testing/agentic-qe
+	url = https://github.com/proffesor-for-testing/agentic-qe
+[submodule "submodules/metamcp"]
+	path = submodules/metamcp
+	url = https://github.com/robertpelloni/metamcp
+[submodule "submodules/jules-app"]
+	path = submodules/jules-app
+	url = https://github.com/robertpelloni/jules-app

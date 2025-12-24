@@ -1,1 +1,8 @@
-{"name": "test", "version": "1.0.0"}
+{
+  "name": "test-server",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.1"
+  }
+}
