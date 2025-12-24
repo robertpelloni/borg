@@ -90,8 +90,30 @@ export class CoreService {
 
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
 
+    // Register CommandManager listener to update tools dynamically
+    this.commandManager.on('updated', (commands) => {
+        this.registerCommandsAsTools(commands);
+    });
+
     this.setupRoutes();
     this.setupSocket();
+  }
+
+  private registerCommandsAsTools(commands: any[]) {
+      commands.forEach(cmd => {
+          this.proxyManager.registerInternalTool({
+              name: cmd.name,
+              description: cmd.description || `Execute command: ${cmd.command}`,
+              inputSchema: {
+                  type: "object",
+                  properties: {}, // Commands might have args, simplified for now
+              }
+          }, async () => {
+              // Execute the command via HookExecutor logic or similar
+              console.log(`Executing command: ${cmd.name}`);
+              return await HookExecutor.executeCommand(cmd.command, cmd.args);
+          });
+      });
   }
 
   private setupRoutes() {

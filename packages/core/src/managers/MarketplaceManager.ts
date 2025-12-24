@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { EventEmitter } from 'events';
 
-// Mock registry for now - in production this would fetch from a GitHub repo or API
+// Default mock registry
 const MOCK_REGISTRY = [
     { name: "coder-agent", type: "agent", description: "An expert coding agent.", url: "https://example.com/coder.json" },
     { name: "writer-skill", type: "skill", description: "Creative writing skill.", url: "https://example.com/writer.md" }
@@ -10,16 +10,28 @@ const MOCK_REGISTRY = [
 
 export class MarketplaceManager extends EventEmitter {
     private packages: any[] = [];
+    private registryUrl: string | null = null;
 
     constructor(private rootDir: string) {
         super();
+        this.registryUrl = process.env.MCP_MARKETPLACE_URL || null;
     }
 
     async refresh() {
-        // Fetch from remote
-        // For now, simulate latency and return mock
-        await new Promise(r => setTimeout(r, 500));
-        this.packages = MOCK_REGISTRY;
+        if (this.registryUrl) {
+            try {
+                // In a real implementation, fetch from URL
+                // const res = await fetch(this.registryUrl);
+                // this.packages = await res.json();
+                console.log(`[Marketplace] Fetching from ${this.registryUrl} (mocked)`);
+                this.packages = MOCK_REGISTRY; // Mock for now
+            } catch (e) {
+                console.error('[Marketplace] Failed to fetch registry:', e);
+                this.packages = MOCK_REGISTRY;
+            }
+        } else {
+            this.packages = MOCK_REGISTRY;
+        }
         this.emit('updated', this.packages);
     }
 
@@ -34,6 +46,9 @@ export class MarketplaceManager extends EventEmitter {
         const targetDir = pkg.type === 'agent' ? 'agents' : 'skills';
         const ext = pkg.type === 'agent' ? '.json' : '.skill.md';
         const targetPath = path.join(this.rootDir, targetDir, `${name}${ext}`);
+
+        // Ensure dir exists
+        fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 
         // Simulate download
         const content = pkg.type === 'agent'
