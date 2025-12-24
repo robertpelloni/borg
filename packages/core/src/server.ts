@@ -238,7 +238,8 @@ export class CoreService {
     await this.hookManager.loadHooks();
     await this.promptManager.start();
     await this.contextManager.start();
-    
+    await this.proxyManager.start();
+
     // Start MCP Interface (Stdio) - Optional based on env?
     if (process.env.MCP_STDIO_ENABLED === 'true') {
         console.error('[Core] Starting MCP Stdio Interface...');

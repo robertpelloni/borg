@@ -1,3 +1,4 @@
 packages:
   - "packages/*"
   - "mcp-servers/*"
+  - "submodules/mcpenetes"
