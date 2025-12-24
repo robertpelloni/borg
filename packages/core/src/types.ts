@@ -28,6 +28,7 @@ export interface AgentDefinition {
   description: string;
   instructions: string;
   tools?: string[];
+  model?: string;
 }
 
 export interface SkillDefinition {

@@ -74,7 +74,7 @@ export class CoreService {
     });
 
     this.hookManager = new HookManager(path.join(rootDir, 'hooks'));
-    this.agentManager = new AgentManager(path.join(rootDir, 'agents'));
+    this.agentManager = new AgentManager(rootDir); // Passed rootDir to support AGENTS.md
     this.skillManager = new SkillManager(path.join(rootDir, 'skills'));
     this.promptManager = new PromptManager(path.join(rootDir, 'prompts'));
     this.contextManager = new ContextManager(path.join(rootDir, 'context'));
@@ -97,9 +97,9 @@ export class CoreService {
         this.skillManager,
         this.promptManager
     );
-    
+
     this.mcpInterface = new McpInterface(this.hubServer);
-    this.agentExecutor = new AgentExecutor(this.proxyManager);
+    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager);
 
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
 
@@ -133,6 +133,18 @@ export class CoreService {
 
     this.app.get('/api/clients', async () => {
         return { clients: this.clientManager.getClients() };
+    });
+
+    this.app.post('/api/inspector/replay', async (request: any, reply) => {
+        const { tool, args, server } = request.body;
+        // We only replay the request, so we call the tool again
+        try {
+            // Note: server param is informational, we let proxy find it again
+            const result = await this.proxyManager.callTool(tool, args);
+            return { result };
+        } catch (e: any) {
+            return reply.code(500).send({ error: e.message });
+        }
     });
 
     // ... (rest of API routes same as before) ...
