@@ -26,6 +26,30 @@ export class ModelGateway {
         console.log(`[ModelGateway] Switched to ${provider}:${model}`);
     }
 
+    async getEmbedding(text: string): Promise<number[] | null> {
+        // Only OpenAI supports embeddings natively in this gateway for now
+        // Ollama supports it via /api/embeddings, could implement later
+        if (this.provider === 'openai' || this.secretManager.getSecret('OPENAI_API_KEY')) {
+            try {
+                const apiKey = this.secretManager.getSecret('OPENAI_API_KEY');
+                if (!apiKey) return null;
+
+                const OpenAIApi = await import('openai');
+                const openai = new OpenAIApi.OpenAI({ apiKey });
+
+                const response = await openai.embeddings.create({
+                    model: 'text-embedding-3-small',
+                    input: text,
+                });
+                return response.data[0].embedding;
+            } catch (e) {
+                console.warn('[ModelGateway] Embedding failed:', e);
+                return null;
+            }
+        }
+        return null;
+    }
+
     async complete(request: CompletionRequest): Promise<CompletionResponse> {
         if (this.provider === 'openai') {
             return this.callOpenAI(request);

@@ -28,7 +28,11 @@ import { HandoffManager } from './managers/HandoffManager.js';
 import { HealthService } from './services/HealthService.js';
 import { SystemDoctor } from './services/SystemDoctor.js';
 import { BrowserManager } from './managers/BrowserManager.js';
+import { TrafficObserver } from './services/TrafficObserver.js';
+import { VectorStore } from './services/VectorStore.js';
+import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
+import { ModelGateway } from './gateway/ModelGateway.js';
 
 export class CoreService {
   private app = Fastify({ logger: true });
@@ -59,6 +63,9 @@ export class CoreService {
   private healthService: HealthService;
   private systemDoctor: SystemDoctor;
   private browserManager: BrowserManager;
+  private trafficObserver: TrafficObserver;
+  private vectorStore: VectorStore;
+  private modelGateway: ModelGateway;
 
   constructor(
     private rootDir: string
@@ -99,6 +106,9 @@ export class CoreService {
     this.healthService = new HealthService(this.mcpManager);
     this.systemDoctor = new SystemDoctor();
     this.browserManager = new BrowserManager();
+    this.modelGateway = new ModelGateway(this.secretManager);
+    this.trafficObserver = new TrafficObserver(this.modelGateway, this.memoryManager);
+    this.vectorStore = new VectorStore(this.modelGateway);
 
     this.hubServer = new HubServer(
         this.proxyManager,
@@ -337,7 +347,13 @@ export class CoreService {
       });
     });
 
-    this.logManager.on('log', (log) => this.io.emit('traffic_log', log));
+    this.logManager.on('log', (log) => {
+        this.io.emit('traffic_log', log);
+        // Passive Memory
+        if (log.type === 'response') {
+            this.trafficObserver.observe(log.tool, log.result);
+        }
+    });
     this.agentManager.on('updated', (agents) => this.io.emit('agents_updated', agents));
     this.skillManager.on('updated', (skills) => this.io.emit('skills_updated', skills));
     this.hookManager.on('loaded', (hooks) => this.io.emit('hooks_updated', hooks));
@@ -419,6 +435,11 @@ export class CoreService {
     }, async (args: any) => {
         const id = await this.handoffManager.createHandoff(args.description, { note: args.note });
         return `Handoff created with ID: ${id}`;
+    });
+
+    // Register Pipeline Tool
+    this.proxyManager.registerInternalTool(PipelineTool, async (args: any) => {
+        return await executePipeline(this.proxyManager, args.steps, args.initialContext);
     });
 
     this.proxyManager.registerInternalTool({
