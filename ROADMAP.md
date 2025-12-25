@@ -167,4 +167,5 @@ This document compiles the design decisions, planned features, and submodule int
 - [x] **Mcpenetes Integration:** Auto-configuration of clients.
 - [x] **MetaMCP Integration:** Proxying to Docker-based backend.
 - [x] **Jules Integration:** Integrated Jules Control Tower, Session Management, and Broadcast capabilities.
-- [x] **System Dashboard:** Live view of project structure and submodule status.
+- [x] **Session Keeper:** Automated session monitoring, nudging, and "Debate Mode" (Council) for stuck agents.
+- [x] **System Dashboard:** Live view of project structure and submodule status (`/project` page).

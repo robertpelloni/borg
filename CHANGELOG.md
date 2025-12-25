@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.5] - 2024-05-23
+## [0.0.6] - 2025-12-25
+
+### Added
+- **Session Keeper**: Full integration of `SessionKeeperManager` with "Debate Mode" (Council) and automated nudging for stuck agents.
+- **Project Dashboard**: New `/project` page displaying real-time submodule status and project directory structure.
+- **Documentation**: Created `docs/LLM_INSTRUCTIONS.md` as the universal source of truth for AI agents.
+- **Instructions**: Added model-specific instruction files (`CLAUDE.md`, `GEMINI.md`, etc.) referencing the universal standard.
+
+### Changed
+- **Submodules**: Merged `jules-session-keeper-integration` into `jules-app` and synced to `packages/ui`.
+- **Roadmap**: Updated `ROADMAP.md` to reflect completed features.
+- **Versioning**: Bumped version to 0.0.6 across all packages.
+
+## [0.0.5] - 2025-12-25
 
 ### Maintenance
 - **Submodules**: Comprehensive update of all submodules (`jules-app`, `OpenHands`, `beads`, `vibeship-mind`, `agentic-qe`, `claude-code-router`).
