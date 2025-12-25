@@ -114,7 +114,7 @@ This document compiles the design decisions, planned features, and submodule int
     *   [ ] **Skill Porter:** Auto-convert skills between Claude and Gemini formats.
     *   [ ] **Computer Use:** Integrate Gemini-specific computer use extensions.
     *   [ ] **ADK Support:** Implement Google's Agent Development Kit interfaces.
-    *   [ ] **A2A Protocol:** Support Agent-to-Agent communication standards.
+    *   [x] **A2A Protocol:** Support Agent-to-Agent communication standards.
 
 ## 11. Universal Skill Marketplace
 **Status:** Planned
@@ -135,10 +135,12 @@ This document compiles the design decisions, planned features, and submodule int
     *   [ ] **Agent Methodology:** Adopt `BMAD-METHOD` patterns for agent structure.
 
 ## 13. Advanced Orchestration
-**Status:** Planned
+**Status:** In Progress
 **Reference:** `docs/ECOSYSTEM_INTEGRATION.md`
 *   **Objective:** Coordinate complex multi-agent and multi-model workflows.
 *   **Planned Features:**
+    *   [x] **Agent Registry:** Centralized discovery for agents and capabilities.
+    *   [x] **Message Broker:** A2A communication bus with mailbox support.
     *   [ ] **Debate & Consensus:** Implement multi-model critique loops (Reference: `ultra-mcp`).
     *   [ ] **Project Management:** Track long-running tasks and milestones (Reference: `agentic-project-management`).
     *   [ ] **Mobile Orchestration:** Support remote management (Reference: `systemprompt-code-orchestrator`).
