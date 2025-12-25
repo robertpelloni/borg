@@ -36,6 +36,8 @@ import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { createPromptImprover } from './tools/PromptImprover.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
 import { ModelGateway } from './gateway/ModelGateway.js';
+import { ContextGenerator } from './utils/ContextGenerator.js';
+import fs from 'fs';
 
 export class CoreService {
   private app = Fastify({ logger: true });
@@ -71,6 +73,7 @@ export class CoreService {
   private vectorStore: VectorStore;
   private modelGateway: ModelGateway;
   private systemPromptManager: SystemPromptManager;
+  private contextGenerator: ContextGenerator;
 
   constructor(
     private rootDir: string
@@ -111,6 +114,7 @@ export class CoreService {
     this.vectorStore = new VectorStore(this.modelGateway, path.join(rootDir, 'data'));
     this.memoryManager = new MemoryManager(path.join(rootDir, 'data'), this.vectorStore);
     this.systemPromptManager = new SystemPromptManager(rootDir);
+    this.contextGenerator = new ContextGenerator(rootDir);
 
     this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager);
     this.handoffManager = new HandoffManager(rootDir, this.memoryManager);
@@ -373,6 +377,30 @@ export class CoreService {
         this.profileManager.setActiveProfile(name);
         return { status: 'switched', active: name };
     });
+
+    // --- Submodules Route ---
+    this.app.get('/api/submodules', async () => {
+        try {
+            const gitmodulesPath = path.join(this.rootDir, '.gitmodules');
+            if (fs.existsSync(gitmodulesPath)) {
+                const content = fs.readFileSync(gitmodulesPath, 'utf-8');
+                const submodules = [];
+                const regex = /\[submodule "([^"]+)"\]\s+path = ([^\s]+)\s+url = ([^\s]+)/g;
+                let match;
+                while ((match = regex.exec(content)) !== null) {
+                    submodules.push({
+                        name: match[1].split('/').pop(),
+                        path: match[2],
+                        url: match[3]
+                    });
+                }
+                return { submodules };
+            }
+            return { submodules: [] };
+        } catch (e: any) {
+            return { submodules: [], error: e.message };
+        }
+    });
   }
 
   private setupSocket() {
@@ -444,6 +472,7 @@ export class CoreService {
   }
 
   public async start(port = 3000) {
+    this.contextGenerator.generate(); // Generate context on startup
     await this.agentManager.loadAgents();
     await this.skillManager.loadSkills();
     await this.hookManager.loadHooks();

@@ -56,16 +56,23 @@ To automatically configure Claude Desktop to use this Hub:
 2.  Click **"Install to Clients"**.
 3.  Restart Claude Desktop.
 
-## 📂 Project Structure
+## 📂 Project Directory Structure
 
-*   `packages/core`: The main Node.js Hub service.
-*   `packages/ui`: React + Vite Dashboard.
-*   `packages/cli`: CLI tool (`super-ai`).
-*   `agents/`: JSON definitions for autonomous agents.
-*   `skills/`: Markdown files defining AI skills.
-*   `documents/`: PDFs and text files for ingestion.
-*   `commands/`: Slash command definitions.
-*   `mcp-servers/`: Directory for managed local MCP servers.
+The project is organized as a monorepo using `pnpm workspaces`.
+
+*   **`packages/core`**: The "Brain" of the operation. Contains the Node.js Fastify server, Hub logic, Managers (Agents, Memory, Context), and MCP connection handling.
+*   **`packages/ui`**: The "Control Center". A React + Vite SPA that provides the Dashboard, Settings, and Inspector interfaces.
+*   **`packages/cli`**: A command-line interface (`super-ai`) for controlling the Hub from a terminal.
+*   **`packages/vscode`**: Skeleton code for the VSCode Extension client.
+*   **`packages/browser`**: Skeleton code for the Chrome Extension client.
+*   **`packages/adapters`**: Wrappers for external CLIs like Gemini and Claude.
+*   **`agents/`**: JSON definitions for autonomous agents.
+*   **`skills/`**: Markdown files defining AI skills.
+*   **`documents/`**: Drop zone for PDFs and text files for ingestion.
+*   **`commands/`**: Slash command definitions.
+*   **`mcp-servers/`**: Directory for managed local MCP servers (e.g., `git`, `postgres`).
+*   **`submodules/`**: Critical external integrations (`metamcp`, `mcpenetes`).
+*   **`references/`**: A library of 50+ ecosystem repositories used for capability expansion.
 
 ## 📖 Documentation
 
