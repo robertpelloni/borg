@@ -25,11 +25,14 @@ import { MarketplaceManager } from './managers/MarketplaceManager.js';
 import { DocumentManager } from './managers/DocumentManager.js';
 import { ProfileManager } from './managers/ProfileManager.js';
 import { ProjectManager } from './managers/ProjectManager.js';
+import { AgentMessageBroker } from './managers/AgentMessageBroker.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
 import fs from 'fs';
+import crypto from 'crypto';
 import { registerMcpRoutes } from './routes/mcpRoutes.js';
 import { registerAgentRoutes } from './routes/agentRoutes.js';
+import { registerRegistryRoutes } from './routes/registryRoutes.js';
 
 export class CoreService {
   public app = Fastify({ logger: true });
@@ -57,6 +60,7 @@ export class CoreService {
   public documentManager: DocumentManager;
   public profileManager: ProfileManager;
   public projectManager: ProjectManager;
+  public messageBroker: AgentMessageBroker;
 
   constructor(
     private rootDir: string
@@ -93,6 +97,7 @@ export class CoreService {
     this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager);
     this.profileManager = new ProfileManager(rootDir);
     this.projectManager = new ProjectManager(rootDir);
+    this.messageBroker = new AgentMessageBroker();
 
     this.hubServer = new HubServer(
         this.proxyManager,
@@ -136,6 +141,7 @@ export class CoreService {
     // Register Modular Routes
     registerMcpRoutes(this.app, this);
     registerAgentRoutes(this.app, this);
+    registerRegistryRoutes(this.app, this);
 
     this.app.setNotFoundHandler((req, res) => {
         if (!req.raw.url?.startsWith('/api')) {
@@ -422,6 +428,57 @@ export class CoreService {
         };
         const result = await this.agentExecutor.run(improverAgent, args.prompt);
         return result;
+    });
+
+    // Agent Communication Tools
+    this.proxyManager.registerInternalTool({
+        name: "send_message",
+        description: "Send a message to another agent.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                targetAgentId: { type: "string" },
+                content: { type: "string" },
+                type: { type: "string", enum: ["request", "response", "event"] },
+                sourceAgentId: { type: "string", description: "Your agent ID" }
+            },
+            required: ["targetAgentId", "content"]
+        }
+    }, async (args: any) => {
+        const sourceAgentId = args.sourceAgentId || "anonymous"; 
+        await this.messageBroker.route({
+            id: crypto.randomUUID(),
+            sourceAgentId,
+            targetAgentId: args.targetAgentId,
+            type: args.type || 'request',
+            content: args.content,
+            timestamp: Date.now()
+        });
+        return "Message sent";
+    });
+
+    this.proxyManager.registerInternalTool({
+        name: "check_mailbox",
+        description: "Check for new messages.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                agentId: { type: "string" }
+            },
+            required: ["agentId"]
+        }
+    }, async (args: any) => {
+        const messages = this.messageBroker.getMessages(args.agentId);
+        return messages.length > 0 ? JSON.stringify(messages) : "No new messages";
+    });
+
+    this.proxyManager.registerInternalTool({
+        name: "list_agents",
+        description: "List all available agents in the registry.",
+        inputSchema: { type: "object", properties: {}, required: [] }
+    }, async (args: any) => {
+        const agents = this.agentManager.registry.listAgents();
+        return JSON.stringify(agents.map(a => ({ id: a.id, name: a.name, capabilities: a.capabilities })));
     });
     
     try {

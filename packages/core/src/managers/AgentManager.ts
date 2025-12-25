@@ -3,13 +3,17 @@ import fs from 'fs/promises';
 import path from 'path';
 import { EventEmitter } from 'events';
 import { AgentDefinition } from '../types.js';
+import { AgentRegistry } from './AgentRegistry.js';
+import { AgentProfile } from '../interfaces/AgentInterfaces.js';
 
 export class AgentManager extends EventEmitter {
   private agents: Map<string, AgentDefinition> = new Map();
   private watcher: chokidar.FSWatcher | null = null;
+  public registry: AgentRegistry;
   
   constructor(private rootDir: string) {
     super();
+    this.registry = new AgentRegistry();
   }
 
   async start() {
@@ -47,6 +51,7 @@ export class AgentManager extends EventEmitter {
           // Ideally we track source of agent.
       } else {
           this.agents.delete(filename);
+          this.registry.unregister(filename);
           this.emit('updated', this.getAgents());
       }
   }
@@ -57,11 +62,30 @@ export class AgentManager extends EventEmitter {
       const filename = path.basename(filepath);
       const agent: AgentDefinition = JSON.parse(content);
       this.agents.set(filename, agent);
+      
+      // Register to AgentRegistry
+      this.registerAgentToRegistry(filename, agent);
+
       console.log(`[AgentManager] Loaded agent: ${agent.name}`);
       this.emit('updated', this.getAgents());
     } catch (err) {
       console.error(`[AgentManager] Error loading agent ${filepath}:`, err);
     }
+  }
+
+  private registerAgentToRegistry(id: string, def: AgentDefinition) {
+      const profile: AgentProfile = {
+          id: id,
+          name: def.name,
+          description: def.description,
+          capabilities: def.tools || [],
+          metadata: {
+              model: def.model,
+              instructions: def.instructions,
+              source: 'file'
+          }
+      };
+      this.registry.register(profile);
   }
 
   private async loadAgentsFromMarkdown(filepath: string) {
@@ -84,7 +108,9 @@ export class AgentManager extends EventEmitter {
               const line = lines[i];
               if (line.startsWith('## ')) {
                   if (currentAgent && currentAgent.name) {
-                      this.agents.set(`markdown-${currentAgent.name}`, currentAgent as AgentDefinition);
+                      const id = `markdown-${currentAgent.name}`;
+                      this.agents.set(id, currentAgent as AgentDefinition);
+                      this.registerAgentToRegistry(id, currentAgent as AgentDefinition);
                   }
                   currentAgent = {
                       name: line.replace('## ', '').trim(),
@@ -111,7 +137,9 @@ export class AgentManager extends EventEmitter {
               }
           }
           if (currentAgent && currentAgent.name) {
-              this.agents.set(`markdown-${currentAgent.name}`, currentAgent as AgentDefinition);
+              const id = `markdown-${currentAgent.name}`;
+              this.agents.set(id, currentAgent as AgentDefinition);
+              this.registerAgentToRegistry(id, currentAgent as AgentDefinition);
           }
 
           console.log(`[AgentManager] Reloaded AGENTS.md`);
