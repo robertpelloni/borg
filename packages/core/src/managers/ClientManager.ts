@@ -120,7 +120,10 @@ export class ClientManager {
     currentConfig.mcpServers["super-ai-hub"] = {
         command: "node",
         args: [hubConfig.scriptPath],
-        env: hubConfig.env || {}
+        env: {
+            ...hubConfig.env,
+            MCP_STDIO_ENABLED: 'true'
+        }
     };
 
     fs.mkdirSync(path.dirname(client.configPath), { recursive: true });

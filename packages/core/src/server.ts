@@ -37,7 +37,7 @@ import { registerAgentRoutes } from './routes/agentRoutes.js';
 import { registerRegistryRoutes } from './routes/registryRoutes.js';
 
 export class CoreService {
-  public app = Fastify({ logger: true });
+  public app;
   public io: SocketIOServer;
   
   public hookManager: HookManager;
@@ -69,6 +69,11 @@ export class CoreService {
   constructor(
     private rootDir: string
   ) {
+    const isStdio = process.env.MCP_STDIO_ENABLED === 'true';
+    this.app = Fastify({ 
+        logger: isStdio ? false : true 
+    });
+
     this.io = new SocketIOServer(this.app.server, {
       cors: { origin: "*" }
     });
@@ -572,6 +577,26 @@ export class CoreService {
         inputSchema: { type: "object", properties: {}, required: [] }
     }, async (args: any) => {
         return await this.browserManager.getActiveTabContent();
+    });
+    
+    this.proxyManager.registerInternalTool({
+        name: "configure_client",
+        description: "Auto-configure a client (VSCode, Claude, Cursor) to use the AIOS Hub.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                clientName: { type: "string", enum: ["VSCode", "Claude Desktop", "Cursor"] }
+            },
+            required: ["clientName"]
+        }
+    }, async (args: any) => {
+        // We need to point to the bin/aios script or the dist/index.js
+        // For robustness, let's point to dist/index.js and let ClientManager handle the node invocation
+        const scriptPath = path.resolve(this.rootDir, 'index.js'); 
+        return await this.clientManager.configureClient(args.clientName, {
+            scriptPath,
+            env: process.env
+        });
     });
     
     try {
