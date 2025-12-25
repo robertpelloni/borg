@@ -1,6 +1,6 @@
 {
   "name": "super-ai-plugin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "start": "concurrently \"pnpm --filter @super-ai/core dev\" \"pnpm --filter @super-ai/ui dev\"",

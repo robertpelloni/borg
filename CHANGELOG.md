@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.5] - 2024-05-23
+
+### Maintenance
+- **Submodules**: Comprehensive update of all submodules (`jules-app`, `OpenHands`, `beads`, `vibeship-mind`, `agentic-qe`, `claude-code-router`).
+- **Documentation**: Updated `ROADMAP.md` to reflect completed System Dashboard integration.
+- **Versioning**: Bumped core and UI package versions.
+
 ## [0.0.4] - 2024-05-23
 
 ### Updated
