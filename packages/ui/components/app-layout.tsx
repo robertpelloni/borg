@@ -411,7 +411,10 @@ export function AppLayout({ initialView }: AppLayoutProps) {
                 className="w-48 bg-zinc-950 border-white/[0.08]"
               >
                 <DropdownMenuItem
-                  onClick={() => setIsSettingsOpen(true)}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    setIsSettingsOpen(true);
+                  }}
                   className="hover:bg-white/5 text-white/80"
                 >
                   <Settings className="mr-2 h-3.5 w-3.5" />
