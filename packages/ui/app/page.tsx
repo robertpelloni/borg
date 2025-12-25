@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Activity, Cpu, CheckCircle, Globe, Terminal as TerminalIcon, Puzzle, Code, Monitor, LayoutDashboard, Bot, ShieldCheck } from 'lucide-react';
+import { Activity, Cpu, CheckCircle, Globe, Terminal as TerminalIcon, Puzzle, Code, Monitor, LayoutDashboard, Bot, ShieldCheck, FolderTree } from 'lucide-react';
 import { io } from 'socket.io-client';
 import { IntegratedTerminal } from '@/components/IntegratedTerminal';
 import Link from 'next/link';
@@ -216,6 +216,13 @@ export default function Dashboard() {
                         <div className="text-xs text-gray-400">Auto-configure Claude/VSCode</div>
                     </div>
                 </button>
+                <Link href="/project" className="bg-gray-700 hover:bg-gray-600 p-3 rounded text-left transition-colors flex items-center gap-3">
+                    <div className="bg-teal-500/20 p-2 rounded text-teal-400"><FolderTree size={18} /></div>
+                    <div>
+                        <div className="font-bold">Project Structure</div>
+                        <div className="text-xs text-gray-400">Submodules & Layout</div>
+                    </div>
+                </Link>
             </div>
             </div>
 
