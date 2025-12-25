@@ -40,6 +40,7 @@ import {
   Plus,
   Kanban,
   Activity as ActivityIcon,
+  Server,
 } from "lucide-react";
 import { TerminalPanel } from "./terminal-panel";
 import { useTerminalAvailable } from "@/hooks/use-terminal-available";
