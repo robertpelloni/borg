@@ -31,6 +31,7 @@ import { SystemDoctor } from './services/SystemDoctor.js';
 import { BrowserManager } from './managers/BrowserManager.js';
 import { TrafficObserver } from './services/TrafficObserver.js';
 import { VectorStore } from './services/VectorStore.js';
+import { SystemPromptManager } from './managers/SystemPromptManager.js';
 import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { createPromptImprover } from './tools/PromptImprover.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
@@ -69,6 +70,7 @@ export class CoreService {
   private trafficObserver: TrafficObserver;
   private vectorStore: VectorStore;
   private modelGateway: ModelGateway;
+  private systemPromptManager: SystemPromptManager;
 
   constructor(
     private rootDir: string
@@ -108,6 +110,7 @@ export class CoreService {
     this.modelGateway = new ModelGateway(this.secretManager);
     this.vectorStore = new VectorStore(this.modelGateway, path.join(rootDir, 'data'));
     this.memoryManager = new MemoryManager(path.join(rootDir, 'data'), this.vectorStore);
+    this.systemPromptManager = new SystemPromptManager(rootDir);
 
     this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager);
     this.handoffManager = new HandoffManager(rootDir, this.memoryManager);
@@ -126,7 +129,7 @@ export class CoreService {
     );
 
     this.mcpInterface = new McpInterface(this.hubServer);
-    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager);
+    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager, this.systemPromptManager);
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
 
     this.commandManager.on('updated', (commands) => {
@@ -239,6 +242,16 @@ export class CoreService {
         return { result };
     });
 
+    this.app.post('/api/agents', async (request: any, reply) => {
+        const { name, description, instructions, model } = request.body;
+        if (!name) return reply.code(400).send({ error: "Name required" });
+
+        await this.agentManager.saveAgent(name, {
+            name, description, instructions, model
+        });
+        return { status: 'saved' };
+    });
+
     this.app.get('/api/state', async () => ({
         agents: this.agentManager.getAgents(),
         skills: this.skillManager.getSkills(),
@@ -320,6 +333,13 @@ export class CoreService {
         } catch (e: any) {
             return reply.code(500).send({ error: e.message });
         }
+    });
+
+    // System Prompt API
+    this.app.get('/api/system', async () => ({ content: this.systemPromptManager.getPrompt() }));
+    this.app.post('/api/system', async (req: any) => {
+        this.systemPromptManager.save(req.body.content);
+        return { status: 'saved' };
     });
 
     this.app.get('/api/hub/sse', async (request: any, reply) => {

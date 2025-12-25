@@ -12,7 +12,6 @@ export class AgentManager extends EventEmitter {
     super();
   }
 
-  // Renamed from start() to loadAgents() to match server.ts usage
   async loadAgents() {
     this.watcher = chokidar.watch([
         path.join(this.rootDir, 'agents'),
@@ -29,6 +28,18 @@ export class AgentManager extends EventEmitter {
     console.log(`[AgentManager] Watching agents/ and AGENTS.md`);
   }
 
+  async saveAgent(name: string, definition: AgentDefinition) {
+      // We only save to separate JSON files for simplicity, even if originally from Markdown.
+      // This avoids complex markdown parsing/rewriting.
+      const filepath = path.join(this.rootDir, 'agents', `${name}.json`);
+      // Ensure agents/ dir exists
+      try { await fs.mkdir(path.join(this.rootDir, 'agents'), { recursive: true }); } catch {}
+
+      await fs.writeFile(filepath, JSON.stringify(definition, null, 2));
+      console.log(`[AgentManager] Saved agent ${name}`);
+      // Watcher will pick it up
+  }
+
   private async handleFileChange(filepath: string) {
       const filename = path.basename(filepath);
 
@@ -42,7 +53,7 @@ export class AgentManager extends EventEmitter {
   private handleFileRemove(filepath: string) {
       const filename = path.basename(filepath);
       if (filename === 'AGENTS.md') {
-          // No-op for now
+          // No-op
       } else {
           this.agents.delete(filename);
           this.emit('updated', this.getAgents());

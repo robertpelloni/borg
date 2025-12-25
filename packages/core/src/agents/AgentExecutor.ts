@@ -4,6 +4,7 @@ import { AgentDefinition } from '../types.js';
 import { SecretManager } from '../managers/SecretManager.js';
 import { ModelGateway } from '../gateway/ModelGateway.js';
 import { SessionManager } from '../managers/SessionManager.js';
+import { SystemPromptManager } from '../managers/SystemPromptManager.js';
 
 export class AgentExecutor extends EventEmitter {
     private gateway: ModelGateway;
@@ -11,15 +12,13 @@ export class AgentExecutor extends EventEmitter {
     constructor(
         private proxyManager: McpProxyManager,
         private secretManager: SecretManager,
-        private sessionManager?: SessionManager
+        private sessionManager?: SessionManager,
+        private systemPromptManager?: SystemPromptManager
     ) {
         super();
         this.gateway = new ModelGateway(secretManager);
     }
 
-    /**
-     * Updates the gateway configuration.
-     */
     configureModel(provider: 'openai' | 'anthropic' | 'ollama', model: string) {
         this.gateway.setProvider(provider, model);
     }
@@ -30,7 +29,6 @@ export class AgentExecutor extends EventEmitter {
         let messages: any[] = [];
         const sessionKey = sessionId || `agent-${agent.name}-${Date.now()}`;
 
-        // Resume session if exists
         if (this.sessionManager) {
             const saved = this.sessionManager.loadSession(sessionKey);
             if (saved) {
@@ -41,13 +39,15 @@ export class AgentExecutor extends EventEmitter {
 
         // Initialize if new
         if (messages.length === 0) {
+            // Get Global System Prompt
+            const globalPrompt = this.systemPromptManager ? this.systemPromptManager.getPrompt() : "";
+            const combinedSystem = `${globalPrompt}\n\nYou are ${agent.name}. ${agent.description}\n\nInstructions:\n${agent.instructions}\n\nYou have access to tools. Use them to answer the user request.`;
+
             messages = [
-                { role: 'system', content: `You are ${agent.name}. ${agent.description}\n\nInstructions:\n${agent.instructions}\n\nYou have access to tools. Use them to answer the user request.` },
+                { role: 'system', content: combinedSystem },
                 { role: 'user', content: task }
             ];
         } else if (task && sessionId) {
-            // If resuming with a new task, append it
-            // Check if last message was user (retry) or assistant (new turn)
             const last = messages[messages.length - 1];
             if (last.role === 'assistant') {
                 messages.push({ role: 'user', content: task });
@@ -62,7 +62,6 @@ export class AgentExecutor extends EventEmitter {
             console.log(`[AgentExecutor] Iteration ${iterations}`);
 
             try {
-                // 1. Get Tools
                 const tools = await this.proxyManager.getAllTools(sessionKey);
 
                 const formattedTools = tools.map(t => ({
@@ -74,26 +73,22 @@ export class AgentExecutor extends EventEmitter {
                     }
                 }));
 
-                // 2. Call LLM via Gateway
                 const response = await this.gateway.complete({
-                    system: `You are ${agent.name}. ${agent.description}`,
+                    system: `You are ${agent.name}.`, // Context already in history
                     messages: messages,
                     tools: formattedTools,
                 });
 
-                // Add assistant response to history
                 const assistantMsg: any = { role: 'assistant', content: response.content };
                 if (response.toolCalls) {
                     assistantMsg.tool_calls = response.toolCalls;
                 }
                 messages.push(assistantMsg);
 
-                // Save State
                 if (this.sessionManager) {
                     this.sessionManager.saveSession(sessionKey, agent.name, messages);
                 }
 
-                // 3. Handle Tool Calls
                 if (response.toolCalls && response.toolCalls.length > 0) {
                     for (const toolCall of response.toolCalls) {
                         const name = toolCall.function.name;
@@ -116,13 +111,11 @@ export class AgentExecutor extends EventEmitter {
                             content: result
                         });
 
-                        // Save State after tool result
                         if (this.sessionManager) {
                             this.sessionManager.saveSession(sessionKey, agent.name, messages);
                         }
                     }
                 } else {
-                    // 4. Final Answer
                     const content = response.content;
                     this.emit('result', content);
                     return content;
