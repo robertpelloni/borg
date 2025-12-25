@@ -12,8 +12,8 @@ export class AgentManager extends EventEmitter {
     super();
   }
 
-  async start() {
-    // Watch agents/ directory
+  // Renamed from start() to loadAgents() to match server.ts usage
+  async loadAgents() {
     this.watcher = chokidar.watch([
         path.join(this.rootDir, 'agents'),
         path.join(this.rootDir, 'AGENTS.md')
@@ -42,9 +42,7 @@ export class AgentManager extends EventEmitter {
   private handleFileRemove(filepath: string) {
       const filename = path.basename(filepath);
       if (filename === 'AGENTS.md') {
-          // Remove all agents that came from AGENTS.md?
-          // For simplicity, we just reload what's left or do nothing until restart.
-          // Ideally we track source of agent.
+          // No-op for now
       } else {
           this.agents.delete(filename);
           this.emit('updated', this.getAgents());
@@ -67,16 +65,6 @@ export class AgentManager extends EventEmitter {
   private async loadAgentsFromMarkdown(filepath: string) {
       try {
           const content = await fs.readFile(filepath, 'utf-8');
-          // Parse Markdown
-          // Strategy: Look for headers like "## Agent: Name"
-          // And code blocks for JSON config? Or description text?
-          // Let's assume a simple format:
-          // ## AgentName
-          // Description...
-          // ```json
-          // { "instructions": "..." }
-          // ```
-
           const lines = content.split('\n');
           let currentAgent: Partial<AgentDefinition> | null = null;
 
@@ -93,7 +81,6 @@ export class AgentManager extends EventEmitter {
                   };
               } else if (currentAgent) {
                   if (line.trim().startsWith('```json')) {
-                      // Read until end of block
                       let jsonBlock = '';
                       i++;
                       while (i < lines.length && !lines[i].trim().startsWith('```')) {

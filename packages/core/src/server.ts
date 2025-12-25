@@ -456,6 +456,24 @@ export class CoreService {
     const promptImprover = createPromptImprover(this.modelGateway);
     this.proxyManager.registerInternalTool(promptImprover, promptImprover.handler);
 
+    // Register Recursive Agent Tool
+    this.proxyManager.registerInternalTool({
+        name: "run_subagent",
+        description: "Run another agent to perform a sub-task.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                agentName: { type: "string" },
+                task: { type: "string" }
+            },
+            required: ["agentName", "task"]
+        }
+    }, async (args: any) => {
+        const agent = this.agentManager.getAgents().find(a => a.name === args.agentName);
+        if (!agent) throw new Error(`Agent ${args.agentName} not found.`);
+        return await this.agentExecutor.run(agent, args.task);
+    });
+
     this.proxyManager.registerInternalTool({
         name: "install_package",
         description: "Install an Agent or Skill from the Marketplace.",
