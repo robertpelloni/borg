@@ -60,7 +60,7 @@ To automatically configure Claude Desktop to use this Hub:
 ## 📂 Project Structure
 
 *   `packages/core`: The main Node.js Hub service.
-*   `packages/ui`: React + Vite Dashboard.
+*   `packages/ui`: Next.js Dashboard (easily deployable to Vercel).
 *   `packages/mcpenetes`: Go-based configuration injector.
 *   `agents/`: JSON definitions for autonomous agents.
 *   `skills/`: Markdown files defining AI skills.

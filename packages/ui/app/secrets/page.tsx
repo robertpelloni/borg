@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Eye, EyeOff, Trash2, Plus, Save } from 'lucide-react';
 
 interface Secret {
@@ -9,7 +11,7 @@ interface Secret {
 
 const API_BASE = 'http://localhost:3000';
 
-export const Secrets = () => {
+export default function Secrets() {
   const [secrets, setSecrets] = useState<Secret[]>([]);
   const [newKey, setNewKey] = useState('');
   const [newValue, setNewValue] = useState('');
@@ -125,4 +127,4 @@ export const Secrets = () => {
       </div>
     </div>
   );
-};
+}

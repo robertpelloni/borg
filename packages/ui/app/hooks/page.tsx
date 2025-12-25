@@ -1,6 +1,4 @@
-import React from 'react';
-
-export const Hooks = () => {
+export default function Hooks() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">System Hooks</h1>
@@ -9,4 +7,4 @@ export const Hooks = () => {
       </div>
     </div>
   );
-};
+}

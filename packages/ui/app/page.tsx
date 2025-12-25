@@ -1,10 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { Activity, Cpu, HardDrive, Wifi, CheckCircle, XCircle, Play, Square, Globe } from 'lucide-react';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Activity, Cpu, CheckCircle, Globe } from 'lucide-react';
 import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
-export const Dashboard = () => {
+const ServerIcon = ({ size, className }: any) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+    <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+    <line x1="6" x2="6.01" y1="6" y2="6" />
+    <line x1="6" x2="6.01" y1="18" y2="18" />
+  </svg>
+);
+
+const BotIcon = ({ size, className }: any) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M12 8V4H8" />
+    <rect width="16" height="12" x="4" y="8" rx="2" />
+    <path d="M2 14h2" />
+    <path d="M20 14h2" />
+    <path d="M15 13v2" />
+    <path d="M9 13v2" />
+  </svg>
+);
+
+export default function Dashboard() {
   const [stats, setStats] = useState({
     agents: 0,
     skills: 0,
@@ -26,16 +48,9 @@ export const Dashboard = () => {
     });
 
     socket.on('mcp_updated', (servers: any[]) => {
-       const running = servers.filter(s => s.status === 'running').length;
-       setStats(prev => ({ ...prev, mcpServers: servers.length, runningServers: running }));
+      const running = servers.filter(s => s.status === 'running').length;
+      setStats(prev => ({ ...prev, mcpServers: servers.length, runningServers: running }));
     });
-
-    // Check MetaMCP Status via our proxy API
-    // We can't easily check SSE connection status from here without an explicit API endpoint on Core
-    // But we can infer it if 'search_tools' is available? Not reliably.
-    // Let's assume for this mock that we check a new health endpoint in next step,
-    // or just leave it as 'Unknown' for now.
-    // Actually, I'll add a check later.
 
     return () => {
       socket.off('state');
@@ -66,7 +81,7 @@ export const Dashboard = () => {
           <div>
             <div className="text-gray-400 text-sm mb-1">MetaMCP Backend</div>
             <div className="text-xl font-bold flex items-center gap-2 text-gray-400">
-               <Globe size={20} /> {metaMcpConnected === true ? <span className="text-green-400">Connected</span> : 'Unknown'}
+              <Globe size={20} /> {metaMcpConnected === true ? <span className="text-green-400">Connected</span> : 'Unknown'}
             </div>
           </div>
           <ServerIcon className="text-gray-600" size={32} />
@@ -98,14 +113,14 @@ export const Dashboard = () => {
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
           <h2 className="text-lg font-semibold mb-4 border-b border-gray-700 pb-2">Quick Actions</h2>
           <div className="grid grid-cols-2 gap-4">
-             <button className="bg-gray-700 hover:bg-gray-600 p-3 rounded text-left transition-colors">
-                <div className="font-bold">Add API Key</div>
-                <div className="text-xs text-gray-400">Configure new tools</div>
-             </button>
-             <button className="bg-gray-700 hover:bg-gray-600 p-3 rounded text-left transition-colors">
-                <div className="font-bold">Install to Clients</div>
-                <div className="text-xs text-gray-400">Auto-configure Claude/VSCode</div>
-             </button>
+            <button className="bg-gray-700 hover:bg-gray-600 p-3 rounded text-left transition-colors">
+              <div className="font-bold">Add API Key</div>
+              <div className="text-xs text-gray-400">Configure new tools</div>
+            </button>
+            <button className="bg-gray-700 hover:bg-gray-600 p-3 rounded text-left transition-colors">
+              <div className="font-bold">Install to Clients</div>
+              <div className="text-xs text-gray-400">Auto-configure Claude/VSCode</div>
+            </button>
           </div>
         </div>
 
@@ -136,12 +151,4 @@ export const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-const ServerIcon = ({size, className}: any) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
-)
-
-const BotIcon = ({size, className}: any) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-)
+}

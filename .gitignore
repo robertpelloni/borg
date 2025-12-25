@@ -9,3 +9,5 @@ packages/ui/ui.log
 verification/
 .secrets.json
 .env.local
+.next
+next-env.d.ts
