@@ -16,7 +16,7 @@ export class AutonomousAgentManager {
         private secretManager: SecretManager
     ) {}
 
-    public async startAgent(agentId: string) {
+    public async startAgent(agentId: string, parentId?: string) {
         if (this.runningAgents.has(agentId)) {
             console.log(`[AutonomousAgentManager] Agent ${agentId} is already running.`);
             return;
@@ -58,7 +58,8 @@ export class AutonomousAgentManager {
             this.messageBroker,
             this.proxyManager,
             this.logManager,
-            apiKey
+            apiKey,
+            parentId
         );
 
         await agent.start();

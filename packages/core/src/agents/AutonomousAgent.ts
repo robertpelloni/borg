@@ -18,7 +18,8 @@ export class AutonomousAgent extends EventEmitter {
         private messageBroker: AgentMessageBroker,
         private proxyManager: McpProxyManager,
         private logManager: LogManager,
-        private apiKey: string
+        private apiKey: string,
+        private parentId?: string
     ) {
         super();
         this.sessionId = `auto-agent-${this.id}-${Date.now()}`;
@@ -27,9 +28,15 @@ export class AutonomousAgent extends EventEmitter {
         }
         
         // Initialize System Prompt
+        let systemPrompt = `You are ${definition.name}. ${definition.description}\n\nInstructions:\n${definition.instructions}\n\nYou are an autonomous agent. You can receive messages from other agents or the user. Check your mailbox frequently.`;
+        
+        if (this.parentId) {
+            systemPrompt += `\n\nYou are a sub-agent delegated by agent "${this.parentId}". Report your findings back to them using the 'send_message' tool.`;
+        }
+
         this.messages.push({
             role: 'system',
-            content: `You are ${definition.name}. ${definition.description}\n\nInstructions:\n${definition.instructions}\n\nYou are an autonomous agent. You can receive messages from other agents or the user. Check your mailbox frequently.`
+            content: systemPrompt
         });
     }
 

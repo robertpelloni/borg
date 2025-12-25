@@ -510,6 +510,39 @@ export class CoreService {
         const agents = this.agentManager.registry.listAgents();
         return JSON.stringify(agents.map(a => ({ id: a.id, name: a.name, capabilities: a.capabilities })));
     });
+
+    this.proxyManager.registerInternalTool({
+        name: "delegate_task",
+        description: "Delegate a task to a sub-agent. Spawns the agent if not running.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                agentId: { type: "string" },
+                task: { type: "string" },
+                parentId: { type: "string" }
+            },
+            required: ["agentId", "task", "parentId"]
+        }
+    }, async (args: any) => {
+        try {
+            // 1. Start the agent if not running
+            await this.autonomousAgentManager.startAgent(args.agentId, args.parentId);
+            
+            // 2. Send the task message
+            await this.messageBroker.route({
+                id: crypto.randomUUID(),
+                sourceAgentId: args.parentId,
+                targetAgentId: args.agentId,
+                type: 'request',
+                content: args.task,
+                timestamp: Date.now()
+            });
+
+            return `Task delegated to ${args.agentId}. They will report back via message.`;
+        } catch (e: any) {
+            return `Error delegating task: ${e.message}`;
+        }
+    });
     
     try {
       await this.app.listen({ port, host: '0.0.0.0' });
