@@ -5,7 +5,8 @@
   "scripts": {
     "start": "concurrently \"pnpm --filter @super-ai/core dev\" \"pnpm --filter @super-ai/ui dev\"",
     "dev": "pnpm --filter @super-ai/core dev",
-    "build": "pnpm --filter \"./packages/*\" build"
+    "build": "pnpm --filter \"./packages/*\" build",
+    "start:all": "pnpm run build && pnpm start"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

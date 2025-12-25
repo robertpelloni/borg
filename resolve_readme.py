@@ -1,4 +1,6 @@
-# Super AI Plugin
+import os
+
+content = r'''# Super AI Plugin
 
 The Ultimate "Meta-Orchestrator" for the Model Context Protocol (MCP). It acts as a universal hub, proxy, and agentic runtime for your AI tools.
 
@@ -82,3 +84,7 @@ To automatically configure Claude Desktop to use this Hub:
 ## 🤝 Contributing
 
 See `CONTRIBUTING.md` for details.
+'''
+
+with open('README.md', 'w', encoding='utf-8') as f:
+    f.write(content)

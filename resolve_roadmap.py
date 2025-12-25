@@ -1,4 +1,6 @@
-# Super AI Plugin Roadmap & Implementation Plan
+import os
+
+content = r'''# Super AI Plugin Roadmap & Implementation Plan
 
 This document compiles the design decisions, planned features, and submodule integration strategies discussed throughout the project's inception. It serves as the master plan for developing the "Super AI Plugin".
 
@@ -166,3 +168,7 @@ This document compiles the design decisions, planned features, and submodule int
 - [x] **Code Mode:** Secure sandboxed execution.
 - [x] **Mcpenetes Integration:** Auto-configuration of clients.
 - [x] **MetaMCP Integration:** Proxying to Docker-based backend.
+'''
+
+with open('ROADMAP.md', 'w', encoding='utf-8') as f:
+    f.write(content)

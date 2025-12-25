@@ -1,4 +1,6 @@
-import { EventEmitter } from 'events';
+import os
+
+content = r'''import { EventEmitter } from 'events';
 import { McpProxyManager } from '../managers/McpProxyManager.js';
 import { AgentDefinition } from '../types.js';
 import OpenAI from 'openai';
@@ -120,3 +122,7 @@ export class AgentExecutor extends EventEmitter {
         return "Max iterations reached.";
     }
 }
+'''
+
+with open('packages/core/src/agents/AgentExecutor.ts', 'w', encoding='utf-8') as f:
+    f.write(content)

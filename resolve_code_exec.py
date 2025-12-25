@@ -1,4 +1,6 @@
-import vm from 'vm';
+import os
+
+content = r'''import vm from 'vm';
 import { EventEmitter } from 'events';
 
 let ivm: any;
@@ -163,3 +165,7 @@ export class CodeExecutionManager {
         }
     }
 }
+'''
+
+with open('packages/core/src/managers/CodeExecutionManager.ts', 'w', encoding='utf-8') as f:
+    f.write(content)

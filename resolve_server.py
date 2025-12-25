@@ -1,4 +1,6 @@
-import Fastify from 'fastify';
+import os
+
+content = r'''import Fastify from 'fastify';
 import { Socket, Server as SocketIOServer } from 'socket.io';
 import path from 'path';
 import { HookManager } from './managers/HookManager.js';
@@ -367,3 +369,7 @@ export class CoreService {
     }
   }
 }
+'''
+
+with open('packages/core/src/server.ts', 'w', encoding='utf-8') as f:
+    f.write(content)
