@@ -3,13 +3,15 @@ import { McpProxyManager } from '../managers/McpProxyManager.js';
 import { AgentDefinition } from '../types.js';
 import { SecretManager } from '../managers/SecretManager.js';
 import { ModelGateway } from '../gateway/ModelGateway.js';
+import { SessionManager } from '../managers/SessionManager.js';
 
 export class AgentExecutor extends EventEmitter {
     private gateway: ModelGateway;
 
     constructor(
         private proxyManager: McpProxyManager,
-        private secretManager: SecretManager
+        private secretManager: SecretManager,
+        private sessionManager?: SessionManager
     ) {
         super();
         this.gateway = new ModelGateway(secretManager);
@@ -22,21 +24,38 @@ export class AgentExecutor extends EventEmitter {
         this.gateway.setProvider(provider, model);
     }
 
-    async run(agent: AgentDefinition, task: string, context: any = {}) {
+    async run(agent: AgentDefinition, task: string, context: any = {}, sessionId?: string) {
         this.emit('start', { agent: agent.name, task });
 
-        // Use agent-specific model if defined, otherwise use Gateway defaults
-        // Note: Currently ModelGateway is stateful global, but we could pass config per request
-        // For now, we assume the gateway is configured via Profile or Defaults.
+        let messages: any[] = [];
+        const sessionKey = sessionId || `agent-${agent.name}-${Date.now()}`;
 
-        const messages: any[] = [
-            { role: 'system', content: `You are ${agent.name}. ${agent.description}\n\nInstructions:\n${agent.instructions}\n\nYou have access to tools. Use them to answer the user request.` },
-            { role: 'user', content: task }
-        ];
+        // Resume session if exists
+        if (this.sessionManager) {
+            const saved = this.sessionManager.loadSession(sessionKey);
+            if (saved) {
+                messages = saved.messages;
+                console.log(`[AgentExecutor] Resumed session: ${sessionKey}`);
+            }
+        }
+
+        // Initialize if new
+        if (messages.length === 0) {
+            messages = [
+                { role: 'system', content: `You are ${agent.name}. ${agent.description}\n\nInstructions:\n${agent.instructions}\n\nYou have access to tools. Use them to answer the user request.` },
+                { role: 'user', content: task }
+            ];
+        } else if (task && sessionId) {
+            // If resuming with a new task, append it
+            // Check if last message was user (retry) or assistant (new turn)
+            const last = messages[messages.length - 1];
+            if (last.role === 'assistant') {
+                messages.push({ role: 'user', content: task });
+            }
+        }
 
         let iterations = 0;
         const maxIterations = 10;
-        const sessionId = `agent-${agent.name}-${Date.now()}`;
 
         while (iterations < maxIterations) {
             iterations++;
@@ -44,7 +63,7 @@ export class AgentExecutor extends EventEmitter {
 
             try {
                 // 1. Get Tools
-                const tools = await this.proxyManager.getAllTools(sessionId);
+                const tools = await this.proxyManager.getAllTools(sessionKey);
 
                 const formattedTools = tools.map(t => ({
                     type: 'function',
@@ -63,14 +82,16 @@ export class AgentExecutor extends EventEmitter {
                 });
 
                 // Add assistant response to history
-                // Note: The Gateway normalization simplifies the message object,
-                // but for tool use chains we need to be careful with history format.
-                // OpenAI expects the tool_calls object on the assistant message.
                 const assistantMsg: any = { role: 'assistant', content: response.content };
                 if (response.toolCalls) {
                     assistantMsg.tool_calls = response.toolCalls;
                 }
                 messages.push(assistantMsg);
+
+                // Save State
+                if (this.sessionManager) {
+                    this.sessionManager.saveSession(sessionKey, agent.name, messages);
+                }
 
                 // 3. Handle Tool Calls
                 if (response.toolCalls && response.toolCalls.length > 0) {
@@ -83,7 +104,7 @@ export class AgentExecutor extends EventEmitter {
 
                         let result;
                         try {
-                            const res = await this.proxyManager.callTool(name, args, sessionId);
+                            const res = await this.proxyManager.callTool(name, args, sessionKey);
                             result = typeof res === 'string' ? res : JSON.stringify(res);
                         } catch (e: any) {
                             result = `Error: ${e.message}`;
@@ -94,6 +115,11 @@ export class AgentExecutor extends EventEmitter {
                             tool_call_id: toolCall.id,
                             content: result
                         });
+
+                        // Save State after tool result
+                        if (this.sessionManager) {
+                            this.sessionManager.saveSession(sessionKey, agent.name, messages);
+                        }
                     }
                 } else {
                     // 4. Final Answer

@@ -25,6 +25,7 @@ import { MarketplaceManager } from './managers/MarketplaceManager.js';
 import { DocumentManager } from './managers/DocumentManager.js';
 import { ProfileManager } from './managers/ProfileManager.js';
 import { HandoffManager } from './managers/HandoffManager.js';
+import { SessionManager } from './managers/SessionManager.js';
 import { HealthService } from './services/HealthService.js';
 import { SystemDoctor } from './services/SystemDoctor.js';
 import { BrowserManager } from './managers/BrowserManager.js';
@@ -61,6 +62,7 @@ export class CoreService {
   private documentManager: DocumentManager;
   private profileManager: ProfileManager;
   private handoffManager: HandoffManager;
+  private sessionManager: SessionManager;
   private healthService: HealthService;
   private systemDoctor: SystemDoctor;
   private browserManager: BrowserManager;
@@ -103,6 +105,7 @@ export class CoreService {
     this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager);
     this.profileManager = new ProfileManager(rootDir);
     this.handoffManager = new HandoffManager(rootDir, this.memoryManager);
+    this.sessionManager = new SessionManager(rootDir);
     this.healthService = new HealthService(this.mcpManager);
     this.systemDoctor = new SystemDoctor();
     this.browserManager = new BrowserManager();
@@ -121,7 +124,7 @@ export class CoreService {
     );
 
     this.mcpInterface = new McpInterface(this.hubServer);
-    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager);
+    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager);
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
 
     this.commandManager.on('updated', (commands) => {
@@ -176,6 +179,10 @@ export class CoreService {
 
     this.app.get('/api/handoff', async () => ({ handoffs: this.handoffManager.getHandoffs() }));
 
+    // Session Routes
+    this.app.get('/api/sessions', async () => ({ sessions: this.sessionManager.listSessions() }));
+    this.app.get('/api/sessions/:id', async (req: any) => ({ session: this.sessionManager.loadSession(req.params.id) }));
+
     this.app.post('/api/inspector/replay', async (request: any, reply) => {
         const { tool, args } = request.body;
         try {
@@ -221,12 +228,12 @@ export class CoreService {
     });
 
     this.app.post('/api/agents/run', async (request: any, reply) => {
-        const { agentName, task } = request.body;
+        const { agentName, task, sessionId } = request.body;
         const agents = this.agentManager.getAgents();
         const agent = agents.find(a => a.name === agentName);
         if (!agent) return reply.code(404).send({ error: "Agent not found" });
 
-        const result = await this.agentExecutor.run(agent, task);
+        const result = await this.agentExecutor.run(agent, task, {}, sessionId);
         return { result };
     });
 
@@ -471,7 +478,35 @@ export class CoreService {
     }, async (args: any) => {
         const agent = this.agentManager.getAgents().find(a => a.name === args.agentName);
         if (!agent) throw new Error(`Agent ${args.agentName} not found.`);
-        return await this.agentExecutor.run(agent, args.task);
+        return await this.agentExecutor.run(agent, args.task, {}, `sub-${Date.now()}`);
+    });
+
+    // Register Session Tools
+    this.proxyManager.registerInternalTool({
+        name: "list_sessions",
+        description: "List all saved conversation sessions.",
+        inputSchema: { type: "object", properties: {} }
+    }, async () => {
+        return this.sessionManager.listSessions().map(s => ({ id: s.id, agent: s.agentName, date: new Date(s.timestamp).toLocaleString() }));
+    });
+
+    this.proxyManager.registerInternalTool({
+        name: "resume_session",
+        description: "Resume a specific conversation session.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                sessionId: { type: "string" },
+                newMessage: { type: "string" }
+            },
+            required: ["sessionId", "newMessage"]
+        }
+    }, async (args: any) => {
+        const session = this.sessionManager.loadSession(args.sessionId);
+        if (!session) throw new Error("Session not found");
+        const agent = this.agentManager.getAgents().find(a => a.name === session.agentName);
+        if (!agent) throw new Error(`Agent ${session.agentName} not found.`);
+        return await this.agentExecutor.run(agent, args.newMessage, {}, args.sessionId);
     });
 
     this.proxyManager.registerInternalTool({
