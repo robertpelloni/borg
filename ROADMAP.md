@@ -29,29 +29,26 @@ For a granular list of every planned feature and submodule integration from the 
         *   **Layering:** Inject metadata (System, Dev, User, Session) in strict order.
 
 ## 2. Universal Client Integration
-**Status:** Planned
+**Status:** ✅ Implemented (v0.0.9)
 **Reference:** `submodules/mcpenetes`
 
 *   **Objective:** Automatically configure the user's environment to use the Hub.
 *   **Planned Features:**
-    *   [ ] **Client Detection:** Port logic from `mcpenetes` to auto-detect installed tools (VSCode, Cursor, Claude Desktop, etc.).
-    *   [ ] **Config Injection:** Automatically edit `mcp-servers.json` files to insert the Super AI Plugin as the upstream server.
-    *   [ ] **Conflict Resolution:** Handle existing configurations gracefully.
+    *   [x] **Client Detection:** Auto-detect installed tools (VSCode, Cursor, Claude Desktop).
+    *   [x] **Config Injection:** Inject Hub as upstream MCP server via `configure_client` tool.
+    *   [x] **Executable:** `bin/aios` wrapper for Stdio mode.
 
-## 3. Integrated Memory System
-**Status:** Planned
-**Reference:** `docs/MEMORY_STRATEGY.md`
+## 5. Integrated Memory System (Universal Orchestrator)
+**Status:** 🚧 In Progress (Refactoring)
+**Reference:** `docs/UNIVERSAL_MEMORY_STRATEGY.md`
 
-*   **Objective:** Provide a shared, persistent memory across all clients with seamless handoff.
+*   **Objective:** Orchestrate multiple memory backends (local, cloud, browser) and synchronize data.
 *   **Planned Features:**
-    *   [ ] **Library Integration:** Adapt `claude-mem` core logic into `packages/core/src/lib/memory`.
-    *   [x] **Session Handoff:** Implement "Save/Resume" logic (file-based snapshots) inspired by `vibeship-mind`.
-    *   [ ] **Semantic Search:** Integrate `txtai` concepts for knowledge retrieval.
-    *   [ ] **Hook Bridging:**
-        *   `SessionStart`: Inject "Memory Index" and "Last Snapshot".
-        *   `PostToolUse`: Capture observations to vector DB.
-        *   `SessionEnd`: Generate summaries and save session snapshot.
-    *   [ ] **Tool Exposure:** Expose `mem-search` as a standard MCP tool via the Hub.
+    *   [ ] **Memory Orchestrator:** Refactor `MemoryManager` to support pluggable providers.
+    *   [ ] **Providers:** Adapters for File (JSON), Mem0, Pinecone, Chroma.
+    *   [ ] **Dashboard:** UI for viewing, searching, and syncing memories across providers.
+    *   [ ] **Auto-Detection:** Detect running vector DBs and config files.
+    *   [ ] **Sync/Transfer:** Tools to move memories between systems.
 
 ## 4. Code Mode & Sandboxing
 **Status:** Planned
@@ -164,4 +161,4 @@ For a granular list of every planned feature and submodule integration from the 
 - **v0.0.1:** Initial Skeleton.
 - **v0.0.5:** UI Dashboard & Basic Managers.
 - **v0.0.8:** Advanced Orchestration (Registry, Broker, Delegation).
-- **v0.0.9:** Browser Connectivity (Extension Bridge).
+- **v0.0.9:** Browser Connectivity & Client Integration.

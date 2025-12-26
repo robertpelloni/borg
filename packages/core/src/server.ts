@@ -196,6 +196,47 @@ export class CoreService {
         }
     });
 
+    this.app.post('/api/memory/export', async (request: any, reply) => {
+        const { filePath } = request.body;
+        if (!filePath) return reply.code(400).send({ error: 'Missing filePath' });
+        try {
+            const result = await this.memoryManager.exportMemory(filePath);
+            return { result };
+        } catch (e: any) {
+            return reply.code(500).send({ error: e.message });
+        }
+    });
+
+    this.app.post('/api/memory/import', async (request: any, reply) => {
+        const { filePath } = request.body;
+        if (!filePath) return reply.code(400).send({ error: 'Missing filePath' });
+        try {
+            const result = await this.memoryManager.importMemory(filePath);
+            return { result };
+        } catch (e: any) {
+            return reply.code(500).send({ error: e.message });
+        }
+    });
+
+    this.app.post('/api/memory/sync/jules', async (request: any, reply) => {
+        try {
+            const result = await this.memoryManager.syncJulesSessions();
+            return { result };
+        } catch (e: any) {
+            return reply.code(500).send({ error: e.message });
+        }
+    });
+
+    this.app.post('/api/memory/ingest/browser', async (request: any, reply) => {
+        try {
+            const content = await this.browserManager.getActiveTabContent();
+            const result = await this.memoryManager.ingestSession("Browser Page", content);
+            return { result };
+        } catch (e: any) {
+            return reply.code(500).send({ error: e.message });
+        }
+    });
+
     this.app.setNotFoundHandler((req, res) => {
         if (!req.raw.url?.startsWith('/api')) {
              res.sendFile('index.html');
@@ -614,6 +655,25 @@ export class CoreService {
         inputSchema: { type: "object", properties: {}, required: [] }
     }, async (args: any) => {
         return await this.browserManager.getActiveTabContent();
+    });
+
+    this.proxyManager.registerInternalTool({
+        name: "ingest_browser_page",
+        description: "Read the current browser page and ingest it into memory as a session.",
+        inputSchema: { type: "object", properties: {}, required: [] }
+    }, async (args: any) => {
+        try {
+            const content = await this.browserManager.getActiveTabContent();
+            const result = await this.memoryManager.ingestSession("Browser Page", content);
+            
+            if (typeof result === 'string') {
+                return `Failed to ingest: ${result}`;
+            }
+            
+            return `Ingested browser page. Summary ID: ${result.summaryId}. Facts: ${result.facts}, Decisions: ${result.decisions}`;
+        } catch (e: any) {
+            return `Failed to ingest browser page: ${e.message}`;
+        }
     });
     
     this.proxyManager.registerInternalTool({

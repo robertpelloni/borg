@@ -6,7 +6,10 @@ import { MemoryProvider, MemoryItem, MemoryResult } from '../interfaces/MemoryPr
 import { FileMemoryProvider } from './providers/FileMemoryProvider.js';
 import { Mem0Provider } from './providers/Mem0Provider.js';
 import { ContextCompactor } from './ContextCompactor.js';
+import { JulesIngestor } from '../ingestors/JulesIngestor.js';
 import { AgentExecutor } from '../agents/AgentExecutor.js';
+
+import { AgentMessage } from '../interfaces/AgentInterfaces.js';
 
 export class MemoryManager {
     private providers: Map<string, MemoryProvider> = new Map();
@@ -14,6 +17,7 @@ export class MemoryManager {
     private snapshotDir: string;
     private openai?: OpenAI;
     private compactor?: ContextCompactor;
+    private julesIngestor?: JulesIngestor;
 
     constructor(
         dataDir: string, 
@@ -38,7 +42,36 @@ export class MemoryManager {
         this.detectExternalProviders();
     }
 
-    // ... (existing methods)
+    async ingestAgentMessage(message: AgentMessage) {
+        if (!this.compactor) return;
+        
+        const content = `From: ${message.sourceAgentId}\nTo: ${message.targetAgentId}\nType: ${message.type}\nContent: ${message.content}`;
+        
+        try {
+            const compacted = await this.compactor.compact(content, 'conversation');
+            
+            if (compacted.facts.length > 0) {
+                await this.remember({ 
+                    content: `[Auto-Fact] ${compacted.facts.join('; ')}`, 
+                    tags: ['auto-generated', 'fact', 'agent-message', message.sourceAgentId] 
+                });
+            }
+            if (compacted.decisions.length > 0) {
+                await this.remember({ 
+                    content: `[Auto-Decision] ${compacted.decisions.join('; ')}`, 
+                    tags: ['auto-generated', 'decision', 'agent-message', message.sourceAgentId] 
+                });
+            }
+             if (compacted.actionItems.length > 0) {
+                await this.remember({ 
+                    content: `[Auto-Action] ${compacted.actionItems.join('; ')}`, 
+                    tags: ['auto-generated', 'action-item', 'agent-message', message.sourceAgentId] 
+                });
+            }
+        } catch (e) {
+            console.error('[Memory] Failed to ingest agent message:', e);
+        }
+    }
 
     async ingestInteraction(tool: string, args: any, result: any) {
         if (!this.compactor) return;
@@ -98,6 +131,13 @@ export class MemoryManager {
         // 2. Check for Docker Containers (Mock logic for now)
         // In a real implementation, we'd use Dockerode to list containers
         // if (docker.hasContainer('chroma')) ...
+
+        // 3. Initialize Jules Ingestor
+        const julesKey = this.secretManager?.getSecret('JULES_API_KEY') || process.env.JULES_API_KEY;
+        if (julesKey) {
+            console.log('[Memory] Detected Jules API Key, initializing ingestor...');
+            this.julesIngestor = new JulesIngestor(this, julesKey);
+        }
     }
 
     public async registerProvider(provider: MemoryProvider) {
@@ -236,6 +276,65 @@ export class MemoryManager {
         }
     }
 
+    async syncJulesSessions() {
+        if (!this.julesIngestor) return "Jules Ingestor not initialized (missing API key)";
+        return await this.julesIngestor.syncSessions();
+    }
+
+    async exportMemory(filePath: string) {
+        const exportData: any = {
+            version: "1.0",
+            exportedAt: new Date().toISOString(),
+            items: []
+        };
+
+        for (const provider of this.providers.values()) {
+            if (provider.getAll) {
+                try {
+                    const items = await provider.getAll();
+                    exportData.items.push(...items.map(item => ({
+                        ...item,
+                        sourceProvider: provider.id
+                    })));
+                } catch (e) {
+                    console.error(`[Memory] Failed to export from ${provider.name}:`, e);
+                }
+            }
+        }
+
+        try {
+            fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
+            return `Memory exported to ${filePath} (${exportData.items.length} items)`;
+        } catch (e: any) {
+            return `Failed to write export file: ${e.message}`;
+        }
+    }
+
+    async importMemory(filePath: string) {
+        if (!fs.existsSync(filePath)) return `File not found: ${filePath}`;
+        
+        try {
+            const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            if (!data.items || !Array.isArray(data.items)) return "Invalid export format";
+
+            const provider = this.providers.get(this.defaultProviderId);
+            if (!provider) return "Default provider not found";
+
+            // Filter out items that might already exist? Or just let provider handle it?
+            // For now, we just insert.
+            let count = 0;
+            for (const item of data.items) {
+                // Strip sourceProvider before inserting if needed, or keep it as metadata
+                const { sourceProvider, ...memoryItem } = item;
+                await provider.insert(memoryItem);
+                count++;
+            }
+            return `Imported ${count} items from ${filePath}`;
+        } catch (e: any) {
+            return `Failed to import memory: ${e.message}`;
+        }
+    }
+
     getProviders() {
         return Array.from(this.providers.values()).map(p => ({
             id: p.id,
@@ -321,6 +420,36 @@ export class MemoryManager {
                         content: { type: "string", description: "The raw text content to ingest." }
                     },
                     required: ["source", "content"]
+                }
+            },
+            {
+                name: "sync_jules_sessions",
+                description: "Sync and ingest recent sessions from Jules.",
+                inputSchema: {
+                    type: "object",
+                    properties: {}
+                }
+            },
+            {
+                name: "export_memory",
+                description: "Export all memories to a JSON file (e.g., for git backup).",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        filePath: { type: "string", description: "Absolute path to save the export file." }
+                    },
+                    required: ["filePath"]
+                }
+            },
+            {
+                name: "import_memory",
+                description: "Import memories from a JSON export file.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        filePath: { type: "string", description: "Absolute path to the export file." }
+                    },
+                    required: ["filePath"]
                 }
             }
         ];

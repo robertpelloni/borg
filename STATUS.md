@@ -12,6 +12,7 @@ The "Super AI Plugin" (AIOS) has reached version 0.0.9. The system now includes 
 ### 1. Core Service (`packages/core`)
 - **Status:** ✅ Operational
 - **New Features:**
+    - **Client Manager:** Auto-configuration for VS Code, Claude Desktop, and Cursor.
     - **Browser Manager:** WebSocket server for browser extension connectivity.
     - **Browser Tools:** `browser_navigate`, `browser_get_content`.
     - **Agent Registry:** Centralized discovery for agents and capabilities.
@@ -38,12 +39,12 @@ The "Super AI Plugin" (AIOS) has reached version 0.0.9. The system now includes 
     - **Browser Control:** Agents can now browse the web via the extension.
 
 ## Recent Activity
-- **Release v0.0.9**: Added Browser Connectivity.
+- **Release v0.0.9**: Added Browser Connectivity and Client Integration.
+- **Client Integration**: Added `configure_client` tool and `bin/aios` script.
 - **Browser Extension**: Created `@aios/browser-extension` package.
 - **Hub Update**: Added `BrowserManager` to `CoreService`.
 
 ## Immediate Next Steps
 
-1.  **Client Integration:** Auto-configure VSCode/Claude to use the Hub.
-2.  **Memory System:** Deepen the memory integration with vector search.
-3.  **Testing:** End-to-end testing of the browser extension.
+1.  **Memory System:** Deepen the memory integration with vector search.
+2.  **Testing:** End-to-end testing of the browser extension.
