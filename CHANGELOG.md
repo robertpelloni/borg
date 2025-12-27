@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-12-27
+
+### Added
+- **Context Visualization**: Implemented `ContextAnalyzer` to breakdown LLM context usage (System, User, Memory, Code, Tool).
+- **Traffic Inspector UI**: New "Mcpshark" interface in the UI to visualize traffic logs and context composition bars.
+- **Shell Management**: Ported `ShellManager` from Quotio (Swift) to TypeScript for safe CLI installation and profile management.
+- **Submodules**: Added `quotio` and `CLIProxyAPI` as core references.
+- **Backend Robustness**: Improved `McpProxyManager` to handle MetaMCP connection failures gracefully.
+
 ## [0.0.8] - 2025-12-25
 
 ### Added

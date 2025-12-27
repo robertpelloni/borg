@@ -19,9 +19,9 @@ This document serves as the single source of truth for all AI agents (Claude, Ge
 **CRITICAL:** Every significant update must be accompanied by a version bump and changelog entry.
 
 ### Versioning Strategy
-- **File:** `package.json` (Root) is the master version.
+- **Master File:** `VERSION.md` (Root) contains the single source of truth for the version string.
 - **Format:** Semantic Versioning (`MAJOR.MINOR.PATCH`).
-- **Synchronization:** When `package.json` is updated, ensure `packages/core/package.json` and `packages/ui/package.json` are also updated if they were modified.
+- **Synchronization:** All `package.json` files should be kept in sync with `VERSION.md`.
 
 ### Changelog Protocol (`CHANGELOG.md`)
 - **Format:** Keep a reverse-chronological list of changes.
