@@ -25,7 +25,7 @@ export class ContextManager extends EventEmitter {
 
     this.watcher = chokidar.watch(watchPaths, {
       // Allow dotfiles like .cursorrules
-      ignored: (path, stats) => {
+      ignored: (path: string) => {
           // Ignore node_modules and .git
           if (path.includes('node_modules') || path.includes('.git')) return true;
           return false;
