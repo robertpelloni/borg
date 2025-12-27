@@ -14,6 +14,7 @@ export class McpProxyManager {
     // Map<SessionID, Set<ToolName>>
     private sessionVisibleTools: Map<string, Set<string>> = new Map();
     private progressiveMode = process.env.MCP_PROGRESSIVE_MODE === 'true';
+    private MAX_LOADED_TOOLS = 200;
 
     // Caching for Router Optimization
     private toolRegistry: Map<string, string> = new Map(); // ToolName -> ServerName (or 'internal', 'metamcp')
@@ -114,26 +115,27 @@ export class McpProxyManager {
     // Public method called by HubServer
     // We can accept sessionId to customize the view
     async getAllTools(sessionId?: string) {
-        // Always include meta-tools
+        // 1. Meta Tools (Always Visible)
         const metaTools = [
             {
                 name: "search_tools",
-                description: "Search for available tools by keyword (Fuzzy Search)",
+                description: "Semantically search for available tools across all connected MCP servers. Use this to find tools for a specific task.",
                 inputSchema: {
                     type: "object",
                     properties: {
-                        query: { type: "string" }
+                        query: { type: "string", description: "The search query describing what you want to do." },
+                        limit: { type: "number", description: "Max number of results (default: 10)" }
                     },
                     required: ["query"]
                 }
             },
             {
                 name: "load_tool",
-                description: "Load a specific tool into your context for use.",
+                description: "Load a specific tool by name into your context so you can use it. Use the names found via search_tools.",
                 inputSchema: {
                     type: "object",
                     properties: {
-                        name: { type: "string" }
+                        name: { type: "string", description: "The full name of the tool to load." }
                     },
                     required: ["name"]
                 }
@@ -143,27 +145,42 @@ export class McpProxyManager {
         // If NOT in progressive mode, return everything
         if (!this.progressiveMode) {
             const all = await this.fetchAllToolsInternal();
-            // Dedup search_tools if it exists in internalTools?
-            // We manually add it here, so filter it out from 'all' if present to be safe
-            return [...metaTools, ...all.filter(t => t.name !== 'search_tools' && t.name !== 'load_tool')];
+            // Filter out duplicates of meta tools if they exist in 'all'
+            const metaNames = new Set(metaTools.map(t => t.name));
+            return [...metaTools, ...all.filter(t => !metaNames.has(t.name))];
         }
 
         // Progressive Mode
         const visible = new Set<string>();
+        
+        // Always include Internal Tools in Progressive Mode? 
+        // MetaMCP includes 'run_code', 'run_agent' etc. as meta tools.
+        // We should include our internal tools (which include run_code, run_agent/delegate_task)
+        for (const name of this.internalTools.keys()) {
+            visible.add(name);
+        }
+
+        // Add Session-Loaded Tools
         if (sessionId && this.sessionVisibleTools.has(sessionId)) {
             const sessionSet = this.sessionVisibleTools.get(sessionId)!;
             sessionSet.forEach(t => visible.add(t));
         }
 
-        // Always show Internal Tools? No, hide them too unless foundational.
-        // Actually "run_code" and "run_agent" should probably be visible always?
-        // Let's make internal tools visible by default for utility.
-        const internalDefs = Array.from(this.internalTools.values()).map(v => v.def);
-
         const allTools = await this.fetchAllToolsInternal();
         const loadedTools = allTools.filter(t => visible.has(t.name));
 
-        return [...metaTools, ...internalDefs, ...loadedTools];
+        // Combine Meta Tools + Loaded Tools (deduplicated)
+        const result = [...metaTools];
+        const resultNames = new Set(metaTools.map(t => t.name));
+
+        for (const tool of loadedTools) {
+            if (!resultNames.has(tool.name)) {
+                result.push(tool);
+                resultNames.add(tool.name);
+            }
+        }
+
+        return result;
     }
 
     async callTool(name: string, args: any, sessionId?: string) {
@@ -178,10 +195,13 @@ export class McpProxyManager {
             // But maybe we should refresh if registry is empty?
             if (this.toolRegistry.size === 0) await this.refreshRegistry();
             
+            const limit = args.limit || 10;
+            const results = this.searchService.search(args.query);
+            
             return {
                 content: [{
                     type: "text",
-                    text: JSON.stringify(this.searchService.search(args.query), null, 2)
+                    text: JSON.stringify(results.slice(0, limit), null, 2)
                 }]
             };
         }
@@ -193,7 +213,16 @@ export class McpProxyManager {
             if (!this.sessionVisibleTools.has(sessionId)) {
                 this.sessionVisibleTools.set(sessionId, new Set());
             }
-            this.sessionVisibleTools.get(sessionId)!.add(args.name);
+            
+            const sessionSet = this.sessionVisibleTools.get(sessionId)!;
+            
+            // FIFO Eviction if limit reached
+            if (sessionSet.size >= this.MAX_LOADED_TOOLS && !sessionSet.has(args.name)) {
+                const first = sessionSet.values().next().value;
+                if (first) sessionSet.delete(first);
+            }
+            
+            sessionSet.add(args.name);
             return {
                 content: [{ type: "text", text: `Tool '${args.name}' loaded successfully. It is now available.` }]
             };

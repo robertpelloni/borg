@@ -62,6 +62,42 @@ async function testProxy() {
             console.error('❌ Missing Tool Test Failed (Wrong error):', e.message);
         }
     }
+
+    // 5. Test Progressive Disclosure
+    console.log('Test 5: Progressive Disclosure');
+    // Force enable progressive mode for test
+    (proxy as any).progressiveMode = true;
+    
+    const sessionId = 'test-session';
+    
+    // Initial State: Only Meta + Internal
+    const initialTools = await proxy.getAllTools(sessionId);
+    console.log('Initial Tools:', initialTools.map(t => t.name));
+    if (initialTools.find(t => t.name === 'search_tools') && initialTools.find(t => t.name === 'test_tool')) {
+        console.log('✅ Initial State Correct');
+    } else {
+        console.error('❌ Initial State Incorrect');
+    }
+
+    // Search
+    const searchRes = await proxy.callTool('search_tools', { query: 'test' });
+    console.log('Search Result:', JSON.parse(searchRes.content[0].text).length, 'matches');
+
+    // Load Tool (Simulate loading a tool that exists in registry but not visible)
+    // We need to mock a tool in the registry that isn't internal
+    (proxy as any).toolRegistry.set('remote_tool', 'mock_server');
+    (proxy as any).toolDefinitions.set('remote_tool', { name: 'remote_tool', description: 'Remote' });
+    
+    await proxy.callTool('load_tool', { name: 'remote_tool' }, sessionId);
+    
+    // Check visibility
+    const newTools = await proxy.getAllTools(sessionId);
+    console.log('New Tools:', newTools.map(t => t.name));
+    if (newTools.find(t => t.name === 'remote_tool')) {
+        console.log('✅ Tool Loaded Successfully');
+    } else {
+        console.error('❌ Tool Load Failed');
+    }
 }
 
 testProxy().catch(console.error);
