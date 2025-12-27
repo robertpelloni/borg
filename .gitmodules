@@ -181,3 +181,6 @@
 [submodule "submodules/jules-app"]
 	path = submodules/jules-app
 	url = https://github.com/robertpelloni/jules-app
+[submodule "submodules/quotio"]
+	path = submodules/quotio
+	url = https://github.com/nguyenphutrong/quotio

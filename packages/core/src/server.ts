@@ -318,7 +318,15 @@ export class CoreService {
 
     this.app.get('/api/logs', async (request: any, reply) => {
         const limit = request.query.limit ? parseInt(request.query.limit) : 100;
-        return await this.logManager.getLogs({ limit });
+        const summary = request.query.summary === 'true';
+        return await this.logManager.getLogs({ limit, summary });
+    });
+
+    this.app.get('/api/logs/:id', async (request: any, reply) => {
+        const { id } = request.params;
+        const log = await this.logManager.getLogById(id);
+        if (!log) return reply.code(404).send({ error: 'Log not found' });
+        return log;
     });
 
     this.app.get('/api/project/structure', async () => {

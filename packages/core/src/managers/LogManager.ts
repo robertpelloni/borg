@@ -93,9 +93,11 @@ export class LogManager extends EventEmitter {
         type?: string, 
         tool?: string,
         startTime?: number,
-        endTime?: number
+        endTime?: number,
+        summary?: boolean
     } = {}): Promise<TrafficLog[]> {
-        let query = 'SELECT * FROM logs WHERE 1=1';
+        const columns = filter.summary ? 'id, timestamp, type, tool, server, cost, tokens' : '*';
+        let query = `SELECT ${columns} FROM logs WHERE 1=1`;
         const params: any[] = [];
 
         if (filter.type) {
@@ -141,6 +143,31 @@ export class LogManager extends EventEmitter {
         } catch (e) {
             console.error('[LogManager] Failed to query logs:', e);
             return [];
+        }
+    }
+
+    public async getLogById(id: string): Promise<TrafficLog | null> {
+        try {
+            const stmt = this.db.prepare('SELECT * FROM logs WHERE id = ?');
+            const row = stmt.get(id) as any;
+            
+            if (!row) return null;
+
+            return {
+                id: row.id,
+                timestamp: row.timestamp,
+                type: row.type,
+                tool: row.tool,
+                server: row.server,
+                args: row.args ? JSON.parse(row.args) : undefined,
+                result: row.result ? JSON.parse(row.result) : undefined,
+                error: row.error ? JSON.parse(row.error) : undefined,
+                cost: row.cost,
+                tokens: row.tokens
+            };
+        } catch (e) {
+            console.error('[LogManager] Failed to get log by id:', e);
+            return null;
         }
     }
 

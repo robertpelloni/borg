@@ -37,22 +37,39 @@ async function testLogging() {
     
     const logger = new LogManager(logDir);
     
+    const complexArgs = { 
+        messages: [
+            { role: 'system', content: 'You are a helpful assistant.' },
+            { role: 'user', content: 'Hello world' }
+        ]
+    };
+
     logger.log({
         type: 'request',
         tool: 'test_tool',
-        args: { foo: 'bar' }
+        args: complexArgs
     });
 
-    // Wait for async write (sqlite is sync usually but let's be safe)
+    // Wait for async write
     await new Promise(r => setTimeout(r, 100));
 
-    const logs = await logger.getLogs({ tool: 'test_tool' });
-    console.log('Retrieved Logs:', logs.length);
-    
-    if (logs.length === 1 && logs[0].tool === 'test_tool') {
-        console.log('✅ Logging Test Passed');
+    // Test 1: Get All (Summary)
+    const summaries = await logger.getLogs({ tool: 'test_tool', summary: true });
+    console.log('Retrieved Summaries:', summaries.length);
+    if (summaries[0].args === undefined) {
+        console.log('✅ Summary Mode Passed (args undefined)');
     } else {
-        console.error('❌ Logging Test Failed');
+        console.error('❌ Summary Mode Failed (args present)');
+    }
+
+    // Test 2: Get By ID (Full)
+    const id = summaries[0].id;
+    const fullLog = await logger.getLogById(id);
+    
+    if (fullLog && fullLog.args && fullLog.args.messages.length === 2) {
+        console.log('✅ Detail Retrieval Passed');
+    } else {
+        console.error('❌ Detail Retrieval Failed');
     }
     
     // Close DB before cleanup

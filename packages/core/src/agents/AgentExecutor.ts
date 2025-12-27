@@ -89,7 +89,7 @@ export class AgentExecutor extends EventEmitter {
                         type: 'response',
                         tool: 'llm_completion',
                         server: 'openai',
-                        args: { model: agent.model, messagesCount: messages.length },
+                        args: { model: agent.model, messagesCount: messages.length, messages },
                         result: { usage: completion.usage },
                         tokens: completion.usage.total_tokens,
                         cost: cost
