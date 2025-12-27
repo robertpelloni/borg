@@ -55,6 +55,9 @@ async function testLogging() {
         console.error('❌ Logging Test Failed');
     }
     
+    // Close DB before cleanup
+    logger.close();
+
     // Cleanup
     if (fs.existsSync(logDir)) fs.rmSync(logDir, { recursive: true, force: true });
 }

@@ -144,6 +144,14 @@ export class LogManager extends EventEmitter {
         }
     }
 
+    public close() {
+        try {
+            this.db.close();
+        } catch (e) {
+            console.error('[LogManager] Failed to close DB:', e);
+        }
+    }
+
     public calculateCost(model: string, inputTokens: number, outputTokens: number): number {
         // Placeholder pricing (approximate)
         const prices: Record<string, { in: number, out: number }> = {
