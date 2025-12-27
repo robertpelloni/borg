@@ -15,12 +15,21 @@ export class McpProxyManager {
     private sessionVisibleTools: Map<string, Set<string>> = new Map();
     private progressiveMode = process.env.MCP_PROGRESSIVE_MODE === 'true';
 
+    // Caching for Router Optimization
+    private toolRegistry: Map<string, string> = new Map(); // ToolName -> ServerName (or 'internal', 'metamcp')
+    private toolDefinitions: Map<string, any> = new Map(); // ToolName -> ToolDefinition
+
     constructor(
         private mcpManager: McpManager,
         private logManager: LogManager
     ) {
         this.metaClient = new MetaMcpClient();
         this.searchService = new ToolSearchService();
+        
+        // Listen for server changes to update registry
+        this.mcpManager.on('updated', () => {
+            this.refreshRegistry().catch(e => console.error('[Proxy] Registry refresh failed:', e));
+        });
     }
 
     setMemoryManager(memoryManager: MemoryManager) {
@@ -29,6 +38,9 @@ export class McpProxyManager {
 
     registerInternalTool(def: any, handler: (args: any) => Promise<any>) {
         this.internalTools.set(def.name, { def, handler });
+        // Update registry immediately for internal tools
+        this.toolRegistry.set(def.name, 'internal');
+        this.toolDefinitions.set(def.name, def);
     }
 
     async start() {
@@ -39,49 +51,64 @@ export class McpProxyManager {
                 console.warn('[Proxy] MetaMCP connection failed (non-fatal):', e);
             }
         }
-        // Initial tool load for search
-        await this.refreshSearchIndex();
+        // Initial tool load
+        await this.refreshRegistry();
     }
 
-    private async refreshSearchIndex() {
-        try {
-            const tools = await this.fetchAllToolsInternal();
-            this.searchService.setTools(tools);
-        } catch (e) {
-            console.warn('[Proxy] Failed to refresh search index:', e);
-        }
-    }
-
-    // Helper to fetch EVERYTHING (for search index and internal logic)
-    private async fetchAllToolsInternal() {
-        const tools = [];
-        const servers = this.mcpManager.getAllServers();
+    private async refreshRegistry() {
+        console.log('[Proxy] Refreshing Tool Registry...');
+        this.toolRegistry.clear();
+        this.toolDefinitions.clear();
 
         // 1. Internal Tools
-        for (const tool of this.internalTools.values()) {
-            tools.push(tool.def);
+        for (const [name, tool] of this.internalTools.entries()) {
+            this.toolRegistry.set(name, 'internal');
+            this.toolDefinitions.set(name, tool.def);
         }
 
         // 2. Local Servers
+        const servers = this.mcpManager.getAllServers();
         for (const s of servers) {
             if (s.status === 'running') {
                 const client = this.mcpManager.getClient(s.name);
                 if (client) {
                     try {
                         const result = await client.listTools();
-                        tools.push(...result.tools);
+                        for (const tool of result.tools) {
+                            this.toolRegistry.set(tool.name, s.name);
+                            this.toolDefinitions.set(tool.name, tool);
+                        }
                     } catch (e) {
-                        console.error(`Failed to list tools from ${s.name}`, e);
+                        console.error(`[Proxy] Failed to list tools from ${s.name}`, e);
                     }
                 }
             }
         }
 
-        // 3. MetaMCP Tools (Remote/Docker)
-        const metaTools = await this.metaClient.listTools();
-        tools.push(...metaTools);
+        // 3. MetaMCP Tools
+        try {
+            const metaTools = await this.metaClient.listTools();
+            for (const tool of metaTools) {
+                // MetaMCP tools might overlap, so we prioritize local if already set?
+                // Or overwrite? Let's overwrite for now or keep local priority.
+                if (!this.toolRegistry.has(tool.name)) {
+                    this.toolRegistry.set(tool.name, 'metamcp');
+                    this.toolDefinitions.set(tool.name, tool);
+                }
+            }
+        } catch (e) {
+            // ignore
+        }
 
-        return tools;
+        // Update Search Service
+        this.searchService.setTools(Array.from(this.toolDefinitions.values()));
+        console.log(`[Proxy] Registry Refreshed. Total Tools: ${this.toolRegistry.size}`);
+    }
+
+    // Helper to fetch EVERYTHING (for search index and internal logic)
+    private async fetchAllToolsInternal() {
+        // Now we can just return values from cache
+        return Array.from(this.toolDefinitions.values());
     }
 
     // Public method called by HubServer
@@ -147,7 +174,10 @@ export class McpProxyManager {
 
         // Meta Tools
         if (name === 'search_tools') {
-            await this.refreshSearchIndex();
+            // Force refresh if needed? No, rely on event or manual refresh.
+            // But maybe we should refresh if registry is empty?
+            if (this.toolRegistry.size === 0) await this.refreshRegistry();
+            
             return {
                 content: [{
                     type: "text",
@@ -169,57 +199,43 @@ export class McpProxyManager {
             };
         }
 
-        // 1. Internal Tools
-        if (this.internalTools.has(name)) {
-            this.logManager.log({ type: 'request', tool: name, server: 'internal', args });
-            try {
-                const result = await this.internalTools.get(name)!.handler(args);
-                const response = { content: [{ type: "text", text: typeof result === 'string' ? result : JSON.stringify(result, null, 2) }] };
-                this.logManager.log({ type: 'response', tool: name, server: 'internal', result: response });
-                
-                // Hook for Memory
-                if (this.memoryManager) {
-                    this.memoryManager.ingestInteraction(name, args, response).catch(e => console.error(e));
-                }
-
-                return response;
-            } catch (e: any) {
-                const err = { isError: true, content: [{ type: "text", text: e.message }] };
-                this.logManager.log({ type: 'error', tool: name, server: 'internal', error: e.message });
-                return err;
-            }
+        // Use Registry for Routing
+        const serverName = this.toolRegistry.get(name);
+        
+        if (!serverName) {
+             // Fallback: Try to refresh registry once if tool not found
+             console.log(`[Proxy] Tool ${name} not found in registry. Refreshing...`);
+             await this.refreshRegistry();
+             if (!this.toolRegistry.has(name)) {
+                 throw new Error(`Tool ${name} not found in any active server.`);
+             }
         }
+        
+        const targetServer = this.toolRegistry.get(name)!;
 
-        // 2. Local Servers
-        const servers = this.mcpManager.getAllServers();
-        for (const s of servers) {
-            if (s.status === 'running') {
-                const client = this.mcpManager.getClient(s.name);
-                if (client) {
-                    try {
-                        const list = await client.listTools();
-                        if (list.tools.find((t: any) => t.name === name)) {
-                            this.logManager.log({ type: 'request', tool: name, server: s.name, args });
-                            const result = await client.callTool({ name, arguments: args });
-                            this.logManager.log({ type: 'response', tool: name, server: s.name, result });
-                            
-                            // Hook for Memory
-                            if (this.memoryManager) {
-                                this.memoryManager.ingestInteraction(name, args, result).catch(e => console.error(e));
-                            }
+        this.logManager.log({ type: 'request', tool: name, server: targetServer, args });
 
-                            return result;
-                        }
-                    } catch (e) { /* ignore */ }
-                }
-            }
-        }
-
-        // 3. Check MetaMCP
         try {
-            this.logManager.log({ type: 'request', tool: name, server: 'metamcp', args });
-            const result = await this.metaClient.callTool(name, args);
-            this.logManager.log({ type: 'response', tool: name, server: 'metamcp', result });
+            let result;
+            if (targetServer === 'internal') {
+                const handler = this.internalTools.get(name)!.handler;
+                const rawResult = await handler(args);
+                // Standardize output
+                if (rawResult && rawResult.content) {
+                    result = rawResult;
+                } else {
+                    result = { content: [{ type: "text", text: typeof rawResult === 'string' ? rawResult : JSON.stringify(rawResult, null, 2) }] };
+                }
+            } else if (targetServer === 'metamcp') {
+                result = await this.metaClient.callTool(name, args);
+            } else {
+                // Local Server
+                const client = this.mcpManager.getClient(targetServer);
+                if (!client) throw new Error(`Server ${targetServer} is not connected.`);
+                result = await client.callTool({ name, arguments: args });
+            }
+
+            this.logManager.log({ type: 'response', tool: name, server: targetServer, result });
             
             // Hook for Memory
             if (this.memoryManager) {
@@ -227,11 +243,12 @@ export class McpProxyManager {
             }
 
             return result;
-        } catch (e) {
-             // ignore
-        }
 
-        throw new Error(`Tool ${name} not found in any active server.`);
+        } catch (e: any) {
+            const err = { isError: true, content: [{ type: "text", text: e.message }] };
+            this.logManager.log({ type: 'error', tool: name, server: targetServer, error: e.message });
+            return err;
+        }
     }
 }
 
