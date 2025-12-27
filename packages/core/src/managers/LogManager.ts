@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import fs from 'fs';
 import path from 'path';
+import Database from 'better-sqlite3';
 
 export interface TrafficLog {
     id: string;
@@ -16,7 +17,7 @@ export interface TrafficLog {
 }
 
 export class LogManager extends EventEmitter {
-    private logFile: string;
+    private db: Database.Database;
 
     constructor(logDir?: string) {
         super();
@@ -24,7 +25,30 @@ export class LogManager extends EventEmitter {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
-        this.logFile = path.join(dir, 'traffic.jsonl');
+        
+        const dbPath = path.join(dir, 'traffic.db');
+        this.db = new Database(dbPath);
+        this.initDb();
+    }
+
+    private initDb() {
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS logs (
+                id TEXT PRIMARY KEY,
+                timestamp INTEGER,
+                type TEXT,
+                tool TEXT,
+                server TEXT,
+                args TEXT,
+                result TEXT,
+                error TEXT,
+                cost REAL,
+                tokens INTEGER
+            );
+            CREATE INDEX IF NOT EXISTS idx_timestamp ON logs(timestamp);
+            CREATE INDEX IF NOT EXISTS idx_type ON logs(type);
+            CREATE INDEX IF NOT EXISTS idx_tool ON logs(tool);
+        `);
     }
 
     public log(entry: Omit<TrafficLog, 'id' | 'timestamp'>) {
@@ -37,13 +61,28 @@ export class LogManager extends EventEmitter {
         // Emit to subscribers (Socket.io)
         this.emit('log', fullEntry);
 
-        // Persist to file
-        this.appendLog(fullEntry);
+        // Persist to DB
+        this.insertLog(fullEntry);
     }
 
-    private appendLog(entry: TrafficLog) {
+    private insertLog(entry: TrafficLog) {
         try {
-            fs.appendFileSync(this.logFile, JSON.stringify(entry) + '\n');
+            const stmt = this.db.prepare(`
+                INSERT INTO logs (id, timestamp, type, tool, server, args, result, error, cost, tokens)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `);
+            stmt.run(
+                entry.id,
+                entry.timestamp,
+                entry.type,
+                entry.tool || null,
+                entry.server || null,
+                entry.args ? JSON.stringify(entry.args) : null,
+                entry.result ? JSON.stringify(entry.result) : null,
+                entry.error ? JSON.stringify(entry.error) : null,
+                entry.cost || 0,
+                entry.tokens || 0
+            );
         } catch (e) {
             console.error('[LogManager] Failed to write log:', e);
         }
@@ -56,37 +95,53 @@ export class LogManager extends EventEmitter {
         startTime?: number,
         endTime?: number
     } = {}): Promise<TrafficLog[]> {
-        const logs: TrafficLog[] = [];
-        if (!fs.existsSync(this.logFile)) return [];
+        let query = 'SELECT * FROM logs WHERE 1=1';
+        const params: any[] = [];
 
-        // Read file line by line (or all at once for simplicity in this version)
-        // For large files, we should use a stream or readLastLines
-        try {
-            const content = fs.readFileSync(this.logFile, 'utf-8');
-            const lines = content.split('\n').filter(l => l.trim());
-            
-            // Process in reverse for "most recent first"
-            for (let i = lines.length - 1; i >= 0; i--) {
-                try {
-                    const log = JSON.parse(lines[i]);
-                    
-                    if (filter.type && log.type !== filter.type) continue;
-                    if (filter.tool && log.tool !== filter.tool) continue;
-                    if (filter.startTime && log.timestamp < filter.startTime) continue;
-                    if (filter.endTime && log.timestamp > filter.endTime) continue;
-
-                    logs.push(log);
-                    
-                    if (filter.limit && logs.length >= filter.limit) break;
-                } catch (e) {
-                    // Skip malformed lines
-                }
-            }
-        } catch (e) {
-            console.error('[LogManager] Failed to read logs:', e);
+        if (filter.type) {
+            query += ' AND type = ?';
+            params.push(filter.type);
+        }
+        if (filter.tool) {
+            query += ' AND tool = ?';
+            params.push(filter.tool);
+        }
+        if (filter.startTime) {
+            query += ' AND timestamp >= ?';
+            params.push(filter.startTime);
+        }
+        if (filter.endTime) {
+            query += ' AND timestamp <= ?';
+            params.push(filter.endTime);
         }
 
-        return logs;
+        query += ' ORDER BY timestamp DESC';
+
+        if (filter.limit) {
+            query += ' LIMIT ?';
+            params.push(filter.limit);
+        }
+
+        try {
+            const stmt = this.db.prepare(query);
+            const rows = stmt.all(...params) as any[];
+            
+            return rows.map(row => ({
+                id: row.id,
+                timestamp: row.timestamp,
+                type: row.type,
+                tool: row.tool,
+                server: row.server,
+                args: row.args ? JSON.parse(row.args) : undefined,
+                result: row.result ? JSON.parse(row.result) : undefined,
+                error: row.error ? JSON.parse(row.error) : undefined,
+                cost: row.cost,
+                tokens: row.tokens
+            }));
+        } catch (e) {
+            console.error('[LogManager] Failed to query logs:', e);
+            return [];
+        }
     }
 
     public calculateCost(model: string, inputTokens: number, outputTokens: number): number {
