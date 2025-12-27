@@ -4,6 +4,7 @@ import { AgentDefinition } from '../types.js';
 import OpenAI from 'openai';
 import { SecretManager } from '../managers/SecretManager.js';
 import { LogManager } from '../managers/LogManager.js';
+import { ContextAnalyzer } from '../utils/ContextAnalyzer.js';
 
 export class AgentExecutor extends EventEmitter {
     private openai: OpenAI | null = null;
@@ -70,7 +71,10 @@ export class AgentExecutor extends EventEmitter {
                     }
                 }));
 
-                // 2. Call LLM
+                // 2. Analyze Context
+                const contextAnalysis = ContextAnalyzer.analyze(messages);
+
+                // 3. Call LLM
                 const completion = await this.openai.chat.completions.create({
                     model: agent.model || 'gpt-4-turbo',
                     messages: messages,
@@ -89,7 +93,12 @@ export class AgentExecutor extends EventEmitter {
                         type: 'response',
                         tool: 'llm_completion',
                         server: 'openai',
-                        args: { model: agent.model, messagesCount: messages.length, messages },
+                        args: { 
+                            model: agent.model, 
+                            messagesCount: messages.length, 
+                            messages,
+                            contextAnalysis // Log the breakdown
+                        },
                         result: { usage: completion.usage },
                         tokens: completion.usage.total_tokens,
                         cost: cost
@@ -99,7 +108,7 @@ export class AgentExecutor extends EventEmitter {
                 const message = completion.choices[0].message;
                 messages.push(message);
 
-                // 3. Handle Tool Calls
+                // 4. Handle Tool Calls
                 if (message.tool_calls && message.tool_calls.length > 0) {
                     for (const toolCall of message.tool_calls) {
                         // @ts-ignore
@@ -126,7 +135,7 @@ export class AgentExecutor extends EventEmitter {
                         });
                     }
                 } else {
-                    // 4. Final Answer
+                    // 5. Final Answer
                     const content = message.content;
                     this.emit('result', content);
                     return content;

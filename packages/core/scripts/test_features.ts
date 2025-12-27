@@ -1,5 +1,6 @@
 import { CodeExecutionManager } from '../src/managers/CodeExecutionManager.js';
 import { LogManager } from '../src/managers/LogManager.js';
+import { ContextAnalyzer } from '../src/utils/ContextAnalyzer.js';
 import path from 'path';
 import fs from 'fs';
 
@@ -27,6 +28,26 @@ async function testCodeMode() {
         else console.error('❌ Code Mode Test Failed');
     } catch (e) {
         console.error('❌ Code Mode Error:', e);
+    }
+}
+
+async function testContextAnalyzer() {
+    console.log('\n--- Testing Context Analyzer ---');
+    const messages = [
+        { role: 'system', content: 'System Prompt' },
+        { role: 'user', content: 'User Query' },
+        { role: 'user', content: '[Memory] Some memory content' },
+        { role: 'user', content: '```javascript\nconsole.log("code")\n```' },
+        { role: 'tool', content: 'Tool Output' }
+    ];
+
+    const analysis = ContextAnalyzer.analyze(messages);
+    console.log('Analysis:', JSON.stringify(analysis, null, 2));
+
+    if (analysis.system > 0 && analysis.user > 0 && analysis.memory > 0 && analysis.code > 0 && analysis.tool_output > 0) {
+        console.log('✅ Context Analyzer Passed');
+    } else {
+        console.error('❌ Context Analyzer Failed');
     }
 }
 
@@ -81,6 +102,7 @@ async function testLogging() {
 
 async function main() {
     await testCodeMode();
+    await testContextAnalyzer();
     await testLogging();
 }
 
