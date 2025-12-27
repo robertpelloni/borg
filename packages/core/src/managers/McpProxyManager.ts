@@ -32,7 +32,13 @@ export class McpProxyManager {
     }
 
     async start() {
-        await this.metaClient.connect();
+        if (process.env.MCP_DISABLE_METAMCP !== 'true') {
+            try {
+                await this.metaClient.connect();
+            } catch (e) {
+                console.warn('[Proxy] MetaMCP connection failed (non-fatal):', e);
+            }
+        }
         // Initial tool load for search
         await this.refreshSearchIndex();
     }
