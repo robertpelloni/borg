@@ -28,6 +28,7 @@ import { ProjectManager } from './managers/ProjectManager.js';
 import { AgentMessageBroker } from './managers/AgentMessageBroker.js';
 import { AutonomousAgentManager } from './managers/AutonomousAgentManager.js';
 import { BrowserManager } from './managers/BrowserManager.js';
+import { ContextMiner } from './utils/ContextMiner.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
 import fs from 'fs';
@@ -65,6 +66,7 @@ export class CoreService {
   public messageBroker: AgentMessageBroker;
   public autonomousAgentManager: AutonomousAgentManager;
   public browserManager: BrowserManager;
+  public contextMiner: ContextMiner;
 
   constructor(
     private rootDir: string
@@ -135,6 +137,8 @@ export class CoreService {
     this.messageBroker.setMemoryManager(this.memoryManager);
     
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
+    
+    this.contextMiner = new ContextMiner(this.logManager, this.memoryManager, this.agentExecutor);
 
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
@@ -713,6 +717,19 @@ export class CoreService {
         } catch (e: any) {
             return `Failed to ingest browser page: ${e.message}`;
         }
+    });
+
+    this.proxyManager.registerInternalTool({
+        name: "mine_context",
+        description: "Analyze recent session logs to find abandoned threads and key insights.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                sessionId: { type: "string", description: "Optional session ID to analyze." }
+            }
+        }
+    }, async (args: any) => {
+        return await this.contextMiner.mineContext(args.sessionId);
     });
     
     this.proxyManager.registerInternalTool({
