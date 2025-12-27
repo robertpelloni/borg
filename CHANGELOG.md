@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2025-12-27
+
+### Maintenance
+- **Versioning**: Synchronized all package versions to `0.2.1` to match `VERSION.md`.
+- **Documentation**: Created `docs/SUBMODULES.md` to track all submodule versions and locations.
+- **Standards**: Verified all LLM instruction files reference the universal `docs/LLM_INSTRUCTIONS.md`.
+
 ## [0.2.0] - 2025-12-27
 
 ### Added

@@ -48,6 +48,14 @@ export class CodeExecutionManager {
         if (sessionId && this.sessions.has(sessionId)) {
             const session = this.sessions.get(sessionId)!;
             session.lastUsed = Date.now();
+            // Update callback wrapper if needed?
+            // For now, we assume the callback logic is stable or we re-inject it.
+            // Re-injecting might be safer if the closure changes.
+            if (session.jail) {
+                 await session.jail.set('call_tool_host', new ivm.Reference(async (name: string, args: any) => {
+                    return await toolCallback(name, args);
+                }));
+            }
             return session;
         }
 
