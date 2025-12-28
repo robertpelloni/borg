@@ -187,3 +187,6 @@
 [submodule "submodules/CLIProxyAPI"]
 	path = submodules/CLIProxyAPI
 	url = https://github.com/router-for-me/CLIProxyAPI
+[submodule "submodules/mcp-shark"]
+	path = submodules/mcp-shark
+	url = https://github.com/mcp-shark/mcp-shark

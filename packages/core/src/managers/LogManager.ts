@@ -14,7 +14,6 @@ export interface TrafficLog {
     error?: any;
     cost?: number;
     tokens?: number;
-    duration?: number;
 }
 
 export class LogManager extends EventEmitter {
@@ -44,20 +43,12 @@ export class LogManager extends EventEmitter {
                 result TEXT,
                 error TEXT,
                 cost REAL,
-                tokens INTEGER,
-                duration INTEGER
+                tokens INTEGER
             );
             CREATE INDEX IF NOT EXISTS idx_timestamp ON logs(timestamp);
             CREATE INDEX IF NOT EXISTS idx_type ON logs(type);
             CREATE INDEX IF NOT EXISTS idx_tool ON logs(tool);
         `);
-        
-        // Migration for existing tables
-        try {
-            this.db.exec('ALTER TABLE logs ADD COLUMN duration INTEGER');
-        } catch (e) {
-            // Column likely exists
-        }
     }
 
     public log(entry: Omit<TrafficLog, 'id' | 'timestamp'>) {
@@ -77,8 +68,8 @@ export class LogManager extends EventEmitter {
     private insertLog(entry: TrafficLog) {
         try {
             const stmt = this.db.prepare(`
-                INSERT INTO logs (id, timestamp, type, tool, server, args, result, error, cost, tokens, duration)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO logs (id, timestamp, type, tool, server, args, result, error, cost, tokens)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `);
             stmt.run(
                 entry.id,
@@ -90,8 +81,7 @@ export class LogManager extends EventEmitter {
                 entry.result ? JSON.stringify(entry.result) : null,
                 entry.error ? JSON.stringify(entry.error) : null,
                 entry.cost || 0,
-                entry.tokens || 0,
-                entry.duration || 0
+                entry.tokens || 0
             );
         } catch (e) {
             console.error('[LogManager] Failed to write log:', e);
@@ -106,7 +96,7 @@ export class LogManager extends EventEmitter {
         endTime?: number,
         summary?: boolean
     } = {}): Promise<TrafficLog[]> {
-        const columns = filter.summary ? 'id, timestamp, type, tool, server, cost, tokens, duration' : '*';
+        const columns = filter.summary ? 'id, timestamp, type, tool, server, cost, tokens' : '*';
         let query = `SELECT ${columns} FROM logs WHERE 1=1`;
         const params: any[] = [];
 
@@ -148,8 +138,7 @@ export class LogManager extends EventEmitter {
                 result: row.result ? JSON.parse(row.result) : undefined,
                 error: row.error ? JSON.parse(row.error) : undefined,
                 cost: row.cost,
-                tokens: row.tokens,
-                duration: row.duration
+                tokens: row.tokens
             }));
         } catch (e) {
             console.error('[LogManager] Failed to query logs:', e);
@@ -174,8 +163,7 @@ export class LogManager extends EventEmitter {
                 result: row.result ? JSON.parse(row.result) : undefined,
                 error: row.error ? JSON.parse(row.error) : undefined,
                 cost: row.cost,
-                tokens: row.tokens,
-                duration: row.duration
+                tokens: row.tokens
             };
         } catch (e) {
             console.error('[LogManager] Failed to get log by id:', e);
