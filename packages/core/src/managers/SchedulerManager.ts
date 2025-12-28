@@ -76,7 +76,7 @@ export class SchedulerManager extends EventEmitter {
                         // We rely on AgentExecutor having access to AgentManager?
                         // Or we pass the task name and let Hub handle it?
                         // For simplicity, we assume we can call an internal tool "run_agent".
-                        await this.proxyManager.callTool('run_agent', { agentName: task.target, task: task.args.task });
+                        await this.proxyManager.callTool('run_subagent', { agentName: task.target, task: task.args.task });
                     } else {
                         await this.proxyManager.callTool(task.target, task.args);
                     }

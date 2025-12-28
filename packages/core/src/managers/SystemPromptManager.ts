@@ -5,10 +5,12 @@ import { EventEmitter } from 'events';
 export class SystemPromptManager extends EventEmitter {
     private filePath: string;
     private content: string = "";
+    private profilesDir: string;
 
-    constructor(rootDir: string) {
+    constructor(private rootDir: string) {
         super();
         this.filePath = path.join(rootDir, 'SYSTEM.md');
+        this.profilesDir = path.join(rootDir, 'profiles');
         this.load();
         this.watch();
     }
@@ -31,6 +33,14 @@ export class SystemPromptManager extends EventEmitter {
 
     getPrompt() {
         return this.content;
+    }
+
+    getUserInstructions(profileName: string = 'default'): string {
+        const userFile = path.join(this.profilesDir, profileName, 'user.md');
+        if (fs.existsSync(userFile)) {
+            return fs.readFileSync(userFile, 'utf-8');
+        }
+        return "";
     }
 
     save(newContent: string) {
