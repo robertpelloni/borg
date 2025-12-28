@@ -37,6 +37,7 @@ import { createPromptImprover } from './tools/PromptImprover.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
 import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { ModelGateway } from './gateway/ModelGateway.js';
+import { AgentExecutor } from './agents/AgentExecutor.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';
 import { VSCodeManager } from './managers/VSCodeManager.js';
@@ -138,7 +139,7 @@ export class CoreService {
     );
 
     this.mcpInterface = new McpInterface(this.hubServer);
-    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager, this.systemPromptManager);
+    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager);
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
     this.submoduleManager = new SubmoduleManager();
     this.vscodeManager = new VSCodeManager();
