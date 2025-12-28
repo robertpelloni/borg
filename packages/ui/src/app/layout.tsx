@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Sidebar } from '@/components/Sidebar';
 import './globals.css';
 
+import { Toaster } from 'sonner';
+
 export const metadata: Metadata = {
   title: 'AIOS',
   description: 'The Ultimate Meta-Orchestrator for the Model Context Protocol',
@@ -21,6 +23,7 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+        <Toaster />
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Database, RefreshCw, HardDrive, Cloud } from 'lucide-react';
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface MemoryProvider {
   id: string;
@@ -32,6 +42,12 @@ export default function MemoryPage() {
   const [isIngesting, setIsIngesting] = useState(false);
   const [snapshots, setSnapshots] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('memories');
+  
+  // View Modal State
+  const [selectedSnapshot, setSelectedSnapshot] = useState<any>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [snapshotContent, setSnapshotContent] = useState<string>('');
+  const [viewLoading, setViewLoading] = useState(false);
 
   useEffect(() => {
     fetchProviders();
@@ -45,6 +61,7 @@ export default function MemoryPage() {
         setProviders(data);
     } catch (error) {
         console.error("Failed to fetch providers", error);
+        toast.error("Failed to fetch providers");
     }
   };
 
@@ -55,6 +72,7 @@ export default function MemoryPage() {
         setSnapshots(data);
     } catch (error) {
         console.error("Failed to fetch snapshots", error);
+        toast.error("Failed to fetch snapshots");
     }
   };
 
@@ -66,14 +84,39 @@ export default function MemoryPage() {
             body: JSON.stringify({ filename })
         });
         if (res.ok) {
-            alert('Snapshot restored successfully!');
+            toast.success('Snapshot restored successfully!');
         } else {
-            alert('Failed to restore snapshot');
+            toast.error('Failed to restore snapshot');
         }
     } catch (error) {
         console.error("Failed to restore snapshot", error);
-        alert('Error restoring snapshot');
+        toast.error('Error restoring snapshot');
     }
+  };
+
+  const handleViewSnapshot = async (snapshot: any) => {
+      setSelectedSnapshot(snapshot);
+      setIsViewModalOpen(true);
+      setViewLoading(true);
+      
+      try {
+          const res = await fetch('/api/memory/snapshots/restore', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ filename: snapshot.filename })
+          });
+          
+          if (res.ok) {
+              const data = await res.json();
+              setSnapshotContent(JSON.stringify(data.data, null, 2));
+          } else {
+              setSnapshotContent("Failed to load content.");
+          }
+      } catch (e) {
+          setSnapshotContent("Error loading content.");
+      } finally {
+          setViewLoading(false);
+      }
   };
 
   const handleSearch = async () => {
@@ -84,6 +127,7 @@ export default function MemoryPage() {
         setMemories(data);
     } catch (error) {
         console.error("Failed to search memories", error);
+        toast.error("Failed to search memories");
     } finally {
         setLoading(false);
     }
@@ -101,10 +145,11 @@ export default function MemoryPage() {
         });
         setIngestContent('');
         setIngestTags('');
-        // Refresh search results if query exists, or just clear them
+        toast.success("Memory stored successfully");
         if (searchQuery) handleSearch();
     } catch (error) {
         console.error("Failed to ingest memory", error);
+        toast.error("Failed to save memory");
     } finally {
         setIsIngesting(false);
     }
@@ -114,7 +159,7 @@ export default function MemoryPage() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Memory Orchestrator</h1>
-        <Button onClick={fetchProviders} variant="outline">
+        <Button onClick={() => { fetchProviders(); fetchSnapshots(); }} variant="outline">
             <RefreshCw className="mr-2 h-4 w-4" /> Refresh
         </Button>
       </div>
@@ -250,7 +295,7 @@ export default function MemoryPage() {
                                                     Summary: {s.summary || 'No summary available'}
                                                 </div>
                                                 <div className="flex justify-end gap-2">
-                                                    <Button size="sm" variant="outline">View</Button>
+                                                    <Button size="sm" variant="outline" onClick={() => handleViewSnapshot(s)}>View</Button>
                                                     <Button size="sm" onClick={() => handleRestoreSnapshot(s.filename)}>Restore</Button>
                                                 </div>
                                             </div>
@@ -264,6 +309,28 @@ export default function MemoryPage() {
             </Tabs>
         </div>
       </div>
+
+      <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh]">
+            <DialogHeader>
+                <DialogTitle>Snapshot Content</DialogTitle>
+                <DialogDescription>
+                    Session: {selectedSnapshot?.sessionId}
+                </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+                {viewLoading ? (
+                    <div className="flex justify-center p-8">Loading...</div>
+                ) : (
+                    <ScrollArea className="h-[400px] w-full rounded-md border p-4 bg-muted/50">
+                        <pre className="text-xs font-mono whitespace-pre-wrap break-all">
+                            {snapshotContent}
+                        </pre>
+                    </ScrollArea>
+                )}
+            </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
