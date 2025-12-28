@@ -4,84 +4,78 @@ import { Socket } from 'socket.io';
 export class BrowserManager extends EventEmitter {
     private clients: Map<string, Socket> = new Map();
 
-    constructor() {
-        super();
-    }
-
     registerClient(socket: Socket) {
         this.clients.set(socket.id, socket);
-        console.log(`[BrowserManager] Client registered: ${socket.id}`);
+        console.log(`[BrowserManager] Client connected: ${socket.id}`);
 
         socket.on('disconnect', () => {
             this.clients.delete(socket.id);
+            console.log(`[BrowserManager] Client disconnected: ${socket.id}`);
         });
+    }
+
+    async readActiveTab(): Promise<string> {
+        // Broadcast to all connected browsers (or pick one)
+        // Ideally we pick the most recent one or allow targeting.
+        // For now, ask the first available one.
+        const client = this.clients.values().next().value;
+        if (!client) throw new Error("No browser clients connected");
+
+        return new Promise((resolve, reject) => {
+            // We need to implement a request/response pattern over socket.io
+            // Emitting 'read_page' and waiting for an event back is tricky without a correlation ID.
+            // Simplified: Expect browser to emit 'page_content' immediately.
+
+            const timeout = setTimeout(() => reject("Timeout waiting for browser"), 5000);
+
+            client.once('page_content', (data: any) => {
+                clearTimeout(timeout);
+                resolve(JSON.stringify(data));
+            });
+
+            client.emit('read_page');
+        });
+    }
+
+    async navigate(url: string) {
+        const client = this.clients.values().next().value;
+        if (!client) throw new Error("No browser clients connected");
+        client.emit('navigate', { url });
+        return "Navigation command sent";
+    }
+
+    async injectContext(text: string) {
+        const client = this.clients.values().next().value;
+        if (!client) throw new Error("No browser clients connected");
+        client.emit('hook_event', { type: 'inject_context', text });
+        return "Context injection command sent";
     }
 
     getToolDefinitions() {
         return [
             {
                 name: "read_active_tab",
-                description: "Read the content (text, title, url) of the currently active tab in the connected browser.",
+                description: "Read the title and content of the active browser tab.",
                 inputSchema: { type: "object", properties: {} }
             },
             {
                 name: "browser_navigate",
-                description: "Navigate the browser to a specific URL.",
+                description: "Navigate the active tab to a URL.",
                 inputSchema: {
                     type: "object",
-                    properties: {
-                        url: { type: "string" }
-                    },
+                    properties: { url: { type: "string" } },
                     required: ["url"]
                 }
             },
             {
                 name: "inject_context",
-                description: "Inject (type/paste) text into the active input field of the active browser tab.",
+                description: "Inject text into the active input field on the browser page.",
                 inputSchema: {
                     type: "object",
-                    properties: {
-                        text: { type: "string" }
-                    },
+                    properties: { text: { type: "string" } },
                     required: ["text"]
                 }
             }
         ];
-    }
-
-    async readActiveTab() {
-        const socket = this.clients.values().next().value;
-        if (!socket) throw new Error("No browser connected.");
-
-        return new Promise((resolve, reject) => {
-            const t = setTimeout(() => reject(new Error("Browser request timed out")), 5000);
-
-            socket.emit('browser:read_page', { requestId: Date.now() }, (response: any) => {
-                clearTimeout(t);
-                resolve(response);
-            });
-        });
-    }
-
-    async navigate(url: string) {
-        const socket = this.clients.values().next().value;
-        if (!socket) throw new Error("No browser connected.");
-
-        socket.emit('browser:navigate', { url });
-        return `Navigating to ${url}`;
-    }
-
-    async injectContext(text: string) {
-        const socket = this.clients.values().next().value;
-        if (!socket) throw new Error("No browser connected.");
-
-        return new Promise((resolve, reject) => {
-            const t = setTimeout(() => reject(new Error("Browser request timed out")), 5000);
-
-            socket.emit('browser:inject_text', { text, requestId: Date.now() }, (response: any) => {
-                clearTimeout(t);
-                resolve(response);
-            });
-        });
     }
 }
