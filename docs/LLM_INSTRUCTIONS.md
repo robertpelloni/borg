@@ -1,62 +1,62 @@
-# Universal LLM Instructions & Project Standards
+# Universal LLM Instructions & Project Charter
 
-This document serves as the single source of truth for all AI agents (Claude, Gemini, GPT, Copilot, etc.) working on the **AIOS** project.
+This document serves as the **Single Source of Truth** and **Universal Charter** for all AI agents (Claude, Gemini, GPT, Copilot, etc.) working on the **AIOS** project.
 
-## 1. Project Identity & Mission
-**Project Name:** AIOS
-**Mission:** To create a universal, platform-agnostic "Hub" that connects any LLM (Claude, Gemini, OpenAI) to any tool (MCP, Local, Remote) with persistent memory, autonomous agents, and a unified dashboard.
+## 1. The Charter: Core Protocol & Mission
+**Mission:** To create a universal, platform-agnostic "Hub" that connects any LLM to any tool with persistent memory, autonomous agents, and a unified dashboard.
 
-## 2. Core Architecture
-- **Hub (`packages/core`):** Node.js/Fastify backend. Handles MCP connections, agent orchestration, and memory.
-- **Dashboard (`packages/ui`):** Next.js 14 App Router frontend. Provides the user interface.
-- **Submodules:**
-    - `jules-app`: The "Jules" assistant logic and session management.
-    - `metamcp`: Meta-orchestrator for complex routing.
-    - `mcpenetes`: Configuration injection for clients.
-    - `claude-mem`: Memory management logic.
+### 🚀 Operational Protocol (The "Golden Rules")
+All agents must adhere to this strict protocol for every session:
 
-## 3. Versioning & Changelog Protocol
-**CRITICAL:** Every significant update must be accompanied by a version bump and changelog entry.
+1.  **Sync & Hygiene:**
+    *   Always sync the local repo with the server (git fetch, git pull).
+    *   **Submodules:** Update all submodules and merge upstream changes (including forks) using git submodule update --remote --merge.
+    *   **Branches:** Merge all feature branches into main. Resolve conflicts immediately.
+    *   **Handoff:** Document session history, findings, and changes in a handoff file if switching contexts.
 
-### Versioning Strategy
-- **Master File:** `VERSION.md` (Root) contains the single source of truth for the version string.
-- **Format:** Semantic Versioning (`MAJOR.MINOR.PATCH`).
-- **Synchronization:** All `package.json` files should be kept in sync with `VERSION.md`.
+2.  **Analysis & Planning:**
+    *   Reanalyze the project state and history to identify missing features.
+    *   Update ROADMAP.md to reflect progress (distinguish clearly between accomplished and remaining tasks).
+    *   Maintain a dashboard (docs/SUBMODULE_DASHBOARD.md) listing all submodules with versions, dates, and locations.
 
-### Changelog Protocol (`CHANGELOG.md`)
-- **Format:** Keep a reverse-chronological list of changes.
-- **Header:** `## [Version] - YYYY-MM-DD`
-- **Sections:** `### Added`, `### Changed`, `### Fixed`, `### Removed`.
-- **Commit Messages:** When committing a version bump, use: `chore: release vX.Y.Z - [Brief Summary]`.
+3.  **Execution & Autonomy:**
+    *   **Be Autonomous:** Complete features, commit, push, and continue without stopping if possible.
+    *   **Test:** Run tests and correct errors found along the way.
+    *   **Redeploy:** After significant changes, ensure the application is buildable and deployable.
 
-## 4. Coding Standards
-- **Language:** TypeScript (Strict mode).
-- **Package Manager:** pnpm.
-- **Style:** Functional components (React), Modular services (Node.js).
-- **Comments:** Use JSDoc for all public functions and interfaces.
-- **Error Handling:** Use typed error handling. Avoid `any`.
+4.  **Versioning & Changelog:**
+    *   **Single Source of Truth:** VERSION.md contains the current version number.
+    *   **Increment:** Every build/significant change MUST increment the version number.
+    *   **Changelog:** Update CHANGELOG.md with a detailed list of changes (Added, Changed, Fixed).
+    *   **Commits:** Commit messages must reference the version bump (e.g., chore: release v0.2.3 - update mcpenetes).
 
-## 5. Submodule Management
-- **Updates:** When updating submodules, always run `git submodule update --remote --merge`.
-- **Commits:** Always commit submodule pointer updates in the root repo with a clear message (e.g., `chore: update jules-app submodule`).
-- **Dashboard:** The `/project` page in the UI must reflect the current state of submodules.
+## 2. Project Structure & Architecture
+*   **Hub (packages/core):** Node.js/Fastify backend. The central nervous system.
+*   **Dashboard (packages/ui):** Next.js 14 App Router frontend.
+*   **Submodules (submodules/):** Integrated components (Jules, MetaMCP, MCPenetes, etc.).
+*   **References (eferences/):** Research material and cloned repositories.
 
-## 6. Documentation
-- **Roadmap:** Keep `ROADMAP.md` current. Mark completed features with `[x]`.
-- **Agents:** `AGENTS.md` (if present in subfolders) defines specific agent behaviors.
-- **Universal Instructions:** This file (`docs/LLM_INSTRUCTIONS.md`) is the master reference.
+## 3. Universal Agent Standards
+*   **Format:** All agents defined in gents/ as JSON/YAML.
+*   **Schema:** Follow packages/core/src/types/Agent.ts.
+*   **Capabilities:** Clearly list tools and permissions.
 
-## 7. Operational Protocol
-1.  **Analyze:** Before writing code, read `ROADMAP.md` and `docs/`.
-2.  **Plan:** Break down tasks.
-3.  **Implement:** Write code, ensuring types are correct.
-4.  **Verify:** Run builds (`npm run build` in `packages/ui` or `packages/core`).
-5.  **Document:** Update `CHANGELOG.md` and `ROADMAP.md`.
-6.  **Version:** Bump version in `package.json`.
-7.  **Commit:** `git commit -m "feat/fix: description"`.
-8.  **Push:** `git push`.
+## 4. Model-Specific Instructions
+While this file is the universal standard, specific models should check their respective files for tailored optimizations:
+*   **Claude:** CLAUDE.md (Focus on claude-mem and concise TS).
+*   **Gemini:** GEMINI.md (Leverage large context).
+*   **GPT:** GPT.md (Focus on reasoning).
+*   **Copilot:** copilot-instructions.md (VS Code integration).
 
-## 8. Model-Specific Overrides
-- **Claude:** Focus on concise, idiomatic TypeScript. Use `claude-mem` patterns.
-- **Gemini:** Leverage large context windows for analysis.
-- **Copilot:** Focus on inline code completion and VS Code integration.
+## 5. Submodule Management Strategy
+*   **Updates:** Regularly run git submodule update --remote --merge.
+*   **Commits:** Commit submodule pointer updates to the root repo.
+*   **Dashboard:** Keep docs/SUBMODULE_DASHBOARD.md updated with the latest commit hashes and versions.
+
+## 6. Documentation Standards
+*   **Roadmap:** Keep ROADMAP.md current.
+*   **Changelog:** Keep CHANGELOG.md current.
+*   **Version:** Keep VERSION.md current.
+
+---
+**"Outstanding work. Please continue to proceed as per your recommendation and analysis, ideally using subagents if possible to implement each feature, and commit/push to git in between each major step."**
