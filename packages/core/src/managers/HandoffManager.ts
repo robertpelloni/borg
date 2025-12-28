@@ -1,71 +1,47 @@
-import fs from 'fs';
 import path from 'path';
-import { EventEmitter } from 'events';
+import fs from 'fs';
 import { MemoryManager } from './MemoryManager.js';
 
 export interface Handoff {
     id: string;
-    timestamp: number;
+    timestamp: string;
     description: string;
-    context: any; // Serialized state
+    context: any;
+    status: 'pending' | 'claimed';
 }
 
-/**
- * Manages session handoffs.
- * Saves the current state (memory, active profile, recent tool calls) to a file
- * that can be picked up by another agent or CLI session.
- */
-export class HandoffManager extends EventEmitter {
-    private handoffDir: string;
+export class HandoffManager {
+    private handoffsDir: string;
 
-    constructor(rootDir: string, private memoryManager: MemoryManager) {
-        super();
-        this.handoffDir = path.join(rootDir, 'handoffs');
-        this.ensureDir();
+    constructor(private rootDir: string, private memoryManager: MemoryManager) {
+        this.handoffsDir = path.join(rootDir, 'handoffs');
+        if (!fs.existsSync(this.handoffsDir)) fs.mkdirSync(this.handoffsDir, { recursive: true });
     }
 
-    private ensureDir() {
-        if (!fs.existsSync(this.handoffDir)) {
-            fs.mkdirSync(this.handoffDir, { recursive: true });
-        }
-    }
-
-    /**
-     * Creates a handoff file from the current state.
-     */
-    async createHandoff(description: string, additionalContext: any = {}): Promise<string> {
+    async createHandoff(description: string, context: any): Promise<string> {
         const id = `handoff-${Date.now()}`;
-        const filename = path.join(this.handoffDir, `${id}.json`);
-
-        // Gather state
-        // In a real system, we'd query the AgentManager for active state, etc.
-        const state: Handoff = {
+        const handoff: Handoff = {
             id,
-            timestamp: Date.now(),
+            timestamp: new Date().toISOString(),
             description,
-            context: {
-                memory: "referenced-by-persistence", // Memory is persistent anyway
-                additional: additionalContext
-            }
+            context,
+            status: 'pending'
         };
 
-        fs.writeFileSync(filename, JSON.stringify(state, null, 2));
-        this.emit('handoffCreated', state);
-        console.log(`[HandoffManager] Created handoff: ${id}`);
+        const filepath = path.join(this.handoffsDir, `${id}.json`);
+        fs.writeFileSync(filepath, JSON.stringify(handoff, null, 2));
+
+        // Auto-remember that a handoff was created
+        await this.memoryManager.remember({ content: `Created handoff ${id}: ${description}`, tags: ['handoff'] });
+
         return id;
     }
 
     getHandoffs(): Handoff[] {
-        if (!fs.existsSync(this.handoffDir)) return [];
-        return fs.readdirSync(this.handoffDir)
+        if (!fs.existsSync(this.handoffsDir)) return [];
+        return fs.readdirSync(this.handoffsDir)
             .filter(f => f.endsWith('.json'))
-            .map(f => {
-                try {
-                    return JSON.parse(fs.readFileSync(path.join(this.handoffDir, f), 'utf-8'));
-                } catch {
-                    return null;
-                }
-            })
-            .filter(Boolean) as Handoff[];
+            .map(f => JSON.parse(fs.readFileSync(path.join(this.handoffsDir, f), 'utf-8')))
+            .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     }
 }

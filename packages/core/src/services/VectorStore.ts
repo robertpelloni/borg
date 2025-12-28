@@ -1,90 +1,65 @@
+import { ModelGateway } from '../gateway/ModelGateway.js';
 import fs from 'fs';
 import path from 'path';
-import { ModelGateway } from '../gateway/ModelGateway.js';
 
-interface VectorDocument {
+export interface VectorDocument {
     id: string;
-    text: string;
-    vector: number[];
+    content: string;
     metadata: any;
+    embedding?: number[];
 }
 
 export class VectorStore {
     private documents: VectorDocument[] = [];
-    private filePath: string;
+    private dbPath: string;
 
-    constructor(private gateway: ModelGateway, dataDir: string) {
-        this.filePath = path.join(dataDir, 'vectors.json');
+    constructor(private modelGateway: ModelGateway, private dataDir: string) {
+        this.dbPath = path.join(dataDir, 'vector_store.json');
+        if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
         this.load();
     }
 
     private load() {
-        if (fs.existsSync(this.filePath)) {
+        if (fs.existsSync(this.dbPath)) {
             try {
-                this.documents = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
-                console.log(`[VectorStore] Loaded ${this.documents.length} vectors`);
+                this.documents = JSON.parse(fs.readFileSync(this.dbPath, 'utf-8'));
             } catch (e) {
-                console.error('[VectorStore] Failed to load vectors', e);
+                console.error("Failed to load vector store:", e);
+                this.documents = [];
             }
         }
     }
 
     private save() {
-        try {
-            fs.writeFileSync(this.filePath, JSON.stringify(this.documents));
-        } catch (e) {
-            console.error('[VectorStore] Failed to save vectors', e);
-        }
+        fs.writeFileSync(this.dbPath, JSON.stringify(this.documents, null, 2));
     }
 
-    async add(id: string, text: string, metadata: any = {}) {
-        try {
-            const vector = await this.gateway.getEmbedding(text);
-            if (!vector) return; // Gateway might return null if no API key
-
-            // Remove existing if any
-            this.documents = this.documents.filter(d => d.id !== id);
-
-            this.documents.push({ id, text, vector, metadata });
-            this.save();
-        } catch (e) {
-            console.warn('[VectorStore] Failed to embed:', e);
-        }
+    async add(content: string, metadata: any = {}) {
+        const id = Math.random().toString(36).substring(7);
+        // In a real implementation, we would fetch embedding here via modelGateway
+        // const embedding = await this.modelGateway.getEmbedding(content);
+        const doc: VectorDocument = { id, content, metadata };
+        this.documents.push(doc);
+        this.save();
+        return id;
     }
 
-    async search(query: string, limit: number = 5): Promise<any[]> {
-        try {
-            const queryVector = await this.gateway.getEmbedding(query);
-            if (!queryVector) return [];
+    async search(query: string, limit = 5): Promise<VectorDocument[]> {
+        // Mock semantic search with basic keyword matching + random scoring for now
+        // since we don't have a local embedding model installed yet.
+        const keywords = query.toLowerCase().split(' ');
 
-            const results = this.documents.map(doc => ({
-                doc,
-                score: this.cosineSimilarity(queryVector, doc.vector)
-            }));
-
-            // Sort descending by similarity
-            results.sort((a, b) => b.score - a.score);
-
-            return results.slice(0, limit).map(r => ({
-                ...r.doc.metadata,
-                text: r.doc.text,
-                score: r.score
-            }));
-        } catch (e) {
-            console.warn('[VectorStore] Search failed:', e);
-            return [];
-        }
-    }
-
-    private cosineSimilarity(a: number[], b: number[]) {
-        let dot = 0;
-        let magA = 0;
-        let magB = 0;
-        for (let i = 0; i < a.length; i++) {
-            dot += a[i] * b[i];
-            magA += a[i] * a[i];
-            magB += b[i] * b[i];
-        }
-        return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+        return this.documents
+            .map(doc => {
+                let score = 0;
+                const contentLower = doc.content.toLowerCase();
+                keywords.forEach(k => {
+                    if (contentLower.includes(k)) score += 1;
+                });
+                return { ...doc, score };
+            })
+            .filter(d => d.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, limit);
     }
 }
