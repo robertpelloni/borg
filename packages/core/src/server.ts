@@ -38,6 +38,7 @@ import { registerMcpRoutes } from './routes/mcpRoutes.js';
 import { registerAgentRoutes } from './routes/agentRoutes.js';
 import { registerRegistryRoutes } from './routes/registryRoutes.js';
 import { memoryRoutes } from './routes/memoryRoutes.js';
+import { contextRoutes } from './routes/contextRoutes.js';
 
 export class CoreService {
   public app;
@@ -190,6 +191,11 @@ export class CoreService {
     this.app.register(async (instance) => {
         await memoryRoutes(instance, this.memoryManager);
     }, { prefix: '/api' });
+    
+    // Register context routes
+    this.app.register(async (instance) => {
+        await contextRoutes(instance, { contextManager: this.contextManager });
+    });
 
 
     this.app.post('/api/memory/export', async (request: any, reply) => {

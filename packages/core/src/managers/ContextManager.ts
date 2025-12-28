@@ -2,6 +2,7 @@ import chokidar from 'chokidar';
 import fs from 'fs/promises';
 import path from 'path';
 import { EventEmitter } from 'events';
+import { ContextAnalyzer } from '../utils/ContextAnalyzer.js';
 
 export class ContextManager extends EventEmitter {
   private contextFiles: Map<string, string> = new Map();
@@ -60,5 +61,15 @@ export class ContextManager extends EventEmitter {
 
   getContextFiles() {
     return Array.from(this.contextFiles.entries()).map(([name, content]) => ({ name, content }));
+  }
+
+  getContextStats() {
+      // Create a mock message array from the context files to use the analyzer
+      const messages = this.getContextFiles().map(file => ({
+          role: 'user', // Treat file content as user input for analysis
+          content: `[File: ${file.name}]\n${file.content}`
+      }));
+      
+      return ContextAnalyzer.analyze(messages);
   }
 }
