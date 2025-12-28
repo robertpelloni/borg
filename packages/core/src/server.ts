@@ -28,6 +28,7 @@ import { ProjectManager } from './managers/ProjectManager.js';
 import { AgentMessageBroker } from './managers/AgentMessageBroker.js';
 import { AutonomousAgentManager } from './managers/AutonomousAgentManager.js';
 import { BrowserManager } from './managers/BrowserManager.js';
+import { McpSharkManager } from './managers/McpSharkManager.js';
 import { ContextMiner } from './utils/ContextMiner.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
@@ -66,6 +67,7 @@ export class CoreService {
   public messageBroker: AgentMessageBroker;
   public autonomousAgentManager: AutonomousAgentManager;
   public browserManager: BrowserManager;
+  public mcpSharkManager: McpSharkManager;
   public contextMiner: ContextMiner;
 
   constructor(
@@ -118,6 +120,7 @@ export class CoreService {
         this.secretManager
     );
     this.browserManager = new BrowserManager();
+    this.mcpSharkManager = new McpSharkManager(rootDir);
 
     this.hubServer = new HubServer(
         this.proxyManager,
@@ -481,6 +484,7 @@ export class CoreService {
     await this.commandManager.start();
     await this.proxyManager.start();
     this.schedulerManager.start();
+    await this.mcpSharkManager.start();
     await this.marketplaceManager.refresh();
     // await this.documentManager.start();
 
@@ -795,6 +799,14 @@ export class CoreService {
     
     try {
       await this.app.listen({ port, host: '0.0.0.0' });
+
+      const shutdown = () => {
+          console.log('Shutting down...');
+          this.mcpSharkManager.stop();
+          process.exit(0);
+      };
+      process.on('SIGINT', shutdown);
+      process.on('SIGTERM', shutdown);
       console.log(`Core Service running on port ${port}`);
 
 
@@ -804,3 +816,8 @@ export class CoreService {
     }
   }
 }
+
+
+
+
+

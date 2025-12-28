@@ -19,6 +19,7 @@ export const Sidebar = () => {
     { href: '/context', label: 'Context', icon: FileText },
     { href: '/hooks', label: 'Hooks', icon: Plug },
     { href: '/inspector', label: 'Traffic', icon: Activity },
+    { href: '/shark', label: 'MCP Shark', icon: Activity },
   ];
 
   return (
@@ -55,3 +56,4 @@ export const Sidebar = () => {
     </aside>
   );
 };
+
