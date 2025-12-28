@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 2025-12-28
+
+### Maintenance
+- **Submodules**: Sync and update all submodules to latest versions. Removed broken references (`vibeship-mind`, `agentic-qe`).
+- **Dashboard**: Updated `docs/SUBMODULE_DASHBOARD.md` with accurate commit hashes and versions.
+- **Versioning**: Synchronized all package versions (`core`, `ui`, `cli`) to `0.2.3`.
+
 ## [0.2.2] - 2025-12-27
 
 ### Maintenance
