@@ -1,48 +1,41 @@
 import * as vscode from 'vscode';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-let socket: Socket | undefined;
+let socket: any;
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Super AI Plugin is now active!');
+	console.log('Super AI Plugin is now active!');
 
-    // Connect to Hub
-    connectToHub();
+	let disposable = vscode.commands.registerCommand('super-ai.connect', () => {
+		const config = vscode.workspace.getConfiguration('super-ai');
+        const url = config.get<string>('hubUrl') || 'http://localhost:3000';
 
-    // Register Command
-    let disposable = vscode.commands.registerCommand('super-ai.connect', () => {
-        connectToHub();
-        vscode.window.showInformationMessage('Super AI: Reconnecting to Hub...');
-    });
+        if (socket) {
+            socket.disconnect();
+        }
 
-    context.subscriptions.push(disposable);
-}
+        socket = io(url, {
+            query: { clientType: 'vscode' }
+        });
 
-function connectToHub() {
-    if (socket?.connected) return;
+        socket.on('connect', () => {
+            vscode.window.showInformationMessage(`Connected to Super AI Hub at ${url}`);
+        });
 
-    socket = io('http://localhost:3000', {
-        query: { clientType: 'vscode' },
-        reconnection: true
-    });
+        socket.on('disconnect', () => {
+            vscode.window.showWarningMessage('Disconnected from Super AI Hub');
+        });
 
-    socket.on('connect', () => {
-        console.log('Connected to Super AI Hub');
-        vscode.window.setStatusBarMessage('$(plug) Super AI: Connected', 5000);
-    });
+        socket.on('hook_event', (event: any) => {
+            if (event.type === 'notification') {
+                vscode.window.showInformationMessage(`[Hub] ${event.message}`);
+            }
+        });
+	});
 
-    socket.on('disconnect', () => {
-        console.log('Disconnected from Super AI Hub');
-        vscode.window.setStatusBarMessage('$(error) Super AI: Disconnected', 5000);
-    });
-
-    socket.on('notification', (data: any) => {
-        vscode.window.showInformationMessage(`Super AI: ${data.message}`);
-    });
+	context.subscriptions.push(disposable);
 }
 
 export function deactivate() {
-    if (socket) {
-        socket.disconnect();
-    }
+    if (socket) socket.disconnect();
 }
