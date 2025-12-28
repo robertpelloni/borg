@@ -1,4 +1,4 @@
-import { MemoryProvider, MemoryItem, MemoryResult } from '../../interfaces/MemoryProvider.js';
+import { MemoryProvider, Memory, MemoryResult } from '../../interfaces/MemoryProvider.js';
 
 export class Mem0Provider implements MemoryProvider {
     public id = 'mem0';
@@ -14,23 +14,34 @@ export class Mem0Provider implements MemoryProvider {
         this.userId = userId;
     }
 
-    async connect(): Promise<void> {
+    async init(): Promise<void> {
         // Verify API key or connection
-        if (!this.apiKey) throw new Error("Mem0 API Key missing");
+        if (!this.apiKey) {
+             console.warn("[Mem0] No API Key provided, running in mock mode.");
+        }
     }
 
-    async disconnect(): Promise<void> {
-        // No-op
-    }
+    async store(memory: Memory): Promise<string> {
+        if (!this.apiKey) {
+            console.log(`[Mem0 Mock] Storing memory: ${memory.content.substring(0, 50)}...`);
+            return memory.id;
+        }
 
-    async insert(item: MemoryItem): Promise<string> {
-        // Mock implementation until we install mem0 SDK or use fetch
-        // console.log(`[Mem0] Inserting: ${item.content}`);
+        // Real implementation would use fetch here
         // await fetch('https://api.mem0.ai/v1/memories', ...)
-        return item.id;
+        return memory.id;
+    }
+
+    async retrieve(id: string): Promise<Memory | null> {
+         // Mock implementation
+         return null;
     }
 
     async search(query: string, limit: number = 5): Promise<MemoryResult[]> {
+        if (!this.apiKey) {
+             console.log(`[Mem0 Mock] Searching for: ${query}`);
+             return [];
+        }
         // Mock implementation
         return [];
     }

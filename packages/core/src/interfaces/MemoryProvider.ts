@@ -1,4 +1,4 @@
-export interface MemoryItem {
+export interface Memory {
     id: string;
     content: string;
     tags: string[];
@@ -7,7 +7,7 @@ export interface MemoryItem {
     metadata?: Record<string, any>;
 }
 
-export interface MemoryResult extends MemoryItem {
+export interface MemoryResult extends Memory {
     similarity?: number;
     sourceProvider: string;
 }
@@ -18,14 +18,17 @@ export interface MemoryProvider {
     type: 'vector' | 'graph' | 'key-value' | 'file' | 'external';
     capabilities: ('read' | 'write' | 'search' | 'delete')[];
     
-    connect(): Promise<void>;
-    disconnect(): Promise<void>;
+    init(): Promise<void>;
     
-    insert(item: MemoryItem): Promise<string>;
+    store(memory: Memory): Promise<string>;
+    
+    retrieve(id: string): Promise<Memory | null>;
+    
     search(query: string, limit?: number, embedding?: number[]): Promise<MemoryResult[]>;
+    
     delete(id: string): Promise<void>;
     
     // Optional: For sync/transfer
-    getAll?(): Promise<MemoryItem[]>;
-    import?(items: MemoryItem[]): Promise<void>;
+    getAll?(): Promise<Memory[]>;
+    import?(memories: Memory[]): Promise<void>;
 }

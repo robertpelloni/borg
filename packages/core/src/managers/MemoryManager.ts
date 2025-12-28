@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import OpenAI from 'openai';
 import { SecretManager } from './SecretManager.js';
-import { MemoryProvider, MemoryItem, MemoryResult } from '../interfaces/MemoryProvider.js';
-import { FileMemoryProvider } from './providers/FileMemoryProvider.js';
+import { MemoryProvider, Memory, MemoryResult } from '../interfaces/MemoryProvider.js';
+import { LocalFileProvider } from './providers/LocalFileProvider.js';
 import { Mem0Provider } from './providers/Mem0Provider.js';
 import { PineconeMemoryProvider } from './providers/PineconeMemoryProvider.js';
 import { BrowserStorageProvider } from './providers/BrowserStorageProvider.js';
@@ -39,8 +39,11 @@ export class MemoryManager {
         }
 
         // Initialize Default Provider
-        const fileProvider = new FileMemoryProvider(dataDir);
-        this.registerProvider(fileProvider);
+        const fileProvider = new LocalFileProvider(dataDir);
+        // Synchronously register default provider to ensure immediate availability
+        this.providers.set(fileProvider.id, fileProvider);
+        fileProvider.init().catch(e => console.error(`[Memory] Failed to init default provider:`, e));
+        console.log(`[Memory] Registered provider: ${fileProvider.name}`);
 
         this.initOpenAI();
         this.detectExternalProviders();
@@ -155,7 +158,7 @@ export class MemoryManager {
 
     public async registerProvider(provider: MemoryProvider) {
         try {
-            await provider.connect();
+            await provider.init();
             this.providers.set(provider.id, provider);
             console.log(`[Memory] Registered provider: ${provider.name}`);
         } catch (e) {
@@ -185,11 +188,11 @@ export class MemoryManager {
 
         // Generate embedding if OpenAI is available and provider is local file (which needs help)
         let embedding: number[] | undefined;
-        if (this.openai && provider instanceof FileMemoryProvider) {
+        if (this.openai && provider instanceof LocalFileProvider) {
              embedding = await this.generateEmbedding(args.content);
         }
 
-        const item: MemoryItem = {
+        const item: Memory = {
             id: Math.random().toString(36).substring(7),
             content: args.content,
             tags: args.tags || [],
@@ -197,7 +200,7 @@ export class MemoryManager {
             embedding
         };
 
-        await provider.insert(item);
+        await provider.store(item);
         return `Memory stored in ${provider.name} with ID: ${item.id}`;
     }
 
@@ -243,7 +246,7 @@ export class MemoryManager {
         const providerId = args.providerId || this.defaultProviderId;
         const provider = this.providers.get(providerId);
         
-        if (provider instanceof FileMemoryProvider) {
+        if (provider instanceof LocalFileProvider) {
              // FileProvider specific method, or we add getAll to interface
              const all = await provider.getAll();
              return all.slice(-(args.limit || 10));
@@ -284,7 +287,7 @@ export class MemoryManager {
     async backfillEmbeddings() {
         // Only relevant for FileProvider currently
         const provider = this.providers.get('default-file');
-        if (provider instanceof FileMemoryProvider && this.openai) {
+        if (provider instanceof LocalFileProvider && this.openai) {
              // Logic to iterate and update would go here
              // For now, we'll skip complex backfill logic in this refactor
              return "Backfill not implemented for multi-provider yet";
@@ -356,7 +359,7 @@ export class MemoryManager {
             for (const item of data.items) {
                 // Strip sourceProvider before inserting if needed, or keep it as metadata
                 const { sourceProvider, ...memoryItem } = item;
-                await provider.insert(memoryItem);
+                await provider.store(memoryItem);
                 count++;
             }
             return `Imported ${count} items from ${filePath}`;
