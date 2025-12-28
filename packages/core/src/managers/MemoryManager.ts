@@ -40,6 +40,20 @@ export class MemoryManager {
         return memories.slice(-(args.limit || 10));
     }
 
+    async consolidateLogs(logs: any[]) {
+        // Simple heuristic: concatenate "response" type logs and save as a daily summary.
+        const summary = logs
+            .filter(l => l.type === 'response')
+            .map(l => `Tool: ${l.tool}, Result: ${JSON.stringify(l.result).substring(0, 100)}...`)
+            .join('\n');
+
+        if (summary) {
+            await this.remember({ content: `Daily Log Summary:\n${summary}`, tags: ['summary', 'logs'] });
+            return "Logs consolidated.";
+        }
+        return "No logs to consolidate.";
+    }
+
     getToolDefinitions() {
         return [
             {

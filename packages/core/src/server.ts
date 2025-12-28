@@ -41,6 +41,7 @@ import { AgentExecutor } from './agents/AgentExecutor.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';
 import { VSCodeManager } from './managers/VSCodeManager.js';
+import { LoopManager } from './agents/LoopManager.js';
 import fs from 'fs';
 
 export class CoreService {
@@ -80,6 +81,7 @@ export class CoreService {
   private contextGenerator: ContextGenerator;
   private submoduleManager: SubmoduleManager;
   private vscodeManager: VSCodeManager;
+  private loopManager: LoopManager;
 
   constructor(
     private rootDir: string
@@ -143,6 +145,7 @@ export class CoreService {
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
     this.submoduleManager = new SubmoduleManager();
     this.vscodeManager = new VSCodeManager();
+    this.loopManager = new LoopManager(this.schedulerManager);
 
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
@@ -597,6 +600,14 @@ export class CoreService {
         inputSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] }
     }, async (args: any) => {
         return await this.marketplaceManager.installPackage(args.name);
+    });
+
+    this.loopManager.getToolDefinitions().forEach(tool => {
+        this.proxyManager.registerInternalTool(tool, async (args: any) => {
+             if (tool.name === 'create_loop') return this.loopManager.createLoop(args.name, args.agentName, args.task, args.cron);
+             if (tool.name === 'stop_loop') return this.loopManager.stopLoop(args.loopId);
+             return "Unknown tool";
+        });
     });
     
     try {
