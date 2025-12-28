@@ -162,3 +162,4 @@ For a granular list of every planned feature and submodule integration from the 
 - **v0.0.5:** UI Dashboard & Basic Managers.
 - **v0.0.8:** Advanced Orchestration (Registry, Broker, Delegation).
 - **v0.0.9:** Browser Connectivity & Client Integration.
+- **v0.2.2:** Comprehensive Submodule Update & Dashboard.

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2025-12-27
+
+### Maintenance
+- **Submodules**: Comprehensive update of all submodules and reference repositories to their latest upstream versions.
+- **Dashboard**: Updated `docs/SUBMODULE_DASHBOARD.md` with the latest submodule versions, commit hashes, and project structure explanation.
+- **Documentation**: Updated `ROADMAP.md` and `VERSION.md` to reflect the latest release.
+
 ## [0.2.1] - 2025-12-27
 
 ### Maintenance
