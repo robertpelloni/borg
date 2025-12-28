@@ -1,5 +1,5 @@
 
-export interface ContextBreakdown {
+export interface ContextStats {
     system: number;
     user: number;
     tool_output: number;
@@ -7,7 +7,7 @@ export interface ContextBreakdown {
     code: number;
     total: number;
     segments: {
-        type: 'system' | 'user' | 'tool' | 'memory' | 'code';
+        type: string;
         preview: string;
         length: number;
         percentage: number;
@@ -15,13 +15,25 @@ export interface ContextBreakdown {
 }
 
 export class ContextAnalyzer {
-    static analyze(messages: any[]): ContextBreakdown {
+    static analyze(messages: any[]): ContextStats {
         let system = 0;
         let user = 0;
         let tool_output = 0;
         let memory = 0;
         let code = 0;
-        const segments: ContextBreakdown['segments'] = [];
+        const segments: ContextStats['segments'] = [];
+
+        if (!messages || !Array.isArray(messages)) {
+            return {
+                system: 0,
+                user: 0,
+                tool_output: 0,
+                memory: 0,
+                code: 0,
+                total: 0,
+                segments: []
+            };
+        }
 
         for (const msg of messages) {
             const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content || '');
@@ -50,7 +62,7 @@ export class ContextAnalyzer {
             }
 
             segments.push({
-                type: type as any,
+                type,
                 preview: content.substring(0, 50) + (content.length > 50 ? '...' : ''),
                 length,
                 percentage: 0 // Calculated later

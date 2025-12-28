@@ -7,6 +7,7 @@ import { ContextAnalyzer } from '../utils/ContextAnalyzer.js';
 export class ContextManager extends EventEmitter {
   private contextFiles: Map<string, string> = new Map();
   private watcher: chokidar.FSWatcher | null = null;
+  private activeMessages: any[] = [];
   
   constructor(private contextDir: string, private workspaceDir?: string) {
     super();
@@ -63,7 +64,16 @@ export class ContextManager extends EventEmitter {
     return Array.from(this.contextFiles.entries()).map(([name, content]) => ({ name, content }));
   }
 
+  updateActiveMessages(messages: any[]) {
+      this.activeMessages = messages;
+  }
+
   getContextStats() {
+      // Use active messages if available, otherwise fall back to context files
+      if (this.activeMessages && this.activeMessages.length > 0) {
+          return ContextAnalyzer.analyze(this.activeMessages);
+      }
+
       // Create a mock message array from the context files to use the analyzer
       const messages = this.getContextFiles().map(file => ({
           role: 'user', // Treat file content as user input for analysis

@@ -107,8 +107,14 @@ export class AgentExecutor extends EventEmitter {
 
                 // 2. Analyze Context
                 const contextAnalysis = ContextAnalyzer.analyze(messages);
+                
+                // Update ContextManager with current messages state for UI visibility
+                if (this.contextManager) {
+                    this.contextManager.updateActiveMessages(messages);
+                }
 
                 // 3. Call LLM
+
                 const completion = await this.openai.chat.completions.create({
                     model: agent.model || 'gpt-4-turbo',
                     messages: messages,
