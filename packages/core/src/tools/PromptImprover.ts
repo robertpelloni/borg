@@ -21,12 +21,12 @@ export const createPromptImprover = (gateway: ModelGateway) => {
 
             const userContent = `Original Prompt:\n${prompt}\n\n${goal ? `Goal: ${goal}` : ''}`;
 
-            const response = await gateway.complete({
-                system,
-                messages: [{ role: 'user', content: userContent }]
-            });
+            const response = await gateway.chat([
+                { role: 'system', content: system },
+                { role: 'user', content: userContent }
+            ]);
 
-            return response.content;
+            return response;
         }
     };
 };

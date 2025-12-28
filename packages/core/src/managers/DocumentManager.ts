@@ -66,11 +66,10 @@ export class DocumentManager extends EventEmitter {
             const chunks = this.chunkText(content, 1000); // 1000 char chunks
 
             for (let i = 0; i < chunks.length; i++) {
-                await this.memoryManager.remember(
-                    `document:${path.basename(filepath)}:chunk:${i}`,
-                    chunks[i],
-                    ['document', ext, path.basename(filepath)]
-                );
+                await this.memoryManager.remember({
+                    content: chunks[i],
+                    tags: ['document', ext, path.basename(filepath), `chunk:${i}`]
+                });
             }
 
             console.log(`[DocumentManager] Ingested ${path.basename(filepath)} (${chunks.length} chunks)`);
