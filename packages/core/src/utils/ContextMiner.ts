@@ -67,6 +67,10 @@ export class ContextMiner {
                 `Analyze this transcript:\n\n${transcript}`
             );
 
+            if (!analysisResult) {
+                throw new Error("Agent returned no result");
+            }
+
             // 4. Process the Analysis
             let analysis;
             try {
