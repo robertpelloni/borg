@@ -38,6 +38,7 @@ import { toToon, FormatTranslatorTool } from './utils/toon.js';
 import { ModelGateway } from './gateway/ModelGateway.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';
+import { VSCodeManager } from './managers/VSCodeManager.js';
 import fs from 'fs';
 
 export class CoreService {
@@ -76,6 +77,7 @@ export class CoreService {
   private systemPromptManager: SystemPromptManager;
   private contextGenerator: ContextGenerator;
   private submoduleManager: SubmoduleManager;
+  private vscodeManager: VSCodeManager;
 
   constructor(
     private rootDir: string
@@ -138,6 +140,7 @@ export class CoreService {
     this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager, this.systemPromptManager);
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
     this.submoduleManager = new SubmoduleManager();
+    this.vscodeManager = new VSCodeManager();
 
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
@@ -403,6 +406,8 @@ export class CoreService {
 
       if (clientType === 'browser') {
           this.browserManager.registerClient(socket);
+      } else if (clientType === 'vscode') {
+          this.vscodeManager.registerClient(socket);
       }
 
       socket.emit('state', {
@@ -500,6 +505,15 @@ export class CoreService {
              if (tool.name === 'read_active_tab') return this.browserManager.readActiveTab();
              if (tool.name === 'browser_navigate') return this.browserManager.navigate(args.url);
              if (tool.name === 'inject_context') return this.browserManager.injectContext(args.text);
+             return "Unknown tool";
+        });
+    });
+
+    this.vscodeManager.getToolDefinitions().forEach(tool => {
+        this.proxyManager.registerInternalTool(tool, async (args: any) => {
+             if (tool.name === 'vscode_open_file') return this.vscodeManager.openFile(args.path);
+             if (tool.name === 'vscode_get_active_file') return this.vscodeManager.getActiveFile();
+             if (tool.name === 'vscode_insert_text') return this.vscodeManager.insertText(args.text);
              return "Unknown tool";
         });
     });
