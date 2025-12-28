@@ -38,7 +38,7 @@ export class McpSharkManager {
         });
 
         this.process.on('exit', (code) => {
-            console.log([McpShark] Exited with code );
+            console.log(`[McpShark] Exited with code ${code}`);
             this.process = null;
         });
     }
@@ -50,3 +50,5 @@ export class McpSharkManager {
         }
     }
 }
+
+
