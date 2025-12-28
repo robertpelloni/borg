@@ -22,12 +22,32 @@ The central nervous system of the Super AI Plugin.
 -   **Framework:** Fastify
 -   **Communication:** Socket.io
 -   **Role:** Manages state, handles MCP connections, executes hooks, and serves the API.
+-   **Key Components:**
+    -   `managers/`: Watchers for files (`AgentManager`, `DocumentManager`) and clients (`BrowserManager`, `VSCodeManager`, `SchedulerManager`, `MemoryManager`, `HandoffManager`).
+    -   `services/`: `VectorStore`, `TrafficObserver`, `HealthService`, `SystemDoctor`.
+    -   `gateway/`: `ModelGateway` (LLM abstraction).
+    -   `agents/`: `AgentExecutor` (ReAct loop).
+    -   `tools/`: `PipelineTool`, `PromptImprover`.
 
 ### `packages/ui`
 The dashboard interface.
 -   **Runtime:** Browser
 -   **Framework:** React + Vite
 -   **Role:** Visualizes state, allows control of MCP servers, displays logs.
+
+### `packages/cli`
+The `super-ai` command-line interface. Wraps `start`, `status`, and `run` commands.
+
+### `packages/adapters`
+Contains CLI wrappers for external tools:
+-   `@super-ai/claude-adapter`: Wraps `claude` binary.
+-   `@super-ai/gemini-adapter`: Wraps `gemini` binary.
+
+### `packages/vscode`
+The VSCode Extension source.
+
+### `packages/browser`
+The Chrome Extension source (Manifest V3).
 
 ### `packages/types`
 Shared TypeScript type definitions used across packages to ensure type safety.
