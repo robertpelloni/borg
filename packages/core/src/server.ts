@@ -35,6 +35,7 @@ import { SystemPromptManager } from './managers/SystemPromptManager.js';
 import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { createPromptImprover } from './tools/PromptImprover.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
+import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { ModelGateway } from './gateway/ModelGateway.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';

@@ -1,8 +1,14 @@
 import { McpProxyManager } from '../managers/McpProxyManager.js';
 
+interface PipelineStep {
+    tool: string;
+    args: any;
+    outputKey?: string; // Key to store output in context
+}
+
 export const PipelineTool = {
     name: "run_pipeline",
-    description: "Execute a sequence of tools/commands, passing output from one to the next.",
+    description: "Execute a sequence of tool calls, passing context between them.",
     inputSchema: {
         type: "object",
         properties: {
@@ -12,54 +18,54 @@ export const PipelineTool = {
                     type: "object",
                     properties: {
                         tool: { type: "string" },
-                        args: { type: "object" }
+                        args: { type: "object" },
+                        outputKey: { type: "string" }
                     },
-                    required: ["tool"]
+                    required: ["tool", "args"]
                 }
             },
-            initialContext: { type: "string" }
+            initialContext: { type: "object" }
         },
         required: ["steps"]
     }
 };
 
-export async function executePipeline(proxy: McpProxyManager, steps: any[], initialContext: string = '') {
-    let currentContext = initialContext;
+export async function executePipeline(proxy: McpProxyManager, steps: PipelineStep[], initialContext: any = {}) {
+    let context = { ...initialContext };
     const results = [];
 
     for (const step of steps) {
-        // Inject context into args if a special placeholder exists, or append to a specific arg?
-        // Simple convention: if args has 'input' or 'query', prepend context.
-        // Or better: Assume the tool takes context if we don't handle it?
-        // Let's just pass it as a special 'pipeline_context' arg that tools might ignore,
-        // OR rely on the agent to construct args correctly.
-        // BUT the agent doesn't know the output yet.
-        // So we need variable substitution. "${PREV_OUTPUT}"
+        console.log(`[Pipeline] Executing ${step.tool}...`);
 
-        const args = { ...step.args };
-        for (const key in args) {
-            if (typeof args[key] === 'string' && args[key].includes('${PREV_OUTPUT}')) {
-                args[key] = args[key].replace('${PREV_OUTPUT}', currentContext);
-            }
-        }
+        // Context Substitution in Args
+        // Simple {{key}} replacement
+        const argsString = JSON.stringify(step.args);
+        const resolvedArgsString = argsString.replace(/\{\{([^}]+)\}\}/g, (_, key) => {
+            return context[key] !== undefined ? context[key] : `{{${key}}}`;
+        });
+        const resolvedArgs = JSON.parse(resolvedArgsString);
 
-        console.log(`[Pipeline] Running ${step.tool}...`);
         try {
-            const result = await proxy.callTool(step.tool, args);
-            // Extract text content
-            let output = '';
-            if (result.content && Array.isArray(result.content)) {
-                output = result.content.map((c: any) => c.text).join('\n');
-            } else {
-                output = JSON.stringify(result);
+            const result = await proxy.callTool(step.tool, resolvedArgs);
+
+            // Store result
+            if (step.outputKey) {
+                // If result is object with 'content' array (MCP standard), try to extract text
+                let value = result;
+                if (result?.content && Array.isArray(result.content)) {
+                    value = result.content.map((c: any) => c.text).join('\n');
+                }
+                context[step.outputKey] = value;
             }
 
-            currentContext = output;
-            results.push({ tool: step.tool, output });
-        } catch (e: any) {
-            throw new Error(`Pipeline failed at step ${step.tool}: ${e.message}`);
+            results.push({ step: step.tool, status: 'success', result });
+        } catch (error: any) {
+            console.error(`[Pipeline] Step ${step.tool} failed:`, error);
+            results.push({ step: step.tool, status: 'error', error: error.message });
+            // Stop on error? For now, yes.
+            throw new Error(`Pipeline failed at step ${step.tool}: ${error.message}`);
         }
     }
 
-    return results;
+    return { results, finalContext: context };
 }

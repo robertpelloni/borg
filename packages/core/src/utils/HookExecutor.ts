@@ -1,6 +1,9 @@
 import { exec } from 'child_process';
+import { AgentExecutor } from '../agents/AgentExecutor.js';
 
 export class HookExecutor {
+    constructor(private agentExecutor?: AgentExecutor) {}
+
     static async executeCommand(command: string): Promise<string> {
         return new Promise((resolve, reject) => {
             console.log(`Executing hook command: ${command}`);
@@ -16,5 +19,14 @@ export class HookExecutor {
                 resolve(stdout);
             });
         });
+    }
+
+    async executeAgent(agentName: string, task: string) {
+        if (!this.agentExecutor) {
+            console.warn("[HookExecutor] AgentExecutor not available.");
+            return;
+        }
+        // Logic to run agent would go here
+        console.log(`[HookExecutor] Request to run agent ${agentName}: ${task}`);
     }
 }
