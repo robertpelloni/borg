@@ -20,20 +20,32 @@ export default function MemoryIngestPage() {
     setStatus('processing');
     setSummary('');
 
-    // Simulate RAG processing / summarization
-    // In a real implementation, this would call an API route to:
-    // 1. Chunk the text
-    // 2. Generate embeddings
-    // 3. Store in vector DB (Chroma/pgvector)
-    // 4. Generate a summary using an LLM
-    
-    setTimeout(() => {
-      // Mock result
-      const mockSummary = `Successfully processed ${inputText.length} characters.\n\nKey Concepts Extracted:\n- User input analysis\n- Context integration\n- Memory consolidation\n\nThis content has been indexed and is now available for retrieval by agents.`;
-      setSummary(mockSummary);
-      setIsProcessing(false);
-      setStatus('success');
-    }, 2000);
+    try {
+      const response = await fetch('http://localhost:3002/api/memory/ingest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'Web UI Ingestion',
+          content: inputText,
+          tags: ['manual-entry', 'ui']
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSummary(data.summary || "Content processed successfully, but no summary was returned.");
+        setStatus('success');
+      } else {
+        setSummary(`Error: ${data.error || 'Unknown error occurred'}`);
+        setStatus('idle'); // Or error state if we had one
+      }
+    } catch (e: any) {
+        setSummary(`Network Error: ${e.message}`);
+        setStatus('idle');
+    } finally {
+        setIsProcessing(false);
+    }
   };
 
   return (

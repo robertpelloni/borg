@@ -20,6 +20,7 @@ import { HubServer } from './hub/HubServer.js';
 import { HookEvent } from './types.js';
 import { AgentExecutor } from './agents/AgentExecutor.js';
 import { MemoryManager } from './managers/MemoryManager.js';
+import { IngestionManager } from './managers/IngestionManager.js';
 import { SchedulerManager } from './managers/SchedulerManager.js';
 import { MarketplaceManager } from './managers/MarketplaceManager.js';
 import { DocumentManager } from './managers/DocumentManager.js';
@@ -39,6 +40,7 @@ import { registerAgentRoutes } from './routes/agentRoutes.js';
 import { registerRegistryRoutes } from './routes/registryRoutes.js';
 import { memoryRoutes } from './routes/memoryRoutes.js';
 import { contextRoutes } from './routes/contextRoutes.js';
+import { ingestionRoutes } from './routes/ingestionRoutes.js';
 
 export class CoreService {
   public app;
@@ -61,6 +63,7 @@ export class CoreService {
   public hubServer: HubServer;
   public agentExecutor: AgentExecutor;
   public memoryManager: MemoryManager;
+  public ingestionManager: IngestionManager;
   public schedulerManager: SchedulerManager;
   public marketplaceManager: MarketplaceManager;
   public documentManager: DocumentManager;
@@ -145,6 +148,8 @@ export class CoreService {
     
     // Re-initialize MemoryManager with AgentExecutor for Context Compaction
     this.memoryManager = new MemoryManager(path.join(rootDir, 'data'), this.secretManager, this.agentExecutor);
+    this.ingestionManager = new IngestionManager(this.memoryManager, this.agentExecutor);
+
     this.memoryManager.setBrowserManager(this.browserManager);
     this.proxyManager.setMemoryManager(this.memoryManager);
     this.messageBroker.setMemoryManager(this.memoryManager);
@@ -196,6 +201,11 @@ export class CoreService {
     this.app.register(async (instance) => {
         await contextRoutes(instance, { contextManager: this.contextManager });
     });
+
+    // Register ingestion routes
+    this.app.register(async (instance) => {
+        await ingestionRoutes(instance, this.ingestionManager);
+    }, { prefix: '/api/memory' }); // Mount under /api/memory/ingest
 
 
     this.app.post('/api/memory/export', async (request: any, reply) => {
