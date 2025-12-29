@@ -110,6 +110,16 @@ export class McpProxyManager {
 
             const stepResult = await this.callTool(toolName, parsedArgs);
             
+            // Check for error in step result
+            if (stepResult.isError) {
+                trace.push({ step: i, tool: toolName, error: stepResult.content });
+                return {
+                    isError: true,
+                    content: [{ type: "text", text: `Chain failed at step ${i+1} (${toolName}): ${JSON.stringify(stepResult.content)}` }],
+                    _trace: trace
+                };
+            }
+
             // 4. Process Output
             if (stepResult.content && stepResult.content[0] && stepResult.content[0].text) {
                 result = stepResult.content[0].text;

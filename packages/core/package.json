@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "tsx test/chaining.test.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
