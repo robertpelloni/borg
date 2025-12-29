@@ -25,18 +25,20 @@ interface SessionKeeperState {
   logs: Log[];
   statusSummary: StatusSummary;
   stats: SessionKeeperStats;
+  lastNudgeBySession: Record<string, number>;
   setConfig: (config: SessionKeeperConfig) => void;
   addLog: (message: string, type: Log['type']) => void;
   clearLogs: () => void;
   setStatusSummary: (summary: Partial<StatusSummary>) => void;
   incrementStat: (stat: keyof SessionKeeperStats) => void;
+  recordNudge: (sessionId: string) => void;
 }
 
 const DEFAULT_CONFIG: SessionKeeperConfig = {
   isEnabled: false,
   autoSwitch: true,
-  checkIntervalSeconds: 30,
-  inactivityThresholdMinutes: 1,
+  checkIntervalSeconds: 60,
+  inactivityThresholdMinutes: 5,
   activeWorkThresholdMinutes: 30,
   messages: [
     "Great! Please keep going as you advise!",
@@ -62,6 +64,7 @@ export const useSessionKeeperStore = create<SessionKeeperState>()(
       logs: [],
       statusSummary: { monitoringCount: 0, lastAction: 'None', nextCheckIn: 0 },
       stats: { totalNudges: 0, totalApprovals: 0, totalDebates: 0 },
+      lastNudgeBySession: {},
 
       setConfig: (config) => set({ config }),
 
@@ -81,6 +84,10 @@ export const useSessionKeeperStore = create<SessionKeeperState>()(
 
       incrementStat: (stat) => set((state) => ({
         stats: { ...state.stats, [stat]: state.stats[stat] + 1 }
+      })),
+
+      recordNudge: (sessionId) => set((state) => ({
+        lastNudgeBySession: { ...state.lastNudgeBySession, [sessionId]: Date.now() }
       })),
     }),
     {

@@ -1,3 +1,4 @@
+
 import Fastify from 'fastify';
 import { Socket, Server as SocketIOServer } from 'socket.io';
 import path from 'path';
@@ -165,6 +166,12 @@ export class CoreService {
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
     });
+    
+    // --- Skill Registration ---
+    this.skillManager.on('updated', (skills) => {
+        this.registerSkillsAsTools(skills);
+    });
+    // --------------------------
 
     this.setupRoutes();
     this.setupSocket();
@@ -185,6 +192,31 @@ export class CoreService {
           });
       });
   }
+
+  // --- Register Skills as Tools ---
+  private registerSkillsAsTools(skills: any[]) {
+      skills.forEach(skill => {
+          this.proxyManager.registerInternalTool({
+              name: `skill_${skill.name}`,
+              description: skill.description || `Execute skill: ${skill.name}`,
+              inputSchema: skill.inputSchema || {
+                  type: "object",
+                  properties: {
+                      query: { type: "string", description: "Context for the skill." }
+                  }
+              }
+          }, async (args: any) => {
+              console.log(`Executing skill: ${skill.name}`);
+              // In the future, this handler would interpret the skill's instructions.
+              // For Markdown skills, we currently just return the instruction content.
+              // A more advanced implementation would pass this instruction to an LLM.
+              return { 
+                  content: [{ type: "text", text: `Skill Instruction:\n${skill.instruction || skill.content}` }]
+              };
+          });
+      });
+  }
+  // --------------------------------
 
   private setupRoutes() {
     this.app.get('/health', async () => ({ status: 'ok' }));

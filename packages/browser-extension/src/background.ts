@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 console.log("AIOS Browser Extension Background Service Worker Starting...");
 
-const socket = io("http://localhost:3000", {
+const socket = io("http://localhost:3002", {
   transports: ["websocket"],
   autoConnect: true,
   reconnection: true,

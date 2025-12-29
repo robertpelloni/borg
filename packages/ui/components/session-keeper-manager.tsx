@@ -9,8 +9,15 @@ import { Activity } from '@/types/jules';
 export function SessionKeeperManager() {
   const { client } = useJules();
   const router = useRouter();
-  const { config, addLog, setStatusSummary, incrementStat } = useSessionKeeperStore();
+  const { config, addLog, setStatusSummary, incrementStat, lastNudgeBySession, recordNudge } = useSessionKeeperStore();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Use refs to access latest state in the interval callback without resetting the interval
+  const latestStateRef = useRef({ lastNudgeBySession, config });
+
+  useEffect(() => {
+    latestStateRef.current = { lastNudgeBySession, config };
+  }, [lastNudgeBySession, config]);
 
   useEffect(() => {
     if (!config.isEnabled || !client) {
@@ -22,13 +29,16 @@ export function SessionKeeperManager() {
     }
 
     const checkSessions = async () => {
+      // Access latest config from ref
+      const currentConfig = latestStateRef.current.config;
+      
       try {
         const sessions = await client.listSessions();
 
         setStatusSummary({
           monitoringCount: sessions.length,
           lastAction: 'Checked ' + new Date().toLocaleTimeString(),
-          nextCheckIn: config.checkIntervalSeconds
+          nextCheckIn: currentConfig.checkIntervalSeconds
         });
 
         for (const session of sessions) {
@@ -53,14 +63,14 @@ export function SessionKeeperManager() {
           const inactiveMinutes = (now - lastActivityTime) / (1000 * 60);
 
           // Determine threshold
-          let threshold = config.inactivityThresholdMinutes;
+          let threshold = currentConfig.inactivityThresholdMinutes;
           const isAgentWorking = ['IN_PROGRESS', 'PLANNING'].includes(session.rawState || '');
           if (isAgentWorking) {
-             threshold = config.activeWorkThresholdMinutes;
+             threshold = currentConfig.activeWorkThresholdMinutes;
           }
 
           const switchToSession = () => {
-             if (config.autoSwitch) {
+             if (currentConfig.autoSwitch) {
                  const currentParams = new URLSearchParams(window.location.search);
                  if (currentParams.get('sessionId') !== session.id) {
                      router.push(`/?sessionId=${session.id}`);
@@ -76,9 +86,18 @@ export function SessionKeeperManager() {
              incrementStat('totalApprovals');
              continue;
           }
-
-          // 2. Check for Inactivity
+          
+          // Use latestNudgeBySession from ref
+          const currentLastNudgeBySession = latestStateRef.current.lastNudgeBySession;
+          
           if (inactiveMinutes > threshold) {
+             // Check if we nudged recently
+             const lastNudge = currentLastNudgeBySession[session.id] || 0;
+             const timeSinceNudge = (now - lastNudge) / (1000 * 60);
+             if (timeSinceNudge < (threshold / 2)) {
+                 continue; // Don't spam nudges
+             }
+             
              let message = '';
 
              // Now we need context. FETCH FULL HISTORY (or enough context).
@@ -98,10 +117,10 @@ export function SessionKeeperManager() {
              switchToSession();
 
              // 1. DEBATE MODE
-             if (config.debateEnabled && config.debateParticipants && config.debateParticipants.length > 0) {
+             if (currentConfig.debateEnabled && currentConfig.debateParticipants && currentConfig.debateParticipants.length > 0) {
                 addLog(`Convening Council for ${session.id}...`, 'info');
                 try {
-                    const contextActivities = [...fullActivities].reverse().slice(-config.contextMessageCount);
+                    const contextActivities = [...fullActivities].reverse().slice(-currentConfig.contextMessageCount);
                     const history = contextActivities.map(a => ({
                         role: a.role === 'agent' ? 'assistant' : 'user',
                         content: a.content
@@ -113,7 +132,7 @@ export function SessionKeeperManager() {
                         body: JSON.stringify({
                             action: 'debate',
                             messages: history,
-                            participants: config.debateParticipants
+                            participants: currentConfig.debateParticipants
                         })
                     });
 
@@ -143,10 +162,10 @@ export function SessionKeeperManager() {
              }
 
              // 2. SMART PILOT (Single Supervisor)
-             if (!message && config.smartPilotEnabled && config.supervisorApiKey) {
+             if (!message && currentConfig.smartPilotEnabled && currentConfig.supervisorApiKey) {
                 addLog(`Consulting Supervisor for ${session.id}...`, 'info');
                 try {
-                  const contextActivities = [...fullActivities].reverse().slice(-config.contextMessageCount);
+                  const contextActivities = [...fullActivities].reverse().slice(-currentConfig.contextMessageCount);
                   const messages = contextActivities.map(a => ({
                       role: a.role === 'agent' ? 'assistant' : 'user',
                       content: a.content
@@ -157,9 +176,9 @@ export function SessionKeeperManager() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         messages,
-                        provider: config.supervisorProvider,
-                        apiKey: config.supervisorApiKey,
-                        model: config.supervisorModel
+                        provider: currentConfig.supervisorProvider,
+                        apiKey: currentConfig.supervisorApiKey,
+                        model: currentConfig.supervisorModel
                     })
                   });
 
@@ -178,11 +197,11 @@ export function SessionKeeperManager() {
 
              // 3. FALLBACK MESSAGES
              if (!message) {
-                 if (config.customMessages[session.id] && config.customMessages[session.id].length > 0) {
-                    const customList = config.customMessages[session.id];
+                 if (currentConfig.customMessages[session.id] && currentConfig.customMessages[session.id].length > 0) {
+                    const customList = currentConfig.customMessages[session.id];
                     message = customList[Math.floor(Math.random() * customList.length)];
                  } else {
-                    message = config.messages[Math.floor(Math.random() * config.messages.length)];
+                    message = currentConfig.messages[Math.floor(Math.random() * currentConfig.messages.length)];
                  }
 
                  if (session.status === 'completed' || session.status === 'failed') {
@@ -191,6 +210,9 @@ export function SessionKeeperManager() {
              }
 
              addLog(`Sending nudge to ${session.id} (${inactiveMinutes.toFixed(1)}m > ${threshold}m): "${message.substring(0, 50)}..."`, 'action');
+             
+             recordNudge(session.id);
+             
              await client.createActivity({
                sessionId: session.id,
                content: message,
@@ -199,19 +221,24 @@ export function SessionKeeperManager() {
              incrementStat('totalNudges');
           }
         }
-
       } catch (error) {
-        addLog(`Error checking sessions: ${error}`, 'error');
+         addLog(`Error checking sessions: ${error}`, 'error');
       }
     };
 
-    checkSessions();
+    // Initial check
+    const timeoutId = setTimeout(checkSessions, 1000);
     intervalRef.current = setInterval(checkSessions, config.checkIntervalSeconds * 1000);
 
     return () => {
+      clearTimeout(timeoutId);
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [config, client, addLog, setStatusSummary, router, incrementStat]);
+    // Removed lastNudgeBySession and config from dependencies to prevent reset loops. 
+    // Only re-run if client or critical dependencies change.
+    // We strictly depend on `config.isEnabled` and `config.checkIntervalSeconds` triggering a reset, 
+    // but deeper config changes are handled via ref.
+  }, [config.isEnabled, config.checkIntervalSeconds, client, addLog, setStatusSummary, router, incrementStat, recordNudge]);
 
   return null;
 }
