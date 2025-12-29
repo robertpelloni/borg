@@ -42,6 +42,7 @@ import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';
 import { VSCodeManager } from './managers/VSCodeManager.js';
 import { LoopManager } from './agents/LoopManager.js';
+import { WebSearchTool } from './tools/WebSearchTool.js';
 import fs from 'fs';
 
 export class CoreService {
@@ -547,6 +548,9 @@ export class CoreService {
 
     const promptImprover = createPromptImprover(this.modelGateway);
     this.proxyManager.registerInternalTool(promptImprover, promptImprover.handler);
+
+    // Register Web Search Tool
+    this.proxyManager.registerInternalTool(WebSearchTool, WebSearchTool.handler);
 
     // Register Recursive Agent Tool
     this.proxyManager.registerInternalTool({
