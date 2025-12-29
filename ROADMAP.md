@@ -40,5 +40,7 @@
 ## Phase 6: Economy & Autonomy (In Progress)
 - [x] **Bobcoin Integration:** Submodule added and Economy Manager implemented (Mock).
 - [x] **Universal Instructions:** Centralized agent instructions and development protocol.
-- [ ] **Physical Mining:** Integrate real hardware signals for "Proof of Dance".
+- [x] **Infrastructure Simulation:** Node Manager (Tor, Torrent, Storage) implemented.
+- [x] **Miner CLI:** `super-ai mine` command for simulating physical activity.
+- [ ] **Physical Mining:** Integrate real hardware signals (Serial/GPIO) for "Proof of Dance".
 - [ ] **Wallet Connect:** Real wallet integration.
