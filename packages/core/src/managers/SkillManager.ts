@@ -3,10 +3,12 @@ import fs from 'fs/promises';
 import path from 'path';
 import { EventEmitter } from 'events';
 import { SkillDefinition } from '../types.js';
+import { MarkdownSkillAdapter } from '../skills/adapters/MarkdownAdapter.js';
 
 export class SkillManager extends EventEmitter {
   private skills: Map<string, SkillDefinition> = new Map();
   private watcher: chokidar.FSWatcher | null = null;
+  private adapters = [new MarkdownSkillAdapter()];
   
   constructor(private skillsDir: string) {
     super();
@@ -31,25 +33,33 @@ export class SkillManager extends EventEmitter {
 
   private async loadSkill(filepath: string) {
     try {
-      // Check if it's a directory (for imported skills structure)
-      // Since chokidar emits 'add' for files, we check if the file is SKILL.md
       const filename = path.basename(filepath);
       
       if (filename === 'SKILL.md' || filename.endsWith('.skill.md')) {
          const content = await fs.readFile(filepath, 'utf-8');
          let skillName = filename.replace('.skill.md', '').replace('.md', '');
          
-         // If it's SKILL.md, use the parent directory name as the skill name
          if (filename === 'SKILL.md') {
              skillName = path.basename(path.dirname(filepath));
          }
 
-         const skill: SkillDefinition = {
-             name: skillName,
-             content: content
-         };
-         this.skills.set(skillName, skill); // Use Name as key, not filename
-         console.log(`[SkillManager] Loaded skill: ${skill.name}`);
+         let processedSkill: SkillDefinition = { name: skillName, content };
+
+         // Try to adapt the skill content
+         for (const adapter of this.adapters) {
+             if (adapter.isCompatible(content)) {
+                 try {
+                     const converted = await adapter.convert(content);
+                     processedSkill = { ...processedSkill, ...converted };
+                 } catch (e) {
+                     console.warn(`[SkillManager] Adapter ${adapter.name} failed for ${skillName}:`, e);
+                 }
+                 break;
+             }
+         }
+
+         this.skills.set(skillName, processedSkill); 
+         console.log(`[SkillManager] Loaded skill: ${skillName}`);
          this.emit('updated', this.getSkills());
       }
     } catch (err) {
