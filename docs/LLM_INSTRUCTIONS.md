@@ -1,62 +1,44 @@
-# Universal LLM Instructions & Project Charter
+# Universal LLM Instructions
 
-This document serves as the **Single Source of Truth** and **Universal Charter** for all AI agents (Claude, Gemini, GPT, Copilot, etc.) working on the **AIOS** project.
+**Version:** See [VERSION.md](../VERSION.md)
+**Note:** Always check `VERSION.md` and update `CHANGELOG.md` when making notable changes.
 
-## 1. The Charter: Core Protocol & Mission
-**Mission:** To create a universal, platform-agnostic "Hub" that connects any LLM to any tool with persistent memory, autonomous agents, and a unified dashboard.
+## 1. Core Mandates
 
-### 🚀 Operational Protocol (The "Golden Rules")
-All agents must adhere to this strict protocol for every session:
+### Style & Conventions
+*   **Adhere to Existing Styles:** Mimic the project's formatting, naming conventions, and architectural patterns.
+*   **Comments:** Use sparingly. Explain *why*, not *what*. Do not talk to the user in comments.
+*   **Libraries:** Never assume a library exists. Verify `package.json` or similar before using.
+*   **Idiomatic Code:** Understand local context (imports, class structures) before editing.
 
-1.  **Sync & Hygiene:**
-    *   Always sync the local repo with the server (git fetch, git pull).
-    *   **Submodules:** Update all submodules and merge upstream changes (including forks) using git submodule update --remote --merge.
-    *   **Branches:** Merge all feature branches into main. Resolve conflicts immediately.
-    *   **Handoff:** Document session history, findings, and changes in a handoff file if switching contexts.
+### Safety & Security
+*   **Explain Destructive Actions:** Before using `bash` to modify files/system, briefly explain the impact.
+*   **No Secrets:** Never commit API keys, passwords, or .env files.
+*   **No Reverts:** Do not revert changes unless explicitly asked or to fix an error you caused.
 
-2.  **Analysis & Planning:**
-    *   Reanalyze the project state and history to identify missing features.
-    *   Update ROADMAP.md to reflect progress (distinguish clearly between accomplished and remaining tasks).
-    *   Maintain a dashboard (docs/SUBMODULE_DASHBOARD.md) listing all submodules with versions, dates, and locations.
+### Tools & Output
+*   **Absolute Paths:** Always use absolute paths for file tools (Resolve relative paths against root).
+*   **Concise Output:** Aim for <3 lines of text response (excluding tool use).
+*   **Parallel Execution:** Run independent tools (e.g., searches) in parallel.
 
-3.  **Execution & Autonomy:**
-    *   **Be Autonomous:** Complete features, commit, push, and continue without stopping if possible.
-    *   **Test:** Run tests and correct errors found along the way.
-    *   **Redeploy:** After significant changes, ensure the application is buildable and deployable.
+## 2. Workflow (Plan -> Act -> Verify)
 
-4.  **Versioning & Changelog:**
-    *   **Single Source of Truth:** VERSION.md contains the current version number.
-    *   **Increment:** Every build/significant change MUST increment the version number.
-    *   **Changelog:** Update CHANGELOG.md with a detailed list of changes (Added, Changed, Fixed).
-    *   **Commits:** Commit messages must reference the version bump (e.g., chore: release v0.2.3 - update mcpenetes).
+1.  **Understand:** Search (`grep`, `glob`) and Read (`read`) to understand context.
+2.  **Plan:** Formulate a plan. Verify assumptions (e.g., check for tests).
+3.  **Implement:** specific changes using `edit` or `write`.
+4.  **Verify (Tests):** Run relevant tests if available (check `package.json` scripts).
+5.  **Verify (Standards):** Run linters/type-checkers (e.g., `tsc`, `npm run lint`).
 
-## 2. Project Structure & Architecture
-*   **Hub (packages/core):** Node.js/Fastify backend. The central nervous system.
-*   **Dashboard (packages/ui):** Next.js 14 App Router frontend.
-*   **Submodules (submodules/):** Integrated components (Jules, MetaMCP, MCPenetes, etc.).
-*   **References (eferences/):** Research material and cloned repositories.
+## 3. Project Structure
 
-## 3. Universal Agent Standards
-*   **Format:** All agents defined in gents/ as JSON/YAML.
-*   **Schema:** Follow packages/core/src/types/Agent.ts.
-*   **Capabilities:** Clearly list tools and permissions.
+*   `packages/core`: Backend logic, MCP server, Agents.
+*   `packages/ui`: Frontend (Next.js), React components.
+*   `packages/cli`: Command line interface tools.
+*   `submodules/`: External dependencies and reference implementations.
+*   `docs/`: Documentation and guides.
 
-## 4. Model-Specific Instructions
-While this file is the universal standard, specific models should check their respective files for tailored optimizations:
-*   **Claude:** CLAUDE.md (Focus on claude-mem and concise TS).
-*   **Gemini:** GEMINI.md (Leverage large context).
-*   **GPT:** GPT.md (Focus on reasoning).
-*   **Copilot:** copilot-instructions.md (VS Code integration).
+## 4. Documentation Maintenance
 
-## 5. Submodule Management Strategy
-*   **Updates:** Regularly run git submodule update --remote --merge.
-*   **Commits:** Commit submodule pointer updates to the root repo.
-*   **Dashboard:** Keep docs/SUBMODULE_DASHBOARD.md updated with the latest commit hashes and versions.
-
-## 6. Documentation Standards
-*   **Roadmap:** Keep ROADMAP.md current.
-*   **Changelog:** Keep CHANGELOG.md current.
-*   **Version:** Keep VERSION.md current.
-
----
-**"Outstanding work. Please continue to proceed as per your recommendation and analysis, ideally using subagents if possible to implement each feature, and commit/push to git in between each major step."**
+*   **Single Source of Truth:** `VERSION.md` is the master version number.
+*   **Changelog:** Update `CHANGELOG.md` when adding features or fixing bugs.
+*   **LLM Instructions:** This file (`docs/LLM_INSTRUCTIONS.md`) is the master instruction set for all AI agents.

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.5] - 2025-12-29
+
+### Added
+- **Features**: Ecosystem Dashboard, Ingestion Manager, Session Handoff.
+
+### Changed
+- **Documentation**: Standardized LLM instructions and established single source of truth for project version.
+
 ## [0.2.4] - 2025-12-28
 
 ### Added

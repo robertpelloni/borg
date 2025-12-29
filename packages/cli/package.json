@@ -1,6 +1,6 @@
 {
   "name": "@super-ai/cli",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "bin": {
     "super-ai": "./dist/index.js"
   },

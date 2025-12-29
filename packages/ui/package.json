@@ -1,6 +1,6 @@
 {
   "name": "@super-ai/ui",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
