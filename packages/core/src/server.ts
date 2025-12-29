@@ -35,9 +35,7 @@ import { SystemPromptManager } from './managers/SystemPromptManager.js';
 import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { createPromptImprover } from './tools/PromptImprover.js';
 import { toToon, FormatTranslatorTool } from './utils/toon.js';
-import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { ModelGateway } from './gateway/ModelGateway.js';
-import { AgentExecutor } from './agents/AgentExecutor.js';
 import { ContextGenerator } from './utils/ContextGenerator.js';
 import { SubmoduleManager } from './managers/SubmoduleManager.js';
 import { VSCodeManager } from './managers/VSCodeManager.js';
@@ -146,7 +144,7 @@ export class CoreService {
     );
 
     this.mcpInterface = new McpInterface(this.hubServer);
-    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager);
+    this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager, this.systemPromptManager);
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
     this.submoduleManager = new SubmoduleManager();
     this.vscodeManager = new VSCodeManager();
@@ -281,6 +279,26 @@ export class CoreService {
             name, description, instructions, model
         });
         return { status: 'saved' };
+    });
+
+    this.app.post('/api/research', async (request: any, reply) => {
+        const { topic } = request.body;
+        if (!topic) return reply.code(400).send({ error: "Topic required" });
+
+        const agent = this.agentManager.getAgents().find(a => a.name === 'researcher');
+        if (!agent) return reply.code(404).send({ error: "Research agent not found" });
+
+        const sessionId = `research-${Date.now()}`;
+        // Run asynchronously
+        this.agentExecutor.run(agent, `Research this topic: ${topic}`, {}, sessionId)
+            .then(result => {
+                console.log(`[Research] Completed for ${topic}`);
+            })
+            .catch(err => {
+                console.error(`[Research] Failed: ${err.message}`);
+            });
+
+        return { status: 'started', sessionId };
     });
 
     this.app.get('/api/state', async () => ({
@@ -507,15 +525,6 @@ export class CoreService {
         });
     });
 
-    this.nodeManager.getToolDefinitions().forEach(tool => {
-        this.proxyManager.registerInternalTool(tool, async (args: any) => {
-             if (tool.name === 'node_status') return this.nodeManager.getStatus();
-             if (tool.name === 'toggle_tor') return this.nodeManager.toggleTor(args.active);
-             if (tool.name === 'toggle_torrent') return this.nodeManager.toggleTorrent(args.active);
-             return "Unknown tool";
-        });
-    });
-
     this.proxyManager.registerInternalTool(FormatTranslatorTool, async (args: any) => {
         const json = typeof args.data === 'string' ? JSON.parse(args.data) : args.data;
         return toToon(json);
@@ -571,6 +580,15 @@ export class CoreService {
         this.proxyManager.registerInternalTool(tool, async (args: any) => {
              if (tool.name === 'submit_activity') return this.economyManager.mine(args);
              if (tool.name === 'get_balance') return this.economyManager.getBalance();
+             return "Unknown tool";
+        });
+    });
+
+    this.nodeManager.getToolDefinitions().forEach(tool => {
+        this.proxyManager.registerInternalTool(tool, async (args: any) => {
+             if (tool.name === 'node_status') return this.nodeManager.getStatus();
+             if (tool.name === 'toggle_tor') return this.nodeManager.toggleTor(args.active);
+             if (tool.name === 'toggle_torrent') return this.nodeManager.toggleTorrent(args.active);
              return "Unknown tool";
         });
     });
