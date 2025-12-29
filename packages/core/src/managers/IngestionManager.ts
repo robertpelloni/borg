@@ -44,7 +44,7 @@ export class IngestionManager {
                     content: `[Summary - ${source}] ${compacted.summary}`,
                     tags: ['ingestion', 'summary', source, ...baseTags]
                 });
-                if (typeof summaryId === 'string') memoryIds.push(summaryId); // remember returns a string message or ID, usually ID in this impl
+                memoryIds.push(summaryId);
             }
 
             // 3. Store Facts
@@ -53,23 +53,25 @@ export class IngestionManager {
                     content: `[Fact - ${source}] ${fact}`,
                     tags: ['ingestion', 'fact', source, ...baseTags]
                 });
-                // Check if return is ID (current implementation returns a string message, need to adjust expectation or parse)
+                memoryIds.push(id);
             }
 
             // 4. Store Decisions
             for (const decision of compacted.decisions) {
-                await this.memoryManager.remember({
+                const id = await this.memoryManager.remember({
                     content: `[Decision - ${source}] ${decision}`,
                     tags: ['ingestion', 'decision', source, ...baseTags]
                 });
+                memoryIds.push(id);
             }
 
             // 5. Store Action Items
             for (const item of compacted.actionItems) {
-                await this.memoryManager.remember({
+                const id = await this.memoryManager.remember({
                     content: `[Action - ${source}] ${item}`,
                     tags: ['ingestion', 'action-item', source, ...baseTags]
                 });
+                memoryIds.push(id);
             }
 
             return {

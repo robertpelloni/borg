@@ -180,11 +180,11 @@ export class MemoryManager {
         }
     }
 
-    async remember(args: { content: string, tags?: string[], providerId?: string }) {
+    async remember(args: { content: string, tags?: string[], providerId?: string }): Promise<string> {
         const providerId = args.providerId || this.defaultProviderId;
         const provider = this.providers.get(providerId);
         
-        if (!provider) return `Provider ${providerId} not found`;
+        if (!provider) throw new Error(`Provider ${providerId} not found`);
 
         // Generate embedding if OpenAI is available and provider is local file (which needs help)
         let embedding: number[] | undefined;
@@ -201,7 +201,7 @@ export class MemoryManager {
         };
 
         await provider.store(item);
-        return `Memory stored in ${provider.name} with ID: ${item.id}`;
+        return item.id;
     }
 
     async search(args: { query: string, providerId?: string }) {
