@@ -34,3 +34,6 @@ mem0,references/memory/mem0,Memory,Platform,Memory layer for LLMs.,Memory archit
 laddr,references/orchestration/laddr,Orchestration,Reference,Orchestration framework.,Routing logic.,Study routing algorithms.,Reference
 OpenHands,references/agents/OpenHands,Agent,Framework,Open source agent implementation.,Agent architecture.,Reference for core agent loop.,Reference
 autogen,references/agents/autogen,Agent,Framework,Multi-agent conversation framework.,Conversation patterns.,Study multi-agent chat patterns.,Reference
+kilo cloud agent,submodules/kilo-cloud-agent,Infrastructure,Tool,Cloud deployment agent.,Cloud infrastructure management.,Integrate for deployment automation.,Planned
+kilo deploy,submodules/kilo-deploy,Infrastructure,Tool,Deployment tool.,Automated deployments.,Use for CI/CD pipelines.,Planned
+kilo app builder,submodules/kilo-app-builder,Infrastructure,Tool,App building tool.,Automated app creation.,Use for scaffolding new apps.,Planned
