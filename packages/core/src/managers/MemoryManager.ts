@@ -263,6 +263,55 @@ export class MemoryManager {
     }
 
     // ... (Keep existing snapshot methods unchanged) ...
+    async updateMemory(id: string, updates: Partial<Memory>, providerId?: string) {
+        const provider = this.providers.get(providerId || this.defaultProviderId);
+        if (!provider) throw new Error(`Provider ${providerId || this.defaultProviderId} not found`);
+
+        if ('update' in provider) {
+             // @ts-ignore - Check if method exists
+            return await provider.update(id, updates);
+        } else {
+             // Fallback for providers that don't support direct update (like FileProvider maybe?)
+             // Ideally we should enforce this interface
+             throw new Error("Update not supported by this provider");
+        }
+    }
+
+    async deleteMemory(id: string, providerId?: string) {
+        const provider = this.providers.get(providerId || this.defaultProviderId);
+        if (!provider) throw new Error(`Provider ${providerId || this.defaultProviderId} not found`);
+
+        if ('delete' in provider) {
+            // @ts-ignore
+            return await provider.delete(id);
+        } else {
+            throw new Error("Delete not supported by this provider");
+        }
+    }
+
+    async listMemories(options: { limit?: number, offset?: number, providerId?: string } = {}) {
+        const providerId = options.providerId || this.defaultProviderId;
+        const provider = this.providers.get(providerId);
+        
+        if (!provider) throw new Error(`Provider ${providerId} not found`);
+
+        if ('list' in provider) {
+             // @ts-ignore
+            return await provider.list(options);
+        } else if (provider instanceof LocalFileProvider) {
+            // Manual pagination for file provider
+            const all = await provider.getAll();
+            const start = options.offset || 0;
+            const end = start + (options.limit || 50);
+            return {
+                items: all.slice(start, end),
+                total: all.length
+            };
+        }
+        
+        return { items: [], total: 0 };
+    }
+
     async createSnapshot(args: { sessionId: string, context: any }) {
         const snapshotPath = path.join(this.snapshotDir, `${args.sessionId}_${Date.now()}.json`);
         try {
@@ -432,6 +481,44 @@ export class MemoryManager {
                 name: "list_memory_providers",
                 description: "List available memory providers (File, Mem0, Pinecone, etc).",
                 inputSchema: { type: "object", properties: {} }
+            },
+            {
+                name: "update_memory",
+                description: "Update an existing memory item.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: { type: "string" },
+                        content: { type: "string" },
+                        tags: { type: "array", items: { type: "string" } },
+                        providerId: { type: "string" }
+                    },
+                    required: ["id"]
+                }
+            },
+            {
+                name: "delete_memory",
+                description: "Delete a memory item.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: { type: "string" },
+                        providerId: { type: "string" }
+                    },
+                    required: ["id"]
+                }
+            },
+            {
+                name: "list_memories",
+                description: "List memories with pagination.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        limit: { type: "number" },
+                        offset: { type: "number" },
+                        providerId: { type: "string" }
+                    }
+                }
             },
             // ... Snapshot tools ...
             {
