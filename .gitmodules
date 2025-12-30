@@ -448,3 +448,18 @@
 [submodule "external/agents_repos/mark-hingston-workflows"]
 	path = external/agents_repos/mark-hingston-workflows
 	url = https://github.com/mark-hingston/opencode-workflows
+[submodule "references/mcp_repos/awesome-mcp-servers-punkpeye"]
+	path = references/mcp_repos/awesome-mcp-servers-punkpeye
+	url = https://github.com/punkpeye/awesome-mcp-servers
+[submodule "references/mcp_repos/awesome-mcp-servers-appcypher"]
+	path = references/mcp_repos/awesome-mcp-servers-appcypher
+	url = https://github.com/appcypher/awesome-mcp-servers
+[submodule "references/mcp_repos/awesome-mcp-servers-wong2"]
+	path = references/mcp_repos/awesome-mcp-servers-wong2
+	url = https://github.com/wong2/awesome-mcp-servers
+[submodule "references/skills_repos/anthropic-skills"]
+	path = references/skills_repos/anthropic-skills
+	url = https://github.com/anthropics/skills
+[submodule "references/skills_repos/openai-skills"]
+	path = references/skills_repos/openai-skills
+	url = https://github.com/openai/skills
