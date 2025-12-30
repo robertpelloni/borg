@@ -1,6 +1,6 @@
 # Submodule Dashboard
 
-**Last Updated:** 2025-12-28 16:13:35
+**Last Updated:** 2025-12-30 04:46:27
 
 This document tracks the status, location, and version of all submodules and reference repositories in the AIOS project.
 
@@ -8,9 +8,9 @@ This document tracks the status, location, and version of all submodules and ref
 
 | Name | Path | Version | Commit |
 |------|------|---------|--------|
-| **CLIProxyAPI** | `submodules/CLIProxyAPI` | (v6.6.64) | `ee171bc` |
+| **CLIProxyAPI** | `submodules/CLIProxyAPI` | (v6.6.70) | `857c880` |
 | **claude-mem** | `submodules/claude-mem` | (v7.1.2-146-g1415ef4) | `1415ef4` |
-| **jules-app** | `submodules/jules-app` | (v0.2.5-28-ga708c5c) | `a708c5c` |
+| **jules-app** | `submodules/jules-app` | (v0.2.5-51-g1e3e5b6) | `1e3e5b6` |
 | **mcp-shark** | `submodules/mcp-shark` | (1.5.9) | `6d7abfc` |
 | **mcpenetes** | `submodules/mcpenetes` | (v1.0.3-55-gf0fd60e) | `f0fd60e` |
 | **metamcp** | `submodules/metamcp` | (v2.4.21-67-g80344bb) | `80344bb` |
@@ -28,22 +28,25 @@ These are cloned repositories used for research, pattern extraction, and feature
 | **Puzld.ai** | `references/Puzld.ai` | (v0.1.9-53-g77ff444) | `77ff444` |
 | **Super-MCP** | `references/Super-MCP` | (heads/main) | `cf8b782` |
 | **agents-md** | `references/agents-md` | (heads/main) | `efab70c` |
-| **BMAD-METHOD** | `references/agents/BMAD-METHOD` | (6.0.0-alpha.21-9-gb509fb9a) | `b509fb9` |
-| **OpenHands** | `references/agents/OpenHands` | (0.22.0-2481-g30114666a) | `3011466` |
-| **agent-zero** | `references/agents/agent-zero` | (v0.9.7-11-g1916958) | `1916958` |
-| **amplifier** | `references/agents/amplifier` | (remotes/origin/HEAD) | `0f928a7` |
+| **BMAD-METHOD** | `references/agents/BMAD-METHOD` | (6.0.0-alpha.21-15-g484990de) | `484990d` |
+| **OpenHands** | `references/agents/OpenHands` | (0.22.0-2502-gd5e83d0f0) | `d5e83d0` |
+| **agent-zero** | `references/agents/agent-zero` | (v0.9.7-12-ga54768c) | `a54768c` |
+| **amplifier** | `references/agents/amplifier` | (heads/main) | `4a763b1` |
 | **autogen** | `references/agents/autogen` | (v0.1.10-2929-g13e144e54) | `13e144e` |
 | **magentic-ui** | `references/agents/magentic-ui` | (v0.1.6-7-gedaed9a) | `edaed9a` |
-| **openagents** | `references/agents/openagents` | (v0.8.0-58-gf2746f89) | `f2746f8` |
-| **CodeMachine-CLI** | `references/arch/CodeMachine-CLI` | (v0.7.0-150-gfdd8807) | `fdd8807` |
-| **claude-code-router** | `references/arch/claude-code-router` | (remotes/origin/HEAD) | `31042a6` |
+| **openagents** | `references/agents/openagents` | (v0.8.0-73-g71beaf5c) | `71beaf5` |
+| **CodeMachine-CLI** | `references/arch/CodeMachine-CLI` | (v0.7.0-164-g2ab4f18) | `2ab4f18` |
+| **claude-code-router** | `references/arch/claude-code-router` | (heads/main) | `31042a6` |
 | **spec-kit** | `references/arch/spec-kit` | (v0.0.90) | `9111699` |
 | **awesome-llm-apps** | `references/awesome-llm-apps` | (heads/main) | `a7f7258` |
 | **claude-code-infrastructure-showcase** | `references/claude-code-infrastructure-showcase` | (heads/main) | `a5818cb` |
 | **claude-squad** | `references/claude-squad` | (v1.0.10-9-gfc1b967) | `fc1b967` |
+| **fabric** | `references/clis/fabric` | (v1.4.13-1859-g45d06f88) | `45d06f8` |
+| **gemini-cli** | `references/clis/gemini-cli` | (MK_TAG_TEST-2585-gfb22f5b8e) | `fb22f5b` |
+| **kilocode** | `references/clis/kilocode` | (v4.140.3-1-g905bcacb64) | `905bcac` |
 | **claude-code-config** | `references/config/claude-code-config` | (v0.1.2) | `193e989` |
 | **emdash** | `references/emdash` | (v0.3.39-2-g8ce8228) | `8ce8228` |
-| **CopilotKit** | `references/frameworks/CopilotKit` | (v1.50.1-13-g21dadeeec) | `21dadee` |
+| **CopilotKit** | `references/frameworks/CopilotKit` | (v1.50.1-16-g40cdfd981) | `40cdfd9` |
 | **lazy-mcp** | `references/lazy-mcp` | (v0.5.4-2-ga9928c8) | `a9928c8` |
 | **magg** | `references/magg` | (v0.10.1) | `c237d4c` |
 | **mcp-server-code-execution-mode** | `references/mcp-server-code-execution-mode` | (heads/main) | `27d23b8` |
@@ -51,10 +54,10 @@ These are cloned repositories used for research, pattern extraction, and feature
 | **mcphub** | `references/mcphub` | (v0.11.4-1-gab7c210) | `ab7c210` |
 | **mcpm.sh** | `references/mcpm.sh` | (v1.1.1-200-g74dbfb6) | `74dbfb6` |
 | **mcpproxy-go** | `references/mcpproxy-go` | (v0.10.11-1-gf0ca376) | `f0ca376` |
-| **beads** | `references/memory/beads` | (v0.40.0-2-g5ccf12ea) | `5ccf12e` |
-| **cognee** | `references/memory/cognee` | (v0.5.0.dev0-232-g1061258f) | `1061258` |
+| **beads** | `references/memory/beads` | (v0.41.0-47-g7f5378ba) | `7f5378b` |
+| **cognee** | `references/memory/cognee` | (v0.5.0.dev0-233-g5b42b21a) | `5b42b21` |
 | **letta** | `references/memory/letta` | (0.1.15-6362-ge026bef80) | `e026bef` |
-| **mem0** | `references/memory/mem0` | (v1.0.0-54-g65e22e34) | `65e22e3` |
+| **mem0** | `references/memory/mem0` | (v1.0.0-56-g417ebffa) | `417ebff` |
 | **txtai** | `references/memory/txtai` | (v3.3.0-1420-g995428d) | `995428d` |
 | **mux** | `references/mux` | (v0.9.3-5-g6cd905df) | `6cd905d` |
 | **notebooklm-mcp** | `references/notebooklm-mcp` | (v1.3.6-6-g5ba9714) | `5ba9714` |
@@ -69,7 +72,7 @@ These are cloned repositories used for research, pattern extraction, and feature
 | **prompt-eng-tutorial** | `references/prompt-eng-tutorial` | (heads/master) | `0d27754` |
 | **claude-code-system-prompts** | `references/prompts/claude-code-system-prompts` | (v2.0.75-5-g4910369) | `4910369` |
 | **gemini-cli-tips** | `references/prompts/gemini-cli-tips` | (heads/main) | `2096f87` |
-| **thoughtbox** | `references/prompts/thoughtbox` | (v1.2.0-2-g83a771f) | `83a771f` |
+| **thoughtbox** | `references/prompts/thoughtbox` | (v1.2.0-14-g1f7d08b) | `1f7d08b` |
 | **dev-browser** | `references/skills/dev-browser` | (v1.0.0) | `b549fb0` |
 | **oai-skills** | `references/skills/oai-skills` | (heads/main) | `d0d16a0` |
 | **skrills** | `references/skills/skrills` | (v0.4.0-6-g2e5d98f) | `2e5d98f` |
