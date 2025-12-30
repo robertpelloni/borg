@@ -164,3 +164,5 @@ For a granular list of every planned feature and submodule integration from the 
 - **v0.0.8:** Advanced Orchestration (Registry, Broker, Delegation).
 - **v0.0.9:** Browser Connectivity & Client Integration.
 - **v0.2.2:** Comprehensive Submodule Update & Dashboard.
+- **v0.4.1:** Universal Submodule Sync & Ecosystem Dashboard Refresh.
+- **v0.4.2:** Stability Fixes & Comprehensive 400+ Submodule Update.
