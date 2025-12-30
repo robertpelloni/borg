@@ -23,9 +23,12 @@
     "glob": "^13.0.0",
     "isolated-vm": "^6.0.2",
     "json5": "^2.2.3",
+    "next": "^16.1.1",
     "node-schedule": "^2.1.1",
     "openai": "^6.15.0",
     "pdf-parse": "^2.4.5",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "socket.io": "^4.7.2",
     "zod": "^3.22.4"
   },
