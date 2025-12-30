@@ -43,6 +43,7 @@ import { LoopManager } from './agents/LoopManager.js';
 import { WebSearchTool } from './tools/WebSearchTool.js';
 import { EconomyManager } from './managers/EconomyManager.js';
 import { NodeManager } from './managers/NodeManager.js';
+import { AuthMiddleware } from './middleware/AuthMiddleware.js';
 import fs from 'fs';
 
 export class CoreService {
@@ -85,6 +86,7 @@ export class CoreService {
   private loopManager: LoopManager;
   private economyManager: EconomyManager;
   private nodeManager: NodeManager;
+  private authMiddleware: AuthMiddleware;
 
   constructor(
     private rootDir: string
@@ -151,6 +153,7 @@ export class CoreService {
     this.loopManager = new LoopManager(this.schedulerManager);
     this.economyManager = new EconomyManager();
     this.nodeManager = new NodeManager();
+    this.authMiddleware = new AuthMiddleware(this.secretManager);
 
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
@@ -169,8 +172,22 @@ export class CoreService {
         this.processHook({ type: 'PostToolUse', ...data });
     });
 
+    this.setupAuth();
     this.setupRoutes();
     this.setupSocket();
+  }
+
+  private setupAuth() {
+      // Secure Socket
+      this.io.use((socket, next) => this.authMiddleware.verifySocket(socket, next));
+
+      // Secure API (except health/public)
+      this.app.addHook('preHandler', async (req, reply) => {
+          if (req.url === '/health' || req.url === '/api/doctor' || req.url.startsWith('/assets') || req.url === '/') return;
+          // For Alpha, we might be lenient or enforce strictness.
+          // Enforcing strictness now.
+          await this.authMiddleware.verify(req, reply);
+      });
   }
 
   private registerCommandsAsTools(commands: any[]) {

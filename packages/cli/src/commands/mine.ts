@@ -9,7 +9,7 @@ export const mineCommand = new Command('mine')
     console.log(chalk.blue(`[Miner] Connecting to ${options.url}...`));
 
     const socket = io(options.url, {
-        query: { clientType: 'miner' }
+        query: { clientType: 'miner', token: 'dev-token' }
     });
 
     socket.on('connect', () => {
@@ -48,10 +48,14 @@ export const mineCommand = new Command('mine')
     setInterval(async () => {
         try {
             const steps = Math.floor(Math.random() * 100);
-            const res = await axios.post(`${options.url}/api/inspector/replay`, {
-                tool: 'submit_activity',
-                args: { steps, danceScore: Math.floor(Math.random() * 20) }
-            });
+            const res = await axios.post(
+                `${options.url}/api/inspector/replay?token=dev-token`,
+                {
+                    tool: 'submit_activity',
+                    args: { steps, danceScore: Math.floor(Math.random() * 20) }
+                },
+                { headers: { Authorization: 'Bearer dev-token' } }
+            );
             console.log(chalk.green(`[Miner] ${res.data.result}`));
         } catch (e: any) {
             console.error(chalk.red(`[Miner] Error: ${e.message}`));
