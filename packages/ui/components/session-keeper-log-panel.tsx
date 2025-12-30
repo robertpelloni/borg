@@ -60,7 +60,7 @@ export function SessionKeeperLogPanel({ onClose }: SessionKeeperLogPanelProps) {
                   </td>
                 </tr>
               ) : (
-                logs.map((log, index) => (
+                logs.map((log: Log, index: number) => (
                   <tr key={index} className="border-b last:border-0 hover:bg-muted/30 font-mono">
                     <td className="px-4 py-1.5 whitespace-nowrap text-muted-foreground">
                       {log.time}

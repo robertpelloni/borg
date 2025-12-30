@@ -1,11 +1,11 @@
 import { SandboxManager } from './SandboxManager.js';
+import { PythonExecutor } from './PythonExecutor.js';
 
 export class CodeExecutionManager {
-    // We create a new sandbox for each execution to ensure isolation
-    // private sandbox: SandboxManager; 
+    private pythonExecutor: PythonExecutor;
 
     constructor() {
-        // this.sandbox = new SandboxManager();
+        this.pythonExecutor = new PythonExecutor();
     }
 
     async execute(code: string, toolCallback: (name: string, args: any) => Promise<any>, sessionId?: string): Promise<string> {
@@ -19,4 +19,9 @@ export class CodeExecutionManager {
             sandbox.dispose();
         }
     }
+
+    async executePythonScript(scriptPath: string, args: string[] = []): Promise<string> {
+        return await this.pythonExecutor.executeScript(scriptPath, args);
+    }
 }
+

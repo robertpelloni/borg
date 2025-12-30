@@ -34,27 +34,64 @@ All skills must be converted to a standard JSON schema compatible with MCP `tool
 
 ## 3. Implementation Plan
 
-### Phase 1: Indexing (Immediate)
-- [ ] Create `scripts/index_skills.ts`.
-- [ ] Scan `references/skills_repos/**/*.py` and `**/*.js`.
-- [ ] Extract function signatures using AST parsing.
-- [ ] Generate a `skills_index.json` registry file.
+### Phase 1: Indexing (Completed)
+- [x] Create `scripts/index_skills.ts`.
+- [x] Scan `references/skills_repos`.
+- [x] Parse `SKILL.md` metadata.
+- [x] Generate `skills_registry.json`.
 
-### Phase 2: Execution Adapter
-- [ ] Build a generic "Skill Runner" tool (`run_skill`).
-- [ ] Implement sandboxing (using existing `isolated-vm` or Docker logic) to execute untrusted skill code.
-- [ ] Map inputs from the standardized schema to the native script arguments.
+### Phase 2: Execution Adapter (Completed)
+- [x] Analyze skill types (Prompt-based vs Code-based).
+- [x] Implement `SkillManager` in `packages/core/src/managers/SkillManager.ts`.
+- [x] Define "Execution Drivers" (`PromptDriver`, `ScriptDriver`).
+- [x] Integrate with `CodeExecutionManager` for JS scripts.
+- [x] Implement `PythonExecutor` in `packages/core/src/managers/PythonExecutor.ts` to handle OpenAI skills.
+- [x] Verify execution of both Skill Types.
 
-### Phase 3: Marketplace
-- [ ] Expose the registry via the MCP server.
+### Phase 3: Marketplace (In Progress)
+- [x] Expose the registry via the MCP server.
+    - Implemented `SkillRegistryServer` with tools: `list_skills`, `get_skill_info`, `execute_skill`.
+    - Created entry point `packages/core/bin/skill-registry-server.ts`.
+- [ ] **Next Step:** Integrate this MCP server into the main AIOS agent runtime so agents can auto-discover it.
 - [ ] Allow agents to "install" skills (dynamic loading).
 
-## 4. Directory Structure
+## 4. Analysis of Skill Types
+...
+### Type C: "Knowledge/Reference" Skills (e.g., `brand-guidelines`)
+*   **Structure:** `SKILL.md` essentially acting as a knowledge base entry.
+*   **Execution:** Handled by `PromptDriver` (same as Type A).
+*   **Status:** Working.
+
+## 6. MCP Server Tools
+The new `SkillRegistryServer` provides:
+*   `list_skills()`: Returns JSON list of all 26 skills.
+*   `get_skill_info(skill_id)`: Returns full metadata + type info.
+*   `execute_skill(skill_id, params)`: 
+    *   For Prompt skills: Returns the prompt content.
+    *   For Script skills: Executes the script and returns stdout.
+
+## 7. Known Issues
+*   **Security:** `PythonExecutor` is not sandboxed.
+*   **Parameter Mapping:** `execute_skill` takes a generic `params` object. We blindly convert this to command line args (e.g. `{foo: "bar"}` -> `--foo bar`). This works for many CLI tools but not all. We need a rigorous schema mapper in Phase 4.
+
+
+
+### Type C: "Knowledge/Reference" Skills (e.g., `brand-guidelines`)
+*   **Structure:** `SKILL.md` essentially acting as a knowledge base entry.
+*   **Execution:** Handled by `PromptDriver` (same as Type A).
+*   **Status:** Working.
+
+## 5. Directory Structure
 ```
 packages/core/
+  data/
+    skills_registry.json  <-- Generated Index
   src/
+    managers/
+        SkillManager.ts   <-- Main Entry Point
     skills/
-      registry.json  <-- The Index
-      adapters/      <-- Converters (Anthropic -> AIOS, OpenAI -> AIOS)
-      runner.ts      <-- Execution Logic
+        types.ts          <-- Skill Definitions
+        drivers/
+            PromptDriver.ts
+            ScriptDriver.ts
 ```

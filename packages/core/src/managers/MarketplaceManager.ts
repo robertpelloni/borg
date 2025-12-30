@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { EventEmitter } from 'events';
+import { AgentManager } from './AgentManager.js';
+import { McpManager } from './McpManager.js';
 
 // Default mock registry
 const MOCK_REGISTRY = [
@@ -11,10 +13,42 @@ const MOCK_REGISTRY = [
 export class MarketplaceManager extends EventEmitter {
     private packages: any[] = [];
     private registryUrl: string | null = null;
+    private agentManager?: AgentManager;
+    private mcpManager?: McpManager;
 
     constructor(private rootDir: string) {
         super();
         this.registryUrl = process.env.MCP_MARKETPLACE_URL || null;
+    }
+
+    // New initialization method to inject dependencies
+    public initialize(agentManager: AgentManager, mcpManager: McpManager) {
+        this.agentManager = agentManager;
+        this.mcpManager = mcpManager;
+    }
+
+    async start() {
+        // Automatically start the Skill Registry MCP Server
+        if (this.mcpManager) {
+             const skillServerPath = path.join(this.rootDir, 'bin/skill-registry-server.ts');
+             
+             // We need to resolve this path correctly.
+             // rootDir is usually core/src or core/dist
+             // bin is core/bin
+             // If rootDir is core/src:
+             const binPath = path.resolve(this.rootDir, '../bin/skill-registry-server.ts');
+             
+             await this.mcpManager.startServerSimple('skill-registry', {
+                command: 'npx', 
+                args: ['tsx', binPath],
+                env: {
+                    ...process.env,
+                }
+            });
+            console.log('[MarketplaceManager] Started Skill Registry MCP Server');
+        } else {
+            console.warn('[MarketplaceManager] McpManager not initialized, skipping Skill Registry startup');
+        }
     }
 
     async refresh() {
