@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Agents', href: '/agents', icon: Activity },
+  { name: 'Council', href: '/council', icon: Terminal },
   { name: 'MCP Servers', href: '/mcp', icon: Box },
-  { name: 'Terminal', href: '/terminal', icon: Terminal },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
