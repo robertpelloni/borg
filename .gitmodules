@@ -556,3 +556,189 @@
 [submodule "submodules/mcp-manager"]
 	path = submodules/mcp-manager
 	url = https://github.com/timetime-software/mcp-manager
+[submodule "references/agents/OpenHands-CLI"]
+	path = references/agents/OpenHands-CLI
+	url = https://github.com/OpenHands/OpenHands-CLI
+[submodule "references/agents/trae-agent"]
+	path = references/agents/trae-agent
+	url = https://github.com/bytedance/trae-agent
+[submodule "references/agents/jules-autopilot"]
+	path = references/agents/jules-autopilot
+	url = https://github.com/robertpelloni/jules-app
+[submodule "references/agents/opencode-autopilot"]
+	path = references/agents/opencode-autopilot
+	url = https://github.com/robertpelloni/opencode-autopilot-council
+[submodule "references/agents/claude-squad"]
+	path = references/agents/claude-squad
+	url = https://github.com/robertpelloni/claude-squad
+[submodule "references/agents/Distil-NPCs"]
+	path = references/agents/Distil-NPCs
+	url = https://github.com/distil-labs/Distil-NPCs
+[submodule "references/mcp_repos/mcp-easy-installer"]
+	path = references/mcp_repos/mcp-easy-installer
+	url = https://github.com/onigetoc/mcp-easy-installer
+[submodule "references/mcp_repos/mcp-everything-search"]
+	path = references/mcp_repos/mcp-everything-search
+	url = https://github.com/mamertofabian/mcp-everything-search
+[submodule "references/mcp_repos/mcp-gearbox"]
+	path = references/mcp_repos/mcp-gearbox
+	url = https://github.com/rohitsoni007/mcp-gearbox
+[submodule "references/mcp_repos/mcp-gearbox-cli"]
+	path = references/mcp_repos/mcp-gearbox-cli
+	url = https://github.com/rohitsoni007/mcp-gearbox-cli
+[submodule "references/mcp_repos/mcp-gearbox-js"]
+	path = references/mcp_repos/mcp-gearbox-js
+	url = https://github.com/rohitsoni007/mcp-gearbox-js
+[submodule "references/mcp_repos/mcphub"]
+	path = references/mcp_repos/mcphub
+	url = https://github.com/robertpelloni/mcphub
+[submodule "references/mcp_repos/mcpm.sh"]
+	path = references/mcp_repos/mcpm.sh
+	url = https://github.com/pathintegral-institute/mcpm.sh
+[submodule "references/agents/claude-code-subagents-collection"]
+	path = references/agents/claude-code-subagents-collection
+	url = https://github.com/davepoon/claude-code-subagents-collection
+[submodule "references/agents/devin.cursorrules"]
+	path = references/agents/devin.cursorrules
+	url = https://github.com/grapeot/devin.cursorrules
+[submodule "references/mcp_repos/chroma-mcp"]
+	path = references/mcp_repos/chroma-mcp
+	url = https://github.com/chroma-core/chroma-mcp
+[submodule "references/mcp_repos/chrome-devtools-mcp"]
+	path = references/mcp_repos/chrome-devtools-mcp
+	url = https://github.com/ChromeDevTools/chrome-devtools-mcp
+[submodule "references/mcp_repos/computer-control-mcp"]
+	path = references/mcp_repos/computer-control-mcp
+	url = https://github.com/AB498/computer-control-mcp
+[submodule "references/mcp_repos/gemini-mcp-tool"]
+	path = references/mcp_repos/gemini-mcp-tool
+	url = https://github.com/jamubc/gemini-mcp-tool
+[submodule "references/mcp_repos/mcp-mem0"]
+	path = references/mcp_repos/mcp-mem0
+	url = https://github.com/coleam00/mcp-mem0
+[submodule "references/mcp_repos/mcpproxy"]
+	path = references/mcp_repos/mcpproxy
+	url = https://github.com/Dumbris/mcpproxy
+[submodule "references/mcp_repos/mcp-proxy"]
+	path = references/mcp_repos/mcp-proxy
+	url = https://github.com/TBXark/mcp-proxy
+[submodule "references/mcp_repos/mcpproxy-go"]
+	path = references/mcp_repos/mcpproxy-go
+	url = https://github.com/robertpelloni/mcpproxy-go
+[submodule "references/mcp_repos/mcp-router"]
+	path = references/mcp_repos/mcp-router
+	url = https://github.com/mcp-router/mcp-router
+[submodule "references/mcp_repos/mcp-server-deep-research"]
+	path = references/mcp_repos/mcp-server-deep-research
+	url = https://github.com/reading-plus-ai/mcp-server-deep-research
+[submodule "references/mcp_repos/mcp-server-gemini"]
+	path = references/mcp_repos/mcp-server-gemini
+	url = https://github.com/aliargun/mcp-server-gemini
+[submodule "references/mcp_repos/mcp-tool-chainer"]
+	path = references/mcp_repos/mcp-tool-chainer
+	url = https://github.com/robertpelloni/mcp-tool-chainer
+[submodule "references/mcp_repos/mcp-toolz"]
+	path = references/mcp_repos/mcp-toolz
+	url = https://github.com/taylorleese/mcp-toolz
+[submodule "references/mcp_repos/mcp-use"]
+	path = references/mcp_repos/mcp-use
+	url = https://github.com/mcp-use/mcp-use
+[submodule "references/mcp_repos/mcp-zen"]
+	path = references/mcp_repos/mcp-zen
+	url = https://github.com/199-mcp/mcp-zen
+[submodule "references/mcp_repos/mem0-mcp"]
+	path = references/mcp_repos/mem0-mcp
+	url = https://github.com/mem0ai/mem0-mcp
+[submodule "references/mcp_repos/metamcp"]
+	path = references/mcp_repos/metamcp
+	url = https://github.com/robertpelloni/metamcp
+[submodule "references/mcp_repos/meta-mcp-proxy"]
+	path = references/mcp_repos/meta-mcp-proxy
+	url = https://github.com/nullplatform/meta-mcp-proxy
+[submodule "references/mcp_repos/notebooklm-mcp"]
+	path = references/mcp_repos/notebooklm-mcp
+	url = https://github.com/robertpelloni/notebooklm-mcp
+[submodule "references/mcp_repos/pal-mcp-server"]
+	path = references/mcp_repos/pal-mcp-server
+	url = https://github.com/robertpelloni/pal-mcp-server
+[submodule "references/mcp_repos/playwright-mcp"]
+	path = references/mcp_repos/playwright-mcp
+	url = https://github.com/microsoft/playwright-mcp
+[submodule "references/mcp_repos/pluggedin-mcp"]
+	path = references/mcp_repos/pluggedin-mcp
+	url = https://github.com/robertpelloni/pluggedin-mcp
+[submodule "references/mcp_repos/sourcerer-mcp"]
+	path = references/mcp_repos/sourcerer-mcp
+	url = https://github.com/st3v3nmw/sourcerer-mcp
+[submodule "references/mcp_repos/Super-MCP"]
+	path = references/mcp_repos/Super-MCP
+	url = https://github.com/robertpelloni/Super-MCP
+[submodule "references/mcp_repos/ultra-mcp"]
+	path = references/mcp_repos/ultra-mcp
+	url = https://github.com/RealMikeChong/ultra-mcp
+[submodule "references/mcp_repos/vibe-check-mcp-server"]
+	path = references/mcp_repos/vibe-check-mcp-server
+	url = https://github.com/PV-Bhat/vibe-check-mcp-server
+[submodule "references/mcp_repos/youtube-video-summarizer-mcp"]
+	path = references/mcp_repos/youtube-video-summarizer-mcp
+	url = https://github.com/nabid-pf/youtube-video-summarizer-mcp
+[submodule "references/mcp_repos/inspector"]
+	path = references/mcp_repos/inspector
+	url = https://github.com/MCPJam/inspector
+[submodule "references/mcp_repos/lazy-mcp"]
+	path = references/mcp_repos/lazy-mcp
+	url = https://github.com/machjesusmoto/lazy-mcp
+[submodule "references/mcp_repos/mcp-context-forge"]
+	path = references/mcp_repos/mcp-context-forge
+	url = https://github.com/IBM/mcp-context-forge
+[submodule "references/clis/CodeMachine-CLI"]
+	path = references/clis/CodeMachine-CLI
+	url = https://github.com/moazbuilds/CodeMachine-CLI
+[submodule "references/clis/grok-cli"]
+	path = references/clis/grok-cli
+	url = https://github.com/superagent-ai/grok-cli
+[submodule "references/frameworks/code"]
+	path = references/frameworks/code
+	url = https://github.com/just-every/code
+[submodule "references/frameworks/codex-bridge"]
+	path = references/frameworks/codex-bridge
+	url = https://github.com/eLyiN/codex-bridge
+[submodule "references/frameworks/Kode"]
+	path = references/frameworks/Kode
+	url = https://github.com/shareAI-lab/Kode
+[submodule "references/frameworks/qwen-code"]
+	path = references/frameworks/qwen-code
+	url = https://github.com/QwenLM/qwen-code
+[submodule "references/frameworks/crush"]
+	path = references/frameworks/crush
+	url = https://github.com/charmbracelet/crush
+[submodule "references/frameworks/Switchboard"]
+	path = references/frameworks/Switchboard
+	url = https://github.com/George5562/Switchboard
+[submodule "references/frameworks/Windows-Use"]
+	path = references/frameworks/Windows-Use
+	url = https://github.com/CursorTouch/Windows-Use
+[submodule "references/frameworks/vibesdk"]
+	path = references/frameworks/vibesdk
+	url = https://github.com/cloudflare/vibesdk
+[submodule "references/tools/autorouter-package"]
+	path = references/tools/autorouter-package
+	url = https://github.com/Mikethebot44/autorouter-package
+[submodule "references/tools/context-portal"]
+	path = references/tools/context-portal
+	url = https://github.com/GreatScottyMac/context-portal
+[submodule "references/tools/magg"]
+	path = references/tools/magg
+	url = https://github.com/robertpelloni/magg
+[submodule "references/tools/spec-kit"]
+	path = references/tools/spec-kit
+	url = https://github.com/github/spec-kit
+[submodule "references/tools/superpowers"]
+	path = references/tools/superpowers
+	url = https://github.com/obra/superpowers
+[submodule "references/tools/voicemode"]
+	path = references/tools/voicemode
+	url = https://github.com/mbailey/voicemode
+[submodule "references/web_repos/pluggedin-app"]
+	path = references/web_repos/pluggedin-app
+	url = https://github.com/robertpelloni/pluggedin-app
