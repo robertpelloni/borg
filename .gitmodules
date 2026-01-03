@@ -742,3 +742,6 @@
 [submodule "references/web_repos/pluggedin-app"]
 	path = references/web_repos/pluggedin-app
 	url = https://github.com/robertpelloni/pluggedin-app
+[submodule "external/tools/mcpc/repo"]
+	path = external/tools/mcpc/repo
+	url = https://github.com/apify/mcpc
