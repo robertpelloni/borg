@@ -815,7 +815,7 @@ export class CoreService {
 
     this.mcpRouter.registerInternalTool({
         name: "configure_client",
-        description: "Auto-configure a client (VSCode, Claude, Cursor) to use the AIOS Hub.",
+        description: "Auto-configure a client (VSCode, Claude, Cursor) to use the aios Hub.",
         inputSchema: {
             type: "object",
             properties: {

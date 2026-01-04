@@ -101,7 +101,7 @@ export class ClientManager {
   async installCLI() {
       const binPath = path.resolve(process.cwd(), 'bin', 'aios');
       const aliasCommand = `alias aios="${binPath}"`;
-      await this.shellManager.addToProfile('AIOS CLI', aliasCommand);
+      await this.shellManager.addToProfile('aios CLI', aliasCommand);
       return { status: 'installed', binPath };
   }
 

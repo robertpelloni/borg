@@ -1,7 +1,7 @@
 # Memory System Documentation
 
 ## Overview
-The Memory System provides persistence and context management for AI agents within AIOS. It enables storing, retrieving, and snapshotting interaction data to maintain continuity across sessions.
+The Memory System provides persistence and context management for AI agents within aios. It enables storing, retrieving, and snapshotting interaction data to maintain continuity across sessions.
 
 ## Components
 

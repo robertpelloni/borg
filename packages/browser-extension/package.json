@@ -1,7 +1,7 @@
 {
   "name": "@aios/browser-extension",
   "version": "0.0.1",
-  "description": "AIOS Browser Extension for Hub Connectivity",
+  "description": "aios Browser Extension for Hub Connectivity",
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch"

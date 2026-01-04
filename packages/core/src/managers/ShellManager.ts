@@ -19,8 +19,8 @@ export class ShellManager {
 
     async addToProfile(name: string, content: string): Promise<string> {
         const profilePath = this.detectShellProfile();
-        const marker = `# AIOS Configuration for ${name}`;
-        const endMarker = `# End AIOS Configuration for ${name}`;
+        const marker = `# aios Configuration for ${name}`;
+        const endMarker = `# End aios Configuration for ${name}`;
         
         let currentContent = '';
         if (fs.existsSync(profilePath)) {
@@ -41,8 +41,8 @@ export class ShellManager {
         const profilePath = this.detectShellProfile();
         if (!fs.existsSync(profilePath)) return false;
 
-        const marker = `# AIOS Configuration for ${name}`;
-        const endMarker = `# End AIOS Configuration for ${name}`;
+        const marker = `# aios Configuration for ${name}`;
+        const endMarker = `# End aios Configuration for ${name}`;
         
         let content = fs.readFileSync(profilePath, 'utf-8');
         const regex = new RegExp(`${marker}[\\s\\S]*?${endMarker}`, 'g');

@@ -1,10 +1,10 @@
-# AIOS Ecosystem Research Report
+# aios Ecosystem Research Report
 
 ## 1. Executive Summary
 
-AIOS (AI Operating System) is a comprehensive, monorepo-based platform designed to orchestrate LLM-based agents, manage context, and provide a unified interface for various AI tools and frameworks. It is not just an application but an **ecosystem** that aggregates best-in-class open-source agent frameworks, MCP (Model Context Protocol) servers, and CLI tools into a cohesive "OS-like" experience.
+aios (AI Operating System) is a comprehensive, monorepo-based platform designed to orchestrate LLM-based agents, manage context, and provide a unified interface for various AI tools and frameworks. It is not just an application but an **ecosystem** that aggregates best-in-class open-source agent frameworks, MCP (Model Context Protocol) servers, and CLI tools into a cohesive "OS-like" experience.
 
-The project relies heavily on **external submodules and references** to build its capabilities, effectively acting as a "Motherboard" that plugs in specialized components (the "cards"). This strategy allows AIOS to leverage existing innovation while focusing on orchestration, memory management, and user experience.
+The project relies heavily on **external submodules and references** to build its capabilities, effectively acting as a "Motherboard" that plugs in specialized components (the "cards"). This strategy allows aios to leverage existing innovation while focusing on orchestration, memory management, and user experience.
 
 ## 2. Core Architecture & Project Structure
 
@@ -32,7 +32,7 @@ Based on `docs/SUBMODULES.md` and `docs/SUBMODULE_MAPPING.md`, the external comp
 
 ### **A. Core Infrastructure (The Motherboard)**
 These components provide the foundational logic for the OS.
-*   **`metamcp`**: A Docker-based meta-orchestrator. This appears to be the architectural reference for the AIOS "Hub".
+*   **`metamcp`**: A Docker-based meta-orchestrator. This appears to be the architectural reference for the aios "Hub".
 *   **`CLIProxyAPI`**: A local proxy server powering coding agents. Used by `quotio`.
 *   **`claude-mem`**: The primary reference for the memory system, likely implementing graph/vector memory patterns.
 *   **`mcp-shark`**: A traffic analyzer for MCP, integrated as a core manager (`McpSharkManager`) for debugging and observability.
@@ -57,7 +57,7 @@ These components provide the foundational logic for the OS.
 The recent focus has been on integrating **`open-agents`**.
 *   **Format**: These agents are defined in Markdown files with YAML frontmatter (metadata) and XML sections (`<context>`, `<workflow>`, `<critical_rules>`).
 *   **Purpose**: They provide highly specialized, context-aware agents (e.g., "OpenAgent", "OpenCoder") that enforce strict project standards and workflows.
-*   **Implementation**: A custom `OpenCodeAdapter` in the Core now parses these files, extracting the rich XML rules into the agent's system instructions. This allows AIOS to "run" these static definitions as dynamic agents.
+*   **Implementation**: A custom `OpenCodeAdapter` in the Core now parses these files, extracting the rich XML rules into the agent's system instructions. This allows aios to "run" these static definitions as dynamic agents.
 
 ## 5. Inferred Project Goals
 

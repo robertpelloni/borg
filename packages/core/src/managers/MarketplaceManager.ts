@@ -28,7 +28,7 @@ export class MarketplaceManager extends EventEmitter {
             // resolve path to data/skills_registry.json
             // Assuming rootDir is .../packages/core/dist or .../packages/core/src
             // We need to go up to packages/core/data
-            // If rootDir is the project root (C:\Users\hyper\workspace\AIOS), we adjust.
+            // If rootDir is the project root (C:\Users\hyper\workspace\aios), we adjust.
             // Based on usage in MarketplaceManager.ts:39 (path.resolve(this.rootDir, '../bin/skill-registry-server.ts')),
             // it seems rootDir passed in might be 'src' or 'dist' inside 'packages/core'.
             // Let's try to find it relative to the package root.

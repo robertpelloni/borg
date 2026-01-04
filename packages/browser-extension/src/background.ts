@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-console.log("AIOS Browser Extension Background Service Worker Starting...");
+console.log("aios Browser Extension Background Service Worker Starting...");
 
 const socket = io("http://localhost:3002", {
   transports: ["websocket"],
@@ -9,12 +9,12 @@ const socket = io("http://localhost:3002", {
 });
 
 socket.on("connect", () => {
-  console.log("Connected to AIOS Hub");
+  console.log("Connected to aios Hub");
   socket.emit("register_browser", { id: chrome.runtime.id });
 });
 
 socket.on("disconnect", () => {
-  console.log("Disconnected from AIOS Hub");
+  console.log("Disconnected from aios Hub");
 });
 
 socket.on("browser_command", async (data: any) => {

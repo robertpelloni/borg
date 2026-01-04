@@ -5,11 +5,11 @@ import chalk from 'chalk';
 import ora from 'ora';
 
 const program = new Command();
-const API_URL = process.env.AIOS_HUB_URL || 'http://localhost:3000';
+const API_URL = process.env.aios_HUB_URL || 'http://localhost:3000';
 
 program
   .name('aios')
-  .description('CLI for AIOS Hub')
+  .description('CLI for aios Hub')
   .version('0.1.0');
 
 program.command('status')

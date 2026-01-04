@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AIOS Browser Bridge",
+  "name": "aios Browser Bridge",
   "version": "0.0.1",
-  "description": "Connects your browser to the AIOS Hub.",
+  "description": "Connects your browser to the aios Hub.",
   "permissions": [
     "activeTab",
     "scripting",

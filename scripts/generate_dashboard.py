@@ -21,7 +21,7 @@ def generate_dashboard(submodules):
 
 **Last Updated:** {date_str}
 
-This document tracks the status, location, and version of all submodules and reference repositories in the AIOS project.
+This document tracks the status, location, and version of all submodules and reference repositories in the aios project.
 
 ## Core Submodules (`submodules/`)
 
@@ -52,7 +52,7 @@ These are cloned repositories used for research, pattern extraction, and feature
 ## Project Structure Explanation
 
 ```
-AIOS/
+aios/
 ├── packages/
 │   ├── core/       # The Node.js/Fastify Hub (Backend)
 │   ├── ui/         # The Next.js Dashboard (Frontend)

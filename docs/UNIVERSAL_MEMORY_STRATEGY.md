@@ -1,9 +1,9 @@
 # Universal Memory Strategy: The "Memory Orchestrator"
 
-This document outlines the expanded strategy for a **Universal Memory System** in AIOS. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
+This document outlines the expanded strategy for a **Universal Memory System** in aios. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
 
 ## 1. Vision: The "Memory Orchestrator"
-Instead of building a single monolithic memory store, AIOS will act as a **Memory Orchestrator**. It will:
+Instead of building a single monolithic memory store, aios will act as a **Memory Orchestrator**. It will:
 1.  **Detect** existing memory systems (Pinecone, Chroma, Mem0, Browser Storage).
 2.  **Abstract** them behind a common `MemoryProvider` interface.
 3.  **Ingest** context from external sources (Jules, VS Code, Browser).

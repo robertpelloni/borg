@@ -1,7 +1,7 @@
 # Universal Skill Format Strategy
 
 ## Overview
-We need to standardize skills from different providers (Anthropic, OpenAI) into a single JSON format that the AIOS Core can execute.
+We need to standardize skills from different providers (Anthropic, OpenAI) into a single JSON format that the aios Core can execute.
 
 ## Source Analysis
 

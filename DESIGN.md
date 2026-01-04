@@ -1,14 +1,14 @@
-# AIOS Design Document
+# aios Design Document
 
 ## Vision
-The **AIOS** is a **Universal AI Operating System**. It is a persistent, omni-present layer that orchestrates your entire development lifecycle.
+The **aios** is a **Universal AI Operating System**. It is a persistent, omni-present layer that orchestrates your entire development lifecycle.
 
 The core philosophy is **"Completeness via Aggregation"**.
 In a fragmented AI ecosystem, developers often fear "missing out" on the latest feature from a specific tool (e.g., `aider`'s git handling, `mem0`'s user profiles, `claude-code`'s TUI).
-**AIOS solves this by aggregating them all.**
+**aios solves this by aggregating them all.**
 - We don't just build features; we wrap and orchestrate existing best-in-class tools.
 - If a new standard emerges, we add an adapter.
-- You use AIOS, and you automatically have access to the entire ecosystem's capabilities.
+- You use aios, and you automatically have access to the entire ecosystem's capabilities.
 
 The core philosophy is **"Everything is a Plugin"**.
 There is a main **Core Server** process that runs persistently (as an EXE, Docker container, or background service). This Core manages state, context, and agents. Everything else attaches to it:
@@ -64,7 +64,7 @@ This is the core differentiator of the v0.4.3 architecture.
     *   **Use Case:** Rapid iteration, local debugging, direct file manipulation on the user's machine.
     *   **State:** Transient (lives as long as the CLI/IDE session), but maintains a history of "Recent Sessions" locally.
 
-*   **The Bridge (AIOS Hub):**
+*   **The Bridge (aios Hub):**
     *   The Hub routes traffic between these two realms.
     *   It allows a **Remote** agent (Jules) to ask a **Local** agent (Council) to "run this test on the user's machine."
     *   It allows a **Local** agent to "ask Jules to research this library online."
@@ -139,10 +139,10 @@ The development is guided by a strict roadmap found in [`ROADMAP.md`](./ROADMAP.
 The project leverages a vast ecosystem of submodules for specific capabilities. Please refer to [`docs/ECOSYSTEM_INTEGRATION.md`](./docs/ECOSYSTEM_INTEGRATION.md) for the detailed strategy on how `MCP-SuperAssistant`, `mux`, `smolagents`, and others are integrated into the architecture.
 
 ## Universal Client Integration
-To fulfill the vision of a "AIOS", the Hub must seamlessly integrate with the user`s existing ecosystem. We will implement a **Client Manager** (inspired by `mcpenetes`) that:
+To fulfill the vision of a "aios", the Hub must seamlessly integrate with the user`s existing ecosystem. We will implement a **Client Manager** (inspired by `mcpenetes`) that:
 1.  **Auto-Detects Clients:** Scans standard paths (documented in `docs/CLIENT_CONFIGS.md`) to find installed tools (VSCode, Cursor, Claude Desktop, etc.).
-2.  **Config Injection:** Automatically edits the `mcp-servers.json` or equivalent config file of detected clients to add the **AIOS** as an upstream MCP server.
-    - *Note:* This allows the user to install the AIOS once, and instantly have all their tools (VSCode, Chrome, CLI) connected to the Hub.
+2.  **Config Injection:** Automatically edits the `mcp-servers.json` or equivalent config file of detected clients to add the **aios** as an upstream MCP server.
+    - *Note:* This allows the user to install the aios once, and instantly have all their tools (VSCode, Chrome, CLI) connected to the Hub.
 3.  **Conflict Resolution:** Merges existing configurations with the Hub`s proxy configuration.
 
 ## Roadmap
