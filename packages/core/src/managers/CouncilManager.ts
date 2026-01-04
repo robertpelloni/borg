@@ -23,7 +23,7 @@ export interface LocalSession {
 /**
  * CouncilManager
  * 
- * Manages "Local Sessions" (Autopilot Council) for the AIOS Hub.
+ * Manages "Local Sessions" (Autopilot Council) for the aios Hub.
  * It interfaces with the `submodules/opencode-autopilot-council` logic (conceptually).
  * 
  * In this v0.4.3 implementation, it directly manages a list of local directories

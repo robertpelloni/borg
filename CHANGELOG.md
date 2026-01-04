@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
     - **Council (Local)**: Integrated `opencode-autopilot-council` as the manager for transient, local sessions.
     - **Jules (Remote)**: Reaffirmed `jules-app` as the manager for persistent, cloud-based sessions.
 - **UI**: Added a new **"Council"** tab to the Dashboard for managing local Autopilot sessions.
-- **Documentation**: Updated `PROJECT_STRUCTURE.md` and `DESIGN.md` to reflect the new "AIOS as Central Router" philosophy.
+- **Documentation**: Updated `PROJECT_STRUCTURE.md` and `DESIGN.md` to reflect the new "aios as Central Router" philosophy.
 
 ### Maintenance
 - **Submodules**: Added `opencode-autopilot-council` submodule.
@@ -159,4 +159,4 @@ All notable changes to this project will be documented in this file.
 - **Submodules**: Updated `jules-app`, `OpenHands`, and `beads` submodules.
 
 ## [0.0.1] - Initial Release
-- Initial release of AIOS.
+- Initial release of aios.

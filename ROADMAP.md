@@ -1,6 +1,6 @@
-# AIOS Roadmap & Implementation Plan
+# aios Roadmap & Implementation Plan
 
-This document compiles the design decisions, planned features, and submodule integration strategies discussed throughout the project's inception. It serves as the master plan for developing the "AIOS".
+This document compiles the design decisions, planned features, and submodule integration strategies discussed throughout the project's inception. It serves as the master plan for developing the "aios".
 
 For a granular list of every planned feature and submodule integration from the project inception, see:
 👉 **[docs/DETAILED_BACKLOG.md](docs/DETAILED_BACKLOG.md)**

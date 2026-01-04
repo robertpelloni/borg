@@ -56,7 +56,7 @@ export class BrowserManager extends EventEmitter {
 
     private sendCommand(command: string, args: any): Promise<any> {
         if (!this.browserSocket) {
-            throw new Error("No browser connected. Please install the AIOS Browser Extension.");
+            throw new Error("No browser connected. Please install the aios Browser Extension.");
         }
 
         const id = Math.random().toString(36).substring(7);

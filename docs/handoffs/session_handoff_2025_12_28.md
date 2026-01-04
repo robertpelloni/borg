@@ -1,4 +1,4 @@
-# AIOS Handoff - Session 2025-12-28
+# aios Handoff - Session 2025-12-28
 
 ## Status Update
 - **Core:** 

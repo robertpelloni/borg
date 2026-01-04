@@ -1,6 +1,6 @@
 # Submodule Dashboard
 
-This document tracks the status, location, and purpose of all submodules in the AIOS ecosystem.
+This document tracks the status, location, and purpose of all submodules in the aios ecosystem.
 
 | Submodule | Path | Description |
 | :--- | :--- | :--- |
@@ -71,7 +71,7 @@ This document tracks the status, location, and purpose of all submodules in the 
 
 ## CLI Ecosystem (Swiss Army Knife)
 
-These submodules represent the "blades" of the AIOS Swiss Army Knife. They are integrated as references to allow the OS to drive them.
+These submodules represent the "blades" of the aios Swiss Army Knife. They are integrated as references to allow the OS to drive them.
 
 | Submodule | Path | Description |
 | :--- | :--- | :--- |
@@ -85,7 +85,7 @@ These submodules represent the "blades" of the AIOS Swiss Army Knife. They are i
 ## Directory Structure
 
 ```
-AIOS/
+aios/
 ├── packages/           # Monorepo packages
 │   ├── core/           # The "Hub" (Node.js backend)
 │   ├── ui/             # The Dashboard (Next.js frontend)

@@ -1,6 +1,6 @@
-# AIOS - Dashboard UI
+# aios - Dashboard UI
 
-Next.js-based dashboard for the AIOS.
+Next.js-based dashboard for the aios.
 
 ## Development
 

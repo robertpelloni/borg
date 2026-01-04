@@ -1,6 +1,6 @@
 # Memory Strategy: MCP, Handoff, and Persistence
 
-This document details the multi-layered memory architecture for the AIOS. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
+This document details the multi-layered memory architecture for the aios. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
 
 ## 1. Core Architecture: MCP-First
 The primary interface for memory is the **Model Context Protocol (MCP)**.
