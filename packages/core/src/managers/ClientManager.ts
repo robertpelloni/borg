@@ -3,18 +3,22 @@ import path from 'path';
 import os from 'os';
 import json5 from 'json5';
 import { spawn } from 'child_process';
+import { ShellManager } from './ShellManager.js';
 
 interface ClientConfig {
   name: string;
   configPath: string;
   exists: boolean;
+  type: 'json' | 'toml' | 'env';
 }
 
 export class ClientManager {
   private clients: ClientConfig[] = [];
   private mcpenetesBin: string;
+  private shellManager: ShellManager;
 
   constructor(extraPaths?: { name: string, paths: string[] }[]) {
+    this.shellManager = new ShellManager();
     this.detectClients(extraPaths);
 
     // Locate the mcpenetes binary
@@ -32,6 +36,7 @@ export class ClientManager {
     const potentialPaths = [
       {
         name: 'VSCode',
+        type: 'json',
         paths: [
           platform === 'win32'
             ? path.join(process.env.APPDATA || '', 'Code', 'User', 'globalStorage', 'mcp-servers.json')
@@ -42,6 +47,7 @@ export class ClientManager {
       },
       {
         name: 'Claude Desktop',
+        type: 'json',
         paths: [
            platform === 'win32'
             ? path.join(process.env.APPDATA || '', 'Claude', 'claude_desktop_config.json')
@@ -50,15 +56,24 @@ export class ClientManager {
       },
        {
         name: 'Cursor',
+        type: 'json',
         paths: [
            platform === 'win32'
             ? path.join(process.env.APPDATA || '', 'Cursor', 'User', 'globalStorage', 'mcp-servers.json')
             : path.join(homeDir, 'Library', 'Application Support', 'Cursor', 'User', 'globalStorage', 'mcp-servers.json')
         ]
+      },
+      {
+        name: 'Claude Code',
+        type: 'json',
+        paths: [
+            path.join(homeDir, '.claude', 'config.json') // Hypothetical path for now
+        ]
       }
     ];
 
     if (extraPaths) {
+        // @ts-ignore
         potentialPaths.push(...extraPaths);
     }
 
@@ -67,10 +82,10 @@ export class ClientManager {
     for (const p of potentialPaths) {
       for (const tryPath of p.paths) {
         if (fs.existsSync(tryPath)) {
-            this.clients.push({ name: p.name, configPath: tryPath, exists: true });
+            this.clients.push({ name: p.name, configPath: tryPath, exists: true, type: p.type as any });
             break;
         } else if (p.paths.indexOf(tryPath) === p.paths.length - 1) {
-             this.clients.push({ name: p.name, configPath: p.paths[0], exists: false });
+             this.clients.push({ name: p.name, configPath: p.paths[0], exists: false, type: p.type as any });
         }
       }
     }
@@ -81,6 +96,13 @@ export class ClientManager {
         ...c,
         exists: fs.existsSync(c.configPath)
     }));
+  }
+
+  async installCLI() {
+      const binPath = path.resolve(process.cwd(), 'bin', 'aios');
+      const aliasCommand = `alias aios="${binPath}"`;
+      await this.shellManager.addToProfile('aios CLI', aliasCommand);
+      return { status: 'installed', binPath };
   }
 
   async configureClient(clientName: string, hubConfig: any) {
@@ -103,29 +125,36 @@ export class ClientManager {
     }
 
     // Strategy 2: Native TS Implementation
-    let currentConfig: any = { mcpServers: {} };
+    if (client.type === 'json') {
+        let currentConfig: any = { mcpServers: {} };
 
-    if (fs.existsSync(client.configPath)) {
-        try {
-            const content = fs.readFileSync(client.configPath, 'utf-8');
-            currentConfig = json5.parse(content);
-        } catch (err) {
-            console.error(`Failed to parse config for ${clientName}, starting fresh.`, err);
-            fs.copyFileSync(client.configPath, client.configPath + '.bak');
+        if (fs.existsSync(client.configPath)) {
+            try {
+                const content = fs.readFileSync(client.configPath, 'utf-8');
+                currentConfig = json5.parse(content);
+            } catch (err) {
+                console.error(`Failed to parse config for ${clientName}, starting fresh.`, err);
+                fs.copyFileSync(client.configPath, client.configPath + '.bak');
+            }
         }
+
+        if (!currentConfig.mcpServers) currentConfig.mcpServers = {};
+
+        currentConfig.mcpServers["super-ai-hub"] = {
+            command: "node",
+            args: [hubConfig.scriptPath],
+            env: {
+                ...hubConfig.env,
+                MCP_STDIO_ENABLED: 'true'
+            }
+        };
+
+        fs.mkdirSync(path.dirname(client.configPath), { recursive: true });
+        fs.writeFileSync(client.configPath, JSON.stringify(currentConfig, null, 2));
+
+        return { status: 'configured', path: client.configPath };
     }
 
-    if (!currentConfig.mcpServers) currentConfig.mcpServers = {};
-
-    currentConfig.mcpServers["super-ai-hub"] = {
-        command: "node",
-        args: [hubConfig.scriptPath],
-        env: hubConfig.env || {}
-    };
-
-    fs.mkdirSync(path.dirname(client.configPath), { recursive: true });
-    fs.writeFileSync(client.configPath, JSON.stringify(currentConfig, null, 2));
-
-    return { status: 'configured', path: client.configPath };
+    return { status: 'unsupported_type', type: client.type };
   }
 }

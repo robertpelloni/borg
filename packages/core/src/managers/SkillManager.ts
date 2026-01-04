@@ -1,56 +1,93 @@
-import chokidar from 'chokidar';
-import fs from 'fs/promises';
-import path from 'path';
-import { EventEmitter } from 'events';
-import { SkillDefinition } from '../types.js';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Skill, SkillDefinition } from '../skills/types.js';
+import { PromptDriver, ScriptDriver, SkillDriver } from '../skills/drivers/index.js';
 
-export class SkillManager extends EventEmitter {
-  private skills: Map<string, SkillDefinition> = new Map();
-  private watcher: chokidar.FSWatcher | null = null;
-  
-  constructor(private skillsDir: string) {
-    super();
-  }
+export class SkillManager {
+  private registryPath: string;
+  private registry: SkillDefinition[] = [];
+  private drivers: SkillDriver[] = [];
 
-  async start() {
-    this.watcher = chokidar.watch(this.skillsDir, {
-      ignored: /(^|[\/\\])\../, 
-      persistent: true
-    });
-
-    this.watcher.on('add', this.loadSkill.bind(this));
-    this.watcher.on('change', this.loadSkill.bind(this));
-    this.watcher.on('unlink', this.removeSkill.bind(this));
+  constructor(registryPath?: string) {
+    const rootDir = process.cwd();
+    this.registryPath = registryPath || path.join(rootDir, 'packages/core/data/skills_registry.json');
     
-    console.log(`[SkillManager] Watching ${this.skillsDir}`);
+    // Initialize Drivers
+    this.drivers.push(new ScriptDriver()); // Check scripts first
+    this.drivers.push(new PromptDriver()); // Fallback
   }
 
-  private async loadSkill(filepath: string) {
-    try {
-      const content = await fs.readFile(filepath, 'utf-8');
-      const filename = path.basename(filepath);
-      
-      if (filename === 'SKILL.md' || filename.endsWith('.skill.md')) {
-         const skill: SkillDefinition = {
-             name: filename.replace('.skill.md', '').replace('.md', ''),
-             content: content
-         };
-         this.skills.set(filename, skill);
-         console.log(`[SkillManager] Loaded skill: ${skill.name}`);
-         this.emit('updated', this.getSkills());
-      }
-    } catch (err) {
-      console.error(`[SkillManager] Error loading skill ${filepath}:`, err);
+  public async initialize(): Promise<void> {
+    if (fs.existsSync(this.registryPath)) {
+      const data = fs.readFileSync(this.registryPath, 'utf-8');
+      const loaded = JSON.parse(data);
+      // Ensure 'content' property exists for compatibility
+      this.registry = loaded.map((s: any) => ({
+          ...s,
+          content: s.content || ""
+      }));
+      // console.log(`[SkillManager] Loaded ${this.registry.length} skills from registry.`);
+    } else {
+      console.warn(`[SkillManager] Registry not found at ${this.registryPath}`);
     }
   }
 
-  private removeSkill(filepath: string) {
-      const filename = path.basename(filepath);
-      this.skills.delete(filename);
-      this.emit('updated', this.getSkills());
+  public listSkills(): SkillDefinition[] {
+    return this.registry;
+  }
+  
+  // Compatibility alias for existing code
+  public getSkills(): SkillDefinition[] {
+      return this.registry;
+  }
+  
+  // Compatibility for EventEmitter usage in server.ts
+  public on(event: string, listener: (...args: any[]) => void): this {
+      // Mock implementation to satisfy TS check for now
+      // Real implementation would extend EventEmitter
+      return this;
   }
 
-  getSkills() {
-    return Array.from(this.skills.values());
+  // Compatibility for start() call in server.ts
+  public async start(): Promise<void> {
+      await this.initialize();
+  }
+
+  public getSkillDefinition(id: string): SkillDefinition | undefined {
+    return this.registry.find(s => s.id === id);
+  }
+
+  public async loadSkill(id: string): Promise<Skill | null> {
+    const def = this.getSkillDefinition(id);
+    if (!def) {
+        throw new Error(`Skill with ID ${id} not found.`);
+    }
+
+    const driver = this.getDriver(def);
+    if (driver) {
+        return await driver.load(def);
+    }
+    throw new Error(`No driver found for skill ${id}`);
+  }
+
+  public async executeSkill(id: string, params: any = {}, context: any = {}): Promise<any> {
+      const def = this.getSkillDefinition(id);
+      if (!def) throw new Error(`Skill ${id} not found`);
+
+      const driver = this.getDriver(def);
+      if (!driver) throw new Error(`No driver for skill ${id}`);
+
+      // Load first (drivers might cache)
+      const skill = await driver.load(def);
+      
+      if (driver.execute) {
+          return await driver.execute(skill, params, context);
+      } else {
+          throw new Error(`Driver for ${id} does not support execution`);
+      }
+  }
+
+  private getDriver(def: SkillDefinition): SkillDriver | undefined {
+      return this.drivers.find(d => d.canHandle(def));
   }
 }

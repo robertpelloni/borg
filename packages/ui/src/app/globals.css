@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.375rem;
+    --background: 0.98 0 0;
+    --foreground: 0.18 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.18 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0 0;
+    --primary: 0.55 0.25 285;
+    --primary-foreground: 1 0 0;
+    --secondary: 0.95 0 0;
+    --secondary-foreground: 0.18 0 0;
+    --muted: 0.96 0 0;
+    --muted-foreground: 0.45 0 0;
+    --accent: 0.6 0.2 285;
+    --accent-foreground: 1 0 0;
+    --destructive: 0.6 0.25 25;
+    --border: 0.9 0 0;
+    --input: 0.92 0 0;
+    --ring: 0.55 0.25 285;
+    --chart-1: 0.6 0.25 285;
+    --chart-2: 0.65 0.2 310;
+    --chart-3: 0.55 0.15 260;
+    --chart-4: 0.7 0.18 270;
+    --chart-5: 0.5 0.22 300;
+    --sidebar: 0.98 0 0;
+    --sidebar-foreground: 0.18 0 0;
+    --sidebar-primary: 0.55 0.25 285;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.96 0.02 285;
+    --sidebar-accent-foreground: 0.18 0 0;
+    --sidebar-border: 0.9 0 0;
+    --sidebar-ring: 0.55 0.25 285;
+  }
+
+  .dark {
+    --background: 0.12 0 0;
+    --foreground: 0.92 0 0;
+    --card: 0.15 0 0;
+    --card-foreground: 0.92 0 0;
+    --popover: 0.14 0 0;
+    --popover-foreground: 0.92 0 0;
+    --primary: 0.65 0.25 285;
+    --primary-foreground: 0.12 0 0;
+    --secondary: 0.18 0 0;
+    --secondary-foreground: 0.92 0 0;
+    --muted: 0.2 0 0;
+    --muted-foreground: 0.7 0 0;
+    --accent: 0.25 0.1 285;
+    --accent-foreground: 0.92 0 0;
+    --destructive: 0.65 0.25 25;
+    --border: 0.25 0 0;
+    --input: 0.2 0 0;
+    --ring: 0.65 0.25 285;
+    --chart-1: 0.65 0.25 285;
+    --chart-2: 0.7 0.2 310;
+    --chart-3: 0.6 0.15 260;
+    --chart-4: 0.75 0.18 270;
+    --chart-5: 0.55 0.22 300;
+    --sidebar: 0.1 0 0;
+    --sidebar-foreground: 0.85 0 0;
+    --sidebar-primary: 0.65 0.25 285;
+    --sidebar-primary-foreground: 0.12 0 0;
+    --sidebar-accent: 0.16 0.05 285;
+    --sidebar-accent-foreground: 0.92 0 0;
+    --sidebar-border: 0.22 0 0;
+    --sidebar-ring: 0.65 0.25 285;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+}
+
+/* minimal scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(var(--border));
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--muted-foreground) / 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(var(--border)) transparent;
+}

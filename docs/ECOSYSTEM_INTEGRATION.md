@@ -1,12 +1,12 @@
 # Ecosystem Integration Strategy
 
-This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "Super AI Plugin".
+This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "aios".
 
 ## 1. Browser Extension & Connectivity
 **Repo:** `references/MCP-SuperAssistant`
 - **Role:** Foundation.
 - **Integration:** This codebase will serve as the reference implementation for the project's Browser Extension interface and the WebSocket/StreamingHTTP server.
-- **Goal:** Enable the "Super AI Plugin" to interact directly with web pages and browser events.
+- **Goal:** Enable the "aios" to interact directly with web pages and browser events.
 
 ## 2. Data Sources & Voice
 **Repos:** `references/notebooklm-mcp`, `references/voicemode`
@@ -30,15 +30,48 @@ This document outlines the strategy for integrating the extensive list of submod
 **Repos:** `references/mux`, `references/smolagents`
 - **Role:** UI & Logic.
 - **Integration:**
-    - `mux`: Its "autonomous agentic loop" logic will be integrated into the AIOS UI, providing a "Jules-like" interface for long-running tasks.
+    - `mux`: Its "autonomous agentic loop" logic will be integrated into the aios UI, providing a "Jules-like" interface for long-running tasks.
     - `smolagents`: Will be implemented to allow for a powerful autonomous cloud/local agentic development loop, utilizing skills and subagents.
 
-## 6. Multi-CLI Orchestration
+## 6. Multi-CLI Orchestration (The "Swiss Army Knife")
 **Repos:** `references/Puzld.ai`, `references/emdash`, `references/claude-squad`
-- **Role:** Orchestration.
-- **Integration:** Implement alongside `mux` to enable the Hub to orchestrate multiple CLI platforms (Claude Code, Gemini CLI, etc.) simultaneously, leveraging their specific ecosystems.
+**Target CLIs:** `gemini-cli`, `claude-code`, `opencode`, `aider`, `mentat`, `fabric`, `gh`, `az`, `aws`.
+- **Role:** Orchestration & Capability Library.
+- **Integration:**
+    - **Super-Wrapper:** Wrap these CLIs to provide them with a Web UI and history.
+    - **Feature Mining:** Audit these CLIs to ensure aios has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
+    - **Delegation:** Use them as heavy-duty tools for specific tasks (e.g., "Ask `aider` to refactor this file").
+    - **Submodule Strategy:** Maintain them as submodules in `references/clis/` to keep the "drivers" available for the OS.
 
-## 7. Registry & Package Management
+### Feature Parity Goals (from Amp & Aider)
+*   **Oracle:** Implement an `oracle` tool (via `metamcp`) that routes complex queries to a reasoning model (o1/r1).
+*   **Librarian:** Implement a `librarian` tool that uses `pluggedin-app` or GitHub search to query external repos.
+*   **Toolboxes:** Allow users to drop scripts into `.aios/toolbox/` to auto-register them as MCP tools (inspired by Amp).
+*   **Repo Map:** Implement AST-based repository mapping (inspired by Aider).
+
+## 7. The "Swiss Army Knife" Strategy (Multi-CLI Orchestration)
+
+To ensure the aios is the "Universal" operating system, we adopt a "Swiss Army Knife" strategy. Instead of competing with individual CLI tools (like Aider, Gemini CLI, or Claude Code), we **aggregate** them. The aios acts as the "Motherboard" that can mount and drive any of these tools as plugins.
+
+### 7.1. Integrated CLI Drivers
+We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The aios Core Server can invoke these CLIs to perform specialized tasks that they excel at.
+
+| CLI Tool | Repository | Primary Strength | Integration Role |
+| :--- | :--- | :--- | :--- |
+| **Gemini CLI** | `google-gemini/gemini-cli` | Native Google ecosystem integration, multimodal inputs. | **General Purpose.** Default driver for Gemini models. |
+| **Aider** | `paul-gauthier/aider` | SOTA code editing, "Repo Map" context awareness. | **Code Editor.** Invoked for complex multi-file refactoring tasks. |
+| **Mentat** | `AbanteAI/mentat` | Coordinate-based editing, strong context management. | **Code Editor.** Alternative to Aider for specific workflows. |
+| **Fabric** | `danielmiessler/fabric` | "Patterns" (prompts) for life/work, wisdom extraction. | **Wisdom Engine.** Used for summarization, extraction, and analysis tasks. |
+| **Goose** | `block/goose` | Developer-centric agent with strong tool use. | **Developer Agent.** Autonomous developer tasks. |
+| **KiloCode** | `Kilo-Org/kilocode` | "Memory Bank" architecture, persistent project context. | **Project Manager.** Used for maintaining long-term project state. |
+| **Amp** | `sourcegraph/amp` | "Oracle" (reasoning) and "Librarian" (search). | **Researcher.** Used for deep reasoning and cross-repo search. |
+
+### 7.2. Integration Architecture
+1.  **Submodule Management:** All CLIs are checked out in `references/clis/` to ensure we have the exact source code and can patch/wrap them if necessary.
+2.  **Unified Interface:** The `metamcp` server exposes a unified tool interface (e.g., `run_code_edit`, `ask_oracle`) that routes to the appropriate CLI.
+3.  **Context Sharing:** The aios Hub generates a "Universal Context" (e.g., `aios.md` or `context.md`) that these CLIs are instructed to read, ensuring they share the same memory state.
+
+## 8. Registry & Package Management
 **Repo:** `references/mcpm.sh`
 - **Role:** Infrastructure.
 - **Integration:** Implement a dynamic MCP registry/storefront functionality, allowing users to discover and install tools on the fly.

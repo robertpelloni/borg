@@ -1,0 +1,339 @@
+[
+  {
+    "id": "anthropic_algorithmic-art",
+    "name": "algorithmic-art",
+    "description": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\algorithmic-art",
+    "metadata": {
+      "name": "algorithmic-art",
+      "description": "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_brand-guidelines",
+    "name": "brand-guidelines",
+    "description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\brand-guidelines",
+    "metadata": {
+      "name": "brand-guidelines",
+      "description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_canvas-design",
+    "name": "canvas-design",
+    "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\canvas-design",
+    "metadata": {
+      "name": "canvas-design",
+      "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_doc-coauthoring",
+    "name": "doc-coauthoring",
+    "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\doc-coauthoring",
+    "metadata": {
+      "name": "doc-coauthoring",
+      "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks."
+    }
+  },
+  {
+    "id": "anthropic_docx",
+    "name": "docx",
+    "description": "\"Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. When Claude needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks\"",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\docx",
+    "metadata": {
+      "name": "docx",
+      "description": "\"Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. When Claude needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks\"",
+      "license": "Proprietary. LICENSE.txt has complete terms"
+    }
+  },
+  {
+    "id": "anthropic_frontend-design",
+    "name": "frontend-design",
+    "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\frontend-design",
+    "metadata": {
+      "name": "frontend-design",
+      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_internal-comms",
+    "name": "internal-comms",
+    "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\internal-comms",
+    "metadata": {
+      "name": "internal-comms",
+      "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_mcp-builder",
+    "name": "mcp-builder",
+    "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\mcp-builder",
+    "metadata": {
+      "name": "mcp-builder",
+      "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_pdf",
+    "name": "pdf",
+    "description": "Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms. When Claude needs to fill in a PDF form or programmatically process, generate, or analyze PDF documents at scale.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\pdf",
+    "metadata": {
+      "name": "pdf",
+      "description": "Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms. When Claude needs to fill in a PDF form or programmatically process, generate, or analyze PDF documents at scale.",
+      "license": "Proprietary. LICENSE.txt has complete terms"
+    }
+  },
+  {
+    "id": "anthropic_pptx",
+    "name": "pptx",
+    "description": "\"Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks\"",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\pptx",
+    "metadata": {
+      "name": "pptx",
+      "description": "\"Presentation creation, editing, and analysis. When Claude needs to work with presentations (.pptx files) for: (1) Creating new presentations, (2) Modifying or editing content, (3) Working with layouts, (4) Adding comments or speaker notes, or any other presentation tasks\"",
+      "license": "Proprietary. LICENSE.txt has complete terms"
+    }
+  },
+  {
+    "id": "anthropic_skill-creator",
+    "name": "skill-creator",
+    "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\skill-creator",
+    "metadata": {
+      "name": "skill-creator",
+      "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_slack-gif-creator",
+    "name": "slack-gif-creator",
+    "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\slack-gif-creator",
+    "metadata": {
+      "name": "slack-gif-creator",
+      "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_theme-factory",
+    "name": "theme-factory",
+    "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\theme-factory",
+    "metadata": {
+      "name": "theme-factory",
+      "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_web-artifacts-builder",
+    "name": "web-artifacts-builder",
+    "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\web-artifacts-builder",
+    "metadata": {
+      "name": "web-artifacts-builder",
+      "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_webapp-testing",
+    "name": "webapp-testing",
+    "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\webapp-testing",
+    "metadata": {
+      "name": "webapp-testing",
+      "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+      "license": "Complete terms in LICENSE.txt"
+    }
+  },
+  {
+    "id": "anthropic_xlsx",
+    "name": "xlsx",
+    "description": "\"Comprehensive spreadsheet creation, editing, and analysis with support for formulas, formatting, data analysis, and visualization. When Claude needs to work with spreadsheets (.xlsx, .xlsm, .csv, .tsv, etc) for: (1) Creating new spreadsheets with formulas and formatting, (2) Reading or analyzing data, (3) Modify existing spreadsheets while preserving formulas, (4) Data analysis and visualization in spreadsheets, or (5) Recalculating formulas\"",
+    "provider": "anthropic",
+    "category": "community",
+    "path": "references\\skills_repos\\anthropic-skills\\skills\\xlsx",
+    "metadata": {
+      "name": "xlsx",
+      "description": "\"Comprehensive spreadsheet creation, editing, and analysis with support for formulas, formatting, data analysis, and visualization. When Claude needs to work with spreadsheets (.xlsx, .xlsm, .csv, .tsv, etc) for: (1) Creating new spreadsheets with formulas and formatting, (2) Reading or analyzing data, (3) Modify existing spreadsheets while preserving formulas, (4) Data analysis and visualization in spreadsheets, or (5) Recalculating formulas\"",
+      "license": "Proprietary. LICENSE.txt has complete terms"
+    }
+  },
+  {
+    "id": "openai_gh-address-comments",
+    "name": "gh-address-comments",
+    "description": "Help address review/issue comments on the open GitHub PR for the current branch using gh CLI; verify gh auth first and prompt the user to authenticate if not logged in.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\gh-address-comments",
+    "metadata": {
+      "name": "gh-address-comments",
+      "description": "Help address review/issue comments on the open GitHub PR for the current branch using gh CLI; verify gh auth first and prompt the user to authenticate if not logged in.",
+      "metadata": "short-description: Address comments in a GitHub PR review"
+    }
+  },
+  {
+    "id": "openai_gh-fix-ci",
+    "name": "gh-fix-ci",
+    "description": "Inspect GitHub PR checks with gh, pull failing GitHub Actions logs, summarize failure context, then create a fix plan and implement after user approval. Use when a user asks to debug or fix failing PR CI/CD checks on GitHub Actions and wants a plan + code changes; for external checks (e.g., Buildkite), only report the details URL and mark them out of scope.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\gh-fix-ci",
+    "metadata": {
+      "name": "gh-fix-ci",
+      "description": "Inspect GitHub PR checks with gh, pull failing GitHub Actions logs, summarize failure context, then create a fix plan and implement after user approval. Use when a user asks to debug or fix failing PR CI/CD checks on GitHub Actions and wants a plan + code changes; for external checks (e.g., Buildkite), only report the details URL and mark them out of scope.",
+      "metadata": "short-description: Fix failing Github CI actions"
+    }
+  },
+  {
+    "id": "openai_notion-knowledge-capture",
+    "name": "notion-knowledge-capture",
+    "description": "Capture conversations and decisions into structured Notion pages; use when turning chats/notes into wiki entries, how-tos, decisions, or FAQs with proper linking.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\notion-knowledge-capture",
+    "metadata": {
+      "name": "notion-knowledge-capture",
+      "description": "Capture conversations and decisions into structured Notion pages; use when turning chats/notes into wiki entries, how-tos, decisions, or FAQs with proper linking.",
+      "metadata": "short-description: Capture conversations into structured Notion pages"
+    }
+  },
+  {
+    "id": "openai_notion-meeting-intelligence",
+    "name": "notion-meeting-intelligence",
+    "description": "Prepare meeting materials with Notion context and Codex research; use when gathering context, drafting agendas/pre-reads, and tailoring materials to attendees.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\notion-meeting-intelligence",
+    "metadata": {
+      "name": "notion-meeting-intelligence",
+      "description": "Prepare meeting materials with Notion context and Codex research; use when gathering context, drafting agendas/pre-reads, and tailoring materials to attendees.",
+      "metadata": "short-description: Prep meetings with Notion context and tailored agendas"
+    }
+  },
+  {
+    "id": "openai_notion-research-documentation",
+    "name": "notion-research-documentation",
+    "description": "Research across Notion and synthesize into structured documentation; use when gathering info from multiple Notion sources to produce briefs, comparisons, or reports with citations.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\notion-research-documentation",
+    "metadata": {
+      "name": "notion-research-documentation",
+      "description": "Research across Notion and synthesize into structured documentation; use when gathering info from multiple Notion sources to produce briefs, comparisons, or reports with citations.",
+      "metadata": "short-description: Research Notion content and produce briefs/reports"
+    }
+  },
+  {
+    "id": "openai_notion-spec-to-implementation",
+    "name": "notion-spec-to-implementation",
+    "description": "Turn Notion specs into implementation plans, tasks, and progress tracking; use when implementing PRDs/feature specs and creating Notion plans + tasks from them.",
+    "provider": "openai",
+    "category": "curated",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.curated\\notion-spec-to-implementation",
+    "metadata": {
+      "name": "notion-spec-to-implementation",
+      "description": "Turn Notion specs into implementation plans, tasks, and progress tracking; use when implementing PRDs/feature specs and creating Notion plans + tasks from them.",
+      "metadata": "short-description: Turn Notion specs into implementation plans, tasks, and progress tracking"
+    }
+  },
+  {
+    "id": "openai_create-plan",
+    "name": "create-plan",
+    "description": "Create a concise plan. Use when a user explicitly asks for a plan related to a coding task.",
+    "provider": "openai",
+    "category": "experimental",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.experimental\\create-plan",
+    "metadata": {
+      "name": "create-plan",
+      "description": "Create a concise plan. Use when a user explicitly asks for a plan related to a coding task.",
+      "metadata": "short-description: Create a plan"
+    }
+  },
+  {
+    "id": "openai_linear",
+    "name": "linear",
+    "description": "Manage issues, projects & team workflows in Linear. Use when the user wants to read, create or updates tickets in Linear.",
+    "provider": "openai",
+    "category": "experimental",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.experimental\\linear",
+    "metadata": {
+      "name": "linear",
+      "description": "Manage issues, projects & team workflows in Linear. Use when the user wants to read, create or updates tickets in Linear.",
+      "metadata": "short-description: Manage Linear issues in Codex"
+    }
+  },
+  {
+    "id": "openai_skill-creator",
+    "name": "skill-creator",
+    "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations.",
+    "provider": "openai",
+    "category": "system",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.system\\skill-creator",
+    "metadata": {
+      "name": "skill-creator",
+      "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations.",
+      "metadata": "short-description: Create or update a skill"
+    }
+  },
+  {
+    "id": "openai_skill-installer",
+    "name": "skill-installer",
+    "description": "Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos).",
+    "provider": "openai",
+    "category": "system",
+    "path": "references\\skills_repos\\openai-skills\\skills\\.system\\skill-installer",
+    "metadata": {
+      "name": "skill-installer",
+      "description": "Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos).",
+      "metadata": "short-description: Install curated skills from openai/skills or other repos"
+    }
+  }
+]

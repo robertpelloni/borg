@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+// This script is the entry point for the AIOS Hub when running as an MCP server.
+// It ensures that the process runs with the correct environment variables.
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Path to the compiled index.js
+const serverPath = path.resolve(__dirname, '../dist/index.js');
+
+// Forward all arguments
+const args = process.argv.slice(2);
+
+// Spawn the server process
+const child = spawn('node', [serverPath, ...args], {
+  stdio: 'inherit',
+  env: {
+    ...process.env,
+    MCP_STDIO_ENABLED: 'true' // Force Stdio mode
+  }
+});
+
+child.on('exit', (code) => {
+  process.exit(code || 0);
+});

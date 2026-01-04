@@ -1,6 +1,6 @@
 # Progressive Disclosure Strategy
 
-Super AI Plugin implements a "Progressive Disclosure" strategy to manage context window limits effectively. Instead of exposing hundreds of tools to the LLM immediately, we expose a minimal set of "Meta Tools" that allow the LLM to discover and load what it needs.
+aios implements a "Progressive Disclosure" strategy to manage context window limits effectively. Instead of exposing hundreds of tools to the LLM immediately, we expose a minimal set of "Meta Tools" that allow the LLM to discover and load what it needs.
 
 ## Architecture
 

@@ -1,0 +1,13 @@
+{
+  "name": "default",
+  "description": "Default profile with all tools enabled",
+  "activeAgents": [
+    "*"
+  ],
+  "activeSkills": [
+    "*"
+  ],
+  "activeContexts": [
+    "*"
+  ]
+}

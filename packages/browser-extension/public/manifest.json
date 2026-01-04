@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "aios Browser Bridge",
+  "version": "0.0.1",
+  "description": "Connects your browser to the aios Hub.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

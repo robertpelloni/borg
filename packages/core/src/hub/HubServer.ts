@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { McpProxyManager } from '../managers/McpProxyManager.js';
+import { McpRouter } from '../managers/McpRouter.js';
 import { CodeExecutionManager } from '../managers/CodeExecutionManager.js';
 import { AgentManager } from '../managers/AgentManager.js';
 import { SkillManager } from '../managers/SkillManager.js';
@@ -7,12 +7,12 @@ import { PromptManager } from '../managers/PromptManager.js';
 
 /**
  * HubServer acts as the central brain.
- * It aggregates tools from all connected MCP servers (via ProxyManager)
+ * It aggregates tools from all connected MCP servers (via McpRouter)
  * and exposes them to clients (Claude, VSCode) via SSE or Stdio.
  */
 export class HubServer extends EventEmitter {
     constructor(
-        private proxyManager: McpProxyManager,
+        private mcpRouter: McpRouter,
         private codeManager: CodeExecutionManager,
         private agentManager?: AgentManager,
         private skillManager?: SkillManager,
@@ -31,7 +31,7 @@ export class HubServer extends EventEmitter {
 
         if (message.method === 'tools/list') {
             // Aggregate tools from all running servers
-            const tools = await this.proxyManager.getAllTools();
+            const tools = await this.mcpRouter.getAllTools();
             return {
                 jsonrpc: "2.0",
                 id: message.id,
@@ -137,7 +137,7 @@ export class HubServer extends EventEmitter {
             // Check if it's a code execution request
             if (name === 'execute_code') {
                 const result = await this.codeManager.execute(args.code, async (toolName: string, toolArgs: any) => {
-                    return this.proxyManager.callTool(toolName, toolArgs);
+                    return this.mcpRouter.callToolSimple(toolName, toolArgs);
                 });
                 return {
                     jsonrpc: "2.0",
@@ -148,7 +148,7 @@ export class HubServer extends EventEmitter {
 
             // Otherwise route to the correct MCP server
             try {
-                const result = await this.proxyManager.callTool(name, args);
+                const result = await this.mcpRouter.callToolSimple(name, args);
                 return {
                     jsonrpc: "2.0",
                     id: message.id,

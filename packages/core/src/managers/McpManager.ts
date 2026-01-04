@@ -1,8 +1,11 @@
 import { EventEmitter } from 'events';
-import { spawn } from 'child_process';
+import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { BridgeClient } from '@apify/mcpc/dist/lib/bridge-client.js';
+import * as BridgeManager from '@apify/mcpc/dist/lib/bridge-manager.js';
+import { getSession } from '@apify/mcpc/dist/lib/sessions.js';
 
 export class McpManager extends EventEmitter {
     private servers: Map<string, {
@@ -31,47 +34,45 @@ export class McpManager extends EventEmitter {
 
         console.log(`Starting MCP Server ${name}: ${cmd} ${finalArgs.join(' ')}`);
 
-        const transport = new StdioClientTransport({
-            command: cmd,
-            args: finalArgs,
-            env: env,
-            stderr: 'inherit'
-        });
-
-        const client = new Client({
-            name: "SuperAI-Hub",
-            version: "1.0.0"
-        }, {
-            capabilities: {}
-        });
-
-        // We store the transport so we can close it later
-        // But StdioClientTransport doesn't expose the child process directly in public API easily,
-        // but it does have `pid`.
-        // We will assume 'running' until it closes.
-
-        this.servers.set(name, {
-            status: 'running',
-            process: null, // Managed by transport
-            client
-        });
-
-        transport.onclose = () => {
-            console.log(`Server ${name} closed`);
-            this.servers.set(name, { status: 'stopped', process: null, client: null });
-            this.emit('updated', this.getAllServers());
-        };
-
-        transport.onerror = (error) => {
-            console.error(`Server ${name} error:`, error);
-        };
-
+        // Use the Bridge Pattern from mcpc
         try {
-            await client.connect(transport);
-            console.log(`Connected to MCP server: ${name}`);
-        } catch (e: any) {
-            console.error(`Failed to connect to MCP server ${name}:`, e);
-            this.servers.set(name, { status: 'stopped', process: null, client: null });
+            // Check if a session already exists or create a new one
+            // We're adapting the McpManager to use the persistent bridge
+            
+            // 1. Construct the ServerConfig for the bridge
+            const serverConfig = {
+                command: cmd,
+                args: finalArgs,
+                env: env
+            };
+
+            // 2. Start the bridge process using BridgeManager
+            // This will spawn the background process that holds the MCP connection
+            const result = await BridgeManager.startBridge({
+                sessionName: name,
+                serverConfig: serverConfig
+            });
+
+            // 3. Connect to the bridge using BridgeClient
+            // This connects to the unix socket exposed by the bridge
+            const client = new BridgeClient(name); // BridgeClient constructor takes session name or socket path
+
+            await client.connect();
+            console.log(`Connected to MCP Bridge: ${name}`);
+
+            this.servers.set(name, {
+                status: 'running',
+                process: result.pid, // This is the PID of the bridge
+                client: client as unknown as Client // BridgeClient implements McpClient interface which is similar enough or we might need an adapter
+            });
+            
+            // We can't easily monitor the detached process directly from here without polling or using the bridge client
+            // The BridgeClient handles connection state
+
+        } catch (error) {
+             console.error(`Failed to start MCP Bridge for ${name}:`, error);
+             // Fallback or error handling
+             this.servers.set(name, { status: 'stopped', process: null, client: null });
         }
 
         this.emit('updated', this.getAllServers());
@@ -79,9 +80,19 @@ export class McpManager extends EventEmitter {
 
     async stopServer(name: string) {
         const server = this.servers.get(name);
-        if (server && server.client) {
+        if (server) {
             try {
-                await server.client.close();
+                // If we are using BridgeClient, we should close it
+                if (server.client) {
+                     // @ts-ignore
+                    if (typeof server.client.close === 'function') {
+                         await server.client.close();
+                    }
+                }
+                
+                // Stop the bridge process via manager
+                await BridgeManager.stopBridge(name);
+                
             } catch (e) {
                 console.error(`Error stopping server ${name}:`, e);
             }
@@ -102,3 +113,4 @@ export class McpManager extends EventEmitter {
         return this.servers.get(name)?.client;
     }
 }
+

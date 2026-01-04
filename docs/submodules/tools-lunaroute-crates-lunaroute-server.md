@@ -1,0 +1,270 @@
+# LunaRoute Server
+
+Production-ready LLM API gateway server with intelligent routing, circuit breakers, and session recording.
+
+## Quick Start
+
+### 1. Using Environment Variables Only
+
+```bash
+# Run with Anthropic dialect (for Claude Code)
+ANTHROPIC_API_KEY=your-key \
+LUNAROUTE_DIALECT=anthropic \
+cargo run --package lunaroute-server
+
+# Run with OpenAI dialect
+OPENAI_API_KEY=your-key \
+LUNAROUTE_DIALECT=openai \
+cargo run --package lunaroute-server
+```
+
+### 2. Using Configuration File
+
+Create a `config.yaml`:
+
+```yaml
+host: "127.0.0.1"
+port: 3000
+
+# API dialect - which format to accept
+api_dialect: "anthropic"  # or "openai" or "both"
+
+providers:
+  anthropic:
+    enabled: true
+    api_key: "sk-ant-..."  # Or use ${ANTHROPIC_API_KEY} to read from env
+
+session_recording:
+  enabled: false  # No file recording
+
+logging:
+  level: "info"
+  log_requests: true  # Print requests to stdout
+```
+
+Run the server:
+
+```bash
+lunaroute-server --config config.yaml
+
+# Or with environment variable
+LUNAROUTE_CONFIG=config.yaml lunaroute-server
+```
+
+### 3. Using CLI Arguments (Highest Precedence)
+
+```bash
+# Override dialect from command line
+lunaroute-server --dialect anthropic
+
+# Or combine with config file
+lunaroute-server --config config.yaml --dialect openai
+```
+
+### Configuration Precedence
+
+Settings are applied in this order (later overrides earlier):
+
+1. **Config file** (`--config config.yaml`)
+2. **Environment variables** (`LUNAROUTE_DIALECT=anthropic`)
+3. **CLI arguments** (`--dialect anthropic`) ← Highest precedence
+
+Example:
+```bash
+# Config file says openai, but CLI overrides to anthropic
+lunaroute-server --config config.yaml --dialect anthropic
+```
+
+## Configuration Reference
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LUNAROUTE_CONFIG` | Path to config file | none |
+| `LUNAROUTE_DIALECT` | API format to accept (anthropic/openai/both) | anthropic |
+| `ANTHROPIC_API_KEY` | Anthropic API key (no prefix) | none |
+| `OPENAI_API_KEY` | OpenAI API key (no prefix) | none |
+| `LUNAROUTE_HOST` | Server bind address | 127.0.0.1 |
+| `LUNAROUTE_PORT` | Server port | 3000 |
+| `LUNAROUTE_ENABLE_SESSION_RECORDING` | Enable session recording | false |
+| `LUNAROUTE_SESSIONS_DIR` | Session storage directory | ~/.lunaroute/sessions |
+| `LUNAROUTE_LOG_REQUESTS` | Log requests to stdout | false |
+| `LUNAROUTE_LOG_LEVEL` | Log level (trace/debug/info/warn/error) | info |
+
+#### Web UI Settings
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LUNAROUTE_UI_ENABLED` | Enable web UI server | true |
+| `LUNAROUTE_UI_HOST` | UI server bind address | 127.0.0.1 |
+| `LUNAROUTE_UI_PORT` | UI server port | 8082 |
+| `LUNAROUTE_UI_REFRESH_INTERVAL` | Auto-refresh interval (seconds) | 5 |
+
+#### HTTP Client Pool Settings (Per-Provider)
+
+Configure connection pooling for optimal performance. Replace `<PROVIDER>` with `OPENAI` or `ANTHROPIC`:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LUNAROUTE_<PROVIDER>_TIMEOUT_SECS` | Total request timeout (seconds) | 600 |
+| `LUNAROUTE_<PROVIDER>_CONNECT_TIMEOUT_SECS` | Connection establishment timeout | 10 |
+| `LUNAROUTE_<PROVIDER>_POOL_MAX_IDLE` | Max idle connections per host | 32 |
+| `LUNAROUTE_<PROVIDER>_POOL_IDLE_TIMEOUT_SECS` | Expire idle connections after N seconds | 90 |
+| `LUNAROUTE_<PROVIDER>_TCP_KEEPALIVE_SECS` | TCP keepalive interval | 60 |
+| `LUNAROUTE_<PROVIDER>_MAX_RETRIES` | Max retries for transient errors | 3 |
+| `LUNAROUTE_<PROVIDER>_ENABLE_POOL_METRICS` | Enable pool metrics | true |
+
+**Examples:**
+```bash
+# Increase OpenAI pool size for high traffic
+export LUNAROUTE_OPENAI_POOL_MAX_IDLE=64
+export LUNAROUTE_OPENAI_POOL_IDLE_TIMEOUT_SECS=120
+
+# Extend Anthropic timeout for extended thinking
+export LUNAROUTE_ANTHROPIC_TIMEOUT_SECS=900  # 15 minutes
+```
+
+See [Connection Pool Configuration](../../docs/CONNECTION_POOL_ENV_VARS.md) for complete tuning guide.
+
+**Note**: When `LUNAROUTE_LOG_LEVEL=debug`, HTTP request and response headers to/from providers will be logged, along with detailed timing metrics and session statistics on shutdown.
+
+### Config File Format
+
+Supports both YAML and TOML. Extension determines format (`.yaml`/`.yml` or `.toml`).
+
+See `config.example.yaml` in the repository root for a complete example.
+
+## Using with Claude Code
+
+To proxy Claude Code through LunaRoute:
+
+1. Start the server:
+
+```bash
+ANTHROPIC_API_KEY=your-key \
+LUNAROUTE_DIALECT=anthropic \
+LUNAROUTE_LOG_REQUESTS=true \
+cargo run --package lunaroute-server
+
+# For more verbose logging including HTTP headers:
+ANTHROPIC_API_KEY=your-key \
+LUNAROUTE_DIALECT=anthropic \
+LUNAROUTE_LOG_REQUESTS=true \
+LUNAROUTE_LOG_LEVEL=debug \
+cargo run --package lunaroute-server
+```
+
+2. Configure Claude Code to use the proxy:
+
+```bash
+export ANTHROPIC_BASE_URL=http://localhost:3000
+```
+
+3. Run Claude Code normally - all requests will be logged to stdout
+
+## API Endpoints
+
+Once running, the server exposes:
+
+### Main API
+- `POST /v1/messages` - Anthropic-compatible endpoint (Anthropic or Both dialect)
+- `POST /v1/chat/completions` - OpenAI-compatible endpoint (OpenAI or Both dialect)
+- `POST /v1/responses` - OpenAI responses endpoint (OpenAI or Both dialect)
+- `GET /v1/models` - Models endpoint (OpenAI or Both dialect)
+- `GET /healthz` - Liveness check
+- `GET /readyz` - Readiness check (includes provider status)
+- `GET /metrics` - Prometheus metrics
+
+**Note:** When using `api_dialect: "both"`, all endpoints are available simultaneously, allowing you to serve both Claude Code (Anthropic) and Codex CLI (OpenAI) from the same proxy instance.
+
+### Session API (when recording is enabled)
+- `GET /sessions` - List sessions (with filters)
+- `GET /sessions/:id` - Get session details
+- `GET /sessions/:id/timeline` - Get session timeline events
+- `GET /sessions/:id/raw/:request_id` - Get raw request/response JSON
+- `GET /sessions/:id/tools` - Get session tool usage statistics
+
+### Web UI
+The UI server runs on a separate port (default: 8082) and provides a web interface for:
+- Browsing sessions with filtering and search
+- Viewing session details, timelines, and analytics
+- Inspecting raw request/response data
+- Analyzing token usage and tool statistics
+
+Open http://localhost:8082 after starting the server.
+
+**Keyboard shortcuts:**
+- `ESC` - Close dialogs (e.g., raw request/response viewer)
+
+## Features
+
+- ✅ **Zero-downtime routing**: Automatic failover between providers
+- ✅ **Passthrough mode**: When dialect matches provider, zero-copy routing with 100% API fidelity (with session recording support)
+- ✅ **Circuit breakers**: Prevent cascading failures
+- ✅ **Health monitoring**: Track provider availability
+- ✅ **Session recording**: Optional request/response capture with session grouping
+- ✅ **Custom storage backends**: Pluggable SessionWriter trait for S3, CloudWatch, GCS, etc.
+- ✅ **Session statistics**: Per-session tracking of tokens (input/output/thinking), requests, tool usage, and proxy overhead
+- ✅ **Request logging**: Print all traffic to stdout
+- ✅ **Detailed timing metrics**: Pre/post proxy overhead, provider response time (DEBUG level)
+- ✅ **Prometheus metrics**: Request rates, latencies, tokens, tool calls, proxy overhead
+- ✅ **OpenTelemetry tracing**: Distributed tracing support
+
+### Session Statistics
+
+When running with `LUNAROUTE_LOG_LEVEL=debug`, detailed session statistics are printed on shutdown:
+
+- **Per-session metrics**: Request count, input/output/thinking tokens, tool usage, processing overhead
+- **Aggregate statistics**: Total tokens across sessions, average processing time
+- **Thinking token tracking**: Separate tracking for Anthropic extended thinking usage
+- **Tool call tracking**: Per-session and aggregate statistics on tool usage (e.g., Read, Write, Bash calls)
+- **Proxy overhead analysis**: Exact time spent in pre/post processing vs provider response
+
+Configure max sessions tracked in config file:
+```yaml
+session_stats_max_sessions: 100  # Default: 100
+```
+
+### Session ID Extraction
+
+For proper session grouping in session recording, LunaRoute can extract session IDs from Anthropic metadata:
+
+**Anthropic API** - Include session ID in `metadata.user_id`:
+```json
+{
+  "model": "claude-sonnet-4",
+  "messages": [...],
+  "metadata": {
+    "user_id": "user_abc123_account_def456_session_550e8400-e29b-41d4-a716-446655440000"
+  }
+}
+```
+
+The session ID `550e8400-e29b-41d4-a716-446655440000` will be extracted from after `_session_`, and all requests with the same session ID will be grouped in a single JSONL file.
+
+If no session ID is found in metadata, a new UUID will be generated for each request.
+
+## Building
+
+```bash
+# Development build
+cargo build --package lunaroute-server
+
+# Release build
+cargo build --release --package lunaroute-server
+
+# Binary will be at: target/release/lunaroute-server
+```
+
+## Production Deployment
+
+1. Build release binary
+2. Create config file with production settings
+3. Run with systemd or equivalent:
+
+```bash
+/path/to/lunaroute-server --config /etc/lunaroute/config.yaml
+```
+
+See deployment docs for container and Kubernetes examples.

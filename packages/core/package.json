@@ -1,30 +1,38 @@
 {
   "name": "@super-ai/core",
-  "version": "0.1.0",
+  "version": "0.2.5",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "tsx test/chaining.test.ts"
   },
   "dependencies": {
+    "@apify/mcpc": "^0.1.6",
     "@fastify/cors": "^11.2.0",
     "@fastify/static": "^8.3.0",
     "@modelcontextprotocol/sdk": "^1.25.1",
+    "@pinecone-database/pinecone": "^6.1.3",
+    "@super-ai/supervisor-plugin": "workspace:*",
+    "@types/glob": "^9.0.0",
+    "better-sqlite3": "^12.5.0",
     "chokidar": "^3.5.3",
     "eventsource": "^4.1.0",
     "fastify": "^5.6.2",
     "fuse.js": "^7.1.0",
+    "glob": "^13.0.0",
     "isolated-vm": "^6.0.2",
     "json5": "^2.2.3",
     "node-schedule": "^2.1.1",
     "openai": "^6.15.0",
     "pdf-parse": "^2.4.5",
     "socket.io": "^4.7.2",
-    "zod": "^3.22.4"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20.10.0",
     "@types/node-schedule": "^2.1.8",
     "@types/ws": "^8.5.10",
