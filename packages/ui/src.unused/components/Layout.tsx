@@ -9,7 +9,7 @@ export const Layout = () => {
       <aside className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
         <div className="p-4 border-b border-gray-700">
           <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            AIOS
+            aios
           </h1>
         </div>
 
