@@ -184,3 +184,267 @@
 [submodule "submodules/bobcoin"]
 	path = submodules/bobcoin
 	url = https://github.com/robertpelloni/bobcoin
+[submodule "external/agents_repos/agent-sessions"]
+	path = external/agents_repos/agent-sessions
+	url = https://github.com/jazzyalex/agent-sessions
+[submodule "external/agents_repos/agentic"]
+	path = external/agents_repos/agentic
+	url = https://github.com/Cluster444/agentic
+[submodule "external/agents_repos/claude-squad"]
+	path = external/agents_repos/claude-squad
+	url = https://github.com/smtg-ai/claude-squad
+[submodule "external/agents_repos/humanlayer"]
+	path = external/agents_repos/humanlayer
+	url = https://github.com/humanlayer/humanlayer
+[submodule "external/agents_repos/maestro"]
+	path = external/agents_repos/maestro
+	url = https://github.com/pedramamini/Maestro
+[submodule "external/agents_repos/mark-hingston-workflows"]
+	path = external/agents_repos/mark-hingston-workflows
+	url = https://github.com/mark-hingston/opencode-workflows
+[submodule "external/agents_repos/open-agents"]
+	path = external/agents_repos/open-agents
+	url = https://github.com/darrenhinde/OpenAgents
+[submodule "external/agents_repos/openchamber"]
+	path = external/agents_repos/openchamber
+	url = https://github.com/btriapitsyn/openchamber
+[submodule "external/agents_repos/opencode-agents"]
+	path = external/agents_repos/opencode-agents
+	url = https://github.com/veschin/opencode-agents
+[submodule "external/agents_repos/opencode-elf"]
+	path = external/agents_repos/opencode-elf
+	url = https://github.com/mark-hingston/opencode-elf
+[submodule "external/agents_repos/opencode-maestro"]
+	path = external/agents_repos/opencode-maestro
+	url = https://github.com/lleewwiiss/opencode-maestro
+[submodule "external/agents_repos/opencode-parallel-agents"]
+	path = external/agents_repos/opencode-parallel-agents
+	url = https://github.com/aptdnfapt/opencode-parallel-agents
+[submodule "external/agents_repos/opencodetisan"]
+	path = external/agents_repos/opencodetisan
+	url = https://github.com/opencodetisan/opencodetisan
+[submodule "external/agents_repos/personal-agent-systems"]
+	path = external/agents_repos/personal-agent-systems
+	url = https://github.com/darrenhinde/personal-agent-systems
+[submodule "external/agents_repos/rse-agents"]
+	path = external/agents_repos/rse-agents
+	url = https://github.com/uw-ssec/rse-agents
+[submodule "external/agents_repos/subagents"]
+	path = external/agents_repos/subagents
+	url = https://github.com/RichardHightower/subagents
+[submodule "external/auth/anthropic"]
+	path = external/auth/anthropic
+	url = https://github.com/sst/opencode-anthropic-auth
+[submodule "external/auth/copilot"]
+	path = external/auth/copilot
+	url = https://github.com/sst/opencode-copilot-auth
+[submodule "external/auth/gemini"]
+	path = external/auth/gemini
+	url = https://github.com/jenslys/opencode-gemini-auth
+[submodule "external/auth/openai-codex"]
+	path = external/auth/openai-codex
+	url = https://github.com/numman-ali/opencode-openai-codex-auth
+[submodule "external/auth/opencode-antigravity-auth"]
+	path = external/auth/opencode-antigravity-auth
+	url = https://github.com/NoeFabris/opencode-antigravity-auth
+[submodule "external/auth/opencode-google-antigravity-auth"]
+	path = external/auth/opencode-google-antigravity-auth
+	url = https://github.com/shekohex/opencode-google-antigravity-auth
+[submodule "external/config_repos/Setup_Ultimate_OpenCode"]
+	path = external/config_repos/Setup_Ultimate_OpenCode
+	url = https://github.com/FadhliRajwaa/Setup_Ultimate_OpenCode
+[submodule "external/config_repos/opencode-config-joelhooks"]
+	path = external/config_repos/opencode-config-joelhooks
+	url = https://github.com/joelhooks/opencode-config
+[submodule "external/config_repos/opencode-config-nexxeln"]
+	path = external/config_repos/opencode-config-nexxeln
+	url = https://github.com/nexxeln/opencode-config
+[submodule "external/config_repos/opencode-flake"]
+	path = external/config_repos/opencode-flake
+	url = https://github.com/AodhanHayter/opencode-flake
+[submodule "external/config_repos/opencode-manager"]
+	path = external/config_repos/opencode-manager
+	url = https://github.com/chriswritescode-dev/opencode-manager
+[submodule "external/misc/OpenCode-Hrishikesh"]
+	path = external/misc/OpenCode-Hrishikesh
+	url = https://github.com/Hrishikesh332/OpenCode
+[submodule "external/misc/awesome-opencode"]
+	path = external/misc/awesome-opencode
+	url = https://github.com/awesome-opencode/awesome-opencode
+[submodule "external/misc/hephaestus"]
+	path = external/misc/hephaestus
+	url = https://github.com/opencodenitr/hephaestus
+[submodule "external/misc/ocmonitor-share"]
+	path = external/misc/ocmonitor-share
+	url = https://github.com/Shlomob/ocmonitor-share
+[submodule "external/misc/oh-my-opencode"]
+	path = external/misc/oh-my-opencode
+	url = https://github.com/code-yeongyu/oh-my-opencode
+[submodule "external/misc/openMode"]
+	path = external/misc/openMode
+	url = https://github.com/easychen/openMode
+[submodule "external/misc/openapi-ts"]
+	path = external/misc/openapi-ts
+	url = https://github.com/hey-api/openapi-ts
+[submodule "external/misc/opencode-box"]
+	path = external/misc/opencode-box
+	url = https://github.com/filipesoccol/opencode-box
+[submodule "external/misc/opencode-context-analysis"]
+	path = external/misc/opencode-context-analysis
+	url = https://github.com/IgorWarzocha/Opencode-Context-Analysis-Plugin
+[submodule "external/misc/opencode-intersystems"]
+	path = external/misc/opencode-intersystems
+	url = https://github.com/intersystems-ib/OpenCode
+[submodule "external/misc/opencode-mobile"]
+	path = external/misc/opencode-mobile
+	url = https://github.com/DRNKNDev/opencode-mobile
+[submodule "external/misc/opencode-pty"]
+	path = external/misc/opencode-pty
+	url = https://github.com/shekohex/opencode-pty
+[submodule "external/misc/opencode-roadmap"]
+	path = external/misc/opencode-roadmap
+	url = https://github.com/IgorWarzocha/Opencode-Roadmap
+[submodule "external/misc/opencode-sessions"]
+	path = external/misc/opencode-sessions
+	url = https://github.com/malhashemi/opencode-sessions
+[submodule "external/misc/opencode-supermemory"]
+	path = external/misc/opencode-supermemory
+	url = https://github.com/supermemoryai/opencode-supermemory
+[submodule "external/misc/opencode-tokenscope"]
+	path = external/misc/opencode-tokenscope
+	url = https://github.com/ramtinJ95/opencode-tokenscope
+[submodule "external/misc/opencode-vibe"]
+	path = external/misc/opencode-vibe
+	url = https://github.com/joelhooks/opencode-vibe
+[submodule "external/misc/opencode-wrapped"]
+	path = external/misc/opencode-wrapped
+	url = https://github.com/moddi3/opencode-wrapped
+[submodule "external/misc/tokscale"]
+	path = external/misc/tokscale
+	url = https://github.com/junhoyeo/tokscale
+[submodule "external/plugins/ericc-ch-opencode-plugins"]
+	path = external/plugins/ericc-ch-opencode-plugins
+	url = https://github.com/ericc-ch/opencode-plugins
+[submodule "external/plugins/opencode-codex-plugin"]
+	path = external/plugins/opencode-codex-plugin
+	url = https://github.com/sting8k/opencode-codex-plugin
+[submodule "external/plugins/opencode-codex-provider"]
+	path = external/plugins/opencode-codex-provider
+	url = https://github.com/withakay/opencode-codex-provider
+[submodule "external/plugins/opencode-dynamic-context-pruning"]
+	path = external/plugins/opencode-dynamic-context-pruning
+	url = https://github.com/Opencode-DCP/opencode-dynamic-context-pruning
+[submodule "external/plugins/opencode-google-ai-search"]
+	path = external/plugins/opencode-google-ai-search
+	url = https://github.com/IgorWarzocha/Opencode-Google-AI-Search-Plugin
+[submodule "external/plugins/opencode-md-table-formatter"]
+	path = external/plugins/opencode-md-table-formatter
+	url = https://github.com/franlol/opencode-md-table-formatter
+[submodule "external/plugins/opencode-morph-fast-apply"]
+	path = external/plugins/opencode-morph-fast-apply
+	url = https://github.com/JRedeker/opencode-morph-fast-apply
+[submodule "external/plugins/opencode-notificator"]
+	path = external/plugins/opencode-notificator
+	url = https://github.com/panta82/opencode-notificator
+[submodule "external/plugins/opencode-notifier"]
+	path = external/plugins/opencode-notifier
+	url = https://github.com/mohak34/opencode-notifier
+[submodule "external/plugins/opencode-shell-strategy"]
+	path = external/plugins/opencode-shell-strategy
+	url = https://github.com/JRedeker/opencode-shell-strategy
+[submodule "external/plugins/opencode-smart-title"]
+	path = external/plugins/opencode-smart-title
+	url = https://github.com/Tarquinen/opencode-smart-title
+[submodule "external/plugins/opencode-type-inject"]
+	path = external/plugins/opencode-type-inject
+	url = https://github.com/nick-vi/opencode-type-inject
+[submodule "external/plugins/opencode-wakatime"]
+	path = external/plugins/opencode-wakatime
+	url = https://github.com/angristan/opencode-wakatime
+[submodule "external/plugins/opencode-websearch-cited"]
+	path = external/plugins/opencode-websearch-cited
+	url = https://github.com/ghoulr/opencode-websearch-cited
+[submodule "external/plugins/opencode-zed-extension"]
+	path = external/plugins/opencode-zed-extension
+	url = https://github.com/sst/opencode-zed-extension
+[submodule "external/plugins/pickle-thinker"]
+	path = external/plugins/pickle-thinker
+	url = https://github.com/IgorWarzocha/Pickle-Thinker
+[submodule "external/plugins/shantur-opencode-gemini-auth"]
+	path = external/plugins/shantur-opencode-gemini-auth
+	url = https://github.com/shantur/opencode-gemini-auth
+[submodule "external/research/OpenCodeEval"]
+	path = external/research/OpenCodeEval
+	url = https://github.com/richardodliu/OpenCodeEval
+[submodule "external/research/OpenCoder-llm"]
+	path = external/research/OpenCoder-llm
+	url = https://github.com/OpenCoder-llm/OpenCoder-llm
+[submodule "external/research/OpenQode"]
+	path = external/research/OpenQode
+	url = https://github.com/roman-ryzenadvanced/OpenQode-Public-Alpha-GooseUltra-
+[submodule "external/research/opencoder"]
+	path = external/research/opencoder
+	url = https://github.com/ducan-ne/opencoder
+[submodule "external/skills_repos/awesome-llm-skills"]
+	path = external/skills_repos/awesome-llm-skills
+	url = https://github.com/Prat011/awesome-llm-skills
+[submodule "external/skills_repos/malhashemi-skills"]
+	path = external/skills_repos/malhashemi-skills
+	url = https://github.com/malhashemi/opencode-skills
+[submodule "external/skills_repos/opencode-agent-skills"]
+	path = external/skills_repos/opencode-agent-skills
+	url = https://github.com/joshuadavidthomas/opencode-agent-skills
+[submodule "external/skills_repos/skills-example"]
+	path = external/skills_repos/skills-example
+	url = https://github.com/darrenhinde/Opencode-skills-example
+[submodule "external/skills_repos/swarm-tools"]
+	path = external/skills_repos/swarm-tools
+	url = https://github.com/joelhooks/swarm-tools
+[submodule "external/tools/OpenCodeRunner"]
+	path = external/tools/OpenCodeRunner
+	url = https://github.com/sijieaaa/OpenCodeRunner
+[submodule "external/tools/convx"]
+	path = external/tools/convx
+	url = https://github.com/dnakov/convx
+[submodule "external/tools/cupcake"]
+	path = external/tools/cupcake
+	url = https://github.com/eqtylab/cupcake
+[submodule "external/tools/lunaroute"]
+	path = external/tools/lunaroute
+	url = https://github.com/erans/lunaroute
+[submodule "external/tools/occtx"]
+	path = external/tools/occtx
+	url = https://github.com/hungthai1401/occtx
+[submodule "external/tools/opencode_tools"]
+	path = external/tools/opencode_tools
+	url = https://github.com/pigmej/opencode_tools
+[submodule "external/tools/poe-code"]
+	path = external/tools/poe-code
+	url = https://github.com/poe-platform/poe-code
+[submodule "external/tools/splitrail"]
+	path = external/tools/splitrail
+	url = https://github.com/Piebald-AI/splitrail
+[submodule "external/web_repos/opencode-gui"]
+	path = external/web_repos/opencode-gui
+	url = https://github.com/saffron-health/opencode-gui
+[submodule "external/web_repos/opencode-web-chris-tse"]
+	path = external/web_repos/opencode-web-chris-tse
+	url = https://github.com/chris-tse/opencode-web
+[submodule "external/web_repos/opencode-web-nihalshetty0"]
+	path = external/web_repos/opencode-web-nihalshetty0
+	url = https://github.com/nihalshetty0/opencode-web
+[submodule "external/web_repos/opencodespace"]
+	path = external/web_repos/opencodespace
+	url = https://github.com/ngramai/opencodespace
+[submodule "external/web_repos/opengui"]
+	path = external/web_repos/opengui
+	url = https://github.com/ScriptedAlchemy/opengui
+[submodule "external/web_repos/portal"]
+	path = external/web_repos/portal
+	url = https://github.com/hosenur/portal
+[submodule "external/web_repos/superset"]
+	path = external/web_repos/superset
+	url = https://github.com/superset-sh/superset
+[submodule "external/config_repos/opencode-template"]
+	path = external/config_repos/opencode-template
+	url = https://github.com/julianromli/opencode-template
