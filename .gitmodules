@@ -819,7 +819,7 @@
 
 [submodule "submodules/mcp-manager"]
 	path = submodules/mcp-manager
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/timetime-software/mcp-manager
 
 [submodule "submodules/mcp-router"]
 	path = submodules/mcp-router
@@ -863,7 +863,7 @@
 
 [submodule "submodules/supertorrent"]
 	path = submodules/supertorrent
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/robertpelloni/supertorrent
 
 [submodule "submodules/trae-agent"]
 	path = submodules/trae-agent
