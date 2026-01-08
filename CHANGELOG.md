@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-01-08
+
+### Maintenance
+-   **Ralph Loop:** Synchronized 70+ submodules to latest upstream versions.
+-   **Dashboard:** Enhanced Ecosystem Dashboard to display submodule commit hashes and last update dates.
+-   **Docs:** Updated `docs/project/STRUCTURE.md` with detailed directory layout.
+
 ## [0.3.0] - 2026-01-08
 
 ### Deep Initialization & Cleanup

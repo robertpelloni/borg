@@ -42,8 +42,9 @@
 - [x] **Universal Instructions:** Centralized agent instructions and development protocol.
 - [x] **Infrastructure Simulation:** Node Manager (Tor, Torrent, Storage) implemented.
 - [x] **Miner CLI:** `super-ai mine` command for simulating physical activity.
-- [x] **Physical Mining:** Integrate real hardware signals (Serial/GPIO) for "Proof of Dance".
-- [x] **Wallet Connect:** Real wallet integration.
+- [x] **Ralph Loop Maintenance:** Periodic synchronization of all submodules (v1.2.1).
+- [/] **Physical Mining:** Integrate real hardware signals (Serial/GPIO) for "Proof of Dance".
+- [ ] **Wallet Connect:** Real wallet integration.
 
 ## Phase 7: Maintenance & Stability (In Progress)
 - [x] **Deep Initialization:** Submodule synchronization and cleanup.

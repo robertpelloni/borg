@@ -18,6 +18,8 @@ export interface Submodule {
   integrationStrategy: string;
   status: string;
   isInstalled: boolean;
+  date?: string;
+  commit?: string;
 }
 
 async function getSubmodules(): Promise<Submodule[]> {
@@ -76,7 +78,9 @@ async function getSubmodules(): Promise<Submodule[]> {
         rationale: entry.rationale || '',
         integrationStrategy: entry.integrationStrategy || '',
         status: entry.status || 'Unknown',
-        isInstalled
+        isInstalled,
+        date: entry.date,
+        commit: entry.commit
       };
     });
   } catch (error) {

@@ -120,7 +120,21 @@ export default function EcosystemList({ initialSubmodules }: EcosystemListProps)
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="pt-4 border-t border-gray-800">
+            <CardFooter className="pt-4 border-t border-gray-800 flex flex-col gap-2 items-stretch">
+              {(module.date || module.commit) && (
+                <div className="flex justify-between w-full text-xs text-muted-foreground mb-1">
+                  {module.date && (
+                    <span className="flex items-center gap-1" title={module.date}>
+                      <span>📅</span> {new Date(module.date).toLocaleDateString()}
+                    </span>
+                  )}
+                  {module.commit && (
+                    <span className="flex items-center gap-1" title={`Commit: ${module.commit}`}>
+                      <span>#</span> <code className="bg-gray-900 px-1 rounded font-mono text-[10px]">{module.commit.substring(0, 7)}</code>
+                    </span>
+                  )}
+                </div>
+              )}
               <div className="flex justify-between w-full items-center">
                  <code className="text-xs bg-gray-900 px-2 py-1 rounded text-gray-500 truncate max-w-[150px]" title={module.path}>
                    {module.path}
