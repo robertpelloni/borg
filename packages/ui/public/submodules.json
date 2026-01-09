@@ -1,0 +1,733 @@
+{
+  "lastUpdated": "2026-01-08T23:19:47.958373",
+  "submodules": [
+    {
+      "name": "BobsGameOnline",
+      "path": "BobsGameOnline",
+      "url": "https://github.com/robertpelloni/BobsGameOnline",
+      "status": "clean",
+      "commit": "4f3015f"
+    },
+    {
+      "name": "okgame",
+      "path": "okgame",
+      "url": "https://github.com/robertpelloni/okgame",
+      "status": "modified",
+      "commit": "1d98286cc"
+    },
+    {
+      "name": "filez",
+      "path": "filez",
+      "url": "https://github.com/robertpelloni/filez",
+      "status": "modified",
+      "commit": "212ee4c5"
+    },
+    {
+      "name": "fwber",
+      "path": "fwber",
+      "url": "https://github.com/robertpelloni/fwber",
+      "status": "clean",
+      "commit": "344eaaa7f"
+    },
+    {
+      "name": "hellven",
+      "path": "hellven",
+      "url": "https://gitlab.com/robertpelloni/hellven",
+      "status": "modified",
+      "commit": "ae5d8ee8"
+    },
+    {
+      "name": "beatoraja",
+      "path": "beatoraja",
+      "url": "https://github.com/robertpelloni/beatoraja",
+      "status": "clean",
+      "commit": "ebfa678b"
+    },
+    {
+      "name": "itgmania",
+      "path": "itgmania",
+      "url": "https://github.com/robertpelloni/itgmania",
+      "status": "modified",
+      "commit": "f11362e4e1"
+    },
+    {
+      "name": "Neothesia",
+      "path": "Neothesia",
+      "url": "https://github.com/robertpelloni/Neothesia",
+      "status": "modified",
+      "commit": "3cd211a"
+    },
+    {
+      "name": "serena",
+      "path": "serena",
+      "url": "https://github.com/oraios/serena",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "playwright",
+      "path": "playwright",
+      "url": "https://github.com/microsoft/playwright",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "playwright-mcp",
+      "path": "playwright-mcp",
+      "url": "https://github.com/microsoft/playwright-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "vcpkg",
+      "path": "vcpkg",
+      "url": "https://github.com/microsoft/vcpkg",
+      "status": "modified",
+      "commit": "0e39c10736"
+    },
+    {
+      "name": "autogen",
+      "path": "autogen",
+      "url": "https://github.com/microsoft/autogen",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "amplifier",
+      "path": "amplifier",
+      "url": "https://github.com/microsoft/amplifier",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "spec-kit",
+      "path": "spec-kit",
+      "url": "https://github.com/github/spec-kit",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "claude-squad",
+      "path": "claude-squad",
+      "url": "https://github.com/robertpelloni/claude-squad",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "kilocode",
+      "path": "kilocode",
+      "url": "https://github.com/Kilo-Org/kilocode",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-tool-chainer",
+      "path": "mcp-tool-chainer",
+      "url": "https://github.com/robertpelloni/mcp-tool-chainer",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "chroma-mcp",
+      "path": "chroma-mcp",
+      "url": "https://github.com/chroma-core/chroma-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "crush",
+      "path": "crush",
+      "url": "https://github.com/charmbracelet/crush",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "opencode",
+      "path": "opencode",
+      "url": "https://github.com/sst/opencode",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "Switchboard",
+      "path": "Switchboard",
+      "url": "https://github.com/George5562/Switchboard",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcpproxy-go",
+      "path": "mcpproxy-go",
+      "url": "https://github.com/robertpelloni/mcpproxy-go",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcpproxy",
+      "path": "mcpproxy",
+      "url": "https://github.com/Dumbris/mcpproxy",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "meta-mcp-proxy",
+      "path": "meta-mcp-proxy",
+      "url": "https://github.com/nullplatform/meta-mcp-proxy",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "metamcp",
+      "path": "metamcp",
+      "url": "https://github.com/robertpelloni/metamcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcphub",
+      "path": "mcphub",
+      "url": "https://github.com/robertpelloni/mcphub",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-use",
+      "path": "mcp-use",
+      "url": "https://github.com/mcp-use/mcp-use",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-context-forge",
+      "path": "mcp-context-forge",
+      "url": "https://github.com/IBM/mcp-context-forge",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "vibesdk",
+      "path": "vibesdk",
+      "url": "https://github.com/cloudflare/vibesdk",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "changesets",
+      "path": "changesets",
+      "url": "https://github.com/changesets/changesets",
+      "status": "modified",
+      "commit": "9657b26"
+    },
+    {
+      "name": "lootbox",
+      "path": "lootbox",
+      "url": "https://github.com/jx-codes/lootbox",
+      "status": "modified",
+      "commit": "0ddfea5"
+    },
+    {
+      "name": "lazy-mcp",
+      "path": "lazy-mcp",
+      "url": "https://github.com/machjesusmoto/lazy-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "autorouter-package",
+      "path": "autorouter-package",
+      "url": "https://github.com/Mikethebot44/autorouter-package",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-proxy",
+      "path": "mcp-proxy",
+      "url": "https://github.com/TBXark/mcp-proxy",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcpm.sh",
+      "path": "mcpm.sh",
+      "url": "https://github.com/pathintegral-institute/mcpm.sh",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "pluggedin-app",
+      "path": "pluggedin-app",
+      "url": "https://github.com/robertpelloni/pluggedin-app",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "devin.cursorrules",
+      "path": "devin.cursorrules",
+      "url": "https://github.com/grapeot/devin.cursorrules",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "aichat",
+      "path": "aichat",
+      "url": "https://github.com/sigoden/aichat",
+      "status": "modified",
+      "commit": "ce3205d"
+    },
+    {
+      "name": "plandex",
+      "path": "plandex",
+      "url": "https://github.com/plandex-ai/plandex",
+      "status": "modified",
+      "commit": "e2d77207"
+    },
+    {
+      "name": "Kode",
+      "path": "Kode",
+      "url": "https://github.com/shareAI-lab/Kode",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "OpenHands",
+      "path": "OpenHands",
+      "url": "https://github.com/OpenHands/OpenHands",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "ccmanager",
+      "path": "ccmanager",
+      "url": "https://github.com/kbwo/ccmanager",
+      "status": "clean",
+      "commit": "e06dd9d"
+    },
+    {
+      "name": "inspector",
+      "path": "inspector",
+      "url": "https://github.com/MCPJam/inspector",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "Windows-Use",
+      "path": "Windows-Use",
+      "url": "https://github.com/CursorTouch/Windows-Use",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-everything-search",
+      "path": "mcp-everything-search",
+      "url": "https://github.com/mamertofabian/mcp-everything-search",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-server-deep-research",
+      "path": "mcp-server-deep-research",
+      "url": "https://github.com/reading-plus-ai/mcp-server-deep-research",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "computer-control-mcp",
+      "path": "computer-control-mcp",
+      "url": "https://github.com/AB498/computer-control-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "raindrop-io-mcp-server",
+      "path": "raindrop-io-mcp-server",
+      "url": "https://github.com/hiromitsusasaki/raindrop-io-mcp-server",
+      "status": "modified",
+      "commit": "7d52959"
+    },
+    {
+      "name": "sourcerer-mcp",
+      "path": "sourcerer-mcp",
+      "url": "https://github.com/st3v3nmw/sourcerer-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "vibe-check-mcp-server",
+      "path": "vibe-check-mcp-server",
+      "url": "https://github.com/PV-Bhat/vibe-check-mcp-server",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "voicemode",
+      "path": "voicemode",
+      "url": "https://github.com/mbailey/voicemode",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "youtube-video-summarizer-mcp",
+      "path": "youtube-video-summarizer-mcp",
+      "url": "https://github.com/nabid-pf/youtube-video-summarizer-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-toolz",
+      "path": "mcp-toolz",
+      "url": "https://github.com/taylorleese/mcp-toolz",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "servers",
+      "path": "servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "status": "modified",
+      "commit": "c7c5497"
+    },
+    {
+      "name": "grok-cli",
+      "path": "grok-cli",
+      "url": "https://github.com/superagent-ai/grok-cli",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "magg",
+      "path": "magg",
+      "url": "https://github.com/robertpelloni/magg",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "superpowers",
+      "path": "superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "code",
+      "path": "code",
+      "url": "https://github.com/just-every/code",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "qwen-code",
+      "path": "qwen-code",
+      "url": "https://github.com/QwenLM/qwen-code",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "claude-code-subagents-collection",
+      "path": "claude-code-subagents-collection",
+      "url": "https://github.com/davepoon/claude-code-subagents-collection",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "gemini-mcp-tool",
+      "path": "gemini-mcp-tool",
+      "url": "https://github.com/jamubc/gemini-mcp-tool",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "codex-bridge",
+      "path": "codex-bridge",
+      "url": "https://github.com/eLyiN/codex-bridge",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "gemini-cli",
+      "path": "gemini-cli",
+      "url": "https://github.com/google-gemini/gemini-cli",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-server-gemini",
+      "path": "mcp-server-gemini",
+      "url": "https://github.com/aliargun/mcp-server-gemini",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "ultra-mcp",
+      "path": "ultra-mcp",
+      "url": "https://github.com/RealMikeChong/ultra-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-zen",
+      "path": "mcp-zen",
+      "url": "https://github.com/199-mcp/mcp-zen",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "Super-MCP",
+      "path": "Super-MCP",
+      "url": "https://github.com/robertpelloni/Super-MCP",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-router",
+      "path": "mcp-router",
+      "url": "https://github.com/mcp-router/mcp-router",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "copyparty",
+      "path": "copyparty",
+      "url": "https://github.com/9001/copyparty",
+      "status": "clean",
+      "commit": "e9ab040c"
+    },
+    {
+      "name": "beads",
+      "path": "beads",
+      "url": "https://github.com/steveyegge/beads",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "robertpelloni.com",
+      "path": "robertpelloni.com",
+      "url": "https://gitlab.com/robertpelloni/robertpelloni.com",
+      "status": "modified",
+      "commit": "c92ccd5"
+    },
+    {
+      "name": "context-portal",
+      "path": "context-portal",
+      "url": "https://github.com/GreatScottyMac/context-portal",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "chrome-devtools-mcp",
+      "path": "chrome-devtools-mcp",
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "pluggedin-mcp-proxy",
+      "path": "pluggedin-mcp-proxy",
+      "url": "https://github.com/robertpelloni/pluggedin-mcp-proxy",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "pluggedin-mcp",
+      "path": "pluggedin-mcp",
+      "url": "https://github.com/robertpelloni/pluggedin-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "CodeMachine-CLI",
+      "path": "CodeMachine-CLI",
+      "url": "https://github.com/moazbuilds/CodeMachine-CLI",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "Distil-NPCs",
+      "path": "Distil-NPCs",
+      "url": "https://github.com/distil-labs/Distil-NPCs",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "echogarden",
+      "path": "echogarden",
+      "url": "https://github.com/echogarden-project/echogarden",
+      "status": "modified",
+      "commit": "7a60d1b"
+    },
+    {
+      "name": "libjxl",
+      "path": "libjxl",
+      "url": "https://github.com/libjxl/libjxl",
+      "status": "modified",
+      "commit": "9174e635"
+    },
+    {
+      "name": "mcp-easy-installer",
+      "path": "mcp-easy-installer",
+      "url": "https://github.com/onigetoc/mcp-easy-installer",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-manager",
+      "path": "mcp-manager",
+      "url": "https://github.com/timetime-software/mcp-manager",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-gearbox",
+      "path": "mcp-gearbox",
+      "url": "https://github.com/rohitsoni007/mcp-gearbox",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-gearbox-js",
+      "path": "mcp-gearbox-js",
+      "url": "https://github.com/rohitsoni007/mcp-gearbox-js",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-gearbox-cli",
+      "path": "mcp-gearbox-cli",
+      "url": "https://github.com/rohitsoni007/mcp-gearbox-cli",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mcp-mem0",
+      "path": "mcp-mem0",
+      "url": "https://github.com/coleam00/mcp-mem0",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mem0-mcp",
+      "path": "mem0-mcp",
+      "url": "https://github.com/mem0ai/mem0-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "mem0",
+      "path": "mem0",
+      "url": "https://github.com/mem0ai/mem0",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "OpenHands-CLI",
+      "path": "OpenHands-CLI",
+      "url": "https://github.com/OpenHands/OpenHands-CLI",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "gram",
+      "path": "gram",
+      "url": "https://github.com/speakeasy-api/gram",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "JWildfire",
+      "path": "JWildfire",
+      "url": "https://github.com/robertpelloni/JWildfire",
+      "status": "clean",
+      "commit": "bc2c370e"
+    },
+    {
+      "name": "notebooklm-mcp",
+      "path": "notebooklm-mcp",
+      "url": "https://github.com/robertpelloni/notebooklm-mcp",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "pal-mcp-server",
+      "path": "pal-mcp-server",
+      "url": "https://github.com/robertpelloni/pal-mcp-server",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "aios",
+      "path": "aios",
+      "url": "https://github.com/robertpelloni/aios",
+      "status": "modified",
+      "commit": "eda7ed7"
+    },
+    {
+      "name": "jules-autopilot",
+      "path": "jules-autopilot",
+      "url": "https://github.com/robertpelloni/jules-autopilot",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "Resume-Matcher",
+      "path": "Resume-Matcher",
+      "url": "https://github.com/srbhr/Resume-Matcher",
+      "status": "modified",
+      "commit": "8780069"
+    },
+    {
+      "name": "ArrowVortex",
+      "path": "ArrowVortex",
+      "url": "https://github.com/robertpelloni/ArrowVortex",
+      "status": "modified",
+      "commit": "8845656"
+    },
+    {
+      "name": "stepmania",
+      "path": "stepmania",
+      "url": "https://github.com/robertpelloni/stepmania",
+      "status": "clean",
+      "commit": "52a1dc3e77"
+    },
+    {
+      "name": "raindropioapp",
+      "path": "raindropioapp",
+      "url": "https://github.com/robertpelloni/raindropioapp",
+      "status": "modified",
+      "commit": "459c0ad1"
+    },
+    {
+      "name": "bobcoin",
+      "path": "bobcoin",
+      "url": "https://github.com/robertpelloni/bobcoin",
+      "status": "modified",
+      "commit": "253e9c5"
+    },
+    {
+      "name": "trae-agent",
+      "path": "trae-agent",
+      "url": "https://github.com/bytedance/trae-agent",
+      "status": "clean",
+      "commit": "d9b60cd"
+    },
+    {
+      "name": "goose",
+      "path": "goose",
+      "url": "https://github.com/block/goose",
+      "status": "missing",
+      "commit": "unknown"
+    },
+    {
+      "name": "ii-agent",
+      "path": "ii-agent",
+      "url": "https://github.com/Intelligent-Internet/ii-agent",
+      "status": "clean",
+      "commit": "ea807ea"
+    },
+    {
+      "name": "junie",
+      "path": "junie",
+      "url": "https://github.com/jetbrains-junie/junie",
+      "status": "clean",
+      "commit": "3e912f2"
+    }
+  ]
+}
