@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, AlertTriangle, Search, Filter } from 'lucide-react';
-import type { Submodule } from './page';
+import type { Submodule } from '@/types/submodule';
 
 interface EcosystemListProps {
   initialSubmodules: Submodule[];

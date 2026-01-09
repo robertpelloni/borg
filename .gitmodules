@@ -744,23 +744,35 @@
 
 [submodule "submodules/Agent-MCP"]
 	path = submodules/Agent-MCP
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/lastmile-ai/mcp-agent
+
+[submodule "submodules/agent-cli"]
+	path = submodules/agent-cli
+	url = https://github.com/robertpelloni/mcp-cli
+
+[submodule "submodules/claude-lazy-loading"]
+	path = submodules/claude-lazy-loading
+	url = https://github.com/machjesusmoto/claude-lazy-loading
+
+[submodule "submodules/mcp-launcher"]
+	path = submodules/mcp-launcher
+	url = https://github.com/moeru-ai/mcp-launcher
 
 [submodule "submodules/CLIProxyAPI"]
 	path = submodules/CLIProxyAPI
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/router-for-me/CLIProxyAPI
 
 [submodule "submodules/DesktopCommanderMCP"]
 	path = submodules/DesktopCommanderMCP
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/wonderwhy-er/DesktopCommanderMCP
 
 [submodule "submodules/Unified-MCP-Tool-Graph"]
 	path = submodules/Unified-MCP-Tool-Graph
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/pratikjadhav2726/Unified-MCP-Tool-Graph
 
 [submodule "submodules/Windows-MCP"]
 	path = submodules/Windows-MCP
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/CursorTouch/Windows-MCP
 
 [submodule "submodules/agent-cli"]
 	path = submodules/agent-cli
@@ -768,23 +780,23 @@
 
 [submodule "submodules/agent-client-protocol"]
 	path = submodules/agent-client-protocol
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/agentclientprotocol/agent-client-protocol
 
 [submodule "submodules/agentmux"]
 	path = submodules/agentmux
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/stevehuang0115/agentmux
 
 [submodule "submodules/ai-that-works"]
 	path = submodules/ai-that-works
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/ai-that-works/ai-that-works
 
 [submodule "submodules/browser-use"]
 	path = submodules/browser-use
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/browser-use/browser-use
 
 [submodule "submodules/claude-code"]
 	path = submodules/claude-code
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/anthropics/claude-code
 
 [submodule "submodules/claude-lazy-loading"]
 	path = submodules/claude-lazy-loading
@@ -792,11 +804,11 @@
 
 [submodule "submodules/copilot-cli"]
 	path = submodules/copilot-cli
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/github/copilot-cli
 
 [submodule "submodules/gemini-bridge"]
 	path = submodules/gemini-bridge
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/tkaufmann/claude-gemini-bridge
 
 [submodule "submodules/jules-autopilot"]
 	path = submodules/jules-autopilot
@@ -804,11 +816,11 @@
 
 [submodule "submodules/mcp-agent"]
 	path = submodules/mcp-agent
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/lastmile-ai/mcp-agent
 
 [submodule "submodules/mcp-hub"]
 	path = submodules/mcp-hub
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/robertpelloni/mcphub
 
 [submodule "submodules/mcp-launcher"]
 	path = submodules/mcp-launcher
@@ -820,19 +832,19 @@
 
 [submodule "submodules/mcp-router"]
 	path = submodules/mcp-router
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/mcp-router/mcp-router
 
 [submodule "submodules/mcp-shark"]
 	path = submodules/mcp-shark
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/mcp-shark/mcp-shark
 
 [submodule "submodules/mcp-zen"]
 	path = submodules/mcp-zen
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/199-mcp/mcp-zen
 
 [submodule "submodules/mcpc"]
 	path = submodules/mcpc
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/apify/mcpc
 
 [submodule "submodules/opencode-autopilot"]
 	path = submodules/opencode-autopilot
@@ -844,19 +856,19 @@
 
 [submodule "submodules/plandex"]
 	path = submodules/plandex
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/plandex-ai/plandex
 
 [submodule "submodules/quotio"]
 	path = submodules/quotio
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/nguyenphutrong/quotio
 
 [submodule "submodules/qwen-code"]
 	path = submodules/qwen-code
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/QwenLM/qwen-code
 
 [submodule "submodules/software-agent-sdk"]
 	path = submodules/software-agent-sdk
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/OpenHands/software-agent-sdk
 
 [submodule "submodules/supertorrent"]
 	path = submodules/supertorrent
@@ -864,7 +876,7 @@
 
 [submodule "submodules/trae-agent"]
 	path = submodules/trae-agent
-	url = https://github.com/robertpelloni/aios
+	url = https://github.com/bytedance/trae-agent
 [submodule "external/research/OpenQode"]
 	path = external/research/OpenQode
 	url = https://github.com/roman-ryzenadvanced/OpenQode-Public-Alpha-GooseUltra-
@@ -898,3 +910,9 @@
 [submodule "submodules/code-conductor"]
 	path = submodules/code-conductor
 	url = https://github.com/ryanmac/code-conductor
+[submodule "submodules/aichat"]
+	path = submodules/aichat
+	url = https://github.com/sigoden/aichat
+[submodule "submodules/ii-agent"]
+	path = submodules/ii-agent
+	url = https://github.com/Intelligent-Internet/ii-agent

@@ -1,733 +1,1357 @@
 {
-  "lastUpdated": "2026-01-08T23:19:47.958373",
+  "lastUpdated": "2026-01-09T00:22:27.883697",
   "submodules": [
     {
       "name": "BobsGameOnline",
       "path": "BobsGameOnline",
       "url": "https://github.com/robertpelloni/BobsGameOnline",
       "status": "clean",
-      "commit": "4f3015f"
+      "commit": "4f3015f",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "okgame",
       "path": "okgame",
       "url": "https://github.com/robertpelloni/okgame",
       "status": "modified",
-      "commit": "1d98286cc"
+      "commit": "1d98286cc",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "filez",
       "path": "filez",
       "url": "https://github.com/robertpelloni/filez",
       "status": "modified",
-      "commit": "212ee4c5"
+      "commit": "212ee4c5",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "fwber",
       "path": "fwber",
       "url": "https://github.com/robertpelloni/fwber",
       "status": "clean",
-      "commit": "344eaaa7f"
+      "commit": "344eaaa7f",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "hellven",
       "path": "hellven",
       "url": "https://gitlab.com/robertpelloni/hellven",
       "status": "modified",
-      "commit": "ae5d8ee8"
+      "commit": "ae5d8ee8",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "beatoraja",
       "path": "beatoraja",
       "url": "https://github.com/robertpelloni/beatoraja",
       "status": "clean",
-      "commit": "ebfa678b"
+      "commit": "ebfa678b",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "itgmania",
       "path": "itgmania",
       "url": "https://github.com/robertpelloni/itgmania",
       "status": "modified",
-      "commit": "f11362e4e1"
+      "commit": "f11362e4e1",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "Neothesia",
       "path": "Neothesia",
       "url": "https://github.com/robertpelloni/Neothesia",
       "status": "modified",
-      "commit": "3cd211a"
+      "commit": "3cd211a",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "serena",
       "path": "serena",
       "url": "https://github.com/oraios/serena",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "playwright",
       "path": "playwright",
       "url": "https://github.com/microsoft/playwright",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "playwright-mcp",
       "path": "playwright-mcp",
       "url": "https://github.com/microsoft/playwright-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "vcpkg",
       "path": "vcpkg",
       "url": "https://github.com/microsoft/vcpkg",
       "status": "modified",
-      "commit": "0e39c10736"
+      "commit": "0e39c10736",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "autogen",
       "path": "autogen",
       "url": "https://github.com/microsoft/autogen",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "amplifier",
       "path": "amplifier",
       "url": "https://github.com/microsoft/amplifier",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "spec-kit",
       "path": "spec-kit",
       "url": "https://github.com/github/spec-kit",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "claude-squad",
       "path": "claude-squad",
       "url": "https://github.com/robertpelloni/claude-squad",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "kilocode",
       "path": "kilocode",
       "url": "https://github.com/Kilo-Org/kilocode",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-tool-chainer",
       "path": "mcp-tool-chainer",
       "url": "https://github.com/robertpelloni/mcp-tool-chainer",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "chroma-mcp",
       "path": "chroma-mcp",
       "url": "https://github.com/chroma-core/chroma-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "crush",
       "path": "crush",
       "url": "https://github.com/charmbracelet/crush",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "opencode",
       "path": "opencode",
       "url": "https://github.com/sst/opencode",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "Switchboard",
       "path": "Switchboard",
       "url": "https://github.com/George5562/Switchboard",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcpproxy-go",
       "path": "mcpproxy-go",
       "url": "https://github.com/robertpelloni/mcpproxy-go",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcpproxy",
       "path": "mcpproxy",
       "url": "https://github.com/Dumbris/mcpproxy",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "meta-mcp-proxy",
       "path": "meta-mcp-proxy",
       "url": "https://github.com/nullplatform/meta-mcp-proxy",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "metamcp",
       "path": "metamcp",
       "url": "https://github.com/robertpelloni/metamcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcphub",
       "path": "mcphub",
       "url": "https://github.com/robertpelloni/mcphub",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-use",
       "path": "mcp-use",
       "url": "https://github.com/mcp-use/mcp-use",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-context-forge",
       "path": "mcp-context-forge",
       "url": "https://github.com/IBM/mcp-context-forge",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "vibesdk",
       "path": "vibesdk",
       "url": "https://github.com/cloudflare/vibesdk",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "changesets",
       "path": "changesets",
       "url": "https://github.com/changesets/changesets",
       "status": "modified",
-      "commit": "9657b26"
+      "commit": "9657b26",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "lootbox",
       "path": "lootbox",
       "url": "https://github.com/jx-codes/lootbox",
       "status": "modified",
-      "commit": "0ddfea5"
+      "commit": "0ddfea5",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "lazy-mcp",
       "path": "lazy-mcp",
       "url": "https://github.com/machjesusmoto/lazy-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "autorouter-package",
       "path": "autorouter-package",
       "url": "https://github.com/Mikethebot44/autorouter-package",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-proxy",
       "path": "mcp-proxy",
       "url": "https://github.com/TBXark/mcp-proxy",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcpm.sh",
       "path": "mcpm.sh",
       "url": "https://github.com/pathintegral-institute/mcpm.sh",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "pluggedin-app",
       "path": "pluggedin-app",
       "url": "https://github.com/robertpelloni/pluggedin-app",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "devin.cursorrules",
       "path": "devin.cursorrules",
       "url": "https://github.com/grapeot/devin.cursorrules",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "aichat",
       "path": "aichat",
       "url": "https://github.com/sigoden/aichat",
       "status": "modified",
-      "commit": "ce3205d"
+      "commit": "ce3205d",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "plandex",
       "path": "plandex",
       "url": "https://github.com/plandex-ai/plandex",
       "status": "modified",
-      "commit": "e2d77207"
+      "commit": "e2d77207",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "Kode",
       "path": "Kode",
       "url": "https://github.com/shareAI-lab/Kode",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "OpenHands",
       "path": "OpenHands",
       "url": "https://github.com/OpenHands/OpenHands",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "ccmanager",
       "path": "ccmanager",
       "url": "https://github.com/kbwo/ccmanager",
       "status": "clean",
-      "commit": "e06dd9d"
+      "commit": "e06dd9d",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "inspector",
       "path": "inspector",
       "url": "https://github.com/MCPJam/inspector",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "Windows-Use",
       "path": "Windows-Use",
       "url": "https://github.com/CursorTouch/Windows-Use",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-everything-search",
       "path": "mcp-everything-search",
       "url": "https://github.com/mamertofabian/mcp-everything-search",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-server-deep-research",
       "path": "mcp-server-deep-research",
       "url": "https://github.com/reading-plus-ai/mcp-server-deep-research",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "computer-control-mcp",
       "path": "computer-control-mcp",
       "url": "https://github.com/AB498/computer-control-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "raindrop-io-mcp-server",
       "path": "raindrop-io-mcp-server",
       "url": "https://github.com/hiromitsusasaki/raindrop-io-mcp-server",
       "status": "modified",
-      "commit": "7d52959"
+      "commit": "7d52959",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "sourcerer-mcp",
       "path": "sourcerer-mcp",
       "url": "https://github.com/st3v3nmw/sourcerer-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "vibe-check-mcp-server",
       "path": "vibe-check-mcp-server",
       "url": "https://github.com/PV-Bhat/vibe-check-mcp-server",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "voicemode",
       "path": "voicemode",
       "url": "https://github.com/mbailey/voicemode",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "youtube-video-summarizer-mcp",
       "path": "youtube-video-summarizer-mcp",
       "url": "https://github.com/nabid-pf/youtube-video-summarizer-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-toolz",
       "path": "mcp-toolz",
       "url": "https://github.com/taylorleese/mcp-toolz",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "servers",
       "path": "servers",
       "url": "https://github.com/modelcontextprotocol/servers",
       "status": "modified",
-      "commit": "c7c5497"
+      "commit": "c7c5497",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "grok-cli",
       "path": "grok-cli",
       "url": "https://github.com/superagent-ai/grok-cli",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "magg",
       "path": "magg",
       "url": "https://github.com/robertpelloni/magg",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "superpowers",
       "path": "superpowers",
       "url": "https://github.com/obra/superpowers",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "code",
       "path": "code",
       "url": "https://github.com/just-every/code",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "qwen-code",
       "path": "qwen-code",
       "url": "https://github.com/QwenLM/qwen-code",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "claude-code-subagents-collection",
       "path": "claude-code-subagents-collection",
       "url": "https://github.com/davepoon/claude-code-subagents-collection",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "gemini-mcp-tool",
       "path": "gemini-mcp-tool",
       "url": "https://github.com/jamubc/gemini-mcp-tool",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "codex-bridge",
       "path": "codex-bridge",
       "url": "https://github.com/eLyiN/codex-bridge",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "gemini-cli",
       "path": "gemini-cli",
       "url": "https://github.com/google-gemini/gemini-cli",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-server-gemini",
       "path": "mcp-server-gemini",
       "url": "https://github.com/aliargun/mcp-server-gemini",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "ultra-mcp",
       "path": "ultra-mcp",
       "url": "https://github.com/RealMikeChong/ultra-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-zen",
       "path": "mcp-zen",
       "url": "https://github.com/199-mcp/mcp-zen",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "Super-MCP",
       "path": "Super-MCP",
       "url": "https://github.com/robertpelloni/Super-MCP",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-router",
       "path": "mcp-router",
       "url": "https://github.com/mcp-router/mcp-router",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "copyparty",
       "path": "copyparty",
       "url": "https://github.com/9001/copyparty",
       "status": "clean",
-      "commit": "e9ab040c"
+      "commit": "e9ab040c",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "beads",
       "path": "beads",
       "url": "https://github.com/steveyegge/beads",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "robertpelloni.com",
       "path": "robertpelloni.com",
       "url": "https://gitlab.com/robertpelloni/robertpelloni.com",
       "status": "modified",
-      "commit": "c92ccd5"
+      "commit": "c92ccd5",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "context-portal",
       "path": "context-portal",
       "url": "https://github.com/GreatScottyMac/context-portal",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "chrome-devtools-mcp",
       "path": "chrome-devtools-mcp",
       "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "pluggedin-mcp-proxy",
       "path": "pluggedin-mcp-proxy",
       "url": "https://github.com/robertpelloni/pluggedin-mcp-proxy",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "pluggedin-mcp",
       "path": "pluggedin-mcp",
       "url": "https://github.com/robertpelloni/pluggedin-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "CodeMachine-CLI",
       "path": "CodeMachine-CLI",
       "url": "https://github.com/moazbuilds/CodeMachine-CLI",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "Distil-NPCs",
       "path": "Distil-NPCs",
       "url": "https://github.com/distil-labs/Distil-NPCs",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "echogarden",
       "path": "echogarden",
       "url": "https://github.com/echogarden-project/echogarden",
       "status": "modified",
-      "commit": "7a60d1b"
+      "commit": "7a60d1b",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "libjxl",
       "path": "libjxl",
       "url": "https://github.com/libjxl/libjxl",
       "status": "modified",
-      "commit": "9174e635"
+      "commit": "9174e635",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "mcp-easy-installer",
       "path": "mcp-easy-installer",
       "url": "https://github.com/onigetoc/mcp-easy-installer",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-manager",
       "path": "mcp-manager",
       "url": "https://github.com/timetime-software/mcp-manager",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-gearbox",
       "path": "mcp-gearbox",
       "url": "https://github.com/rohitsoni007/mcp-gearbox",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-gearbox-js",
       "path": "mcp-gearbox-js",
       "url": "https://github.com/rohitsoni007/mcp-gearbox-js",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-gearbox-cli",
       "path": "mcp-gearbox-cli",
       "url": "https://github.com/rohitsoni007/mcp-gearbox-cli",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mcp-mem0",
       "path": "mcp-mem0",
       "url": "https://github.com/coleam00/mcp-mem0",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mem0-mcp",
       "path": "mem0-mcp",
       "url": "https://github.com/mem0ai/mem0-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "mem0",
       "path": "mem0",
       "url": "https://github.com/mem0ai/mem0",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "OpenHands-CLI",
       "path": "OpenHands-CLI",
       "url": "https://github.com/OpenHands/OpenHands-CLI",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "gram",
       "path": "gram",
       "url": "https://github.com/speakeasy-api/gram",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "JWildfire",
       "path": "JWildfire",
       "url": "https://github.com/robertpelloni/JWildfire",
       "status": "clean",
-      "commit": "bc2c370e"
+      "commit": "bc2c370e",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "notebooklm-mcp",
       "path": "notebooklm-mcp",
       "url": "https://github.com/robertpelloni/notebooklm-mcp",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "pal-mcp-server",
       "path": "pal-mcp-server",
       "url": "https://github.com/robertpelloni/pal-mcp-server",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "aios",
       "path": "aios",
       "url": "https://github.com/robertpelloni/aios",
       "status": "modified",
-      "commit": "eda7ed7"
+      "commit": "8d551b2",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "jules-autopilot",
       "path": "jules-autopilot",
       "url": "https://github.com/robertpelloni/jules-autopilot",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "Resume-Matcher",
       "path": "Resume-Matcher",
       "url": "https://github.com/srbhr/Resume-Matcher",
       "status": "modified",
-      "commit": "8780069"
+      "commit": "8780069",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "ArrowVortex",
       "path": "ArrowVortex",
       "url": "https://github.com/robertpelloni/ArrowVortex",
       "status": "modified",
-      "commit": "8845656"
+      "commit": "8845656",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "stepmania",
       "path": "stepmania",
       "url": "https://github.com/robertpelloni/stepmania",
       "status": "clean",
-      "commit": "52a1dc3e77"
+      "commit": "52a1dc3e77",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "raindropioapp",
       "path": "raindropioapp",
       "url": "https://github.com/robertpelloni/raindropioapp",
       "status": "modified",
-      "commit": "459c0ad1"
+      "commit": "459c0ad1",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "bobcoin",
       "path": "bobcoin",
       "url": "https://github.com/robertpelloni/bobcoin",
       "status": "modified",
-      "commit": "253e9c5"
+      "commit": "253e9c5",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "trae-agent",
       "path": "trae-agent",
       "url": "https://github.com/bytedance/trae-agent",
       "status": "clean",
-      "commit": "d9b60cd"
+      "commit": "d9b60cd",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "goose",
       "path": "goose",
       "url": "https://github.com/block/goose",
       "status": "missing",
-      "commit": "unknown"
+      "commit": "unknown",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": false
     },
     {
       "name": "ii-agent",
       "path": "ii-agent",
       "url": "https://github.com/Intelligent-Internet/ii-agent",
       "status": "clean",
-      "commit": "ea807ea"
+      "commit": "ea807ea",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     },
     {
       "name": "junie",
       "path": "junie",
       "url": "https://github.com/jetbrains-junie/junie",
       "status": "clean",
-      "commit": "3e912f2"
+      "commit": "3e912f2",
+      "category": "Other",
+      "role": "Unknown",
+      "description": "",
+      "rationale": "",
+      "integrationStrategy": "",
+      "isInstalled": true
     }
   ]
 }

@@ -22,7 +22,8 @@ export async function GET() {
     if (fs.existsSync(submodulesDir)) {
         const subs = fs.readdirSync(submodulesDir);
         for (const sub of subs) {
-            if (sub.startsWith('.')) continue;
+            // Explicitly ignore system directories and known heavy folders
+            if (sub.startsWith('.') || sub === 'node_modules' || sub === 'pnpm-store' || sub === '.git' || sub === '.next') continue;
             const subPath = path.join(submodulesDir, sub);
             try {
                 if (fs.statSync(subPath).isDirectory()) {

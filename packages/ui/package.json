@@ -2,8 +2,9 @@
   "name": "@aios/ui",
   "version": "0.2.5",
   "scripts": {
-    "dev": "node server.js",
-    "build": "next build",
+    "generate:submodules": "cd ../../.. && python scripts/generate_submodules_json.py",
+    "dev": "pnpm run generate:submodules && node server.js",
+    "build": "pnpm run generate:submodules && next build",
     "start": "node server.js",
     "lint": "eslint src",
     "test": "echo \"No tests specified for UI\" && exit 0",

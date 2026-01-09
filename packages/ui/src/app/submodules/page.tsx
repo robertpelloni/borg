@@ -11,19 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-
-interface Submodule {
-  name: string;
-  path: string;
-  url: string;
-  status: "clean" | "modified" | "missing";
-  commit: string;
-}
-
-interface SubmoduleData {
-  lastUpdated: string;
-  submodules: Submodule[];
-}
+import { Submodule, SubmoduleData } from "@/types/submodule";
 
 export default function SubmodulesPage() {
   const [data, setData] = useState<SubmoduleData | null>(null);
@@ -33,7 +21,7 @@ export default function SubmodulesPage() {
   useEffect(() => {
     fetch("/submodules.json")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: SubmoduleData) => {
         setData(data);
         setLoading(false);
       })
@@ -94,6 +82,14 @@ export default function SubmodulesPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="mt-auto space-y-2">
+                <div className="text-sm">
+                  <span className="font-semibold">Category: </span>
+                  <span>{sub.category}</span>
+                </div>
+                <div className="text-sm">
+                  <span className="font-semibold">Role: </span>
+                  <span>{sub.role}</span>
+                </div>
                 <div className="text-sm">
                   <span className="font-semibold">Commit: </span>
                   <span className="font-mono">{sub.commit}</span>

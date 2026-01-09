@@ -1,96 +1,37 @@
-import fs from 'fs';
-import path from 'path';
+"use client";
+
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
-import EcosystemList from './EcosystemList'; // We'll move the client-side list logic here
+import EcosystemList from './EcosystemList';
+import { Submodule, SubmoduleData } from '@/types/submodule';
 
-// Type definition for our submodule data
-export interface Submodule {
-  name: string;
-  path: string;
-  category: string;
-  role: string;
-  description: string;
-  rationale: string;
-  integrationStrategy: string;
-  status: string;
-  isInstalled: boolean;
-  date?: string;
-  commit?: string;
-}
+export default function EcosystemDashboard() {
+  const [data, setData] = useState<SubmoduleData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-async function getSubmodules(): Promise<Submodule[]> {
-  // Try to resolve the path relative to where the server process might be running
-  // In a monorepo, it's often the root or the package root.
-  const possiblePaths = [
-    path.join(process.cwd(), 'docs/SUBMODULE_INDEX.csv'),          // Run from root
-    path.join(process.cwd(), '../../docs/SUBMODULE_INDEX.csv'),    // Run from packages/ui
-    path.join(process.cwd(), '../../../docs/SUBMODULE_INDEX.csv'), // Deeper nesting?
-  ];
-
-  let csvPath = '';
-  for (const p of possiblePaths) {
-    if (fs.existsSync(p)) {
-      csvPath = p;
-      break;
-    }
-  }
-
-  if (!csvPath) {
-    console.error('Could not find SUBMODULE_INDEX.csv in:', possiblePaths);
-    return [];
-  }
-  
-  try {
-    const fileContent = fs.readFileSync(csvPath, 'utf-8');
-    const lines = fileContent.split('\n').filter(line => line.trim() !== '');
-    const headers = lines[0].split(',').map(h => h.trim());
-    
-    // Skip header
-    return lines.slice(1).map(line => {
-      // Handle simple CSV parsing
-      // Note: This split is naive and will break if fields contain commas. 
-      // For this specific dataset, it's acceptable.
-      const values = line.split(',').map(v => v.trim());
-      const entry: any = {};
-      
-      headers.forEach((header, index) => {
-        const key = header.toLowerCase().replace(/ /g, '');
-        if (key.includes('strategy')) entry.integrationStrategy = values[index];
-        else entry[key] = values[index];
+  useEffect(() => {
+    fetch('/submodules.json')
+      .then(res => res.json())
+      .then((data: SubmoduleData) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch submodules:', err);
+        setLoading(false);
       });
+  }, []);
 
-      // Check if installed. We need to resolve the path relative to the repo root.
-      // We assume csvPath is at <ROOT>/docs/SUBMODULE_INDEX.csv
-      const repoRoot = path.dirname(path.dirname(csvPath));
-      const fullPath = path.join(repoRoot, entry.path || '');
-      const isInstalled = fs.existsSync(fullPath);
-
-      return {
-        name: entry.name || 'Unknown',
-        path: entry.path || '',
-        category: entry.category || 'Other',
-        role: entry.role || 'Tool',
-        description: entry.description || '',
-        rationale: entry.rationale || '',
-        integrationStrategy: entry.integrationStrategy || '',
-        status: entry.status || 'Unknown',
-        isInstalled,
-        date: entry.date,
-        commit: entry.commit
-      };
-    });
-  } catch (error) {
-    console.error('Error reading submodule index:', error);
-    return [];
+  if (loading) {
+    return <div className="p-8 text-center">Loading ecosystem data...</div>;
   }
-}
 
-export default async function EcosystemDashboard() {
-  const submodules = await getSubmodules();
+  const submodules = data?.submodules || [];
+  const installedCount = submodules.filter(s => s.isInstalled).length;
 
   return (
     <div className="space-y-6">
@@ -111,7 +52,7 @@ export default async function EcosystemDashboard() {
              {submodules.length} Modules
            </Badge>
            <Badge variant="secondary" className="text-lg py-1 px-3">
-             {submodules.filter(s => s.isInstalled).length} Installed
+             {installedCount} Installed
            </Badge>
         </div>
       </div>
@@ -120,3 +61,4 @@ export default async function EcosystemDashboard() {
     </div>
   );
 }
+
