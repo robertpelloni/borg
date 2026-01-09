@@ -912,3 +912,90 @@
 [submodule "submodules/ii-agent"]
 	path = submodules/ii-agent
 	url = https://github.com/Intelligent-Internet/ii-agent
+[submodule "submodules/musicbrainz-soulseek-downloader"]
+	path = submodules/musicbrainz-soulseek-downloader
+	url = https://github.com/robertpelloni/picard
+[submodule "submodules/notebooklm-mcp"]
+	path = submodules/notebooklm-mcp
+	url = https://github.com/robertpelloni/notebooklm-mcp
+[submodule "submodules/pluggedin-mcp"]
+	path = submodules/pluggedin-mcp
+	url = https://github.com/robertpelloni/pluggedin-mcp
+[submodule "submodules/pctx"]
+	path = submodules/pctx
+	url = https://github.com/robertpelloni/pctx
+[submodule "submodules/Puzld.ai"]
+	path = submodules/Puzld.ai
+	url = https://github.com/robertpelloni/Puzld.ai
+[submodule "submodules/mux"]
+	path = submodules/mux
+	url = https://github.com/robertpelloni/mux
+[submodule "submodules/voicemode"]
+	path = submodules/voicemode
+	url = https://github.com/robertpelloni/voicemode
+[submodule "submodules/superpowers"]
+	path = submodules/superpowers
+	url = https://github.com/robertpelloni/superpowers
+[submodule "submodules/mcpm.sh"]
+	path = submodules/mcpm.sh
+	url = https://github.com/robertpelloni/mcpm.sh
+[submodule "submodules/Super-MCP"]
+	path = submodules/Super-MCP
+	url = https://github.com/robertpelloni/Super-MCP
+[submodule "submodules/pluggedin-app"]
+	path = submodules/pluggedin-app
+	url = https://github.com/robertpelloni/pluggedin-app
+[submodule "submodules/emdash"]
+	path = submodules/emdash
+	url = https://github.com/robertpelloni/emdash
+[submodule "submodules/mcpproxy-go"]
+	path = submodules/mcpproxy-go
+	url = https://github.com/robertpelloni/mcpproxy-go
+[submodule "submodules/smolagents"]
+	path = submodules/smolagents
+	url = https://github.com/robertpelloni/smolagents
+[submodule "submodules/mcphub"]
+	path = submodules/mcphub
+	url = https://github.com/robertpelloni/mcphub
+[submodule "submodules/mcp-server-code-execution-mode"]
+	path = submodules/mcp-server-code-execution-mode
+	url = https://github.com/robertpelloni/mcp-server-code-execution-mode
+[submodule "submodules/pal-mcp-server"]
+	path = submodules/pal-mcp-server
+	url = https://github.com/robertpelloni/pal-mcp-server
+[submodule "submodules/Polymcp"]
+	path = submodules/Polymcp
+	url = https://github.com/robertpelloni/Polymcp
+[submodule "submodules/claude-squad"]
+	path = submodules/claude-squad
+	url = https://github.com/robertpelloni/claude-squad
+[submodule "submodules/lazy-mcp"]
+	path = submodules/lazy-mcp
+	url = https://github.com/robertpelloni/lazy-mcp
+[submodule "submodules/MCP-SuperAssistant"]
+	path = submodules/MCP-SuperAssistant
+	url = https://github.com/robertpelloni/MCP-SuperAssistant
+[submodule "submodules/jules-agent-sdk-python"]
+	path = submodules/jules-agent-sdk-python
+	url = https://github.com/robertpelloni/jules-agent-sdk-python
+[submodule "submodules/magg"]
+	path = submodules/magg
+	url = https://github.com/robertpelloni/magg
+[submodule "submodules/mcp-tool-chainer"]
+	path = submodules/mcp-tool-chainer
+	url = https://github.com/robertpelloni/mcp-tool-chainer
+[submodule "submodules/MCP-Zero"]
+	path = submodules/MCP-Zero
+	url = https://github.com/robertpelloni/MCP-Zero
+[submodule "submodules/claudex"]
+	path = submodules/claudex
+	url = https://github.com/robertpelloni/claudex
+[submodule "submodules/Auditor"]
+	path = submodules/Auditor
+	url = https://github.com/robertpelloni/Auditor
+[submodule "submodules/PowerTrader_AI"]
+	path = submodules/PowerTrader_AI
+	url = https://github.com/robertpelloni/PowerTrader_AI
+[submodule "submodules/reag"]
+	path = submodules/reag
+	url = https://github.com/robertpelloni/reag
