@@ -401,25 +401,25 @@
 	path = external/tools/OpenCodeRunner
 	url = https://github.com/sijieaaa/OpenCodeRunner
 [submodule "external/tools/convx"]
-	path = external/tools/convx
+	path = superai-cli/tools/convx
 	url = https://github.com/dnakov/convx
 [submodule "external/tools/cupcake"]
-	path = external/tools/cupcake
+	path = superai-cli/tools/cupcake
 	url = https://github.com/eqtylab/cupcake
 [submodule "external/tools/lunaroute"]
-	path = external/tools/lunaroute
+	path = superai-cli/tools/lunaroute
 	url = https://github.com/erans/lunaroute
 [submodule "external/tools/occtx"]
-	path = external/tools/occtx
+	path = superai-cli/tools/occtx
 	url = https://github.com/hungthai1401/occtx
 [submodule "external/tools/opencode_tools"]
 	path = external/tools/opencode_tools
 	url = https://github.com/pigmej/opencode_tools
 [submodule "external/tools/poe-code"]
-	path = external/tools/poe-code
+	path = superai-cli/tools/poe-code
 	url = https://github.com/poe-platform/poe-code
 [submodule "external/tools/splitrail"]
-	path = external/tools/splitrail
+	path = superai-cli/tools/splitrail
 	url = https://github.com/Piebald-AI/splitrail
 [submodule "external/web_repos/opencode-gui"]
 	path = external/web_repos/opencode-gui
@@ -491,27 +491,27 @@
 	path = references/agents/trae-agent
 	url = https://github.com/bytedance/trae-agent
 [submodule "references/clis/CodeMachine-CLI"]
-	path = references/clis/CodeMachine-CLI
+	path = superai-cli/clis-refs/CodeMachine-CLI
 	url = https://github.com/moazbuilds/CodeMachine-CLI
 
 [submodule "references/clis/fabric"]
-	path = references/clis/fabric
+	path = superai-cli/clis-refs/fabric
 	url = https://github.com/danielmiessler/fabric
 
 [submodule "references/clis/gemini-cli"]
-	path = references/clis/gemini-cli
+	path = superai-cli/clis-refs/gemini-cli
 	url = https://github.com/google-gemini/gemini-cli
 
 [submodule "references/clis/goose"]
-	path = references/clis/goose
+	path = superai-cli/clis-refs/goose
 	url = https://github.com/block/goose
 
 [submodule "references/clis/grok-cli"]
-	path = references/clis/grok-cli
+	path = superai-cli/clis-refs/grok-cli
 	url = https://github.com/superagent-ai/grok-cli
 
 [submodule "references/clis/kilocode"]
-	path = references/clis/kilocode
+	path = superai-cli/clis-refs/kilocode
 	url = https://github.com/Kilo-Org/kilocode
 
 [submodule "references/frameworks/Kode"]
@@ -870,9 +870,6 @@
 	path = submodules/supertorrent
 	url = https://github.com/robertpelloni/supertorrent
 
-[submodule "submodules/trae-agent"]
-	path = submodules/trae-agent
-	url = https://github.com/bytedance/trae-agent
 [submodule "external/research/OpenQode"]
 	path = external/research/OpenQode
 	url = https://github.com/roman-ryzenadvanced/OpenQode-Public-Alpha-GooseUltra-
@@ -901,7 +898,7 @@
 	path = submodules/mcp-reticle
 	url = https://github.com/LabTerminal/mcp-reticle
 [submodule "submodules/apify-mcp-cli"]
-	path = submodules/apify-mcp-cli
+	path = superai-cli/clis/apify-mcp-cli
 	url = https://github.com/apify/mcp-cli
 [submodule "submodules/code-conductor"]
 	path = submodules/code-conductor
@@ -909,9 +906,6 @@
 [submodule "submodules/aichat"]
 	path = submodules/aichat
 	url = https://github.com/sigoden/aichat
-[submodule "submodules/ii-agent"]
-	path = submodules/ii-agent
-	url = https://github.com/Intelligent-Internet/ii-agent
 [submodule "submodules/musicbrainz-soulseek-downloader"]
 	path = submodules/musicbrainz-soulseek-downloader
 	url = https://github.com/robertpelloni/picard
