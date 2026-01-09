@@ -6,11 +6,15 @@
     "start": "pnpm --filter @aios/core start",
     "dev": "pnpm --filter @aios/core dev",
     "build": "pnpm --filter \"./packages/*\" build",
-    "test": "pnpm --filter \"./packages/*\" test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "pnpm --filter \"./packages/*\" lint",
     "start:all": "pnpm run build && pnpm start"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "@vitest/coverage-v8": "^4.0.16",
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.16"
   }
 }

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2026-01-09
+
+### Added
+- **Testing Infrastructure:** Configured Vitest at monorepo root with unified test runner.
+  - New test suites for `CouncilManager` and `SessionManager` in `packages/core/test/`.
+  - Migrated existing UI tests from Jest to Vitest (`archive`, `templates`, `jules/client`, `jules/route`).
+  - 8 test suites, 35 tests passing.
+
+### Fixed
+- **Core Package:** Added missing `uuid` runtime dependency (was only in devDeps as `@types/uuid`).
+- **Test Cleanup:** Fixed `delete global.window` issue in Vitest by using `configurable: true` property definitions.
+
+### Removed
+- **Submodules:** Removed redundant `submodules/opencode-autopilot-backup`.
+
+### Documentation
+- **Architecture Analysis:** Documented SessionManager separation (Core vs Autopilot serve different purposes).
+- **UI Drift:** Identified orchestration logic drift between UI port and Autopilot Council (sequential vs parallel debate).
+
 ## [1.2.1] - 2026-01-08
 
 ### Maintenance

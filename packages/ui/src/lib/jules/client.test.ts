@@ -1,20 +1,21 @@
+import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { JulesClient, createJulesClient } from './client';
 
 // Mock global fetch
-global.fetch = jest.fn();
+global.fetch = vi.fn();
 
 describe('JulesClient', () => {
   const mockApiKey = 'test-api-key';
   let client: JulesClient;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     client = createJulesClient(mockApiKey);
   });
 
   describe('createSession', () => {
     it('should set requirePlanApproval to true', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as Mock).mockResolvedValue({
         ok: true,
         json: async () => ({
           id: 'session/1',
@@ -23,10 +24,7 @@ describe('JulesClient', () => {
         }),
       });
 
-      await client.createSession({
-        prompt: 'test prompt',
-        sourceId: 'test/repo',
-      });
+      await client.createSession({ prompt: 'test prompt', sourceId: 'test/repo' });
 
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/jules?path=%2Fsessions'),
@@ -40,7 +38,7 @@ describe('JulesClient', () => {
 
   describe('approvePlan', () => {
     it('should post to the correct endpoint', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as Mock).mockResolvedValue({
         ok: true,
         json: async () => ({}),
       });
@@ -49,9 +47,7 @@ describe('JulesClient', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/jules?path=%2Fsessions%2Fsession-123%3AapprovePlan'),
-        expect.objectContaining({
-          method: 'POST',
-        })
+        expect.objectContaining({ method: 'POST' })
       );
     });
   });
@@ -66,7 +62,7 @@ describe('JulesClient', () => {
         nextPageToken: 'next-token',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as Mock).mockResolvedValue({
         ok: true,
         json: async () => mockResponse,
       });
