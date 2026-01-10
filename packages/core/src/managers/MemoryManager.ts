@@ -125,6 +125,86 @@ export class MemoryManager {
         });
     }
 
+    async backfillFromSessionLogs(sessionsDir: string, options?: { 
+        since?: Date, 
+        agentFilter?: string,
+        maxSessions?: number 
+    }): Promise<{ processed: number, skipped: number, errors: number }> {
+        const stats = { processed: 0, skipped: 0, errors: 0 };
+        
+        if (!fs.existsSync(sessionsDir)) {
+            return stats;
+        }
+
+        const sessionFiles = fs.readdirSync(sessionsDir)
+            .filter(f => f.endsWith('.json'))
+            .slice(0, options?.maxSessions || 100);
+
+        for (const file of sessionFiles) {
+            try {
+                const sessionPath = path.join(sessionsDir, file);
+                const session = JSON.parse(fs.readFileSync(sessionPath, 'utf-8'));
+                
+                if (options?.since && new Date(session.timestamp) < options.since) {
+                    stats.skipped++;
+                    continue;
+                }
+                
+                if (options?.agentFilter && session.agentName !== options.agentFilter) {
+                    stats.skipped++;
+                    continue;
+                }
+
+                const keyInsights = this.extractSessionInsights(session);
+                if (keyInsights.length > 0) {
+                    for (const insight of keyInsights) {
+                        await this.remember({
+                            content: insight,
+                            tags: ['backfill', 'session', session.agentName || 'unknown']
+                        });
+                    }
+                    stats.processed++;
+                } else {
+                    stats.skipped++;
+                }
+            } catch {
+                stats.errors++;
+            }
+        }
+
+        return stats;
+    }
+
+    private extractSessionInsights(session: { id: string, agentName?: string, messages?: Array<{ role: string, content: string }> }): string[] {
+        const insights: string[] = [];
+        
+        if (!session.messages || session.messages.length === 0) {
+            return insights;
+        }
+
+        const assistantMessages = session.messages
+            .filter(m => m.role === 'assistant' && m.content)
+            .map(m => m.content);
+
+        if (assistantMessages.length === 0) {
+            return insights;
+        }
+
+        const combinedContent = assistantMessages.join(' ');
+        
+        if (combinedContent.length > 500) {
+            const summary = `Session ${session.id} (${session.agentName || 'agent'}): ${combinedContent.substring(0, 400)}...`;
+            insights.push(summary);
+        }
+
+        const codeBlocks = combinedContent.match(/```[\s\S]*?```/g);
+        if (codeBlocks && codeBlocks.length > 0) {
+            insights.push(`Session ${session.id} contained ${codeBlocks.length} code examples`);
+        }
+
+        return insights;
+    }
+
     getProviders() {
         return [];
     }
@@ -181,6 +261,20 @@ export class MemoryManager {
                 name: "memory_stats",
                 description: "Get statistics about the long-term memory.",
                 inputSchema: { type: "object", properties: {} }
+            },
+            {
+                name: "backfill_memory",
+                description: "Backfill memory from historical session logs. Extracts key insights from past sessions.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        sessionsDir: { type: "string", description: "Path to sessions directory" },
+                        since: { type: "string", description: "ISO date string to filter sessions from" },
+                        agentFilter: { type: "string", description: "Filter by agent name" },
+                        maxSessions: { type: "number", description: "Maximum sessions to process (default: 100)" }
+                    },
+                    required: ["sessionsDir"]
+                }
             }
         ];
     }

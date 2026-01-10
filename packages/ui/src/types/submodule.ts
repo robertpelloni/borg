@@ -1,4 +1,12 @@
 export type SyncStatus = 'synced' | 'behind' | 'ahead' | 'diverged' | 'unknown';
+export type HealthStatus = 'healthy' | 'warning' | 'error' | 'checking' | 'unknown';
+
+export interface SubmoduleHealth {
+  name: string;
+  status: HealthStatus;
+  lastCheck: string;
+  message?: string;
+}
 
 export interface Submodule {
   name: string;

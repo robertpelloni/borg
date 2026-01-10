@@ -45,7 +45,7 @@
 - [x] **Miner CLI:** `super-ai mine` command for simulating physical activity.
 - [x] **Ralph Loop Maintenance:** Periodic synchronization of all submodules (v1.2.1).
 - [x] **Physical Mining:** Integrate real hardware signals (Serial/GPIO) for "Proof of Dance".
-- [ ] **Wallet Connect:** Real wallet integration.
+- [x] **Wallet Connect:** Real wallet integration via WalletManager with viem.
 
 ## Phase 7: Maintenance & Stability (Completed)
 - [x] **Deep Initialization:** Submodule synchronization and cleanup.
@@ -54,8 +54,8 @@
 - [x] **CI/CD Pipelines:** Automated testing and build verification.
 - [x] **Type Safety:** Strict TypeScript configuration across all packages.
 
-## Phase 8: Ecosystem Expansion (In Progress)
-### Completed
+## Phase 8: Ecosystem Expansion (Completed)
+### Infrastructure
 - [x] **Directory Reorganization:** Created specialized directories (RAG, memory, code-indexing, computer-use, code-sandbox, search, financial, skills, superai-cli)
 - [x] **RAG Systems:** Added 9 RAG submodules (langchain, haystack, chroma, qdrant, weaviate, milvus, orama, instructor, docling)
 - [x] **Code Indexing:** Added 4 code-indexing tools (aider, bloop, ast-grep, tree-sitter)
@@ -64,30 +64,34 @@
 - [x] **Sandboxing:** Added 4 code execution tools (open-interpreter, e2b, cohere-terrarium, dagger)
 - [x] **Documentation:** Created RESOURCES.md for all new directories
 
-### Pending
-- [ ] **Wallet Connect:** Real wallet integration (viem dependency exists)
-- [ ] **Physical Mining:** Integrate serialport for hardware-based Proof-of-Dance
-- [ ] **Multi-CLI Swiss Army Knife:** Full orchestration of Claude/Gemini/OpenCode CLIs
-- [ ] **Advanced MCP Features:**
-    - [ ] Lazy loading of MCP tools
-    - [ ] Tool chaining across MCPs
-    - [ ] Dynamic registry updates
-- [ ] **Agent Improvements:**
-    - [ ] Agent auto-reflection and self-improvement
-    - [ ] A2A (Agent-to-Agent) protocol support
-    - [ ] Repo map AST summarization (aider-style)
-- [ ] **Memory System:**
-    - [ ] Memory deduplication
-    - [ ] Memory backfill from session logs
-- [ ] **UI Enhancements:**
-    - [ ] EcosystemList sync status badge
-    - [ ] Real-time submodule health indicators
+### Core Features
+- [x] **Wallet Connect:** WalletManager with viem (multi-chain: mainnet, sepolia, polygon, arbitrum, optimism, base)
+- [x] **Physical Mining:** HardwareManager with serialport integration for Proof-of-Dance
+- [x] **Multi-CLI Swiss Army Knife:** ClientManager with full orchestration (claude/gemini/opencode/aider/cursor/codex/cline)
 
-### Known Implementation Gaps
-- CouncilManager health check (packages/core line 181)
-- PythonExecutor Docker execution (line 20)
-- ClientManager CLI integration (line 121)
-- McpRouter naming conflicts (line 235)
+### Advanced MCP Features
+- [x] **Lazy loading of MCP tools:** Via `load_tool` meta-tool in McpRouter
+- [x] **Tool chaining across MCPs:** Via `mcp_chain` meta-tool in McpRouter
+- [x] **Dynamic registry updates:** Auto-refresh with `refreshRoutingTable()`
+
+### Agent Improvements
+- [x] **Agent auto-reflection:** Implemented in AutonomousAgent.ts
+- [x] **A2A (Agent-to-Agent) protocol:** Full A2AManager with Google A2A spec support
+- [x] **Repo map AST summarization:** RepoMapService with multi-language support (TS/JS/Python/Go/Rust)
+
+### Memory System
+- [x] **Memory deduplication:** Jaccard similarity (0.85 threshold) in MemoryManager
+- [x] **Memory backfill from session logs:** `backfillFromSessionLogs()` with insight extraction
+
+### UI Enhancements
+- [x] **EcosystemList sync status badge:** Color-coded badges (synced/behind/ahead/diverged)
+- [x] **Real-time submodule health indicators:** useSubmoduleHealth hook with polling
+
+### Implementation Gaps (Resolved)
+- [x] CouncilManager health check: Replaced setTimeout with `waitForAgentReady()` health polling
+- [x] PythonExecutor Docker execution: Full Docker + local fallback implementation
+- [x] ClientManager CLI integration: Complete with 7 CLI adapters
+- [x] McpRouter naming conflicts: Namespaced tool resolution with conflict handling
 
 ## Phase 9: Production Readiness (Planned)
 - [ ] **Performance Optimization:** Connection pooling, caching, lazy loading

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, AlertTriangle, Search, Filter, GitBranch } from 'lucide-react';
 import type { Submodule, SyncStatus } from '@/types/submodule';
+import { useSubmoduleHealth, getHealthColor } from '@/hooks/useSubmoduleHealth';
 
 interface EcosystemListProps {
   initialSubmodules: Submodule[];
@@ -17,6 +18,7 @@ export default function EcosystemList({ initialSubmodules }: EcosystemListProps)
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const { getHealth } = useSubmoduleHealth(initialSubmodules.map(s => s.name));
 
   const categories = ['All', ...Array.from(new Set(initialSubmodules.map(s => s.category).filter(Boolean)))];
 
@@ -88,6 +90,7 @@ export default function EcosystemList({ initialSubmodules }: EcosystemListProps)
 <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-xl text-blue-400 flex items-center gap-2">
+                  <span className={`h-2 w-2 rounded-full ${getHealthColor(getHealth(module.name).status)}`} title={`Health: ${getHealth(module.name).status}`} />
                   {module.name}
                   {module.isInstalled ? (
                     <span title="Installed & Valid">

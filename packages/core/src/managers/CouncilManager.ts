@@ -177,9 +177,7 @@ export class CouncilManager extends EventEmitter {
 
             this.setupProcessLogging(session, agentProcess, "Agent");
 
-            // 2. Wait a moment for Agent to start
-            // TODO: Health check logic? For now, 2 seconds delay.
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await this.waitForAgentReady(port, 10000, 500);
 
             // 3. Spawn Council Controller (Submodule)
             const controllerScript = path.join(this.councilSubmodulePath, 'dist', 'controller.js');
@@ -263,6 +261,26 @@ export class CouncilManager extends EventEmitter {
                 }
             });
         });
+    }
+
+    private async waitForAgentReady(port: number, timeoutMs: number, intervalMs: number): Promise<void> {
+        const startTime = Date.now();
+        
+        while (Date.now() - startTime < timeoutMs) {
+            try {
+                const response = await fetch(`http://localhost:${port}/health`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(1000)
+                });
+                if (response.ok) {
+                    return;
+                }
+            } catch {
+            }
+            await new Promise(resolve => setTimeout(resolve, intervalMs));
+        }
+        
+        throw new Error(`Agent failed to become ready within ${timeoutMs}ms`);
     }
 
     private async getGitInfo(repoPath: string) {
