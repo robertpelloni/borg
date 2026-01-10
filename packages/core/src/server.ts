@@ -52,6 +52,7 @@ import { AuthMiddleware } from './middleware/AuthMiddleware.js';
 import { SystemTrayManager } from './managers/SystemTrayManager.js';
 import { ConductorManager } from './managers/ConductorManager.js';
 import { VibeKanbanManager } from './managers/VibeKanbanManager.js';
+import { HardwareManager } from './managers/HardwareManager.js';
 import fs from 'fs';
 
 export class CoreService {
@@ -98,8 +99,9 @@ export class CoreService {
   private nodeManager: NodeManager;
   private authMiddleware: AuthMiddleware;
   private systemTrayManager: SystemTrayManager;
-  private conductorManager: ConductorManager;
+private conductorManager: ConductorManager;
   private vibeKanbanManager: VibeKanbanManager;
+  private hardwareManager: HardwareManager;
 
   constructor(
     private rootDir: string
@@ -162,8 +164,9 @@ export class CoreService {
         this.mcpManager,
         this.rootDir
     );
-    this.conductorManager = new ConductorManager(rootDir);
+this.conductorManager = new ConductorManager(rootDir);
     this.vibeKanbanManager = new VibeKanbanManager(rootDir);
+    this.hardwareManager = HardwareManager.getInstance();
 
     this.commandManager.on('updated', (commands) => {
         this.registerCommandsAsTools(commands);
@@ -555,8 +558,52 @@ export class CoreService {
         return c.json({ status: 'stopped' });
     });
 
-    this.app.get('/api/vibekanban/status', (c) => {
+this.app.get('/api/vibekanban/status', (c) => {
         return c.json(this.vibeKanbanManager.getStatus());
+    });
+
+    this.app.get('/api/hardware/ports', async (c) => {
+        const ports = await this.hardwareManager.listSerialPorts();
+        return c.json({ ports });
+    });
+
+    this.app.post('/api/hardware/connect', async (c) => {
+        const { path, baudRate } = await c.req.json();
+        const success = await this.hardwareManager.connectWearable(path, baudRate || 9600);
+        return c.json({ success });
+    });
+
+    this.app.post('/api/hardware/disconnect', async (c) => {
+        const { path } = await c.req.json();
+        this.hardwareManager.disconnectWearable(path);
+        return c.json({ success: true });
+    });
+
+    this.app.get('/api/hardware/activity', (c) => {
+        return c.json(this.hardwareManager.getAggregatedActivity());
+    });
+
+    this.app.get('/api/hardware/system', async (c) => {
+        const specs = await this.hardwareManager.getSystemSpecs();
+        return c.json(specs);
+    });
+
+    this.app.get('/api/mining/status', (c) => {
+        return c.json(this.hardwareManager.getMiningStatus());
+    });
+
+    this.app.post('/api/mining/start', async (c) => {
+        await this.hardwareManager.startMining();
+        return c.json({ status: 'started' });
+    });
+
+    this.app.post('/api/mining/stop', async (c) => {
+        await this.hardwareManager.stopMining();
+        return c.json({ status: 'stopped' });
+    });
+
+    this.app.get('/api/economy/balance', (c) => {
+        return c.json(this.economyManager.getBalance());
     });
 
     // SPA fallback - serve index.html for non-API routes

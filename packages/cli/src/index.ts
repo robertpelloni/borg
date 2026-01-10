@@ -4,6 +4,7 @@ import { statusCommand } from './commands/status.js';
 import { runAgentCommand } from './commands/run.js';
 import { mineCommand } from './commands/mine.js';
 import { tuiCommand } from './commands/tui.js';
+import { agentsCommand } from './commands/agents.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -23,5 +24,6 @@ program.addCommand(statusCommand);
 program.addCommand(runAgentCommand);
 program.addCommand(mineCommand);
 program.addCommand(tuiCommand);
+program.addCommand(agentsCommand);
 
 program.parse(process.argv);
