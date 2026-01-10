@@ -1074,3 +1074,27 @@
 [submodule "superai-cli/tools/cc-switch-cli"]
 	path = superai-cli/tools/cc-switch-cli
 	url = https://github.com/SaladDay/cc-switch-cli
+[submodule "database/mcp-servers/postgres"]
+	path = database/mcp-servers/postgres
+	url = https://github.com/gemini-cli-extensions/postgres
+[submodule "database/mcp-servers/mysql"]
+	path = database/mcp-servers/mysql
+	url = https://github.com/gemini-cli-extensions/mysql
+[submodule "computer-use/examples/claude-quickstarts"]
+	path = computer-use/examples/claude-quickstarts
+	url = https://github.com/anthropics/claude-quickstarts
+[submodule "database/mcp-servers/dbhub"]
+	path = database/mcp-servers/dbhub
+	url = https://github.com/bytebase/dbhub
+[submodule "computer-use/desktop/cua"]
+	path = computer-use/desktop/cua
+	url = https://github.com/trycua/cua
+[submodule "computer-use/desktop/magentic-ui"]
+	path = computer-use/desktop/magentic-ui
+	url = https://github.com/microsoft/magentic-ui
+[submodule "computer-use/browser/chrome-devtools-mcp"]
+	path = computer-use/browser/chrome-devtools-mcp
+	url = https://github.com/ChromeDevTools/chrome-devtools-mcp
+[submodule "computer-use/browser/algonius-browser"]
+	path = computer-use/browser/algonius-browser
+	url = https://github.com/algonius/algonius-browser
