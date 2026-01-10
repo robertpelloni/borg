@@ -15,6 +15,7 @@ import {
     MetaMCPHandlerContext
 } from '../middleware/functional-middleware.js';
 import { createLoggingMiddleware } from '../middleware/logging-middleware.js';
+import { createRateLimitMiddleware } from '../middleware/rate-limit-middleware.js';
 import { LogManager } from './LogManager.js';
 
 /**
@@ -49,8 +50,8 @@ export class McpRouter {
 
     // Compose Middleware
     this.composedCallToolHandler = compose(
-        createLoggingMiddleware({ enabled: true, logManager: this.logManager })
-        // Add more middleware here (e.g. Policy, RateLimit)
+        createLoggingMiddleware({ enabled: true, logManager: this.logManager }),
+        createRateLimitMiddleware({ windowMs: 60000, maxRequests: 100 })
     )(this.executeToolCall.bind(this));
   }
 

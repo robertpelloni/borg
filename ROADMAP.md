@@ -93,9 +93,21 @@
 - [x] ClientManager CLI integration: Complete with 7 CLI adapters
 - [x] McpRouter naming conflicts: Namespaced tool resolution with conflict handling
 
-## Phase 9: Production Readiness (Planned)
-- [ ] **Performance Optimization:** Connection pooling, caching, lazy loading
-- [ ] **Security Hardening:** API key rotation, audit logging, rate limiting
+## Phase 9: Production Readiness (In Progress)
+### Performance Optimization
+- [x] **CacheService:** LRU cache with TTL, eviction, cleanup, and `cached()` helper
+- [ ] **Connection Pooling:** Database and external service pooling
+
+### Security Hardening
+- [x] **Rate Limiting:** RateLimitMiddleware integrated into McpRouter
+- [x] **API Key Rotation:** SecretManager.rotateSecret(), scheduleRotation(), getExpiredSecrets()
+- [x] **Audit Logging:** AuditService with JSONL logs, retention policy, query API
+
+### Monitoring
+- [x] **MetricsService:** Counters, gauges, histograms with Prometheus export
+- [ ] **OpenTelemetry:** Full SDK integration (optional enhancement)
+- [ ] **Dashboards:** Grafana/metrics visualization
+
+### Infrastructure
 - [ ] **Horizontal Scaling:** Load balancing, session affinity, distributed state
-- [ ] **Monitoring:** OpenTelemetry integration, dashboards, alerting
 - [ ] **Documentation:** API reference, deployment guides, contributor docs

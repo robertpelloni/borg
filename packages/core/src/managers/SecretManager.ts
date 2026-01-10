@@ -69,12 +69,61 @@ export class SecretManager extends EventEmitter {
     }));
   }
 
-  // Returns a plain object of Key=Value for env injection
   public getEnvVars(): Record<string, string> {
     const env: Record<string, string> = {};
     for (const [key, secret] of this.secrets) {
       env[key] = secret.value;
     }
     return env;
+  }
+
+  public rotateSecret(key: string, newValue: string): { success: boolean; previousValue?: string } {
+    const existing = this.secrets.get(key);
+    if (!existing) {
+      return { success: false };
+    }
+
+    const previousValue = existing.value;
+    this.secrets.set(key, {
+      key,
+      value: newValue,
+      lastModified: Date.now()
+    });
+    this.saveSecrets();
+    
+    this.emit('rotation', { key, timestamp: Date.now() });
+    
+    return { success: true, previousValue };
+  }
+
+  public scheduleRotation(key: string, intervalMs: number, generator: () => string): NodeJS.Timeout {
+    const timer = setInterval(() => {
+      const newValue = generator();
+      const result = this.rotateSecret(key, newValue);
+      if (result.success) {
+        console.log(`[SecretManager] Rotated secret: ${key}`);
+      }
+    }, intervalMs);
+
+    return timer;
+  }
+
+  public getSecretAge(key: string): number | undefined {
+    const secret = this.secrets.get(key);
+    if (!secret) return undefined;
+    return Date.now() - secret.lastModified;
+  }
+
+  public getExpiredSecrets(maxAgeMs: number): string[] {
+    const expired: string[] = [];
+    const now = Date.now();
+    
+    for (const [key, secret] of this.secrets) {
+      if (now - secret.lastModified > maxAgeMs) {
+        expired.push(key);
+      }
+    }
+    
+    return expired;
   }
 }
