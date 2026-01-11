@@ -77,19 +77,19 @@
 	path = agents/refs/OpenHands
 	url = https://github.com/OpenHands/OpenHands
 [submodule "references/agents/amplifier"]
-	path = agents/refs/amplifier
+	path = agents/refs/agents/amplifier
 	url = https://github.com/microsoft/amplifier
 [submodule "references/agents/magentic-ui"]
 	path = computer-use/desktop/magentic-ui
 	url = https://github.com/microsoft/magentic-ui
 [submodule "references/agents/autogen"]
-	path = agents/refs/autogen
+	path = agents/refs/agents/autogen
 	url = https://github.com/microsoft/autogen
 [submodule "references/agents/agent-zero"]
 	path = agents/refs/agent-zero
 	url = https://github.com/agent0ai/agent-zero
 [submodule "references/agents/openagents"]
-	path = agents/refs/openagents
+	path = agents/refs/agents/openagents
 	url = https://github.com/openagents-org/openagents
 [submodule "references/frameworks/CopilotKit"]
 	path = frameworks/CopilotKit
@@ -390,13 +390,13 @@
 	path = agents/refs/OpenHands-CLI
 	url = https://github.com/OpenHands/OpenHands-CLI
 [submodule "references/agents/claude-code-subagents-collection"]
-	path = agents/refs/claude-code-subagents-collection
+	path = agents/refs/agents/claude-code-subagents-collection
 	url = https://github.com/davepoon/claude-code-subagents-collection
 [submodule "references/agents/devin.cursorrules"]
-	path = agents/refs/devin.cursorrules
+	path = agents/refs/agents/devin.cursorrules
 	url = https://github.com/grapeot/devin.cursorrules
 [submodule "references/agents/trae-agent"]
-	path = agents/refs/trae-agent
+	path = agents/refs/agents/trae-agent
 	url = https://github.com/bytedance/trae-agent
 [submodule "references/clis/fabric"]
 	path = superai-cli/clis-refs/fabric
@@ -435,7 +435,7 @@
 	url = https://github.com/just-every/code
 
 [submodule "references/frameworks/codex-bridge"]
-	path = cli-harnesses/codex-bridge
+	path = frameworks/codex-bridge
 	url = https://github.com/eLyiN/codex-bridge
 
 [submodule "references/frameworks/crush"]
@@ -447,11 +447,11 @@
 	url = https://github.com/cloudflare/vibesdk
 
 [submodule "references/mcp_repos/awesome-mcp-servers-appcypher"]
-	path = mcp-hubs/awesome-mcp-servers-appcypher
+	path = misc/awesome-mcp-servers-appcypher
 	url = https://github.com/appcypher/awesome-mcp-servers
 
 [submodule "references/mcp_repos/awesome-mcp-servers-wong2"]
-	path = mcp-hubs/awesome-mcp-servers-wong2
+	path = misc/awesome-mcp-servers-wong2
 	url = https://github.com/wong2/awesome-mcp-servers
 
 [submodule "references/mcp_repos/chroma-mcp"]
@@ -570,10 +570,6 @@
 	path = submodules/Agent-MCP
 	url = https://github.com/lastmile-ai/mcp-agent
 
-[submodule "submodules/agent-cli"]
-	path = submodules/agent-cli
-	url = https://github.com/apify/mcp-cli
-
 [submodule "submodules/CLIProxyAPI"]
 	path = submodules/CLIProxyAPI
 	url = https://github.com/router-for-me/CLIProxyAPI
@@ -589,10 +585,6 @@
 [submodule "submodules/Windows-MCP"]
 	path = submodules/Windows-MCP
 	url = https://github.com/CursorTouch/Windows-MCP
-
-[submodule "submodules/agent-cli"]
-	path = submodules/agent-cli
-	url = https://github.com/robertpelloni/aios
 
 [submodule "submodules/agent-client-protocol"]
 	path = submodules/agent-client-protocol
@@ -659,7 +651,7 @@
 	url = https://github.com/nguyenphutrong/quotio
 
 [submodule "submodules/qwen-code"]
-	path = submodules/qwen-code
+	path = cli-harnesses/qwen-code
 	url = https://github.com/QwenLM/qwen-code
 
 [submodule "submodules/software-agent-sdk"]
@@ -711,10 +703,10 @@
 	path = mcp-proxies/mux
 	url = https://github.com/coder/mux
 [submodule "submodules/voicemode"]
-	path = submodules/voicemode
+	path = tools/refs/voicemode
 	url = https://github.com/mbailey/voicemode
 [submodule "submodules/superpowers"]
-	path = submodules/superpowers
+	path = tools/refs/superpowers
 	url = https://github.com/obra/superpowers
 [submodule "submodules/mcpm.sh"]
 	path = mcp-hubs/mcpm.sh
@@ -723,7 +715,7 @@
 	path = mcp-frameworks/Super-MCP
 	url = https://github.com/nspr-io/Super-MCP
 [submodule "submodules/pluggedin-app"]
-	path = submodules/pluggedin-app
+	path = tools/refs/pluggedin-app
 	url = https://github.com/VeriTeknik/pluggedin-app
 [submodule "submodules/emdash"]
 	path = submodules/emdash
@@ -732,7 +724,7 @@
 	path = mcp-proxies/mcpproxy-go
 	url = https://github.com/smart-mcp-proxy/mcpproxy-go
 [submodule "submodules/smolagents"]
-	path = submodules/smolagents
+	path = agents/refs/smolagents
 	url = https://github.com/huggingface/smolagents
 [submodule "submodules/mcp-server-code-execution-mode"]
 	path = mcp-servers/code/mcp-server-code-execution-mode
@@ -750,13 +742,13 @@
 	path = mcp-frameworks/lazy-mcp
 	url = https://github.com/machjesusmoto/lazy-mcp
 [submodule "submodules/MCP-SuperAssistant"]
-	path = submodules/MCP-SuperAssistant
+	path = browser-extensions/MCP-SuperAssistant
 	url = https://github.com/robertpelloni/MCP-SuperAssistant
 [submodule "submodules/jules-agent-sdk-python"]
 	path = submodules/jules-agent-sdk-python
 	url = https://github.com/AsyncFuncAI/jules-agent-sdk-python
 [submodule "submodules/magg"]
-	path = submodules/magg
+	path = tools/refs/magg
 	url = https://github.com/sitbon/magg
 [submodule "submodules/mcp-tool-chainer"]
 	path = mcp-tools/mcp-tool-chainer
@@ -972,3 +964,15 @@
 [submodule "superai-cli/mcp-advanced/awesome-mcp-servers"]
 	path = superai-cli/mcp-advanced/awesome-mcp-servers
 	url = https://github.com/punkpeye/awesome-mcp-servers.git
+[submodule "agents/refs/smolagents"]
+	path = agents/refs/smolagents
+	url = https://github.com/huggingface/smolagents
+[submodule "tools/refs/pluggedin-app"]
+	path = tools/refs/pluggedin-app
+	url = https://github.com/VeriTeknik/pluggedin-app
+[submodule "testing/agentic-qe"]
+	path = testing/agentic-qe
+	url = https://github.com/proffesor-for-testing/agentic-qe
+[submodule "agents/refs/pydantic-ai"]
+	path = agents/refs/pydantic-ai
+	url = https://github.com/pydantic/pydantic-ai

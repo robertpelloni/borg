@@ -1,15 +1,57 @@
 import path from 'path';
 import fs from 'fs';
 import { VectorStore } from '../services/VectorStore.js';
+import { MemoryProvider } from '../interfaces/MemoryProvider.js';
+
+export interface MemorySnapshot {
+    id: string;
+    timestamp: string;
+    entryCount: number;
+    size: number;
+    description?: string;
+}
+
+export interface ProviderInfo {
+    id: string;
+    name: string;
+    type: 'vector' | 'graph' | 'key-value' | 'file' | 'external';
+    capabilities: ('read' | 'write' | 'search' | 'delete')[];
+    status: 'active' | 'inactive' | 'error';
+}
 
 export class MemoryManager {
     private memoryPath: string;
+    private snapshotsDir: string;
     private readonly SIMILARITY_THRESHOLD = 0.85; // Content must be <85% similar to be considered unique
+    private providers: Map<string, { provider: MemoryProvider; status: 'active' | 'inactive' | 'error' }> = new Map();
 
     constructor(private dataDir: string, private vectorStore: VectorStore) {
         this.memoryPath = path.join(dataDir, 'memory.json');
+        this.snapshotsDir = path.join(dataDir, 'snapshots');
         if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+        if (!fs.existsSync(this.snapshotsDir)) fs.mkdirSync(this.snapshotsDir, { recursive: true });
         if (!fs.existsSync(this.memoryPath)) fs.writeFileSync(this.memoryPath, '[]');
+    }
+
+    /**
+     * Register a memory provider (e.g., Pinecone, Mem0, LocalFile)
+     */
+    async registerProvider(provider: MemoryProvider): Promise<void> {
+        try {
+            await provider.init();
+            this.providers.set(provider.id, { provider, status: 'active' });
+            console.log(`[MemoryManager] Registered provider: ${provider.name} (${provider.id})`);
+        } catch (error) {
+            this.providers.set(provider.id, { provider, status: 'error' });
+            console.error(`[MemoryManager] Failed to register provider ${provider.id}:`, error);
+        }
+    }
+
+    /**
+     * Unregister a memory provider
+     */
+    unregisterProvider(providerId: string): boolean {
+        return this.providers.delete(providerId);
     }
 
     /**
@@ -205,20 +247,124 @@ export class MemoryManager {
         return insights;
     }
 
-    getProviders() {
-        return [];
+    getProviders(): ProviderInfo[] {
+        const providers: ProviderInfo[] = [
+            // Built-in local provider (always available)
+            {
+                id: 'local',
+                name: 'Local JSON Store',
+                type: 'file',
+                capabilities: ['read', 'write', 'search', 'delete'],
+                status: 'active'
+            },
+            {
+                id: 'vectorstore',
+                name: 'Embedded Vector Store',
+                type: 'vector',
+                capabilities: ['read', 'write', 'search'],
+                status: this.vectorStore ? 'active' : 'inactive'
+            }
+        ];
+
+        // Add registered external providers
+        for (const [id, { provider, status }] of this.providers) {
+            providers.push({
+                id,
+                name: provider.name,
+                type: provider.type,
+                capabilities: provider.capabilities,
+                status
+            });
+        }
+
+        return providers;
     }
 
-    listSnapshots() {
-        return [];
+    listSnapshots(): MemorySnapshot[] {
+        if (!fs.existsSync(this.snapshotsDir)) {
+            return [];
+        }
+
+        const snapshots: MemorySnapshot[] = [];
+        const files = fs.readdirSync(this.snapshotsDir).filter(f => f.endsWith('.json'));
+
+        for (const file of files) {
+            try {
+                const filePath = path.join(this.snapshotsDir, file);
+                const stats = fs.statSync(filePath);
+                const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+                
+                snapshots.push({
+                    id: file.replace('.json', ''),
+                    timestamp: content.timestamp || stats.mtime.toISOString(),
+                    entryCount: content.entries?.length || 0,
+                    size: stats.size,
+                    description: content.description
+                });
+            } catch {
+                // Skip malformed snapshot files
+            }
+        }
+
+        return snapshots.sort((a, b) => 
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
     }
 
-    async createSnapshot() {
-        return { id: 'snapshot-' + Date.now(), timestamp: new Date().toISOString() };
+    async createSnapshot(description?: string): Promise<MemorySnapshot> {
+        const memories = JSON.parse(fs.readFileSync(this.memoryPath, 'utf-8'));
+        const id = `snapshot-${Date.now()}`;
+        const timestamp = new Date().toISOString();
+        
+        const snapshotData = {
+            id,
+            timestamp,
+            description,
+            entries: memories
+        };
+        
+        const snapshotPath = path.join(this.snapshotsDir, `${id}.json`);
+        fs.writeFileSync(snapshotPath, JSON.stringify(snapshotData, null, 2));
+        
+        return {
+            id,
+            timestamp,
+            entryCount: memories.length,
+            size: fs.statSync(snapshotPath).size,
+            description
+        };
     }
 
-    async restoreSnapshot(id: string) {
-        return { success: true, id };
+    async restoreSnapshot(id: string): Promise<{ success: boolean; id: string; entriesRestored?: number }> {
+        const snapshotPath = path.join(this.snapshotsDir, `${id}.json`);
+        
+        if (!fs.existsSync(snapshotPath)) {
+            return { success: false, id };
+        }
+        
+        try {
+            const snapshotData = JSON.parse(fs.readFileSync(snapshotPath, 'utf-8'));
+            fs.writeFileSync(this.memoryPath, JSON.stringify(snapshotData.entries || [], null, 2));
+            
+            return { 
+                success: true, 
+                id,
+                entriesRestored: snapshotData.entries?.length || 0
+            };
+        } catch {
+            return { success: false, id };
+        }
+    }
+
+    async deleteSnapshot(id: string): Promise<boolean> {
+        const snapshotPath = path.join(this.snapshotsDir, `${id}.json`);
+        
+        if (!fs.existsSync(snapshotPath)) {
+            return false;
+        }
+        
+        fs.unlinkSync(snapshotPath);
+        return true;
     }
 
     getToolDefinitions() {
