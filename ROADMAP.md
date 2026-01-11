@@ -152,3 +152,50 @@
 - [ ] **Debate Templates:** Pre-configured debate scenarios
 - [ ] **Smart Pilot:** Auto-continue when council approves
 - [ ] **Plugin Ecosystem:** External supervisor plugins
+
+## Phase 12: TUI Orchestrator (In Progress)
+> SuperAI CLI integration - Go-based terminal UI for AI coding tool orchestration
+
+### Core TUI (packages/tui/)
+- [x] **Go Module Setup:** `github.com/aios/superai-cli` with Bubble Tea + Lip Gloss
+- [x] **TUI Dashboard:** Interactive terminal interface for agent management
+- [x] **Agent Runner:** Subprocess management for spawning AI coding tools
+- [x] **Tool Registry:** JSON Schema-based tool definitions with validation
+- [x] **ReAct Orchestration:** Plan/Act/Verify loop for autonomous agent execution
+- [x] **Configuration:** YAML config at `~/.superai/config.yaml`
+
+### Multi-Agent Collaboration
+- [x] **MessageBus:** Inter-agent communication via publish/subscribe
+- [x] **Aggregation Modes:** First, All, Majority, Best, Merge, Consensus (6 modes)
+- [x] **Session Persistence:** Save/load sessions at `~/.superai/sessions/`
+- [x] **Checkpointing:** Resume from saved agent states
+
+### Plugin & Extension System
+- [x] **Native Plugins:** .so/.dll/.dylib dynamic loading
+- [x] **Plugin Marketplace:** Registry with install/update/list commands
+- [x] **Custom Tools:** User-defined tools via YAML/JSON schemas
+
+### Integration Features
+- [x] **MCP Hub Client:** Connect to Core Service at localhost:3000
+- [x] **Git Integration:** Status, commit, conflict detection
+- [x] **Voice Input:** Whisper API for speech-to-text commands
+- [x] **Remote Agents:** SSH, Docker, Kubernetes execution backends
+
+### UI Capabilities
+- [x] **Metrics Dashboard:** Cost tracking, token usage, response times
+- [x] **Web UI:** Optional browser interface at localhost:8080
+- [x] **Rules Engine:** Project-specific AI behavior configuration
+
+### Documentation
+- [x] **Feature Matrix:** docs/superai-cli/FEATURE-MATRIX.md - AI coding tools comparison
+- [x] **TUI Roadmap:** docs/superai-cli/ROADMAP.md - SuperAI CLI development timeline
+- [x] **Agent Specs:** docs/superai-cli/AGENTS.md - Agent definition schemas
+
+### Future TUI Enhancements
+- [ ] **VS Code Extension:** IDE integration via Extension API
+- [ ] **JetBrains Plugin:** IntelliJ Platform integration
+- [ ] **Zed Extension:** WASM-based extension for Zed editor
+- [ ] **Neovim Plugin:** Lua plugin with Telescope integration
+- [ ] **RAG System:** HNSW vector search + BM25 reranking (AIChat pattern)
+- [ ] **Architect Mode:** Two-model reasoning+editing (Aider pattern)
+- [ ] **Git Worktree Isolation:** Parallel agents in isolated checkouts (Claude-Squad pattern)

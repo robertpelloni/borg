@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperAI CLI - Web UI</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0d1117; --surface: #161b22; --border: #30363d;
+            --text: #c9d1d9; --text-muted: #8b949e; --accent: #58a6ff;
+            --success: #3fb950; --error: #f85149; --warning: #d29922;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { display: grid; grid-template-columns: 250px 1fr 300px; grid-template-rows: 60px 1fr 200px; height: 100vh; }
+        header { grid-column: 1 / -1; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; gap: 20px; }
+        header h1 { font-size: 18px; color: var(--accent); }
+        header .status { margin-left: auto; display: flex; gap: 15px; font-size: 13px; color: var(--text-muted); }
+        header .status span { display: flex; align-items: center; gap: 5px; }
+        header .status .dot { width: 8px; height: 8px; border-radius: 50%; }
+        header .status .dot.connected { background: var(--success); }
+        header .status .dot.disconnected { background: var(--error); }
+        .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 15px; overflow-y: auto; }
+        .sidebar h2 { font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; letter-spacing: 0.5px; }
+        .agent-list { list-style: none; }
+        .agent-list li { padding: 10px; border-radius: 6px; margin-bottom: 5px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .agent-list li:hover { background: var(--border); }
+        .agent-list li .indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
+        .agent-list li .indicator.running { background: var(--success); }
+        .agent-list li .name { flex: 1; }
+        .agent-list li .btn { padding: 4px 8px; font-size: 11px; border: none; border-radius: 4px; cursor: pointer; }
+        .agent-list li .btn.start { background: var(--success); color: #000; }
+        .agent-list li .btn.stop { background: var(--error); color: #fff; }
+        .main { display: flex; flex-direction: column; overflow: hidden; }
+        .chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; }
+        .message.user { align-self: flex-end; background: var(--accent); color: #000; }
+        .message.assistant { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); }
+        .message.system { align-self: center; background: transparent; color: var(--text-muted); font-size: 13px; }
+        .input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 14px; }
+        .input-area input:focus { outline: none; border-color: var(--accent); }
+        .input-area button { padding: 12px 24px; background: var(--accent); color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .input-area button:hover { opacity: 0.9; }
+        .tools-panel { background: var(--surface); border-left: 1px solid var(--border); padding: 15px; overflow-y: auto; }
+        .tools-panel h2 { font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+        .tool-list { list-style: none; }
+        .tool-list li { padding: 8px; border-radius: 4px; margin-bottom: 4px; font-size: 13px; cursor: pointer; }
+        .tool-list li:hover { background: var(--border); }
+        .logs { grid-column: 1 / -1; background: var(--surface); border-top: 1px solid var(--border); overflow-y: auto; padding: 10px 15px; font-family: 'Monaco', 'Consolas', monospace; font-size: 12px; }
+        .logs .entry { padding: 3px 0; display: flex; gap: 10px; }
+        .logs .time { color: var(--text-muted); }
+        .logs .level { width: 50px; }
+        .logs .level.info { color: var(--accent); }
+        .logs .level.warn { color: var(--warning); }
+        .logs .level.error { color: var(--error); }
+        .logs .source { color: var(--text-muted); width: 80px; }
+        .metrics { display: flex; gap: 20px; font-size: 13px; }
+        .metrics .metric { display: flex; flex-direction: column; }
+        .metrics .metric .value { font-size: 18px; font-weight: 600; color: var(--accent); }
+        .metrics .metric .label { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ SuperAI CLI</h1>
+            <div class="metrics">
+                <div class="metric"><span class="value" id="metric-requests">0</span><span class="label">Requests</span></div>
+                <div class="metric"><span class="value" id="metric-tokens">0</span><span class="label">Tokens</span></div>
+                <div class="metric"><span class="value" id="metric-cost">$0.00</span><span class="label">Cost</span></div>
+            </div>
+            <div class="status">
+                <span><span class="dot" id="ws-status"></span><span id="ws-text">Connecting...</span></span>
+                <span>v1.5.0</span>
+            </div>
+        </header>
+        <aside class="sidebar">
+            <h2>Agents</h2>
+            <ul class="agent-list" id="agent-list"></ul>
+        </aside>
+        <main class="main">
+            <div class="chat" id="chat">
+                <div class="message system">Welcome to SuperAI CLI Web UI. Type a message to begin.</div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+                <button id="send-btn">Send</button>
+            </div>
+        </main>
+        <aside class="tools-panel">
+            <h2>Tools</h2>
+            <ul class="tool-list" id="tool-list"></ul>
+        </aside>
+        <div class="logs" id="logs"></div>
+    </div>
+    <script>
+        const API = '';
+        let ws = null;
+
+        function connectWebSocket() {
+            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${location.host}/ws`);
+            
+            ws.onopen = () => {
+                document.getElementById('ws-status').className = 'dot connected';
+                document.getElementById('ws-text').textContent = 'Connected';
+                addLog('info', 'websocket', 'Connected to server');
+            };
+            
+            ws.onclose = () => {
+                document.getElementById('ws-status').className = 'dot disconnected';
+                document.getElementById('ws-text').textContent = 'Disconnected';
+                addLog('warn', 'websocket', 'Disconnected, reconnecting in 3s...');
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            ws.onmessage = (e) => {
+                try {
+                    const msg = JSON.parse(e.data);
+                    handleWSMessage(msg);
+                } catch (err) {
+                    console.error('WS parse error:', err);
+                }
+            };
+        }
+
+        function handleWSMessage(msg) {
+            switch (msg.type) {
+                case 'log':
+                    addLog(msg.payload.level, msg.payload.source, msg.payload.message);
+                    break;
+                case 'chat_message':
+                    addChatMessage(msg.payload.role, msg.payload.content);
+                    break;
+                case 'agent_started':
+                case 'agent_stopped':
+                    loadAgents();
+                    break;
+            }
+        }
+
+        function addLog(level, source, message) {
+            const logs = document.getElementById('logs');
+            const time = new Date().toLocaleTimeString();
+            logs.innerHTML += `<div class="entry"><span class="time">${time}</span><span class="level ${level}">${level.toUpperCase()}</span><span class="source">${source}</span><span class="msg">${message}</span></div>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function addChatMessage(role, content) {
+            const chat = document.getElementById('chat');
+            chat.innerHTML += `<div class="message ${role}">${content}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        async function loadAgents() {
+            try {
+                const res = await fetch(`${API}/api/agents`);
+                const agents = await res.json();
+                const list = document.getElementById('agent-list');
+                list.innerHTML = agents.map(a => `
+                    <li>
+                        <span class="indicator ${a.running ? 'running' : ''}"></span>
+                        <span class="name">${a.name}</span>
+                        ${a.running 
+                            ? `<button class="btn stop" onclick="stopAgent('${a.name}')">Stop</button>`
+                            : `<button class="btn start" onclick="startAgent('${a.name}')">Start</button>`}
+                    </li>
+                `).join('');
+            } catch (err) {
+                addLog('error', 'api', 'Failed to load agents');
+            }
+        }
+
+        async function loadTools() {
+            try {
+                const res = await fetch(`${API}/api/tools`);
+                const tools = await res.json();
+                const list = document.getElementById('tool-list');
+                list.innerHTML = tools.map(t => `<li title="${t.description}">${t.name}</li>`).join('');
+            } catch (err) {
+                addLog('error', 'api', 'Failed to load tools');
+            }
+        }
+
+        async function loadMetrics() {
+            try {
+                const res = await fetch(`${API}/api/status`);
+                const status = await res.json();
+                document.getElementById('metric-requests').textContent = status.requests || '0';
+                document.getElementById('metric-tokens').textContent = status.tokens || '0';
+            } catch (err) {}
+        }
+
+        async function startAgent(name) {
+            await fetch(`${API}/api/agents/${name}/start`, { method: 'POST' });
+            loadAgents();
+        }
+
+        async function stopAgent(name) {
+            await fetch(`${API}/api/agents/${name}/stop`, { method: 'POST' });
+            loadAgents();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            
+            addChatMessage('user', msg);
+            input.value = '';
+            
+            try {
+                const res = await fetch(`${API}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                if (data.error) {
+                    addChatMessage('system', `Error: ${data.error}`);
+                }
+            } catch (err) {
+                addChatMessage('system', `Error: ${err.message}`);
+            }
+        }
+
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+
+        connectWebSocket();
+        loadAgents();
+        loadTools();
+        setInterval(loadMetrics, 5000);
+    </script>
+</body>
+</html>
