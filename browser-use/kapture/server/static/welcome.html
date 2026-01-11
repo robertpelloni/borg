@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Kapture - Get Started in 2 Steps</title>
+    <meta name="description" content="Get started with Kapture browser automation in just 2 simple steps">
+    <link rel="icon" type="image/svg+xml" href="https://williamkapke.github.io/kapture/assets/logo.svg">
+    <link rel="alternate icon" type="image/png" href="https://williamkapke.github.io/kapture/assets/images/icon48.png">
+    <link rel="stylesheet" href="https://williamkapke.github.io/kapture/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        }
+
+        .welcome-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .welcome-header h1 {
+            font-size: 3rem;
+            margin: 0 0 16px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 280px;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #667eea;
+        }
+
+        .step-card h2 {
+            font-size: 1.75rem;
+            margin: 0;
+            color: #1a202c;
+        }
+
+        .step-card p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin: 0 0 32px 0;
+            line-height: 1.6;
+        }
+
+        .code-box {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px 32px;
+            border-radius: 12px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .code-box:hover {
+            background: #2d3748;
+        }
+
+        .code-box .prefix {
+            color: #68d391;
+            font-weight: bold;
+        }
+
+        .code-box .command {
+            color: #fbbf24;
+        }
+
+        .copy-button {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #718096;
+            transition: color 0.2s ease;
+            padding: 4px;
+        }
+
+        .copy-button:hover {
+            color: #e2e8f0;
+        }
+
+        .copy-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .pin-visual {
+            background: #f7fafc;
+            border: 2px solid #b2b8bf;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pin-visual img {
+            width: 280px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .success-state {
+            display: none;
+            text-align: center;
+            margin-top: 40px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out;
+        }
+        .has-configured-assistant .success-state {
+            display: block;
+            animation: slideInFade 0.5s ease-out forwards;
+        }
+
+        @keyframes slideInFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-state h2 {
+            font-size: 2rem;
+            color: #48bb78;
+            margin: 0 0 16px 0;
+        }
+
+        .success-state p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin: 0 0 32px 0;
+        }
+
+        .next-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Responsive breakpoints */
+        @media (max-width: 1024px) {
+            .welcome-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .step-card {
+                padding: 32px;
+            }
+
+            .steps-container {
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .steps-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .welcome-container {
+                padding: 32px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-header h1 {
+                font-size: 2rem;
+            }
+
+            .step-card {
+                padding: 24px;
+            }
+
+            .code-box {
+                font-size: 0.9rem;
+                padding: 16px 24px;
+            }
+
+            .step-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .step-card p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .step-card {
+                padding: 20px;
+                min-width: 240px;
+            }
+
+            .code-box {
+                font-size: 0.8rem;
+                padding: 12px 16px;
+            }
+
+            .pin-visual img {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .success-state {
+                padding: 24px;
+            }
+
+            .next-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+
+        .copied-tooltip {
+            position: absolute;
+            right: 8px;
+            top: -32px;
+            background: #48bb78;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+
+        .copied-tooltip.show {
+            opacity: 1;
+        }
+
+        /* Server status styles */
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        .status-label {
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 4px;
+        }
+
+        /* Searching state - pulsing yellow */
+        .status-indicator.searching {
+            background: #f59e0b;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Connected state - solid green with subtle glow */
+        .status-indicator.connected {
+            background: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Disconnected state - solid red */
+        .status-indicator.disconnected {
+            background: #ef4444;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+                box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
+        }
+
+        .status-text {
+            font-weight: 500;
+        }
+
+        .status-text.searching {
+            color: #f59e0b;
+        }
+
+        .status-text.connected {
+            color: #10b981;
+        }
+
+        .status-text.disconnected {
+            color: #ef4444;
+        }
+
+        /* Animated dots for searching */
+        .dots {
+            display: inline-block;
+            width: 20px;
+            text-align: left;
+        }
+
+        .dots::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '';
+            }
+            40% {
+                content: '.';
+            }
+            60% {
+                content: '..';
+            }
+            80%, 100% {
+                content: '...';
+            }
+        }
+
+        /* Hide code section when connected */
+        .code-section {
+            overflow: hidden;
+            transition: all 0.6s ease-out;
+            max-height: 500px;
+            opacity: 1;
+            margin-bottom: 24px;
+        }
+
+        .code-section.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        .code-section p {
+            transition: margin-bottom 0.6s ease-out;
+        }
+
+        .code-section.hidden p {
+            margin-bottom: 0;
+        }
+
+        /* Assistant list styles */
+        .assistants-section {
+            width: 100%;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 2s ease-out;
+            position: relative;
+        }
+
+        .assistants-section.visible {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .assistants-section.hiding {
+            transition: none;
+        }
+
+        .assistants-section h3 {
+            margin-top: 24px;
+            margin-bottom: 6px;
+            color: #2d3748;
+            font-size: 1.2rem;
+        }
+
+        .assistants-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .assistant-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+            width: 100%;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .assistant-item:last-child {
+            border-bottom: none;
+        }
+
+        .assistant-item:hover {
+            background: #f7fafc;
+        }
+
+        .assistant-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .assistant-status {
+            color: #718096;
+            text-align: center;
+        }
+
+        .assistant-status.configured {
+            color: #10b981;
+        }
+
+        /* Toggle switch styles */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e0;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #667eea;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .toggle-switch input:disabled + .toggle-slider {
+            background-color: #e2e8f0;
+            cursor: not-allowed;
+        }
+
+        .toggle-switch input:disabled + .toggle-slider:before {
+            background-color: #f7fafc;
+        }
+
+        .toggle-switch.loading .toggle-slider {
+            opacity: 0.6;
+        }
+
+        .assistant-not-detected {
+            opacity: 0.6;
+        }
+
+        .assistant-not-detected .assistant-name {
+            color: #a0aec0;
+        }
+
+        .assistant-not-detected .assistant-status {
+            color: #e53e3e;
+        }
+
+        .enable-prompt {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Enable prompt styles */
+        .kapture-connected .has-installed-assistant .enable-prompt {
+            display: block;
+            position: absolute;
+            right: 18px;
+            top: 90px;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .kapture-connected .has-installed-assistant.has-configured-assistant .enable-prompt {
+            animation: fadeOut 0.3s ease-in-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .enable-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #667eea;
+            line-height: 1.2;
+            margin-bottom: 4px;
+            animation: text-bounce 2s ease-in-out infinite;
+        }
+
+        .arrow-down {
+            font-size: 1.3rem;
+            color: #667eea;
+            animation: arrow-bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes text-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes arrow-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* Other assistants section */
+        .other-assistants-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto 40px;
+        }
+
+        .other-assistants-details {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .other-assistants-details summary {
+            padding: 16px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .other-assistants-details summary:hover {
+            background: #f7fafc;
+        }
+
+        .other-assistants-details summary::after {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+            margin-left: auto;
+        }
+
+        .other-assistants-details[open] summary::after {
+            transform: rotate(90deg);
+        }
+
+        .other-assistants-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .details-content {
+            padding: 0 20px 20px;
+            color: #4a5568;
+        }
+
+        .details-content p {
+            margin: 0 0 16px 0;
+            line-height: 1.6;
+        }
+
+        .manual-config-box {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .manual-config-box h4 {
+            margin: 0 0 12px 0;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        .manual-config-box pre {
+            margin: 0;
+            background: #f7fafc;
+            color: #2d3748;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+        }
+
+        .manual-config-box code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #2d3748;
+        }
+
+        .manual-instructions h4 {
+            margin: 24px 0 12px 0;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        .manual-instructions ul {
+            margin: 0 0 16px 0;
+            padding-left: 24px;
+        }
+
+        .manual-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .manual-instructions code {
+            background: #edf2f7;
+            color: #2d3748;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+
+        .manual-instructions .note {
+            background: #fefcbf;
+            border: 1px solid #f6e05e;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin-top: 16px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .server-status {
+                font-size: 0.875rem;
+            }
+
+            .code-section {
+                margin-bottom: 20px;
+            }
+
+            .assistant-item {
+                padding: 10px 12px;
+                grid-template-columns: 100px 1fr auto;
+                gap: 8px;
+            }
+
+            .assistant-name {
+                font-size: 0.875rem;
+            }
+
+            .enable-text {
+                font-size: 0.9rem;
+            }
+
+            .arrow-down {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .server-status {
+                font-size: 0.8rem;
+            }
+
+            .code-section {
+                margin-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="welcome-container">
+    <div class="welcome-header">
+        <h1>Welcome to Kapture MCP!</h1>
+    </div>
+
+    <div class="steps-container">
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12M8.8,14L10,12.8V4H14V12.8L15.2,14H8.8Z"/>
+                    </svg>
+                </div>
+                <h2>Pin the Extension</h2>
+            </div>
+            <p>Click the puzzle piece icon in your browser toolbar and pin Kapture for easy access.</p>
+            <div class="pin-visual">
+                <img src="https://williamkapke.github.io/kapture/assets/images/kapture_pin.png" alt="Pin Kapture extension">
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="enable-prompt">
+                <div class="enable-text">Enable your<br>clients!</div>
+                <div class="arrow-down">↓</div>
+            </div>
+            <div class="step-header">
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <text x="12" y="17" font-family="monospace" font-size="20" text-anchor="middle" font-weight="bold">{}</text>
+                    </svg>
+                </div>
+                <h2>Setup Your Assistants</h2>
+            </div>
+            <div class="code-section" id="code-section">
+                <p>Run this command in your terminal to configure your assistants to use Kapture.</p>
+                <div class="code-box" onclick="copyCommand()">
+                    <span class="prefix">$</span>
+                    <span class="command">npx -y kapture-mcp setup</span>
+                    <button class="copy-button" aria-label="Copy command">
+                        <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <svg id="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </button>
+                    <div class="copied-tooltip" id="tooltip">Copied!</div>
+                </div>
+            </div>
+            <div class="server-status" id="server-status">
+                <span class="status-label">Kapture MCP Server:</span>
+                <div class="status-indicator searching" id="status-indicator"></div>
+                <span class="status-text searching" id="status-text">Searching <span class="dots"></span></span>
+            </div>
+            <div class="assistants-section" id="assistants-section">
+                <h3>Assistant Configuration:</h3>
+                <div class="assistants-list" id="assistants-list">
+                    <div class="assistant-item" data-assistant="claude-desktop">
+                        <span class="assistant-name">Claude Desktop</span>
+                        <span class="assistant-status">Checking...</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="assistant-item" data-assistant="claude-code">
+                        <span class="assistant-name">Claude Code</span>
+                        <span class="assistant-status">Checking...</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="assistant-item" data-assistant="vscode">
+                        <span class="assistant-name">VS Code</span>
+                        <span class="assistant-status">Checking...</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="assistant-item" data-assistant="cursor">
+                        <span class="assistant-name">Cursor</span>
+                        <span class="assistant-status">Checking...</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="assistant-item" data-assistant="gemini">
+                        <span class="assistant-name">Gemini</span>
+                        <span class="assistant-status">Checking...</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="success-state">
+        <h2>🎉 You're All Set!</h2>
+        <p>Kapture is ready to use. Check out the how-to guide to see it in action.</p>
+        <a href="https://williamkapke.github.io/kapture/how-to.html" class="next-button">
+            View How-To Guide
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+            </svg>
+        </a>
+    </div>
+
+    <div class="other-assistants-section" id="other-assistants-section" style="display: none;">
+        <details class="other-assistants-details">
+            <summary>Manual Configuration for Other Assistants</summary>
+            <div class="details-content">
+                <p>For assistants not listed above, you can manually add Kapture to their MCP configuration:</p>
+
+                <div class="manual-config-box">
+                    <h4>MCP Configuration</h4>
+                    <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "command": "npx",
+      "args": ["-y", "kapture-mcp", "bridge"]
+    }
+  }
+}</code></pre>
+                </div>
+
+                <div class="manual-instructions">
+                    <h4>Common Configuration Locations:</h4>
+                    <ul>
+                        <li><strong>VS Code-based editors:</strong> Look for <code>settings.json</code> and add under <code>"mcp.servers"</code></li>
+                        <li><strong>JetBrains IDEs:</strong> Check plugin settings for MCP configuration</li>
+                        <li><strong>Custom integrations:</strong> Refer to your tool's MCP documentation</li>
+                    </ul>
+
+                    <p class="note">Note: After adding the configuration, restart your assistant to connect to Kapture.</p>
+                </div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<script>
+  function copyCommand() {
+    const command = 'npx -y kapture-mcp setup';
+    navigator.clipboard.writeText(command).then(() => {
+      // Show check icon
+      document.getElementById('copy-icon').style.display = 'none';
+      document.getElementById('check-icon').style.display = 'block';
+
+      // Show tooltip
+      const tooltip = document.getElementById('tooltip');
+      tooltip.classList.add('show');
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        document.getElementById('copy-icon').style.display = 'block';
+        document.getElementById('check-icon').style.display = 'none';
+        tooltip.classList.remove('show');
+      }, 2000);
+    });
+  }
+
+  // Assistant configuration state
+  let assistantsList = {};
+
+  // Fetch assistants from server
+  async function fetchAssistants() {
+    try {
+      const response = await fetch('http://localhost:61822/assistants');
+      if (response.ok) {
+        assistantsList = await response.json();
+        displayAssistants();
+      }
+    } catch (error) {
+      console.error('Failed to fetch assistants:', error);
+    }
+  }
+
+  // Display assistants in the UI
+  function displayAssistants() {
+    const welcomeContainer = document.querySelector('.welcome-container');
+    welcomeContainer.classList.remove('has-configured-assistant', 'has-installed-assistant');
+
+    // Update each assistant item
+    for (const [key, status] of Object.entries(assistantsList)) {
+      const item = document.querySelector(`[data-assistant="${key}"]`);
+      if (!item) continue;
+
+      const statusSpan = item.querySelector('.assistant-status');
+      const toggleInput = item.querySelector('input[type="checkbox"]');
+      const toggleSwitch = item.querySelector('.toggle-switch');
+
+      // Update classes
+      if (!status.installed) {
+        item.classList.add('assistant-not-detected');
+        statusSpan.textContent = '✗ Not detected';
+        statusSpan.classList.remove('configured');
+      } else if (status.configured) {
+        item.classList.remove('assistant-not-detected');
+        statusSpan.textContent = '✓ Enabled';
+        statusSpan.classList.add('configured');
+        welcomeContainer.classList.add('has-configured-assistant', 'has-installed-assistant');
+      } else {
+        item.classList.remove('assistant-not-detected');
+        statusSpan.textContent = 'Not Enabled';
+        statusSpan.classList.remove('configured');
+        welcomeContainer.classList.add('has-installed-assistant');
+      }
+
+      // Update toggle
+      toggleInput.checked = status.configured;
+      toggleInput.disabled = !status.installed;
+
+      // Clear any existing handlers and add new one
+      toggleInput.onchange = null;
+      toggleInput.onchange = (e) => configureAssistant(key, e.target.checked, toggleSwitch);
+    }
+
+    // Show the assistants section with animation
+    document.getElementById('assistants-section').classList.add('visible');
+  }
+
+  // Configure or unconfigure an assistant
+  async function configureAssistant(assistantKey, configure, toggleSwitch) {
+    const toggleInput = toggleSwitch.querySelector('input');
+    toggleInput.disabled = true;
+    toggleSwitch.classList.add('loading');
+
+    try {
+      const response = await fetch('http://localhost:61822/assistants/configure', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          [assistantKey]: configure
+        })
+      });
+
+      if (response.ok) {
+        const results = await response.json();
+        if (results[assistantKey]?.success) {
+          // Update local state
+          assistantsList[assistantKey].configured = configure;
+          // Refresh display
+          displayAssistants();
+        } else {
+          // Revert toggle on failure
+          toggleInput.checked = !configure;
+          alert(`Failed to ${configure ? 'configure' : 'unconfigure'} ${assistantKey}: ${results[assistantKey]?.error || 'Unknown error'}`);
+        }
+      } else {
+        // Revert toggle on failure
+        toggleInput.checked = !configure;
+        alert(`Failed to ${configure ? 'configure' : 'unconfigure'} assistant`);
+      }
+    } catch (error) {
+      console.error('Configuration error:', error);
+      // Revert toggle on failure
+      toggleInput.checked = !configure;
+      alert(`Error: ${error.message}`);
+    } finally {
+      toggleInput.disabled = false;
+      toggleSwitch.classList.remove('loading');
+    }
+  }
+
+  // Server status management
+  function updateServerStatus(status) {
+    const indicator = document.getElementById('status-indicator');
+    const text = document.getElementById('status-text');
+    const codeSection = document.getElementById('code-section');
+    const assistantsSection = document.getElementById('assistants-section');
+
+    // Remove all status classes
+    indicator.classList.remove('searching', 'connected', 'disconnected');
+    text.classList.remove('searching', 'connected', 'disconnected');
+
+    // Add new status class and update text
+    indicator.classList.add(status);
+    text.classList.add(status);
+
+    switch(status) {
+      case 'connected':
+        text.innerHTML = 'Connected!';
+        // Hide the code section with animation
+        codeSection.classList.add('hidden');
+
+        // Fetch and display assistants
+        fetchAssistants();
+
+        // Check if we're not on localhost:61822/welcome and navigate there
+        const currentUrl = window.location.href;
+        const targetUrl = 'http://localhost:61822/welcome';
+
+        // Only redirect if we're not already on the local server welcome page
+        if (!currentUrl.startsWith('http://localhost:61822/welcome') &&
+          !currentUrl.startsWith('http://127.0.0.1:61822/welcome')) {
+          console.log('Navigating to local Kapture server welcome page...');
+          window.location.href = targetUrl;
+        } else {
+          // We're on localhost, show the other assistants section
+          document.getElementById('other-assistants-section').style.display = 'block';
+        }
+        break;
+      case 'disconnected':
+        text.innerHTML = 'Disconnected';
+        // Show the code section again
+        codeSection.classList.remove('hidden');
+        // Hide assistants section instantly
+        assistantsSection.classList.add('hiding');
+        assistantsSection.classList.remove('visible');
+        setTimeout(() => assistantsSection.classList.remove('hiding'), 0);
+        break;
+      case 'searching':
+      default:
+        text.innerHTML = 'Searching<span class="dots"></span>';
+        // Keep code section visible while searching
+        codeSection.classList.remove('hidden');
+        // Hide assistants section instantly
+        assistantsSection.classList.add('hiding');
+        assistantsSection.classList.remove('visible');
+        setTimeout(() => assistantsSection.classList.remove('hiding'), 0);
+        break;
+    }
+  }
+
+  // Check for body class changes to detect connection status
+  const bodyObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const body = document.body;
+        if (body.classList.contains('kapture-connected')) {
+          updateServerStatus('connected');
+        } else if (body.classList.contains('kapture-connecting')) {
+          updateServerStatus('searching');
+        } else {
+          updateServerStatus('disconnected');
+        }
+      }
+    });
+  });
+
+  // Start observing body class changes
+  bodyObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
+  // Auto-connect when Kapture is loaded
+  window.addEventListener('kapture-loaded', () => {
+    console.log('Kapture loaded! Auto-connecting...');
+    const event = new CustomEvent('kapture-message', {
+      detail: { type: 'connect' }
+    });
+    window.dispatchEvent(event);
+  });
+
+  // Check initial connection status
+  setTimeout(() => {
+
+    // temp hack until extension v14 is published
+    const currentUrl = window.location.href;
+    if (currentUrl.startsWith('http://localhost:61822/welcome') || currentUrl.startsWith('http://127.0.0.1:61822/welcome')) {
+      document.body.classList.add('kapture-connected')
+    }
+
+    if (document.body.classList.contains('kapture-connected')) {
+      updateServerStatus('connected');
+    } else if (document.body.classList.contains('kapture-connecting')) {
+      updateServerStatus('searching');
+    }
+  }, 100);
+</script>
+</body>
+</html>

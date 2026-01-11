@@ -1,0 +1,292 @@
+# Common definitions
+_common:
+  tabId: &tabId
+    type: string
+    description: Target tab ID
+
+  selectorAndXpath: &selectorAndXpath
+    selector:
+      type: string
+      description: The CSS selector to find a target Element for the action (uses first matching element)
+    xpath:
+      type: string
+      description: An XPath expression to find a target Element for the action (alternative to selector, uses first matching element)
+
+  oneOfSelectorOrXpath: &oneOfSelectorOrXpath
+    oneOf:
+      - required: [selector]
+      - required: [xpath]
+
+tools:
+  list_tabs:
+    description: List all connected browser tabs
+
+  tab_detail:
+    description: Get detailed information about a specific tab
+    required: [tabId]
+    properties:
+      tabId: *tabId
+
+  navigate:
+    description: Navigate browser tab to specified URL
+    required: [tabId, url]
+    properties:
+      tabId: *tabId
+      url:
+        type: string
+        format: url
+        description: URL to navigate to
+      timeout:
+        type: number
+        description: Navigation timeout in milliseconds
+        default: 30000
+
+  back:
+    description: Navigate back in browser history
+    required: [tabId]
+    properties:
+      tabId: *tabId
+
+  forward:
+    description: Navigate forward in browser history
+    required: [tabId]
+    properties:
+      tabId: *tabId
+
+  click:
+    description: >-
+      Click on a page element using CSS selector or XPath. Only the first 
+      matching element will be clicked. Returns the unique selector of the 
+      clicked element. Note: May experience delays if Kapture DevTools panel 
+      is not the active tab.
+    required: [tabId]
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+    <<: *oneOfSelectorOrXpath
+
+  hover:
+    description: >-
+      Hover over a page element using CSS selector or XPath. Only the first 
+      matching element will be hovered. Returns the unique selector of the 
+      hovered element. Note: May experience delays if Kapture DevTools panel 
+      is not the active tab.
+    required: [tabId]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+
+  focus:
+    description: >-
+      Set focus on a page element using CSS selector or XPath. Only the first 
+      matching element will be focused. Returns the unique selector of the 
+      focused element. Useful for form inputs, buttons, and other interactive 
+      elements.
+    required: [tabId]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+
+  blur:
+    description: >-
+      Remove focus (blur) from a page element using CSS selector or XPath. Only 
+      the first matching element will be blurred. Returns the unique selector of 
+      the blurred element. Also removes focus from document.activeElement if 
+      different.
+    required: [tabId]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+
+  fill:
+    description: >-
+      Fill an input field with a value using CSS selector or XPath. Only the 
+      first matching element will be filled. Returns the unique selector of 
+      the filled element.
+    required: [tabId, value]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+      value:
+        type: string
+        description: Value to fill in the input
+
+  select:
+    description: >-
+      Select an option from an HTML <select> dropdown element using CSS 
+      selector or XPath. Only the first matching select element will be used. 
+      Returns the unique selector of the select element. Note: Only works with 
+      native HTML select elements, not custom dropdowns.
+    required: [tabId, value]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+      value:
+        type: string
+        description: Value attribute of the option to select
+
+  keypress:
+    description: >-
+      Send a keypress event to the current tab or a specific element. Uses 
+      Chrome DevTools Protocol for proper key simulation including navigation 
+      keys (Tab, PageDown, arrows) and function keys. When delay > 500ms, 
+      automatically simulates holding the key down with repeated events.
+    required: [tabId, key]
+    properties:
+      tabId: *tabId
+      key:
+        type: string
+        description: >-
+          The key combination to press. Can be a single key (e.g., "a", 
+          "Enter", "Tab", "PageDown", "F5") or a combination with modifiers 
+          (e.g., "Control+a", "Shift+Tab", "Alt+F4", "Meta+Shift+p"). 
+          Special keys: Enter, Tab, Delete, Backspace, Escape, Space, 
+          ArrowUp/Down/Left/Right, PageUp/Down, Home, End, Insert, F1-F12. 
+          Modifiers: Control (or Ctrl), Shift, Alt, Meta (or Cmd on Mac)
+      <<: *selectorAndXpath
+      delay:
+        type: number
+        description: >-
+          Delay in milliseconds between keydown and keyup events. Default: 
+          50ms. Range: 0-60000ms. When > 500ms, simulates holding the key 
+          down with auto-repeat
+        default: 50
+        minimum: 0
+        maximum: 60000
+      timeout:
+        type: number
+        description: >-
+          Command timeout in milliseconds. Default: 5000ms. Automatically 
+          extended for long delays
+        minimum: 1000
+        maximum: 70000
+
+  screenshot:
+    description: >-
+      Capture a screenshot of the page or specific element using CSS selector 
+      or XPath. When a selector/xpath is provided, only the first matching 
+      element will be captured. Returns the unique selector of the captured 
+      element if applicable.
+    required: [tabId]
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+      scale:
+        type: number
+        description: Scale factor (0.1-1.0) to reduce screenshot size (default 0.3)
+        default: 0.3
+        minimum: 0.1
+        maximum: 1
+      format:
+        type: string
+        description: Image format (default webp for best compression)
+        default: webp
+        enum: [webp, jpeg, png]
+      quality:
+        type: number
+        description: Compression quality for webp/jpeg (0.1-1.0, default 0.85)
+        default: 0.85
+        minimum: 0.1
+        maximum: 1
+
+
+  dom:
+    description: >-
+      Get outerHTML of the body or a specific element using CSS selector or 
+      XPath. When a selector/xpath is provided, only the first matching 
+      element will be used. Returns the unique selector of the element if 
+      applicable.
+    required: [tabId]
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+
+  elements:
+    description: >-
+      Query all elements matching a CSS selector or XPath and get detailed 
+      information about each element. Use the visible parameter to filter 
+      elements by visibility status.
+    required: [tabId]
+    <<: *oneOfSelectorOrXpath
+    properties:
+      tabId: *tabId
+      <<: *selectorAndXpath
+      visible:
+        type: string
+        description: Filter elements by visibility (true = only visible, false = only hidden, all = all elements)
+        default: "all"
+        enum: ["true", "false", "all"]
+
+  elementsFromPoint:
+    description: Get information about all elements at a specific coordinate in the viewport
+    required: [tabId, x, y]
+    properties:
+      tabId: *tabId
+      x:
+        type: number
+        description: X coordinate relative to the viewport
+      y:
+        type: number
+        description: Y coordinate relative to the viewport
+
+  console_logs:
+    description: Get console logs from a browser tab
+    required: [tabId]
+    properties:
+      tabId: *tabId
+      before:
+        type: string
+        description: Get logs before this timestamp (for pagination)
+      limit:
+        type: integer
+        description: Maximum number of logs to return
+        default: 100
+        minimum: 1
+        maximum: 500
+      level:
+        type: string
+        description: Filter logs by level (log, info, warn, error, debug, trace, table, group, groupCollapsed, groupEnd)
+        enum: ["log", "info", "warn", "error", "debug", "trace", "table", "group", "groupCollapsed", "groupEnd"]
+
+  new_tab:
+    description: >-
+      Opens a new browser tab with the Kapture MCP usage documentation page. 
+      The page will automatically connect to the Kapture server. Returns the 
+      tab ID of the newly opened tab once it connects.
+    properties:
+      browser:
+        type: string
+        description: >-
+          Optional browser to use. Supported values: chrome, edge, brave, opera, vivaldi.
+          If not specified, uses the system default browser.
+        enum: ["chrome", "edge", "brave", "opera", "vivaldi"]
+
+  close:
+    description: >-
+      Closes a browser tab. The tab will be immediately closed and removed 
+      from the connected tabs list.
+    required: [tabId]
+    properties:
+      tabId: *tabId
+
+  reload:
+    description: >-
+      Reloads the current page in the browser tab. Performs a standard page 
+      reload similar to pressing F5 or clicking the browser's refresh button.
+    required: [tabId]
+    properties:
+      tabId: *tabId
+
+  show:
+    description: >-
+      Brings the browser tab to the front and focuses it. This will switch to 
+      the tab's window and make it the active tab. Useful for directing user 
+      attention to a specific tab when managing multiple browser tabs.
+    required: [tabId]
+    properties:
+      tabId: *tabId

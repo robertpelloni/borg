@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Sessions — Session browser for Codex CLI, Claude Code, Gemini CLI, Copilot CLI & Droid</title>
+  <meta name="description"
+    content="Agent Sessions is a macOS app to search, filter, and review sessions from Codex CLI, Claude Code, Gemini CLI, GitHub Copilot CLI, Droid (Factory CLI), and OpenCode with a unified interface, onboarding tours, and developer-friendly workflows." />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jazzyalex.github.io/agent-sessions/">
+  <meta property="og:title" content=" ">
+  <meta property="og:description"
+    content="Search, browse, and resume Codex, Claude & Copilot CLI sessions. Now with onboarding tours and saved sessions.">
+  <meta property="og:image" content="https://jazzyalex.github.io/agent-sessions/assets/AS-social-media.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@jazzyalex">
+  <meta name="twitter:title" content="Agent Sessions — Sessions for Codex, Claude, Gemini, Copilot & Droid CLI">
+  <meta name="twitter:description"
+    content="Search, browse, and resume Codex, Claude, Copilot & Droid CLI sessions. Now with onboarding tours and Droid support.">
+  <meta name="twitter:image" content="https://jazzyalex.github.io/agent-sessions/assets/AS-social-media.png">
+  <link rel="canonical" href="https://jazzyalex.github.io/agent-sessions/">
+  <link rel="icon" href="assets/app-icon-32.png" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background: #f6f8fa;
+      color: #1b1f23;
+    }
+
+    header {
+      background: #f6f8fa;
+      padding: 20px;
+      color: #24292e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-top: 0;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      margin: 0;
+      padding: 0 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn.primary {
+      background: #2f81f7;
+      color: white;
+    }
+
+    .btn.secondary {
+      background: white;
+      border: 1px solid #d0d7de;
+      color: #2f81f7;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .button-row > .btn { height: 40px; }
+    .header-right { display:flex; align-items:center; gap:12px; }
+    .ph-badge img { height:24px; width:auto; opacity:0.9; vertical-align:middle; }
+    .ph-badge img:hover { opacity:1; }
+    .hero-row { position: relative; }
+    .ph-badge { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .card.grey {
+      background: #f3f4f6;
+      color: #586069;
+      border: 1px dashed #d0d7de;
+    }
+
+    .card.double-width {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 600px) {
+      .card.double-width {
+        grid-column: span 1;
+      }
+      .card.double-width ul {
+        column-count: 1;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 14px;
+      color: #586069;
+    }
+
+    code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 14px;
+    }
+
+    pre {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #d0d7de;
+      overflow: auto;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      display: block;
+    }
+
+    img.screenshot {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #d0d7de;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <a href="https://jazzyalex.github.io/agent-sessions/"
+        style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
+        <img src="assets/app-icon-512.png" alt="Agent Sessions app icon" width="40" height="40"
+          style="border-radius:6px;">
+        <h1 style="margin:0;font-size:20px;">Agent Sessions</h1>
+      </a>
+    </div>
+    <div class="header-right">
+      <span>• macOS • Open Source • <span id="github-stars-container" style="display:none;">⭐ <span id="github-stars">–</span></span></span>
+    </div>
+  </header>
+  <div class="container">
+    <h1 style="font-size: 24px;">Session Browser for Codex CLI, Claude Code, Gemini CLI, GitHub Copilot CLI & Droid</h1>
+    <p><em>Agent Sessions 2</em> brings <strong>Codex CLI</strong>, <strong>Claude Code</strong>, <strong>Gemini CLI</strong>, <strong>GitHub Copilot CLI</strong>, and <strong>Droid (Factory CLI)</strong> together in a single, powerful
+      interface. Look up any past session — even the ancient ones <code>/resume</code> can't show — or browse visually
+      to find that
+      lost
+      perfect prompt or code snippet, then instantly copy or resume what you need.
+    <p></p>
+    <div class="hero-row" style="margin-bottom: 20px;">
+      <span
+        style="font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; font-weight: 600; color: #4B5563; font-size: 0.8em; font-variant: small-caps; letter-spacing: 0.05em;">local-first,
+        open source, and built for terminal vibe warriors.</span>
+    </div>
+
+      <br>
+      
+    <div class="button-row" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <a href="https://github.com/jazzyalex/agent-sessions/releases/download/v2.9.2/AgentSessions-2.9.2.dmg"
+        class="btn primary"
+        style="padding:10px 18px;border-radius:8px;background:#007aff;color:#fff;text-decoration:none;font-weight:500">
+        Download Agent Sessions 2.9.2
+      </a>
+
+      <a href="https://github.com/jazzyalex/agent-sessions" class="btn secondary"
+        style="padding:10px 18px;border-radius:8px;background:#f2f2f2;color:#111;text-decoration:none;font-weight:500">
+        View on GitHub
+      </a>
+
+      <a href="https://x.com/jazzyalex" class="btn secondary"
+        style="padding:10px 18px;border-radius:8px;background:#f2f2f2;color:#111;text-decoration:none;font-weight:500">
+        Follow on X
+      </a>
+    </div>
+
+    <h3 style="margin-top:40px;">Install with Homebrew Tap</h3>
+    
+    <pre><code style="font-size: 12px;">brew tap jazzyalex/agent-sessions
+brew install --cask agent-sessions</code></pre>
+
+    <div class="features">
+
+      <div class="card double-width">
+        <h3>6 Agents Supported</h3>
+        <p>Browse all your agent sessions in a unified window. Enable only your favorite agents and then filter sessions by agent instantly.</p>
+        <ul style="margin: 12px 0 0 0; padding-left: 20px; line-height: 1.8; column-count: 2; column-gap: 20px;">
+          <li><strong>Codex CLI</strong></li>
+          <li><strong>Claude Code</strong></li>
+          <li><strong>OpenCode</strong></li>
+          <li><strong>Factory Droid CLI</strong></li>
+          <li><strong>GitHub Copilot CLI</strong></li>
+          <li><strong>Gemini CLI</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Unified Search</h3>
+        <p>Search across all agents instantly. Filter by message type (User prompt, Tool call, Error) in Color View. Smart sorting, project filters, and cancellable full-text search.</p>
+      </div>
+      <div class="card">
+        <h3>Instant Resume</h3>
+        <p>Reopen any Codex or Claude session in Terminal/iTerm2. Browse visually and copy snippets when you need them.</p>
+      </div>
+      <div class="card">
+        <h3>Saved Sessions</h3>
+        <p>New dedicated Saved Sessions window for managing archived sessions. Delete, reveal, and diagnose with archive status tooltips.</p>
+      </div>
+      <div class="card">
+        <h3>Usage Tracking</h3>
+        <p>Always-on tracking of 5-hour and weekly limits for Codex and Claude. Menu bar and in-app indicators show usage with auto-refresh probes.</p>
+      </div>
+      <div class="card">
+        <h3>Analytics</h3>
+        <p>Interactive flip cards with sparklines and insights. Session trends, agent breakdowns, and time-of-day heatmaps. Git Inspector shows repository state.</p>
+      </div>
+      <div class="card">
+        <h3>Local & Private</h3>
+        <p>All processing on your Mac. Reads session directories locally. No cloud uploads or telemetry. Read-only by design.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <p style="text-align:center; color:#586069; font-size:14px; margin-top:-5px; margin-bottom:0px;"><em>Transcript view
+      with search (Dark Mode)
+    </em></p>
+  <img src="assets/screenshot-H.png" alt="Transcript view with search (Dark Mode)"
+    style="width:100%; max-width:960px; margin:5px auto; display:block;" />
+  <p style="text-align:center; color:#586069; font-size:14px; margin-top:-5px; margin-bottom:0px;"><em>Resume any Codex
+      CLI and Claude Code session</em></p>
+  <img src="assets/screenshot-V.png" alt="Resume any Codex CLI and Claude Code session"
+    style="width:100%; max-width:960px; margin:5px auto; display:block;" />
+
+  <div style="text-align:center;">
+    <p style="text-align:center; color:#586069; font-size:14px; margin-top:-5px; margin-bottom:15px;"><em>Menu bar usage
+        tracking with
+        5-hour and weekly percentages</em></p>
+    <img src="assets/screenshot-menubar.png" alt="Menu bar usage tracking with 5-hour and weekly percentages"
+      style="width:50%; max-width:480px; margin:5px auto; display:block;" />
+  </div>
+
+  <p style="text-align:center; color:#586069; font-size:14px; margin-top:20px; margin-bottom:0px;">
+    <em>Analytics dashboard with session trends and agent breakdown (Dark Mode)</em>
+  </p>
+  <img src="assets/analytics-dark.png" alt="Analytics dashboard with session trends and agent breakdown (Dark Mode)"
+    style="width:100%; max-width:960px; margin:5px auto; display:block;" />
+
+  <p style="text-align:center; color:#586069; font-size:14px; margin-top:20px; margin-bottom:15px;">
+    <em>Git Context Inspector showing repository state and historical diffs (Light Mode)</em>
+  </p>
+  <img src="assets/git-context-light.png" alt="Git Context Inspector showing repository state and historical diffs (Light Mode)"
+    style="width:100%; max-width:960px; margin:5px auto; display:block;" />
+
+  <!-- <img src="assets/screenshot-setings.png" alt="Preferences window" style="width:100%; max-width:960px; margin:10px 0;" /> -->
+  <!-- <p style="text-align:center; color:#586069; font-size:14px; margin-top:-5px;"><em>Preferences: Codex CLI configuration and usage display options</em></p> -->
+
+  <footer>
+    <section id="disclaimer" style="margin-top:2rem; padding:1rem; border-top:1px solid #ccc;">
+      <h2>Disclaimer</h2>
+      <p><strong>Agent Sessions</strong> is an independent open-source project.</p>
+      <p>
+        It is <strong>not affiliated with, endorsed by, or sponsored by OpenAI, Anthropic,
+          or any of their products or services</strong> (including ChatGPT, Claude, or Codex CLI).
+      </p>
+      <p>
+        All trademarks and brand names belong to their respective owners. References to “OpenAI,”
+        “Anthropic,” or “Codex CLI” are made solely for descriptive purposes.
+      </p>
+    </section>
+    © <span id="year"></span> Agent Sessions
+    <!-- • <a href="./privacy.html">Privacy</a> • <a href="./security.html">Security</a> -->
+  </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Load GitHub stars count
+    async function loadGitHubStars() {
+      const el = document.getElementById('github-stars');
+      const container = document.getElementById('github-stars-container');
+      if (!el || !container) return;
+
+      try {
+        const res = await fetch('https://api.github.com/repos/jazzyalex/agent-sessions', {
+          headers: {
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+
+        if (!res.ok) {
+          console.error('GitHub API error:', res.status, await res.text());
+          return;
+        }
+
+        const repo = await res.json();
+        const stars = repo.stargazers_count ?? 0;
+        el.textContent = stars;
+        container.style.display = 'inline';
+      } catch (e) {
+        console.error('Failed to load GitHub stars', e);
+      }
+    }
+
+    loadGitHubStars();
+  </script>
+</body>
+
+</html>

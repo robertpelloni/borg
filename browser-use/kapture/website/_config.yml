@@ -1,0 +1,22 @@
+# Jekyll configuration for GitHub Pages
+title: Kapture - Browser Automation for AI
+description: Control your browser with AI using Chrome DevTools and the Model Context Protocol
+theme: jekyll-theme-minimal
+url: "https://williamkapke.github.io"
+baseurl: "/kapture"
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Default plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap

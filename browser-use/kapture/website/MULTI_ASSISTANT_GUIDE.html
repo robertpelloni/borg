@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Multiple AI Assistants with Kapture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #2d3748;
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #4a5568;
+            margin: 30px 0 15px;
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            color: #4a5568;
+            margin: 20px 0 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        pre {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #d33682;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .mermaid {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .warning {
+            background: #fee;
+            border-left: 4px solid #e53e3e;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #742a2a;
+        }
+
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #22543d;
+        }
+
+        .info {
+            background: #e6f3ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #2c5282;
+        }
+
+        strong {
+            color: #2d3748;
+            font-weight: 600;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <h1>Running Multiple AI Assistants with Kapture</h1>
+
+        <p>Kapture enables multiple AI assistants to control browser tabs simultaneously through a single server instance. This guide explains how to set up and manage multi-assistant workflows effectively.</p>
+
+        <h2>Understanding the Architecture</h2>
+
+        <p>Kapture uses a hybrid architecture that supports both stdio and WebSocket connections:</p>
+
+        <div class="mermaid">
+graph LR
+    CD[Claude Desktop] -->|stdio| B[bridge]
+    B -->|WebSocket| KS[Kapture Server]
+    OC[Other MCP Clients] -->|WebSocket| KS
+    KS --> CE[Chrome Extension]
+    CE --> BT[Browser Tabs]
+        </div>
+
+        <h3>Key Concepts</h3>
+        <ol>
+            <li><strong>Single Server Instance</strong>: Only one Kapture server runs at a time on port 61822</li>
+            <li><strong>Bridge Mode</strong>: Translates between stdio (used by Claude Desktop) and WebSocket</li>
+            <li><strong>Direct WebSocket</strong>: Other MCP clients connect directly via WebSocket</li>
+            <li><strong>Shared Browser Access</strong>: All connected clients can control any connected browser tab</li>
+        </ol>
+
+        <h2>Setup Guide</h2>
+
+        <h3>Step 1: Install the Chrome Extension</h3>
+        <ol>
+            <li>Download the Kapture extension from the <a href="https://github.com/williamkapke/kapture/releases">releases page</a></li>
+            <li>Open Chrome and navigate to <code>chrome://extensions/</code></li>
+            <li>Enable "Developer mode"</li>
+            <li>Click "Load unpacked" and select the extension folder</li>
+        </ol>
+
+        <h3>Step 2: Configure Your Primary AI Client (Claude Desktop)</h3>
+
+        <p>Claude Desktop will automatically start and manage the server:</p>
+
+        <ol>
+            <li>Open Claude Desktop's configuration file:
+                <ul>
+                    <li><strong>macOS</strong>: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+                    <li><strong>Windows</strong>: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+                    <li><strong>Linux</strong>: <code>~/.config/Claude/claude_desktop_config.json</code></li>
+                </ul>
+            </li>
+            <li>Add the Kapture configuration:
+                <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "command": "npx",
+      "args": ["-y", "kapture-mcp", "bridge"]
+    }
+  }
+}</code></pre>
+            </li>
+            <li>Restart Claude Desktop - the server will start automatically</li>
+        </ol>
+
+        <h3>Step 3: Add Additional AI Clients</h3>
+
+        <p>Once the server is running (started by Claude Desktop), other clients can connect:</p>
+
+        <h4>Cline (VS Code Extension)</h4>
+        <p>Add to your VS Code settings:</p>
+        <pre><code>{
+  "cline.mcpServers": {
+    "kapture": {
+      "transport": "websocket",
+      "url": "ws://localhost:61822/mcp"
+    }
+  }
+}</code></pre>
+
+        <h4>Other MCP-Compatible Clients</h4>
+        <p>Any MCP client that supports WebSocket can connect to:</p>
+        <pre><code>ws://localhost:61822/mcp</code></pre>
+
+        <h3>Step 4: Connect Browser Tabs</h3>
+        <ol>
+            <li>Open Chrome/Brave and navigate to any website</li>
+            <li>Open DevTools (F12 or Cmd+Option+I)</li>
+            <li>Click on the "Kapture" panel</li>
+            <li>The extension automatically connects to the server</li>
+        </ol>
+
+        <p>Each tab shows:</p>
+        <ul>
+            <li>A unique Tab ID (e.g., <code>tab_1234567890</code>)</li>
+            <li>Connection status (green = connected)</li>
+            <li>Current URL</li>
+        </ul>
+
+        <h2>Verification and Monitoring</h2>
+
+        <h3>Check Server Status</h3>
+        <p>Open in your browser:</p>
+        <pre><code>http://localhost:61822/</code></pre>
+
+        <p>You'll see:</p>
+        <pre><code>{
+  "mcpClients": ["Claude Desktop", "Cline"],
+  "connectionCount": 2,
+  "browserTabs": 3
+}</code></pre>
+
+        <h3>Monitor in DevTools</h3>
+        <p>The Kapture panel shows:</p>
+        <ul>
+            <li>Server connection status</li>
+            <li>Command history</li>
+            <li>Response details</li>
+        </ul>
+
+        <h3>View Server Logs</h3>
+        <p>Server logs appear in the terminal where Claude Desktop was launched, showing:</p>
+        <ul>
+            <li>Client connections/disconnections</li>
+            <li>Command execution</li>
+            <li>Errors and warnings</li>
+        </ul>
+
+        <h2>Common Scenarios</h2>
+
+        <h3>Scenario 1: Research and Development</h3>
+        <p><strong>Setup</strong>: Claude Desktop + Cline</p>
+        <ol>
+            <li>Claude Desktop researches API documentation:
+                <pre><code>"Navigate to https://docs.api.com and find the authentication section"</code></pre>
+            </li>
+            <li>Simultaneously, Cline implements the code:
+                <pre><code>"Create an authentication module based on the research"</code></pre>
+            </li>
+            <li>Both work independently without interference</li>
+        </ol>
+
+        <h3>Scenario 2: Automated Testing</h3>
+        <p><strong>Setup</strong>: Multiple Claude Desktop instances</p>
+        <ol>
+            <li>Instance 1 writes test scenarios</li>
+            <li>Instance 2 executes tests in the browser</li>
+            <li>Instance 3 monitors console logs for errors</li>
+        </ol>
+
+        <h3>Scenario 3: Multi-Site Management</h3>
+        <p><strong>Setup</strong>: Claude Desktop + Custom MCP Client</p>
+        <ol>
+            <li>Claude manages social media posts</li>
+            <li>Custom client handles form submissions</li>
+            <li>Each operates on different browser tabs</li>
+        </ol>
+
+        <h2>Important Considerations</h2>
+
+        <h3>Server Lifecycle</h3>
+        <ol>
+            <li><strong>Automatic Start</strong>: When Claude Desktop launches with the bridge config</li>
+            <li><strong>Smart Detection</strong>: If you run <code>npx kapture-mcp</code> manually and a server is already running, it will show the existing server info and exit</li>
+            <li><strong>Graceful Shutdown</strong>: Server stops when all clients disconnect</li>
+        </ol>
+
+        <h3>Tab Management</h3>
+        <ul>
+            <li><strong>Tab Persistence</strong>: Tab IDs remain constant even if the page reloads</li>
+            <li><strong>Automatic Reconnection</strong>: Extensions reconnect automatically if the server restarts</li>
+            <li><strong>Independent Control</strong>: Each AI can control any tab, but commands are queued to prevent conflicts</li>
+        </ul>
+
+        <h3>Resource Limits</h3>
+        <ul>
+            <li><strong>Concurrent Clients</strong>: No hard limit, but performance may degrade with many clients</li>
+            <li><strong>Browser Tabs</strong>: Limited by Chrome's memory constraints</li>
+            <li><strong>Command Queue</strong>: Each tab processes commands sequentially</li>
+        </ul>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>"Server already running" Error</h3>
+        <div class="success">
+            <p>This is normal! It means Claude Desktop already started the server. Your additional client should connect via WebSocket.</p>
+        </div>
+
+        <h3>WebSocket Connection Failed</h3>
+        <ol>
+            <li>Verify the server is running: <code>http://localhost:61822/</code></li>
+            <li>Check firewall settings for port 61822</li>
+            <li>Ensure the WebSocket URL is exactly: <code>ws://localhost:61822/mcp</code></li>
+        </ol>
+
+        <h3>Commands Not Working</h3>
+        <ol>
+            <li>Check the Kapture panel is active in DevTools</li>
+            <li>Verify the tab shows as connected (green status)</li>
+            <li>Look for errors in the DevTools console</li>
+        </ol>
+
+        <h3>Performance Issues</h3>
+        <ol>
+            <li>Close unused browser tabs</li>
+            <li>Limit concurrent automation operations</li>
+            <li>Add delays between rapid commands:
+                <pre><code>await new Promise(resolve => setTimeout(resolve, 500));</code></pre>
+            </li>
+        </ol>
+
+        <h2>Best Practices</h2>
+
+        <h3>1. Coordinate AI Tasks</h3>
+        <ul>
+            <li>Assign specific responsibilities to each AI</li>
+            <li>Use tab naming conventions (e.g., "research-1", "test-2")</li>
+            <li>Implement handoff mechanisms between AIs</li>
+        </ul>
+
+        <h3>2. Handle Errors Gracefully</h3>
+        <ul>
+            <li>Check command responses for success/failure</li>
+            <li>Implement retry logic for failed operations</li>
+            <li>Use try-catch blocks in your AI prompts</li>
+        </ul>
+
+        <h3>3. Optimize Performance</h3>
+        <ul>
+            <li>Batch related operations</li>
+            <li>Use CSS selectors efficiently</li>
+            <li>Close tabs when done</li>
+        </ul>
+
+        <h3>4. Maintain Security</h3>
+        <ul>
+            <li>Only run on localhost</li>
+            <li>Don't expose port 61822 externally</li>
+            <li>Monitor connected clients regularly</li>
+        </ul>
+
+        <h2>Advanced Usage</h2>
+
+        <h3>Custom Integration</h3>
+        <p>Create your own MCP client:</p>
+        <pre><code>import { WebSocketClientTransport } from '@modelcontextprotocol/sdk';
+
+const transport = new WebSocketClientTransport(
+  new URL('ws://localhost:61822/mcp')
+);
+await transport.connect();</code></pre>
+
+        <h3>Monitoring All Activity</h3>
+        <p>Subscribe to notifications:</p>
+        <ul>
+            <li><code>kapture/tabs_changed</code> - Tab connections/disconnections</li>
+            <li><code>kapture/console_log</code> - Real-time browser console output</li>
+        </ul>
+
+        <h3>Programmatic Control</h3>
+        <p>Use the HTTP API for debugging:</p>
+        <pre><code># List all tabs
+curl http://localhost:61822/tabs
+
+# Get tab details
+curl http://localhost:61822/tab/{tabId}
+
+# View screenshot
+curl http://localhost:61822/tab/{tabId}/screenshot/view > screenshot.png</code></pre>
+
+        <h2>Summary</h2>
+
+        <p>Running multiple AI assistants with Kapture enables powerful automation workflows. The key is understanding that:</p>
+
+        <ol>
+            <li>Claude Desktop manages the server lifecycle via the bridge command</li>
+            <li>Additional clients connect via WebSocket</li>
+            <li>All clients share access to browser tabs</li>
+            <li>Commands are queued per tab to prevent conflicts</li>
+        </ol>
+
+        <p>Start simple with two clients, then expand as you become comfortable with the coordination patterns.</p>
+
+        <div class="highlight">
+            <strong>Ready to start?</strong> Follow the setup guide above and begin automating with multiple AI assistants today!
+        </div>
+    </div>
+</body>
+</html>

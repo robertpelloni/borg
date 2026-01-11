@@ -1,0 +1,10 @@
+[workspace]
+name = "rse-agents"
+version = "0.1.0"
+description = "Custom AI agents and skills for Research Software Engineering (RSE) and Scientific Computing tasks"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+
+[tasks]

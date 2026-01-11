@@ -184,9 +184,9 @@ export class McpProxyManager extends EventEmitter {
         for (const s of servers) {
             if (s.status === 'running') {
                 const client = this.mcpManager.getClient(s.name);
-                if (client) {
+                if (client && 'listTools' in client) {
                     try {
-                        const result = await client.listTools();
+                        const result = await (client as any).listTools();
                         for (const tool of result.tools) {
                             this.toolRegistry.set(tool.name, s.name);
                             this.toolDefinitions.set(tool.name, tool);
@@ -385,7 +385,11 @@ export class McpProxyManager extends EventEmitter {
                 // Local Server
                 const client = this.mcpManager.getClient(targetServer);
                 if (!client) throw new Error(`Server ${targetServer} is not connected.`);
-                result = await client.callTool({ name, arguments: args });
+                if ('callTool' in client) {
+                    result = await (client as any).callTool({ name, arguments: args });
+                } else {
+                    throw new Error(`Server ${targetServer} client does not support callTool.`);
+                }
             }
 
             // Calculate Output Tokens & Cost

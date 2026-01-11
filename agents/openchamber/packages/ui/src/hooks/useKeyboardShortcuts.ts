@@ -1,0 +1,310 @@
+import React from 'react';
+import { useSessionStore } from '@/stores/useSessionStore';
+import { useUIStore } from '@/stores/useUIStore';
+import { useThemeSystem } from '@/contexts/useThemeSystem';
+import { useAssistantStatus } from '@/hooks/useAssistantStatus';
+import { getRegisteredRuntimeAPIs } from '@/contexts/runtimeAPIRegistry';
+import { hasModifier } from '@/lib/utils';
+import { createWorktreeSession } from '@/lib/worktreeSessionCreator';
+import { useConfigStore } from '@/stores/useConfigStore';
+
+export const useKeyboardShortcuts = () => {
+  const { openNewSessionDraft, abortCurrentOperation, armAbortPrompt, clearAbortPrompt, currentSessionId } = useSessionStore();
+  const {
+    toggleCommandPalette,
+    toggleHelpDialog,
+    toggleSidebar,
+    setSessionSwitcherOpen,
+    setActiveMainTab,
+    setSettingsDialogOpen,
+    setModelSelectorOpen,
+  } = useUIStore();
+  const { themeMode, setThemeMode } = useThemeSystem();
+  const { working } = useAssistantStatus();
+  const abortPrimedUntilRef = React.useRef<number | null>(null);
+  const abortPrimedTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isDownloadingLogsRef = React.useRef(false);
+
+  const resetAbortPriming = React.useCallback(() => {
+    if (abortPrimedTimeoutRef.current) {
+      clearTimeout(abortPrimedTimeoutRef.current);
+      abortPrimedTimeoutRef.current = null;
+    }
+    abortPrimedUntilRef.current = null;
+    clearAbortPrompt();
+  }, [clearAbortPrompt]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+
+       if (hasModifier(e) && e.key === 'k') {
+        e.preventDefault();
+        toggleCommandPalette();
+      }
+
+      if (hasModifier(e) && e.shiftKey && e.key.toLowerCase() === 'l') {
+        const runtimeAPIs = getRegisteredRuntimeAPIs();
+        const diagnostics = runtimeAPIs?.diagnostics;
+        if (!diagnostics) {
+          return;
+        }
+
+        e.preventDefault();
+        if (isDownloadingLogsRef.current) {
+          return;
+        }
+        isDownloadingLogsRef.current = true;
+
+        diagnostics
+          .downloadLogs()
+          .then(({ fileName, content }) => {
+            const finalFileName = fileName || 'openchamber.log';
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = finalFileName;
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            URL.revokeObjectURL(url);
+          })
+          .finally(() => {
+            isDownloadingLogsRef.current = false;
+          });
+        return;
+      }
+
+      if (hasModifier(e) && e.key === '.') {
+        e.preventDefault();
+        toggleHelpDialog();
+      }
+
+      if (hasModifier(e) && e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        
+        const autoWorktree = useConfigStore.getState().settingsAutoCreateWorktree;
+        // If autoWorktree is true: Cmd+N -> Worktree, Cmd+Shift+N -> Standard
+        // If autoWorktree is false: Cmd+N -> Standard, Cmd+Shift+N -> Worktree
+        const shouldCreateWorktree = autoWorktree ? !e.shiftKey : e.shiftKey;
+
+        if (shouldCreateWorktree) {
+          // Create new session with auto-generated worktree
+          setActiveMainTab('chat');
+          setSessionSwitcherOpen(false);
+          createWorktreeSession();
+          return;
+        }
+        // Open a new session without worktree
+        setActiveMainTab('chat');
+        setSessionSwitcherOpen(false);
+        openNewSessionDraft();
+      }
+
+       if (hasModifier(e) && e.key === '/') {
+        e.preventDefault();
+        const modes: Array<'light' | 'dark' | 'system'> = ['light', 'dark', 'system'];
+        const currentIndex = modes.indexOf(themeMode);
+        const nextIndex = (currentIndex + 1) % modes.length;
+        setThemeMode(modes[nextIndex]);
+      }
+
+      if (hasModifier(e) && !e.shiftKey && e.key.toLowerCase() === 't') {
+        e.preventDefault();
+        const { isTimelineDialogOpen, setTimelineDialogOpen } = useUIStore.getState();
+        setTimelineDialogOpen(!isTimelineDialogOpen);
+        return;
+      }
+
+      if (hasModifier(e) && !e.shiftKey && e.key === ',') {
+        e.preventDefault();
+        const { isSettingsDialogOpen } = useUIStore.getState();
+        setSettingsDialogOpen(!isSettingsDialogOpen);
+        return;
+      }
+
+      if (hasModifier(e) && !e.shiftKey && e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        const { isMobile, isSessionSwitcherOpen } = useUIStore.getState();
+        if (isMobile) {
+          setSessionSwitcherOpen(!isSessionSwitcherOpen);
+        } else {
+          toggleSidebar();
+        }
+        return;
+      }
+
+      if (hasModifier(e) && !e.shiftKey && e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        const textarea = document.querySelector<HTMLTextAreaElement>('textarea[data-chat-input="true"]');
+        textarea?.focus();
+        return;
+      }
+
+      // Cmd/Ctrl+Shift+M: Open model selector (same conditions as double-ESC: chat tab, no overlays)
+      if (hasModifier(e) && e.shiftKey && e.key.toLowerCase() === 'm') {
+        const {
+          isSettingsDialogOpen,
+          isCommandPaletteOpen,
+          isHelpDialogOpen,
+          isSessionSwitcherOpen,
+          isAboutDialogOpen,
+          activeMainTab,
+          isModelSelectorOpen,
+        } = useUIStore.getState();
+
+        // Skip if settings open
+        if (isSettingsDialogOpen) {
+          return;
+        }
+
+        // Skip if any overlay open or not on chat tab
+        const hasOverlay = isCommandPaletteOpen || isHelpDialogOpen || isSessionSwitcherOpen || isAboutDialogOpen;
+        const isChatActive = activeMainTab === 'chat';
+
+        if (hasOverlay || !isChatActive) {
+          return;
+        }
+
+        e.preventDefault();
+        setModelSelectorOpen(!isModelSelectorOpen);
+        return;
+      }
+
+      // Cmd/Ctrl+Shift+T: Cycle thinking variant (same gating as Shift+M)
+      if (hasModifier(e) && e.shiftKey && e.key.toLowerCase() === 't') {
+        const {
+          isSettingsDialogOpen,
+          isCommandPaletteOpen,
+          isHelpDialogOpen,
+          isSessionSwitcherOpen,
+          isAboutDialogOpen,
+          activeMainTab,
+        } = useUIStore.getState();
+
+        if (isSettingsDialogOpen) {
+          return;
+        }
+
+        const hasOverlay = isCommandPaletteOpen || isHelpDialogOpen || isSessionSwitcherOpen || isAboutDialogOpen;
+        const isChatActive = activeMainTab === 'chat';
+
+        if (hasOverlay || !isChatActive) {
+          return;
+        }
+
+        const configState = useConfigStore.getState();
+        const variants = configState.getCurrentModelVariants();
+        if (variants.length === 0) {
+          return;
+        }
+
+        e.preventDefault();
+        configState.cycleCurrentVariant();
+
+        const nextVariant = useConfigStore.getState().currentVariant;
+        const sessionState = useSessionStore.getState();
+        const sessionId = sessionState.currentSessionId;
+        const agentName = useConfigStore.getState().currentAgentName;
+        const providerId = useConfigStore.getState().currentProviderId;
+        const modelId = useConfigStore.getState().currentModelId;
+
+        if (sessionId && agentName && providerId && modelId) {
+          sessionState.saveAgentModelVariantForSession(sessionId, agentName, providerId, modelId, nextVariant);
+        }
+
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        const {
+          isSettingsDialogOpen,
+          isCommandPaletteOpen,
+          isHelpDialogOpen,
+          isSessionSwitcherOpen,
+          isAboutDialogOpen,
+          activeMainTab,
+        } = useUIStore.getState();
+
+        // If settings is open, close it
+        if (isSettingsDialogOpen) {
+          e.preventDefault();
+          setSettingsDialogOpen(false);
+          resetAbortPriming();
+          return;
+        }
+
+        // Check if any overlay is open or not on chat tab - don't process abort
+        const hasOverlay = isCommandPaletteOpen || isHelpDialogOpen || isSessionSwitcherOpen || isAboutDialogOpen;
+        const isChatActive = activeMainTab === 'chat';
+
+        if (hasOverlay || !isChatActive) {
+          resetAbortPriming();
+          return;
+        }
+
+        // Double-ESC abort logic - only when on chat tab with no overlays
+        const sessionId = currentSessionId;
+        const canAbortNow = working.canAbort && Boolean(sessionId);
+        if (!canAbortNow) {
+          resetAbortPriming();
+          return;
+        }
+
+        const now = Date.now();
+        const primedUntil = abortPrimedUntilRef.current;
+
+        if (primedUntil && now < primedUntil) {
+          e.preventDefault();
+          resetAbortPriming();
+          void abortCurrentOperation();
+          return;
+        }
+
+        e.preventDefault();
+        const expiresAt = armAbortPrompt(3000) ?? now + 3000;
+        abortPrimedUntilRef.current = expiresAt;
+
+        if (abortPrimedTimeoutRef.current) {
+          clearTimeout(abortPrimedTimeoutRef.current);
+        }
+
+        const delay = Math.max(expiresAt - now, 0);
+        abortPrimedTimeoutRef.current = setTimeout(() => {
+          if (abortPrimedUntilRef.current && Date.now() >= abortPrimedUntilRef.current) {
+            resetAbortPriming();
+          }
+        }, delay || 0);
+        return;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [
+    openNewSessionDraft,
+    abortCurrentOperation,
+    toggleCommandPalette,
+    toggleHelpDialog,
+    toggleSidebar,
+    setSessionSwitcherOpen,
+    setActiveMainTab,
+    setSettingsDialogOpen,
+    setModelSelectorOpen,
+    setThemeMode,
+    themeMode,
+    working,
+    armAbortPrompt,
+    resetAbortPriming,
+    currentSessionId,
+  ]);
+
+  React.useEffect(() => {
+    return () => {
+      resetAbortPriming();
+    };
+  }, [resetAbortPriming]);
+};

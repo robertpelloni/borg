@@ -230,9 +230,9 @@ export class McpRouter {
     for (const server of servers) {
         if (server.status === 'running') {
             const client = this.mcpManager.getClient(server.name);
-            if (client) {
+            if (client && 'listTools' in client) {
                 try {
-                    const result = await client.listTools();
+                    const result = await (client as any).listTools();
                     for (const tool of result.tools) {
                         const baseName = tool.name;
                         const namespacedName = `${server.name}/${baseName}`;
@@ -360,9 +360,9 @@ export class McpRouter {
       for (const server of servers) {
            if (server.status === 'running') {
                const client = this.mcpManager.getClient(server.name);
-               if (client) {
+               if (client && 'listTools' in client) {
                    try {
-                       const result = await client.listTools();
+                       const result = await (client as any).listTools();
                        tools.push(...result.tools);
                    } catch(e) {}
                }
@@ -407,9 +407,9 @@ export class McpRouter {
     for (const server of servers) {
          if (server.status === 'running') {
              const client = this.mcpManager.getClient(server.name);
-             if (client) {
+             if (client && 'listTools' in client) {
                  try {
-                     const result = await client.listTools();
+                     const result = await (client as any).listTools();
                      tools.push(...result.tools);
                  } catch(e) {}
              }
@@ -462,7 +462,11 @@ export class McpRouter {
           
           const actualToolName = name.includes('/') ? name.split('/').pop()! : name;
           
-          const result = await client.callTool({
+          if (!('callTool' in client)) {
+              throw new Error(`Server '${target}' client does not support callTool.`);
+          }
+          
+          const result = await (client as any).callTool({
               name: actualToolName,
               arguments: args
           });

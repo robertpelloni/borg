@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-11T06:14:54.808058",
+  "lastUpdated": "2026-01-11T10:18:49.479748",
   "submodules": [
     {
       "name": "BobsGameOnline",
@@ -19,7 +19,7 @@
       "path": "okgame",
       "url": "https://github.com/robertpelloni/okgame",
       "status": "modified",
-      "commit": "99e545edc",
+      "commit": "fa18f2606",
       "category": "Other",
       "role": "Unknown",
       "description": "",
@@ -655,8 +655,8 @@
       "name": "aios",
       "path": "aios",
       "url": "https://github.com/robertpelloni/aios",
-      "status": "clean",
-      "commit": "fe3397e",
+      "status": "modified",
+      "commit": "d3ad824",
       "category": "Other",
       "role": "Unknown",
       "description": "",
@@ -720,7 +720,7 @@
       "name": "bobcoin",
       "path": "bobcoin",
       "url": "https://github.com/robertpelloni/bobcoin",
-      "status": "clean",
+      "status": "modified",
       "commit": "53124d9",
       "category": "Other",
       "role": "Unknown",

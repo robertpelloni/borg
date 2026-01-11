@@ -1,0 +1,69 @@
+{
+  "name": "@tokscale/core",
+  "version": "1.0.22",
+  "description": "Native Rust core for tokscale CLI - high-performance session parsing",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "binaryName": "tokscale-core",
+    "targets": [
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl",
+      "aarch64-unknown-linux-musl",
+      "x86_64-pc-windows-msvc",
+      "aarch64-pc-windows-msvc"
+    ]
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.4.1",
+    "ava": "^6.1.0"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release",
+    "build:platform": "napi build --platform --release",
+    "build:debug": "napi build",
+    "prepublishOnly": "napi prepublish -t npm",
+    "test": "ava",
+    "test:rust": "cargo test --features noop",
+    "test:all": "bun run test:rust && bun run test",
+    "bench": "cargo bench --features noop",
+    "universal": "napi universal",
+    "version": "napi version"
+  },
+  "ava": {
+    "timeout": "2m",
+    "workerThreads": false,
+    "files": [
+      "__test__/**/*.spec.mjs"
+    ]
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
+  "engines": {
+    "node": ">= 16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/junhoyeo/tokscale.git",
+    "directory": "packages/core"
+  },
+  "keywords": [
+    "napi-rs",
+    "rust",
+    "tokscale",
+    "performance",
+    "native"
+  ]
+}

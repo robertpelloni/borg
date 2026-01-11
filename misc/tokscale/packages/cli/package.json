@@ -1,0 +1,63 @@
+{
+  "name": "@tokscale/cli",
+  "version": "1.0.22",
+  "description": "A high-performance CLI tool and visualization dashboard for tracking AI coding assistant token usage and costs across multiple platforms.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/cli.js",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/junhoyeo/tokscale.git",
+    "directory": "packages/cli"
+  },
+  "scripts": {
+    "build": "tsc && bun run build:tui",
+    "build:tui": "echo 'TUI bundling skipped - OpenTUI requires Bun runtime'",
+    "dev": "bun run --conditions=browser src/cli.ts",
+    "tui": "bun run --conditions=browser src/cli.ts tui",
+    "start": "bun run --conditions=browser dist/cli.js",
+    "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.68",
+    "@opentui/core": "0.1.60",
+    "@opentui/react": "^0.1.60",
+    "@opentui/solid": "^0.1.60",
+    "@resvg/resvg-js": "^2.6.2",
+    "@tokscale/core": "1.0.22",
+    "cli-table3": "^0.6.5",
+    "clipboardy": "^5.0.2",
+    "commander": "^14.0.2",
+    "csv-parse": "^5.6.0",
+    "date-fns": "^4.1.0",
+    "picocolors": "^1.1.1",
+    "react": "^19.2.3",
+    "solid-js": "1.9.9",
+    "string-width": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.2.7",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "bun": ">= 1.0"
+  },
+  "keywords": [
+    "tokscale",
+    "opencode",
+    "claude-code",
+    "cursor",
+    "gemini",
+    "codex",
+    "cli"
+  ]
+}

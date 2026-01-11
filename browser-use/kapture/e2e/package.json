@@ -1,0 +1,15 @@
+{
+  "name": "kapture-e2e-tests",
+  "version": "1.0.0",
+  "description": "End-to-end tests for Kapture MCP Browser Automation",
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "chai": "^5.1.2",
+    "mocha": "^10.8.2",
+    "ws": "^8.18.0"
+  }
+}

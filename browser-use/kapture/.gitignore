@@ -1,0 +1,70 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env
+
+# Dependency directory
+node_modules
+bower_components
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# ignore yarn.lock
+yarn.lock
+
+.codesandbox
+
+# Deno specific
+.deno_dir/
+deno.lock
+**/.claude/settings.local.json
+
+.claude
+CLAUDE.local.md
+CLAUDE.md
+scratch.ts
+
+ignore/
+specs/
+
+# TypeScript build outputs
+dist/
+*.tsbuildinfo
+*.js.map
+
+# Chrome Extension builds
+extension.zip
+extension-build/
+
+/extension/icons/generate-icons.html
+/extension/KaptureDevToolsPanel.jpg
+/extension/ScreenshotWithExtensionPanel.jpg
+/kapture-extension.zip
+
+# Mocks folder
+mocks/

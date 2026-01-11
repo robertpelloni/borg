@@ -1,0 +1,49 @@
+{
+  "name": "stagehand-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Stagehand monorepo workspace",
+  "scripts": {
+    "build": "turbo run build",
+    "build:cli": "turbo run build:cli",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "prettier": "prettier --write .",
+    "eslint": "eslint .",
+    "test": "turbo run test",
+    "e2e": "turbo run e2e",
+    "e2e:bb": "turbo run e2e:bb",
+    "e2e:local": "turbo run e2e:local",
+    "evals": "pnpm --filter @browserbasehq/stagehand-evals run evals",
+    "docs": "turbo run docs",
+    "dev": "turbo run dev",
+    "example": "pnpm --filter @browserbasehq/stagehand run example --",
+    "cache:clear": "turbo run build --force",
+    "prepare": "turbo run build",
+    "release": "turbo run build && changeset publish",
+    "release-canary": "turbo run build && changeset version --snapshot && changeset publish --tag alpha"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.9",
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.5.8",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/browserbase/stagehand.git"
+  },
+  "bugs": {
+    "url": "https://github.com/browserbase/stagehand/issues"
+  },
+  "homepage": "https://stagehand.dev",
+  "overrides": {
+    "whatwg-url": "^14.0.0"
+  },
+  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
+}

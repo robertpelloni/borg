@@ -1,0 +1,32 @@
+# Base resources available regardless of connected tabs
+baseResources:
+  tabs:
+    name: Connected Browser Tabs
+    description: List of all browser tabs connected to the Kapture server
+
+# Dynamic resources created for each connected tab
+# {tabId} and {tabTitle} will be replaced with actual values
+dynamicTabResources:
+  "{tabId}":
+    name: "Browser Tab: {tabTitle}"
+    description: "Information about browser tab {tabId}"
+  
+  "{tabId}/console":
+    name: "Console Logs: {tabTitle}"
+    description: "Console log messages from browser tab {tabId}"
+  
+  "{tabId}/screenshot":
+    name: "Screenshot: {tabTitle}"
+    description: "Take a screenshot of browser tab {tabId}"
+  
+  "{tabId}/elementsFromPoint":
+    name: "Elements at Point: {tabTitle}"
+    description: "Get information about elements at a coordinate in browser tab {tabId}"
+  
+  "{tabId}/dom":
+    name: "DOM: {tabTitle}"
+    description: "Get the DOM HTML of browser tab {tabId}"
+  
+  "{tabId}/elements":
+    name: "Elements: {tabTitle}"
+    description: "Query elements by CSS selector or XPath in browser tab {tabId}, with optional visibility filtering"

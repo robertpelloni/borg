@@ -1,0 +1,24 @@
+{
+  "name": "kapture-test-app",
+  "productName": "Kapture Test Client",
+  "version": "1.0.0",
+  "description": "Electron test app for Kapture MCP server",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "mcp",
+    "electron",
+    "kapture"
+  ],
+  "author": "Kapture Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.2"
+  }
+}

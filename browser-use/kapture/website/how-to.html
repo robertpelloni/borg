@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Kapture - Interactive Examples</title>
+    <meta name="description" content="Learn how to use Kapture through interactive examples of AI controlling your browser">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="alternate icon" type="image/png" href="assets/images/icon48.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .how-to-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            margin-top: 80px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .how-to-header {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2rem;
+        }
+
+        .example-section {
+            margin-bottom: 60px;
+        }
+
+        .example-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .example-header h2 {
+            font-size: 2rem;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .example-header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .split-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .browser-side {
+            background: #f7fafc;
+            padding: 32px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .chat-side {
+            padding: 32px;
+        }
+
+        .browser-mockup {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .browser-bar {
+            background: #e2e8f0;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #cbd5e0;
+        }
+
+        .browser-url {
+            flex: 1;
+            background: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-left: 12px;
+        }
+
+        .browser-content {
+            padding: 24px;
+            min-height: 300px;
+            background: white;
+        }
+
+        .mini-chat {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mini-message {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .mini-message.user {
+            flex-direction: row-reverse;
+        }
+
+        .mini-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .user .mini-avatar {
+            background: #667eea;
+            color: white;
+        }
+
+        .assistant .mini-avatar {
+            background: #f3f4f6;
+            color: #1a202c;
+        }
+
+        .mini-content {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .user .mini-content {
+            background: #667eea;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .assistant .mini-content {
+            background: #f3f4f6;
+            color: #1a202c;
+            border-bottom-left-radius: 4px;
+        }
+
+        .action-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #f0fdf4;
+            color: #166534;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .highlight-element {
+            border: 2px dashed #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+
+        .demo-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .demo-input {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .demo-input.filled {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .demo-button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .quick-tips {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+
+        .quick-tips h3 {
+            color: #667eea;
+            margin-bottom: 16px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tip-card h4 {
+            color: #1a202c;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .tip-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+
+        @media (max-width: 768px) {
+            .split-view {
+                grid-template-columns: 1fr;
+            }
+
+            .browser-side {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.svg" alt="Kapture" style="height: 28px; width: auto; margin-right: 8px;">
+                <span>Kapture</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="install.html">Install</a></li>
+                <li><a href="how-to.html" class="active">How To</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="https://github.com/williamkapke/kapture">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="how-to-container">
+        <div class="how-to-header">
+            <h1 class="gradient-text">Kapture in Action</h1>
+            <p class="subtitle">Watch how AI controls your browser through real conversations</p>
+        </div>
+
+        <!-- Example 1: Form Automation -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Automating Form Submissions</h2>
+                <p>See how the AI fills out forms based on your instructions</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">example.com/contact</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 20px;">Contact Us</h3>
+                            <form class="demo-form">
+                                <div class="highlight-element">
+                                    <label style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: #4a5568;">Name</label>
+                                    <input type="text" class="demo-input filled" value="John Smith" />
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: #4a5568;">Email</label>
+                                    <input type="email" class="demo-input filled" value="john@example.com" />
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: #4a5568;">Message</label>
+                                    <textarea class="demo-input" rows="3" placeholder="Your message..."></textarea>
+                                </div>
+                                <button class="demo-button">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Fill out the contact form with John Smith and john@example.com
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll fill out the contact form for you.
+                                <div class="action-badge">✓ Found contact form</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Filling in the details now:
+                                <div class="action-badge">✓ Filled name: John Smith</div>
+                                <div class="action-badge">✓ Filled email: john@example.com</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I've filled in the name and email fields. The message field is still empty. What would you like me to put there?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 2: Data Extraction -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Extracting Information</h2>
+                <p>Watch the AI gather data from web pages</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">shop.example.com/products</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 20px;">Featured Products</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="highlight-element">
+                                    <h4 style="margin-bottom: 4px;">Widget Pro</h4>
+                                    <p style="color: #667eea; font-weight: 600;">$49.99</p>
+                                </div>
+                                <div style="border: 1px solid #e2e8f0; padding: 12px; border-radius: 4px;">
+                                    <h4 style="margin-bottom: 4px;">Widget Plus</h4>
+                                    <p style="color: #667eea; font-weight: 600;">$29.99</p>
+                                </div>
+                                <div style="border: 1px solid #e2e8f0; padding: 12px; border-radius: 4px;">
+                                    <h4 style="margin-bottom: 4px;">Widget Basic</h4>
+                                    <p style="color: #667eea; font-weight: 600;">$19.99</p>
+                                </div>
+                                <div style="border: 1px solid #e2e8f0; padding: 12px; border-radius: 4px;">
+                                    <h4 style="margin-bottom: 4px;">Widget Mini</h4>
+                                    <p style="color: #667eea; font-weight: 600;">$9.99</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                What's the most expensive product on this page?
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Let me scan the products and their prices.
+                                <div class="action-badge">✓ Found 4 products</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                The most expensive product is <strong>Widget Pro</strong> at $49.99.
+                                <br><br>
+                                Here's the full price list:
+                                <br>• Widget Pro - $49.99
+                                <br>• Widget Plus - $29.99
+                                <br>• Widget Basic - $19.99
+                                <br>• Widget Mini - $9.99
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 3: Navigation and Screenshots -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Navigation and Screenshots</h2>
+                <p>See how the AI navigates websites and captures visual information</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">github.com/williamkapke/kapture</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 12px;">
+                                <span style="color: #6366f1;">williamkapke</span> /
+                                <span style="color: #6366f1;">kapture</span>
+                            </h3>
+                            <p style="color: #6b7280; margin-bottom: 20px;">Browser automation for AI using Chrome DevTools Protocol</p>
+                            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                                <button style="padding: 6px 16px; border: 1px solid #d1d5db; border-radius: 6px; background: white;">⭐ Star</button>
+                                <button style="padding: 6px 16px; border: 1px solid #d1d5db; border-radius: 6px; background: white;">🔱 Fork</button>
+                            </div>
+                            <div class="highlight-element">
+                                <h4 style="margin-bottom: 8px;">README.md</h4>
+                                <p style="color: #4b5563; font-size: 0.9rem;">
+                                    Kapture enables AI assistants to control web browsers through the Model Context Protocol...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Go to the Kapture GitHub repo and take a screenshot of the README
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll navigate to the Kapture GitHub repository.
+                                <div class="action-badge">✓ Navigated to github.com/williamkapke/kapture</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Found the README section. Taking a screenshot now.
+                                <div class="action-badge">✓ Screenshot captured</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I've captured the README. It shows that Kapture is a browser automation tool using Chrome DevTools Protocol, designed for AI assistants to control web browsers.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 4: Multi-Tab Price Comparison -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Multi-Tab Price Comparison</h2>
+                <p>Watch the AI compare prices across multiple websites</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">amazon.com/dp/B08N5WRWNW</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 12px;">Echo Dot (4th Gen)</h3>
+                            <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+                                <div class="highlight-element" style="display: inline-block;">
+                                    <span style="font-size: 1.5rem; color: #c53030; font-weight: 600;">$49.99</span>
+                                </div>
+                                <span style="color: #6b7280; text-decoration: line-through;">$59.99</span>
+                            </div>
+                            <div style="background: #fef3c7; padding: 8px 12px; border-radius: 4px; display: inline-block;">
+                                <span style="color: #92400e; font-size: 0.9rem;">⚡ Deal of the Day</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; text-align: center; color: #6b7280; font-size: 0.9rem;">
+                        Also checking: BestBuy, Target, Walmart...
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Find the best price for Echo Dot 4th Gen across major retailers
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll check prices at major retailers. Opening multiple tabs now.
+                                <div class="action-badge">✓ Opened 4 new tabs</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Checking prices across all retailers:
+                                <div class="action-badge">✓ Amazon: $49.99 (Deal)</div>
+                                <div class="action-badge">✓ BestBuy: $54.99</div>
+                                <div class="action-badge">✓ Target: $59.99</div>
+                                <div class="action-badge">✓ Walmart: $52.99</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Best price found: <strong>Amazon at $49.99</strong> (save $10 with today's deal). Would you like me to add it to your cart?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 5: Research and Summarization -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Research and Information Gathering</h2>
+                <p>See how the AI collects and summarizes information from multiple sources</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">techcrunch.com/2024/ai-news</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 20px;">Latest AI News</h3>
+                            <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 16px;">
+                                <h4 style="color: #1a202c; margin-bottom: 4px;">OpenAI Announces GPT-5 Development</h4>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Major breakthrough in reasoning capabilities...</p>
+                            </div>
+                            <div class="highlight-element">
+                                <h4 style="color: #1a202c; margin-bottom: 4px;">Google's Gemini Gets Multimodal Update</h4>
+                                <p style="color: #6b7280; font-size: 0.9rem;">New features include enhanced vision and audio processing...</p>
+                            </div>
+                            <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 16px;">
+                                <h4 style="color: #1a202c; margin-bottom: 4px;">Meta Releases Open-Source LLM</h4>
+                                <p style="color: #6b7280; font-size: 0.9rem;">70B parameter model available for commercial use...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Research the latest AI developments from the past week
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll search multiple tech news sites for recent AI developments.
+                                <div class="action-badge">✓ Searching TechCrunch</div>
+                                <div class="action-badge">✓ Searching The Verge</div>
+                                <div class="action-badge">✓ Searching ArsTechnica</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Here's a summary of the major AI developments this week:
+                                <br><br>
+                                <strong>1. OpenAI GPT-5:</strong> In development with improved reasoning<br>
+                                <strong>2. Google Gemini:</strong> Multimodal capabilities added<br>
+                                <strong>3. Meta LLM:</strong> New 70B open-source model released<br>
+                                <strong>4. Microsoft:</strong> Copilot integration in Office 365<br><br>
+                                Would you like details on any specific development?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 6: Automated Testing -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Website Testing and Validation</h2>
+                <p>Watch the AI test forms and check for issues</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">myapp.com/signup</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 20px;">Create Account</h3>
+                            <form class="demo-form">
+                                <div>
+                                    <label style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: #4a5568;">Email</label>
+                                    <input type="email" class="demo-input" style="border-color: #f87171;" value="invalid-email" />
+                                    <p style="color: #dc2626; font-size: 0.8rem; margin-top: 4px;">Please enter a valid email address</p>
+                                </div>
+                                <div class="highlight-element">
+                                    <label style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: #4a5568;">Password</label>
+                                    <input type="password" class="demo-input" value="123" />
+                                    <p style="color: #dc2626; font-size: 0.8rem; margin-top: 4px;">Password must be at least 8 characters</p>
+                                </div>
+                                <button class="demo-button" disabled style="opacity: 0.5;">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Test the signup form validation
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll test various validation scenarios on the signup form.
+                                <div class="action-badge">✓ Testing invalid email</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Found validation issues:
+                                <div class="action-badge">❌ Email: Shows error for invalid format</div>
+                                <div class="action-badge">❌ Password: Requires 8+ characters</div>
+                                <div class="action-badge">✓ Submit button: Properly disabled</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                The form validation is working correctly. It prevents submission with invalid data and shows appropriate error messages. Should I test with valid inputs next?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 7: Social Media Monitoring -->
+        <div class="example-section">
+            <div class="example-header">
+                <h2>Social Media Management</h2>
+                <p>See how the AI helps manage multiple social accounts</p>
+            </div>
+
+            <div class="split-view">
+                <div class="browser-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">Browser View</h4>
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-url">twitter.com/notifications</div>
+                        </div>
+                        <div class="browser-content">
+                            <h3 style="margin-bottom: 20px;">Notifications</h3>
+                            <div class="highlight-element">
+                                <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                                    <div style="width: 40px; height: 40px; background: #e0e7ff; border-radius: 50%;"></div>
+                                    <div>
+                                        <p style="font-weight: 600;">@techuser mentioned you</p>
+                                        <p style="color: #6b7280; font-size: 0.9rem;">Great article on browser automation! 🚀</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 12px;">
+                                <span style="background: #fee; color: #dc2626; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">
+                                    12 new mentions
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-side">
+                    <h4 style="margin-bottom: 16px; color: #4a5568;">AI Chat</h4>
+                    <div class="mini-chat">
+                        <div class="mini-message user">
+                            <div class="mini-avatar">U</div>
+                            <div class="mini-content">
+                                Check my social media mentions across Twitter and LinkedIn
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                I'll check your mentions on both platforms.
+                                <div class="action-badge">✓ Checking Twitter</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                Twitter Summary:
+                                <br>• 12 new mentions
+                                <br>• 5 positive comments about your article
+                                <br>• 3 questions needing responses
+                                <br><br>Now checking LinkedIn...
+                                <div class="action-badge">✓ Switching to LinkedIn</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-message assistant">
+                            <div class="mini-avatar">AI</div>
+                            <div class="mini-content">
+                                <strong>Total mentions:</strong> 18 across both platforms<br>
+                                <strong>Action needed:</strong> 3 questions on Twitter<br>
+                                <strong>Trending topic:</strong> Your browser automation article
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Tips Section -->
+        <div class="quick-tips">
+            <h3>Quick Tips for Better Results</h3>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🎯 Be Specific</h4>
+                    <p>Instead of "click the button", say "click the blue Submit button at the bottom"</p>
+                </div>
+                <div class="tip-card">
+                    <h4>📍 Use Landmarks</h4>
+                    <p>Reference page sections like "in the header" or "in the sidebar" to help the AI</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔄 Step by Step</h4>
+                    <p>Break complex tasks into smaller steps for more reliable automation</p>
+                </div>
+                <div class="tip-card">
+                    <h4>👁️ Visual Checks</h4>
+                    <p>Ask for screenshots to verify the AI is on the right page or found the right element</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h2>Try It Yourself</h2>
+            <p>Experience the power of AI-driven browser automation.</p>
+            <div class="button-group">
+                <a href="install.html" class="btn btn-primary">Get Started</a>
+                <a href="MCP_USAGE.html" class="btn btn-secondary">Read Docs</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Kapture. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="https://github.com/williamkapke/kapture" target="_blank">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-connect when Kapture is loaded
+        window.addEventListener('kapture-loaded', () => {
+            console.log('Kapture loaded! Auto-connecting...');
+            const event = new CustomEvent('kapture-message', {
+                detail: { type: 'connect' }
+            });
+            window.dispatchEvent(event);
+        });
+    </script>
+</body>
+</html>

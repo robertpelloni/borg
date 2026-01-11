@@ -1,0 +1,2 @@
+include ocmonitor/*.toml
+include ocmonitor/*.json

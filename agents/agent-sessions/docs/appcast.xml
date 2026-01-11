@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>AgentSessions</title>
+        <item>
+            <title>2.9.2</title>
+            <pubDate>Thu, 01 Jan 2026 19:33:44 -0800</pubDate>
+            <description><![CDATA[
+                <h2>What's New in 2.9.2</h2>
+
+<h3>Improvements</h3>
+
+<p>Dates: Normalize timestamps (usage reset times, session dates, analytics labels, and transcript timestamps) to follow system locale and 12/24-hour settings.</p>
+<p>Appearance: Add a toolbar toggle for Dark/Light mode and View menu actions for Toggle Dark/Light and Use System Appearance.</p>
+<p>Preferences: Add quick links to Security & Privacy and License in Settings → About.</p>
+<p>Preferences: Make the Settings → About updates section more compact.</p>
+<p>Preferences: Droid pane now includes binary detection and a version check, consistent with other agents.
+</p>
+🎄 **Agent Sessions 2.9 Christmas Edition**
+
+<h3>New Features</h3>
+
+<p>**Onboarding Tours**: Interactive onboarding for new installs and a skippable update tour for major/minor releases. Reopen anytime from Help → Show Onboarding.</p>
+<p>**Copilot CLI Support**: Full session browser integration for GitHub Copilot CLI sessions. Includes Preferences pane and toolbar filter (⌘5).</p>
+<p>**Saved Sessions Window**: New dedicated window (View menu) for managing archived sessions with delete, reveal, and diagnostics.</p>
+<p>**Keyboard Navigation**: Option-Command-Arrow shortcuts to jump between user prompts, tool calls, and errors in transcripts.</p>
+
+<h3>Improvements</h3>
+
+<p>**Preferences**: Reorganized CLI agent controls. Disabling an agent now hides it everywhere (toolbar, Analytics, menu bar) and stops background work.</p>
+<p>**Improved Focus**: Transcript Find controls stay out of Tab navigation unless explicitly opened, preventing stuck focus states.</p>
+
+<h3>Fixed</h3>
+
+<p>**Saved Sessions**: Archive backfill and reveal actions now work reliably. Pinning no longer blocks the UI.</p>
+<p>**Claude Sessions**: Better parsing for modern Claude Code format, session titles, and error detection.</p>
+<p>**OpenCode Sessions**: Fixed missing content in Plain/Color views for migration=2 storage schema.</p>
+<p>**Clipboard**: Fixed intermittent issue where full transcripts could overwrite clipboard.</p>
+            ]]></description>
+            <sparkle:version>15</sparkle:version>
+            <sparkle:shortVersionString>2.9.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/jazzyalex/agent-sessions/releases/download/v2.9.2/AgentSessions-2.9.2.dmg" length="8945629" type="application/octet-stream" sparkle:edSignature="xNBhDyjlxgWjK+V66spOXc+aV7gs8PuTERsFhug6CBHrCcWwvIfCac9v8GeUwNNJMX6JAGnkAtPN3Zq11iybBg=="/>
+        </item>
+    </channel>
+</rss>

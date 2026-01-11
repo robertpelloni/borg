@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Kapture with MCP Clients - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #2d3748;
+            margin: 50px 0 25px;
+            font-size: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #4a5568;
+            margin: 35px 0 20px;
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: #4a5568;
+            margin: 25px 0 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        pre {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #d33682;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toc {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .toc h2 {
+            margin: 0 0 15px;
+            font-size: 1.3rem;
+            border: none;
+            padding: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 10px;
+        }
+
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .warning {
+            background: #fee;
+            border-left: 4px solid #e53e3e;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #742a2a;
+        }
+
+        .info {
+            background: #e6f3ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #2c5282;
+        }
+
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #22543d;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tool-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .tool-card h4 {
+            margin-top: 0;
+            color: #2d3748;
+        }
+
+        .tool-card pre code {
+            display: block;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+
+        .mermaid {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .quick-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .quick-start h2 {
+            color: white;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            margin-bottom: 20px;
+        }
+
+        .quick-start code {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .quick-start pre {
+            background: rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .quick-start pre code {
+            color: white;
+            background: none;
+        }
+
+        .quick-start ol {
+            margin-left: 20px;
+        }
+
+        .quick-start li {
+            color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <h1>Using Kapture with MCP Clients</h1>
+
+        <p>This guide explains how to configure and use Kapture with Model Context Protocol (MCP) clients like Claude Desktop, Cline, and custom implementations.</p>
+
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#quick-start">Quick Start</a></li>
+                <li><a href="#understanding-the-architecture">Understanding the Architecture</a></li>
+                <li><a href="#installation-configuration">Installation & Configuration</a></li>
+                <li><a href="#available-tools">Available Tools</a></li>
+                <li><a href="#mcp-resources">MCP Resources</a></li>
+                <li><a href="#examples-patterns">Examples & Patterns</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#advanced-topics">Advanced Topics</a></li>
+            </ul>
+        </div>
+
+        <div class="quick-start" id="quick-start">
+            <h2>Quick Start</h2>
+
+            <h3>1. Install the Chrome Extension</h3>
+            <ol>
+                <li>Download from <a href="https://github.com/williamkapke/kapture/releases" style="color: white; text-decoration: underline;">releases</a> or clone the repo</li>
+                <li>Open <code>chrome://extensions/</code></li>
+                <li>Enable "Developer mode"</li>
+                <li>Click "Load unpacked" and select the <code>extension</code> folder</li>
+            </ol>
+
+            <h3>2. Configure Your MCP Client</h3>
+
+            <p><strong>Claude Desktop</strong> (<code>~/Library/Application Support/Claude/claude_desktop_config.json</code>):</p>
+            <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "command": "npx",
+      "args": ["-y", "kapture-mcp", "bridge"]
+    }
+  }
+}</code></pre>
+
+            <p><strong>Cline/VS Code</strong> (settings.json):</p>
+            <pre><code>{
+  "cline.mcpServers": {
+    "kapture": {
+      "command": "npx",
+      "args": ["-y", "kapture-mcp", "bridge"]
+    }
+  }
+}</code></pre>
+
+            <h3>3. Connect Browser Tab</h3>
+            <ol>
+                <li>Open any website in Chrome</li>
+                <li>Open DevTools (F12)</li>
+                <li>Click the "Kapture" panel</li>
+                <li>You'll see "Connected" status</li>
+            </ol>
+
+            <h3>4. Start Using</h3>
+            <p>Ask your AI assistant to:</p>
+            <ul>
+                <li>"Navigate to example.com"</li>
+                <li>"Click the search button"</li>
+                <li>"Fill in the email field"</li>
+                <li>"Take a screenshot"</li>
+            </ul>
+        </div>
+
+        <h2 id="understanding-the-architecture">Understanding the Architecture</h2>
+
+        <h3>How Kapture Works</h3>
+
+        <div class="mermaid">
+graph LR
+    MCP[MCP Client<br/>Claude/Cline] -->|stdio| B[bridge]
+    B -->|WebSocket| KS[Kapture Server]
+    KS --> CE[Chrome Extension]
+    CE --> BT[Browser Tabs]
+        </div>
+
+        <h3>Key Components</h3>
+        <ol>
+            <li><strong>MCP Server</strong>: Runs on port 61822, handles all MCP protocol communication</li>
+            <li><strong>Bridge Mode</strong>: Translates between stdio (used by MCP clients) and WebSocket</li>
+            <li><strong>Chrome Extension</strong>: Injects into DevTools, executes browser commands</li>
+            <li><strong>WebSocket</strong>: Real-time bidirectional communication</li>
+        </ol>
+
+        <h3>Smart Server Management</h3>
+        <p>The <code>npx kapture-mcp</code> command includes intelligent server detection:</p>
+        <ul>
+            <li>If no server is running: Starts a new server</li>
+            <li>If server already exists: Shows connection info and exits gracefully</li>
+            <li>Multiple clients can share the same server instance</li>
+        </ul>
+
+        <h2 id="installation-configuration">Installation & Configuration</h2>
+
+        <h3>System Requirements</h3>
+        <ul>
+            <li>Chrome, Brave, Edge, Opera, or Vivaldi browser</li>
+            <li>Node.js 16+ (for npx)</li>
+            <li>An MCP-compatible AI client</li>
+        </ul>
+
+        <h3>Configuration Options</h3>
+
+        <h4>Recommended: Bridge Command</h4>
+        <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "command": "npx",
+      "args": ["-y", "kapture-mcp", "bridge"]
+    }
+  }
+}</code></pre>
+
+        <p>This approach:</p>
+        <ul>
+            <li>Automatically manages server lifecycle</li>
+            <li>Handles stdio↔WebSocket translation</li>
+            <li>Works with all MCP clients</li>
+            <li>Supports multiple simultaneous clients</li>
+        </ul>
+
+        <h4>Alternative: Local Installation</h4>
+        <p>If you've cloned the repository:</p>
+        <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "command": "node",
+      "args": ["/path/to/kapture/server/dist/index.js", "bridge"]
+    }
+  }
+}</code></pre>
+
+        <h4>Advanced: Direct WebSocket</h4>
+        <p>For custom integrations or manual server control:</p>
+
+        <ol>
+            <li>Start server manually: <code>npx kapture-mcp</code></li>
+            <li>Configure client:
+                <pre><code>{
+  "mcpServers": {
+    "kapture": {
+      "transport": "websocket",
+      "url": "ws://localhost:61822/mcp"
+    }
+  }
+}</code></pre>
+            </li>
+        </ol>
+
+        <h3>Configuration File Locations</h3>
+
+        <h4>Claude Desktop:</h4>
+        <ul>
+            <li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+            <li>Windows: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+            <li>Linux: <code>~/.config/Claude/claude_desktop_config.json</code></li>
+        </ul>
+
+        <h4>VS Code (Cline):</h4>
+        <ul>
+            <li>Open Settings (Cmd+,)</li>
+            <li>Search for "cline.mcpServers"</li>
+            <li>Edit in settings.json</li>
+        </ul>
+
+        <h2 id="available-tools">Available Tools</h2>
+
+        <p>Kapture provides 20 tools organized into functional categories:</p>
+
+        <h3>Navigation Tools</h3>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>navigate</h4>
+                <p>Navigate to a URL with optional timeout.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  url: "https://example.com",
+  timeout: 30000  // optional, ms
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>back / forward</h4>
+                <p>Browser history navigation.</p>
+                <pre><code>{
+  tabId: "tab_1234567890"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>reload</h4>
+                <p>Reload the current page (similar to pressing F5).</p>
+                <pre><code>{
+  tabId: "tab_1234567890"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>show</h4>
+                <p>Bring the tab to the front and focus it.</p>
+                <pre><code>{
+  tabId: "tab_1234567890"
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>Interaction Tools</h3>
+
+        <div class="info">
+            <p><strong>All interaction tools support both CSS selectors and XPath expressions.</strong></p>
+        </div>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>click</h4>
+                <p>Click elements. Returns the unique selector of clicked element.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "button.submit",  // CSS
+  // OR
+  xpath: "//button[contains(text(), 'Submit')]"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>hover</h4>
+                <p>Hover over elements to trigger effects.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: ".dropdown-trigger"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>fill</h4>
+                <p>Fill text inputs.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "#email",
+  value: "user@example.com"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>select</h4>
+                <p>Select dropdown options (HTML <code>&lt;select&gt;</code> only).</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "#country",
+  value: "us"  // option value
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>keypress</h4>
+                <p>Send keyboard events with modifier support.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  key: "Control+a",  // Select all
+  selector: "#editor",  // optional
+  delay: 100  // optional ms
+}</code></pre>
+                <p>Supported keys:</p>
+                <ul>
+                    <li>Single: <code>"a"</code>, <code>"Enter"</code>, <code>"Tab"</code></li>
+                    <li>Modifiers: <code>"Control+c"</code>, <code>"Shift+Tab"</code></li>
+                    <li>Special: <code>"PageDown"</code>, <code>"F5"</code></li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>focus / blur</h4>
+                <p>Manage element focus.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "#search-input"
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>Information Tools</h3>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>screenshot</h4>
+                <p>Capture screenshots with compression options.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: ".chart",  // optional
+  scale: 0.5,  // 0.1-1.0
+  format: "webp",  // webp|jpeg|png
+  quality: 0.85  // 0.1-1.0
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>dom</h4>
+                <p>Get HTML content.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "article"  // optional
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>elements</h4>
+                <p>Query multiple elements with visibility filtering.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  selector: "a.external-link",
+  visible: "true"  // true|false|all
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>console_logs</h4>
+                <p>Retrieve browser console output.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  level: "error",  // optional
+  limit: 100,  // optional
+  before: "2024-01-01T00:00:00Z"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>elementsFromPoint</h4>
+                <p>Get all elements at specific coordinates.</p>
+                <pre><code>{
+  tabId: "tab_1234567890",
+  x: 500,
+  y: 300
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>Tab Management Tools</h3>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>list_tabs</h4>
+                <p>Get all connected tabs.</p>
+                <pre><code>{}  // no parameters needed</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>tab_detail</h4>
+                <p>Get comprehensive tab information.</p>
+                <pre><code>{
+  tabId: "tab_1234567890"
+}</code></pre>
+            </div>
+
+            <div class="tool-card">
+                <h4>new_tab</h4>
+                <p>Open a new browser tab.</p>
+                <pre><code>{
+  browser: "chrome"  // optional
+}</code></pre>
+                <p>Opens the Kapture how-to page.</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>close</h4>
+                <p>Close a browser tab.</p>
+                <pre><code>{
+  tabId: "tab_1234567890"
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>Important Tool Behaviors</h3>
+
+        <div class="warning">
+            <p><strong>Key behaviors to remember:</strong></p>
+            <ol>
+                <li><strong>First Element Only</strong>: Tools that accept selectors only operate on the first matching element</li>
+                <li><strong>Unique Selectors</strong>: Tools return the unique selector of the element they operated on</li>
+                <li><strong>XPath Support</strong>: Use <code>xpath</code> parameter instead of <code>selector</code> for XPath expressions</li>
+                <li><strong>Error Handling</strong>: Element-not-found returns success with error details, not an exception</li>
+            </ol>
+        </div>
+
+        <h2 id="mcp-resources">MCP Resources</h2>
+
+        <p>Resources provide read-only access to browser data:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Resource URI</th>
+                    <th>Description</th>
+                    <th>Query Parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>kapture://tabs</code></td>
+                    <td>List of all connected tabs</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}</code></td>
+                    <td>Detailed tab information</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}/console</code></td>
+                    <td>Console logs with pagination</td>
+                    <td><code>before</code>, <code>limit</code>, <code>level</code></td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}/screenshot</code></td>
+                    <td>Screenshot as MCP resource</td>
+                    <td><code>selector</code>, <code>scale</code>, <code>format</code>, <code>quality</code></td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}/dom</code></td>
+                    <td>DOM HTML content</td>
+                    <td><code>selector</code></td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}/elements</code></td>
+                    <td>Query elements</td>
+                    <td><code>selector</code>, <code>visible</code></td>
+                </tr>
+                <tr>
+                    <td><code>kapture://tab/{tabId}/elementsFromPoint</code></td>
+                    <td>Elements at coordinates</td>
+                    <td><code>x</code>, <code>y</code> (required)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="examples-patterns">Examples & Patterns</h2>
+
+        <h3>Basic Navigation and Interaction</h3>
+        <pre><code>// Get available tabs
+const tabs = await callTool('list_tabs', {});
+const tabId = tabs[0].tabId;
+
+// Navigate to a website
+await callTool('navigate', {
+  tabId,
+  url: 'https://example.com'
+});
+
+// Fill and submit a form
+await callTool('fill', {
+  tabId,
+  selector: '#username',
+  value: 'myuser@example.com'
+});
+
+await callTool('fill', {
+  tabId,
+  selector: '#password',
+  value: 'secretpass123'
+});
+
+await callTool('click', {
+  tabId,
+  selector: 'button[type="submit"]'
+});</code></pre>
+
+        <h3>Working with Dynamic Content</h3>
+        <pre><code>// Wait for element to appear
+async function waitForElement(tabId, selector, maxAttempts = 10) {
+  for (let i = 0; i < maxAttempts; i++) {
+    const result = await callTool('elements', {
+      tabId,
+      selector,
+      visible: 'true'
+    });
+
+    if (result.elements.length > 0) {
+      return result.elements[0];
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+  throw new Error(`Element ${selector} not found after ${maxAttempts} attempts`);
+}
+
+// Use it
+const element = await waitForElement(tabId, '.dynamic-content');
+await callTool('click', {
+  tabId,
+  selector: element.selector
+});</code></pre>
+
+        <h3>Advanced Form Handling</h3>
+        <pre><code>// Handle custom dropdowns (not HTML select)
+await callTool('click', {
+  tabId,
+  selector: '.custom-dropdown-trigger'
+});
+
+await new Promise(resolve => setTimeout(resolve, 500));
+
+await callTool('click', {
+  tabId,
+  xpath: "//li[@role='option'][contains(text(), 'United States')]"
+});
+
+// Handle multi-step forms
+async function fillMultiStepForm(tabId, formData) {
+  // Step 1: Personal Info
+  await callTool('fill', { tabId, selector: '#firstName', value: formData.firstName });
+  await callTool('fill', { tabId, selector: '#lastName', value: formData.lastName });
+  await callTool('click', { tabId, selector: 'button.next-step' });
+
+  // Wait for next step
+  await waitForElement(tabId, '#email');
+
+  // Step 2: Contact Info
+  await callTool('fill', { tabId, selector: '#email', value: formData.email });
+  await callTool('fill', { tabId, selector: '#phone', value: formData.phone });
+  await callTool('click', { tabId, selector: 'button.submit-form' });
+}</code></pre>
+
+        <h3>Screenshot Automation</h3>
+        <pre><code>// Capture different parts of a page
+async function capturePageSections(tabId) {
+  const screenshots = {};
+
+  // Full page
+  screenshots.full = await callTool('screenshot', {
+    tabId,
+    scale: 0.3
+  });
+
+  // Specific sections
+  const sections = ['header', 'main', 'footer'];
+  for (const section of sections) {
+    screenshots[section] = await callTool('screenshot', {
+      tabId,
+      selector: section,
+      format: 'png',
+      scale: 0.5
+    });
+  }
+
+  return screenshots;
+}</code></pre>
+
+        <h3>Console Monitoring</h3>
+        <pre><code>// Monitor for errors during automation
+async function runWithErrorMonitoring(tabId, automation) {
+  // Clear existing logs
+  await callTool('console_logs', { tabId, limit: 1 });
+
+  // Run automation
+  await automation();
+
+  // Check for errors
+  const logs = await callTool('console_logs', {
+    tabId,
+    level: 'error',
+    limit: 100
+  });
+
+  if (logs.logs.length > 0) {
+    console.warn('Errors detected during automation:', logs.logs);
+  }
+
+  return logs.logs;
+}</code></pre>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <h3>Common Issues</h3>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h4>"No tabs connected"</h4>
+                <ul>
+                    <li>Open Chrome DevTools (F12)</li>
+                    <li>Navigate to Kapture panel</li>
+                    <li>Check connection status</li>
+                    <li>Reload the page if needed</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>"Element not found"</h4>
+                <ul>
+                    <li>Verify selector is correct</li>
+                    <li>Check if element is visible</li>
+                    <li>Use <code>elements</code> tool to debug</li>
+                    <li>Try XPath if CSS selector fails</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>Commands timing out</h4>
+                <ul>
+                    <li>Increase timeout parameter</li>
+                    <li>Check for JavaScript errors in console</li>
+                    <li>Verify tab is still responsive</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>"Tab not found"</h4>
+                <ul>
+                    <li>Tab may have disconnected</li>
+                    <li>Use <code>list_tabs</code> to get current tabs</li>
+                    <li>Reopen DevTools if needed</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Performance Tips</h3>
+
+        <ol>
+            <li><strong>Keep Kapture Panel Active</strong>: Click/hover operations perform better when Kapture panel is selected</li>
+            <li><strong>Use Efficient Selectors</strong>: ID selectors are fastest, followed by class, then complex selectors</li>
+            <li><strong>Batch Operations</strong>: Group related commands together</li>
+            <li><strong>Add Strategic Delays</strong>: Some interactions need time to complete</li>
+        </ol>
+
+        <h3>Debugging Strategies</h3>
+
+        <h4>1. Use HTTP Endpoints</h4>
+        <p>Access data directly via browser:</p>
+        <ul>
+            <li><code>http://localhost:61822/</code> - Server status</li>
+            <li><code>http://localhost:61822/tabs</code> - Tab list</li>
+            <li><code>http://localhost:61822/tab/{tabId}/screenshot/view</code> - View screenshot</li>
+        </ul>
+
+        <h4>2. Check Element Visibility</h4>
+        <pre><code>const elements = await callTool('elements', {
+  tabId,
+  selector: '.my-element',
+  visible: 'all'
+});
+
+elements.forEach(el => {
+  console.log(`${el.selector}: visible=${el.isVisible}`);
+});</code></pre>
+
+        <h4>3. Monitor Console Output</h4>
+        <p>Enable real-time console monitoring in your client to see browser errors as they happen.</p>
+
+        <h2 id="advanced-topics">Advanced Topics</h2>
+
+        <h3>Multiple AI Assistants</h3>
+
+        <div class="success">
+            <p><strong>Kapture excels at supporting multiple AI clients simultaneously!</strong></p>
+            <ol>
+                <li>Each client uses the same bridge configuration</li>
+                <li>Server automatically manages shared access</li>
+                <li>Commands are queued per tab to prevent conflicts</li>
+                <li>All clients receive real-time notifications</li>
+            </ol>
+            <p>See the <a href="https://williamkapke.github.io/kapture/MULTI_ASSISTANT_GUIDE.html">Multi-Assistant Guide</a> for detailed setup.</p>
+        </div>
+
+        <h3>Custom MCP Client Integration</h3>
+        <pre><code>import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { spawn } from 'child_process';
+
+// Spawn the server with bridge
+const proc = spawn('npx', ["-y", 'kapture-mcp', 'bridge']);
+const transport = new StdioClientTransport({
+  command: proc
+});
+
+const client = new Client({
+  name: 'custom-client',
+  version: '1.0.0'
+}, {
+  capabilities: {}
+});
+
+await client.connect(transport);
+
+// Subscribe to notifications
+client.on('notification', (notification) => {
+  if (notification.method === 'kapture/console_log') {
+    console.log('Browser console:', notification.params);
+  }
+});
+
+// Use tools
+const result = await client.callTool('navigate', {
+  tabId: 'tab_1234567890',
+  url: 'https://example.com'
+});</code></pre>
+
+        <h3>Security Considerations</h3>
+
+        <ol>
+            <li><strong>Localhost Only</strong>: Server only accepts connections from localhost</li>
+            <li><strong>Tab Isolation</strong>: Each tab has a unique ID, preventing cross-tab access</li>
+            <li><strong>No File System Access</strong>: Extension runs in browser sandbox</li>
+            <li><strong>Command Validation</strong>: All inputs are validated before execution</li>
+        </ol>
+
+        <h3>Best Practices</h3>
+
+        <h4>1. Always Check Tab Status</h4>
+        <pre><code>const tabs = await callTool('list_tabs', {});
+if (tabs.length === 0) {
+  throw new Error('No tabs connected');
+}</code></pre>
+
+        <h4>2. Handle Dynamic Content Gracefully</h4>
+        <ul>
+            <li>Use polling for elements that load asynchronously</li>
+            <li>Add delays after interactions that trigger animations</li>
+            <li>Check visibility before interacting</li>
+        </ul>
+
+        <h4>3. Optimize Selectors</h4>
+        <ul>
+            <li>Prefer IDs over classes</li>
+            <li>Use specific selectors to avoid ambiguity</li>
+            <li>Consider XPath for text-based selection</li>
+        </ul>
+
+        <h4>4. Error Recovery</h4>
+        <pre><code>async function safeClick(tabId, selector, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    const result = await callTool('click', { tabId, selector });
+    if (result.clicked) return result;
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+  throw new Error(`Failed to click ${selector} after ${retries} attempts`);
+}</code></pre>
+
+        <h2>Summary</h2>
+
+        <div class="highlight">
+            <p>Kapture provides a robust bridge between AI assistants and web browsers through:</p>
+            <ul>
+                <li>19 specialized tools for browser automation</li>
+                <li>Smart server management with automatic lifecycle handling</li>
+                <li>Support for multiple simultaneous AI clients</li>
+                <li>Comprehensive error handling and debugging capabilities</li>
+            </ul>
+            <p><strong>Start with the basic configuration, connect a browser tab, and begin automating!</strong></p>
+        </div>
+    </div>
+</body>
+</html>

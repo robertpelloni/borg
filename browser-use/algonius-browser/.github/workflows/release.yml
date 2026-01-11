@@ -1,0 +1,342 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*'
+
+env:
+  RELEASE_VERSION: ${{ github.event.inputs.version || github.ref_name }}
+
+jobs:
+  prepare-release:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate and prepare version
+        id: version
+        run: |
+          # Extract version from tag or input
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          
+          # Validate version format (x.y.z)
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version format '$VERSION' is not valid. Expected format: x.y.z"
+            exit 1
+          fi
+                    
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+          echo "Prepared version: $VERSION"
+
+  build-and-test:
+    name: Build and Test
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: "Chrome Extension"
+            build_cmd: "pnpm build"
+            zip_cmd: "pnpm zip"
+            artifact_name: "chrome-extension"
+          - name: "Firefox Extension"
+            build_cmd: "pnpm build:firefox"
+            zip_cmd: "pnpm zip:firefox"
+            artifact_name: "firefox-extension"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '9.15.1'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update version in package.json files
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          echo "Updating version to $VERSION"
+          bash update_version.sh $VERSION
+          
+          # Verify version was updated
+          echo "Verifying version updates:"
+          echo "Root package.json version: $(jq -r '.version' package.json)"
+          echo "Chrome extension package.json version: $(jq -r '.version' chrome-extension/package.json)"
+
+      - name: Build ${{ matrix.name }}
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          echo "Building ${{ matrix.name }} with version $VERSION"
+          
+          # Verify the version is available
+          echo "Package.json version: $(jq -r '.version' package.json)"
+          
+          # Run the build
+          ${{ matrix.build_cmd }}
+
+      - name: Create zip package
+        run: ${{ matrix.zip_cmd }}
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            dist-zip/*.zip
+            dist-zip/*.xpi
+            packages/zipper/dist/*.zip
+            packages/zipper/dist/*.xpi
+          retention-days: 30
+
+      - name: Upload updated source files (first matrix job only)
+        if: matrix.name == 'Chrome Extension'
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-source-files
+          path: |
+            package.json
+            chrome-extension/package.json
+            pages/*/package.json
+            packages/*/package.json
+            mcp-host-go/pkg/handlers/version.go
+          retention-days: 1
+
+  build-go-host:
+    name: Build Go MCP Host
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            name: linux-amd64
+          - goos: darwin
+            goarch: amd64
+            name: darwin-amd64
+          - goos: darwin
+            goarch: arm64
+            name: darwin-arm64
+          - goos: windows
+            goarch: amd64
+            name: windows-amd64
+            ext: .exe
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('mcp-host-go/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install Go dependencies
+        working-directory: mcp-host-go
+        run: make deps
+
+      - name: Run Go tests
+        working-directory: mcp-host-go
+        run: make test
+
+      - name: Build for ${{ matrix.name }}
+        working-directory: mcp-host-go
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          BUILD_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+          GIT_COMMIT=$(git rev-parse --short HEAD)
+          
+          echo "Building Go MCP Host ${{ matrix.name }} with version $VERSION"
+          
+          go build \
+            -trimpath \
+            -ldflags "-s -w -X 'github.com/algonius/algonius-browser/mcp-host-go/pkg/handlers.Version=$VERSION' -X 'github.com/algonius/algonius-browser/mcp-host-go/pkg/handlers.BuildTime=$BUILD_TIME' -X 'github.com/algonius/algonius-browser/mcp-host-go/pkg/handlers.GitCommit=$GIT_COMMIT'" \
+            -o bin/mcp-host-${{ matrix.name }}${{ matrix.ext }} \
+            ./cmd/mcp-host
+
+      - name: Upload Go binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp-host-${{ matrix.name }}
+          path: mcp-host-go/bin/mcp-host-${{ matrix.name }}${{ matrix.ext }}
+          retention-days: 30
+
+  create-release:
+    name: Create Release
+    needs: [prepare-release, build-and-test, build-go-host]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Download updated source files
+        uses: actions/download-artifact@v4
+        with:
+          name: updated-source-files
+          path: ./
+
+      - name: Commit and push version changes
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          
+          # Check if there are any changes to commit
+          if git diff --quiet; then
+            echo "No version changes to commit"
+          else
+            echo "Committing version changes for $VERSION"
+            git add .
+            git commit -m "chore: bump version to $VERSION"
+            git push origin HEAD
+          fi
+
+      - name: Create and push tag
+        run: |
+          TAG=${{ needs.prepare-release.outputs.tag }}
+          echo "Creating and pushing tag: $TAG"
+          git tag $TAG
+          git push origin $TAG
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Prepare release assets
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          mkdir -p release-assets
+          
+          # Debug: List all downloaded artifacts
+          echo "=== All artifacts structure ==="
+          find artifacts -type f -name "*.zip" -o -name "*.xpi" -o -name "mcp-host-*" | head -20
+          
+          # Rename Chrome extension
+          CHROME_ZIP=$(find artifacts/chrome-extension -name "*.zip" | head -1)
+          if [ -n "$CHROME_ZIP" ]; then
+            cp "$CHROME_ZIP" release-assets/algonius-browser-chrome-v$VERSION.zip
+            echo "Copied Chrome extension: $CHROME_ZIP"
+          else
+            echo "Warning: Chrome extension zip not found"
+          fi
+          
+          # Rename Firefox extension
+          FIREFOX_ZIP=$(find artifacts/firefox-extension -name "*.xpi" | head -1)
+          if [ -n "$FIREFOX_ZIP" ]; then
+            cp "$FIREFOX_ZIP" release-assets/algonius-browser-firefox-v$VERSION.xpi
+            echo "Copied Firefox extension: $FIREFOX_ZIP"
+          else
+            echo "Warning: Firefox extension xpi not found"
+          fi
+          
+          # Copy Go binaries
+          find artifacts -name "mcp-host-*" -type f -exec cp {} release-assets/ \;
+          
+          # List all final assets
+          echo "=== Final release assets ==="
+          ls -la release-assets/
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION=${{ needs.prepare-release.outputs.version }}
+          cat > release_notes.md << EOF
+          ## Algonius Browser v${VERSION}
+          
+          ### 🚀 What's New
+          
+          This release includes the latest features and improvements to Algonius Browser, an open-source AI web automation tool.
+          
+          ### 📦 Downloads
+          
+          **Browser Extensions:**
+          - Chrome Extension: \`algonius-browser-chrome-v${VERSION}.zip\`
+          - Firefox Extension: \`algonius-browser-firefox-v${VERSION}.xpi\`
+          
+          **MCP Host (for external AI integration):**
+          - Linux (x64): \`mcp-host-linux-amd64\`
+          - macOS (Intel): \`mcp-host-darwin-amd64\`
+          - macOS (Apple Silicon): \`mcp-host-darwin-arm64\`
+          - Windows (x64): \`mcp-host-windows-amd64.exe\`
+          
+          ### 🛠️ Installation
+          
+          1. **Browser Extension**: Load the unpacked extension or install from the Chrome/Firefox Web Store
+          2. **MCP Host**: Download the appropriate binary for your platform and follow the setup instructions
+          
+          ### 🔗 Documentation
+          
+          - [Installation Guide](https://github.com/algonius/algonius-browser#installation)
+          - [MCP Integration](./docs/chrome-mcp-host.md)
+          - [API Documentation](./docs/)
+          
+          ---
+          
+          Full changelog and technical details can be found in the commit history.
+          EOF
+          
+          echo "release_notes<<EOF" >> $GITHUB_OUTPUT
+          cat release_notes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.prepare-release.outputs.tag }}
+          name: "Algonius Browser v${{ needs.prepare-release.outputs.version }}"
+          body: ${{ steps.release_notes.outputs.release_notes }}
+          draft: false
+          prerelease: false
+          files: |
+            release-assets/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

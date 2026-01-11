@@ -1,0 +1,48 @@
+{
+  "name": "chrome-extension",
+  "version": "0.5.6",
+  "description": "chrome extension - core settings",
+  "type": "module",
+  "scripts": {
+    "clean:node_modules": "pnpx rimraf node_modules",
+    "clean:turbo": "rimraf .turbo",
+    "clean": "pnpm clean:turbo && pnpm clean:node_modules",
+    "build": "vite build",
+    "dev": "cross-env __DEV__=true vite build --mode development",
+    "test": "vitest run",
+    "lint": "eslint ./ --ext .ts,.js,.tsx,.jsx",
+    "lint:fix": "pnpm lint --fix",
+    "prettier": "prettier . --write --ignore-path ../.prettierignore",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@extension/shared": "workspace:*",
+    "@extension/storage": "workspace:*",
+    "@langchain/anthropic": "0.3.20",
+    "@langchain/core": "0.3.56",
+    "@langchain/deepseek": "^0.0.1",
+    "@langchain/google-genai": "0.2.9",
+    "@langchain/ollama": "^0.2.0",
+    "@langchain/openai": "0.5.10",
+    "@langchain/xai": "^0.0.2",
+    "puppeteer-core": "24.8.2",
+    "webextension-polyfill": "^0.12.0",
+    "zod": "3.24.4",
+    "zod-to-json-schema": "3.24.5"
+  },
+  "overrides": {
+    "@langchain/core": "0.3.56"
+  },
+  "devDependencies": {
+    "@extension/dev-utils": "workspace:*",
+    "@extension/hmr": "workspace:*",
+    "@extension/tsconfig": "workspace:*",
+    "@extension/vite-config": "workspace:*",
+    "@laynezh/vite-plugin-lib-assets": "^0.6.1",
+    "@types/ws": "^8.5.13",
+    "cross-env": "^7.0.3",
+    "deepmerge": "^4.3.1",
+    "magic-string": "^0.30.10",
+    "ts-loader": "^9.5.1"
+  }
+}

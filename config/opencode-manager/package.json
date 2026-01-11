@@ -1,0 +1,38 @@
+{
+  "name": "opencode-manager",
+  "version": "0.5.7",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+"scripts": {
+    "predev": "bash scripts/setup-dev.sh",
+    "dev": "concurrently \"pnpm:dev:backend\" \"pnpm:dev:frontend\"",
+    "dev:backend": "bun --watch backend/src/index.ts",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "build": "pnpm run build:backend && pnpm run build:frontend",
+    "build:backend": "pnpm --filter backend build",
+    "build:frontend": "pnpm --filter frontend build",
+    "typecheck": "pnpm run typecheck:frontend && pnpm run typecheck:backend",
+    "typecheck:frontend": "pnpm --filter frontend typecheck",
+    "typecheck:backend": "pnpm --filter backend typecheck",
+    "test": "pnpm run test:backend",
+    "test:backend": "pnpm --filter backend test",
+    "lint": "pnpm run lint:frontend && pnpm run lint:backend",
+    "lint:frontend": "pnpm --filter frontend lint",
+    "lint:backend": "pnpm --filter backend lint",
+    "lint:fix": "pnpm run lint:frontend -- --fix && pnpm run lint:backend -- --fix",
+    "generate:openapi": "bun scripts/generate-openapi.ts",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down -v",
+    "docker:logs": "docker-compose logs -f",
+    "docker:restart": "docker-compose restart"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "dotenv": "^17.2.3"
+  }
+}

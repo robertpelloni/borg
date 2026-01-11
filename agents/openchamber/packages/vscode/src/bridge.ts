@@ -1,0 +1,1488 @@
+import * as vscode from 'vscode';
+import * as os from 'os';
+import * as path from 'path';
+import { type OpenCodeManager } from './opencode';
+import { createAgent, createCommand, deleteAgent, deleteCommand, getAgentSources, getCommandSources, updateAgent, updateCommand, type AgentScope, type CommandScope, AGENT_SCOPE, COMMAND_SCOPE, discoverSkills, getSkillSources, createSkill, updateSkill, deleteSkill, readSkillSupportingFile, writeSkillSupportingFile, deleteSkillSupportingFile, type SkillScope, SKILL_SCOPE } from './opencodeConfig';
+import { removeProviderAuth } from './opencodeAuth';
+import * as gitService from './gitService';
+import {
+  getSkillsCatalog,
+  scanSkillsRepository as scanSkillsRepositoryFromGit,
+  installSkillsFromRepository as installSkillsFromGit,
+  type SkillsCatalogSourceConfig,
+} from './skillsCatalog';
+
+export interface BridgeRequest {
+  id: string;
+  type: string;
+  payload?: unknown;
+}
+
+export interface BridgeResponse {
+  id: string;
+  type: string;
+  success: boolean;
+  data?: unknown;
+  error?: string;
+}
+
+type ApiProxyRequestPayload = {
+  method?: string;
+  path?: string;
+  headers?: Record<string, string>;
+  bodyBase64?: string;
+};
+
+type ApiProxyResponsePayload = {
+  status: number;
+  headers: Record<string, string>;
+  bodyBase64: string;
+};
+
+interface FileEntry {
+  name: string;
+  path: string;
+  isDirectory: boolean;
+}
+
+interface FileSearchResult {
+  path: string;
+  score?: number;
+}
+
+export interface BridgeContext {
+  manager?: OpenCodeManager;
+  context?: vscode.ExtensionContext;
+}
+
+const SETTINGS_KEY = 'openchamber.settings';
+const CLIENT_RELOAD_DELAY_MS = 800;
+
+const readSettings = (ctx?: BridgeContext) => {
+  const stored = ctx?.context?.globalState.get<Record<string, unknown>>(SETTINGS_KEY) || {};
+  const restStored = { ...stored };
+  delete (restStored as Record<string, unknown>).lastDirectory;
+  const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
+  const themeVariant =
+    vscode.window.activeColorTheme.kind === vscode.ColorThemeKind.Light ||
+    vscode.window.activeColorTheme.kind === vscode.ColorThemeKind.HighContrastLight
+      ? 'light'
+      : 'dark';
+
+  return {
+    themeVariant,
+    lastDirectory: workspaceFolder,
+    ...restStored,
+  };
+};
+
+const persistSettings = async (changes: Record<string, unknown>, ctx?: BridgeContext) => {
+  const current = readSettings(ctx);
+  const restChanges = { ...(changes || {}) };
+  delete restChanges.lastDirectory;
+
+  // Normalize empty-string clears to key removal (match web/desktop behavior)
+  for (const key of ['defaultModel', 'defaultVariant', 'defaultAgent']) {
+    const value = restChanges[key];
+    if (typeof value === 'string' && value.trim().length === 0) {
+      delete restChanges[key];
+    }
+  }
+
+  const merged = { ...current, ...restChanges, lastDirectory: current.lastDirectory };
+  await ctx?.context?.globalState.update(SETTINGS_KEY, merged);
+  return merged;
+};
+
+const normalizeFsPath = (value: string) => value.replace(/\\/g, '/');
+
+const expandTildePath = (value: string) => {
+  const trimmed = (value || '').trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  if (trimmed === '~') {
+    return os.homedir();
+  }
+
+  if (trimmed.startsWith('~/') || trimmed.startsWith('~\\')) {
+    return path.join(os.homedir(), trimmed.slice(2));
+  }
+
+  return trimmed;
+};
+
+const resolveUserPath = (value: string, baseDirectory: string) => {
+  const expanded = expandTildePath(value);
+  if (!expanded) {
+    return expanded;
+  }
+  if (path.isAbsolute(expanded)) {
+    return expanded;
+  }
+  return path.resolve(baseDirectory, expanded);
+};
+
+const listDirectoryEntries = async (dirPath: string) => {
+  const uri = vscode.Uri.file(dirPath);
+  const entries = await vscode.workspace.fs.readDirectory(uri);
+  return entries.map(([name, fileType]) => ({
+    name,
+    path: normalizeFsPath(vscode.Uri.joinPath(uri, name).fsPath),
+    isDirectory: fileType === vscode.FileType.Directory,
+  }));
+};
+
+const FILE_SEARCH_EXCLUDED_DIRS = new Set([
+  'node_modules',
+  '.git',
+  'dist',
+  'build',
+  '.next',
+  '.turbo',
+  '.cache',
+  'coverage',
+  'tmp',
+  'logs',
+]);
+
+const shouldSkipSearchDirectory = (name: string) => {
+  if (!name) {
+    return false;
+  }
+  if (name.startsWith('.')) {
+    return true;
+  }
+  return FILE_SEARCH_EXCLUDED_DIRS.has(name.toLowerCase());
+};
+
+/**
+ * Fuzzy match scoring function.
+ * Returns a score > 0 if the query fuzzy-matches the candidate, null otherwise.
+ * Higher scores indicate better matches.
+ */
+const fuzzyMatchScore = (query: string, candidate: string): number | null => {
+  if (!query) return 0;
+
+  const q = query.toLowerCase();
+  const c = candidate.toLowerCase();
+
+  // Fast path: exact substring match gets high score
+  if (c.includes(q)) {
+    const idx = c.indexOf(q);
+    let bonus = 0;
+    if (idx === 0) {
+      bonus = 20;
+    } else {
+      const prev = c[idx - 1];
+      if (prev === '/' || prev === '_' || prev === '-' || prev === '.' || prev === ' ') {
+        bonus = 15;
+      }
+    }
+    return 100 + bonus - Math.min(idx, 20) - Math.floor(c.length / 5);
+  }
+
+  // Fuzzy match: all query chars must appear in order
+  let score = 0;
+  let lastIndex = -1;
+  let consecutive = 0;
+
+  for (let i = 0; i < q.length; i++) {
+    const ch = q[i];
+    if (!ch || ch === ' ') continue;
+
+    const idx = c.indexOf(ch, lastIndex + 1);
+    if (idx === -1) {
+      return null; // No match
+    }
+
+    const gap = idx - lastIndex - 1;
+    if (gap === 0) {
+      consecutive++;
+    } else {
+      consecutive = 0;
+    }
+
+    score += 10;
+    score += Math.max(0, 18 - idx); // Prefer matches near start
+    score -= Math.min(gap, 10); // Penalize gaps
+
+    // Bonus for word boundary matches
+    if (idx === 0) {
+      score += 12;
+    } else {
+      const prev = c[idx - 1];
+      if (prev === '/' || prev === '_' || prev === '-' || prev === '.' || prev === ' ') {
+        score += 10;
+      }
+    }
+
+    score += consecutive > 0 ? 12 : 0; // Bonus for consecutive matches
+    lastIndex = idx;
+  }
+
+  // Prefer shorter paths
+  score += Math.max(0, 24 - Math.floor(c.length / 3));
+
+  return score;
+};
+
+const searchFilesystemFiles = async (rootPath: string, query: string, limit: number) => {
+  const normalizedQuery = (query || '').trim().toLowerCase();
+  const matchAll = normalizedQuery.length === 0;
+
+  const rootUri = vscode.Uri.file(rootPath);
+  const queue: vscode.Uri[] = [rootUri];
+  const visited = new Set<string>([normalizeFsPath(rootUri.fsPath)]);
+  // Collect more candidates for fuzzy matching, then sort and trim
+  const collectLimit = matchAll ? limit : Math.max(limit * 3, 200);
+  const candidates: Array<{ name: string; path: string; relativePath: string; extension?: string; score: number }> = [];
+  const MAX_CONCURRENCY = 5;
+
+  while (queue.length > 0 && candidates.length < collectLimit) {
+    const batch = queue.splice(0, MAX_CONCURRENCY);
+    const dirLists = await Promise.all(
+      batch.map((dir) => Promise.resolve(vscode.workspace.fs.readDirectory(dir)).catch(() => [] as [string, vscode.FileType][]))
+    );
+
+    for (let index = 0; index < batch.length; index += 1) {
+      const currentDir = batch[index];
+      const dirents = dirLists[index];
+
+      for (const [entryName, entryType] of dirents) {
+        if (!entryName || entryName.startsWith('.')) {
+          continue;
+        }
+
+        const entryUri = vscode.Uri.joinPath(currentDir, entryName);
+        const absolute = normalizeFsPath(entryUri.fsPath);
+
+        if (entryType === vscode.FileType.Directory) {
+          if (shouldSkipSearchDirectory(entryName)) {
+            continue;
+          }
+          if (!visited.has(absolute)) {
+            visited.add(absolute);
+            queue.push(entryUri);
+          }
+          continue;
+        }
+
+        if (entryType !== vscode.FileType.File) {
+          continue;
+        }
+
+        const relativePath = normalizeFsPath(path.relative(rootPath, absolute) || path.basename(absolute));
+        const extension = entryName.includes('.') ? entryName.split('.').pop()?.toLowerCase() : undefined;
+
+        if (matchAll) {
+          candidates.push({
+            name: entryName,
+            path: absolute,
+            relativePath,
+            extension,
+            score: 0,
+          });
+        } else {
+          // Try fuzzy match against relative path (includes filename)
+          const score = fuzzyMatchScore(normalizedQuery, relativePath);
+          if (score !== null) {
+            candidates.push({
+              name: entryName,
+              path: absolute,
+              relativePath,
+              extension,
+              score,
+            });
+          }
+        }
+
+        if (candidates.length >= collectLimit) {
+          queue.length = 0;
+          break;
+        }
+      }
+
+      if (candidates.length >= collectLimit) {
+        break;
+      }
+    }
+  }
+
+  // Sort by score descending, then by path length, then alphabetically
+  if (!matchAll) {
+    candidates.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.relativePath.length !== b.relativePath.length) {
+        return a.relativePath.length - b.relativePath.length;
+      }
+      return a.relativePath.localeCompare(b.relativePath);
+    });
+  }
+
+  // Return top results without the score field
+  return candidates.slice(0, limit).map(({ name, path: filePath, relativePath, extension }) => ({
+    name,
+    path: filePath,
+    relativePath,
+    extension,
+  }));
+};
+
+const searchDirectory = async (directory: string, query: string, limit = 60) => {
+  const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+  const rootPath = directory
+    ? resolveUserPath(directory, workspaceRoot)
+    : vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
+  if (!rootPath) return [];
+
+  const sanitizedQuery = query?.trim() || '';
+  if (!sanitizedQuery) {
+    return searchFilesystemFiles(rootPath, '', limit);
+  }
+
+  // Fast-path via VS Code's file index (may be case-sensitive depending on platform/workspace).
+  try {
+    const pattern = `**/*${sanitizedQuery}*`;
+    const exclude = '**/{node_modules,.git,dist,build,.next,.turbo,.cache,coverage,tmp,logs}/**';
+    const results = await vscode.workspace.findFiles(
+      new vscode.RelativePattern(vscode.Uri.file(rootPath), pattern),
+      exclude,
+      limit,
+    );
+
+    if (Array.isArray(results) && results.length > 0) {
+      return results.map((file) => {
+        const absolute = normalizeFsPath(file.fsPath);
+        const relative = normalizeFsPath(path.relative(rootPath, absolute));
+        const name = path.basename(absolute);
+        return {
+          name,
+          path: absolute,
+          relativePath: relative || name,
+          extension: name.includes('.') ? name.split('.').pop()?.toLowerCase() : undefined,
+        };
+      });
+    }
+  } catch {
+    // Fall through to filesystem traversal.
+  }
+
+  // Fallback: deterministic, case-insensitive traversal with early-exit at limit.
+  return searchFilesystemFiles(rootPath, sanitizedQuery, limit);
+};
+
+const fetchModelsMetadata = async () => {
+  const controller = typeof AbortController !== 'undefined' ? new AbortController() : undefined;
+  const timeout = controller ? setTimeout(() => controller.abort(), 8000) : undefined;
+  try {
+    const response = await fetch('https://models.dev/api.json', {
+      signal: controller?.signal,
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error(`models.dev responded with ${response.status}`);
+    }
+    return await response.json();
+  } finally {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  }
+};
+
+const base64EncodeUtf8 = (text: string) => Buffer.from(text, 'utf8').toString('base64');
+
+const collectHeaders = (headers: Headers): Record<string, string> => {
+  const result: Record<string, string> = {};
+  headers.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+};
+
+export async function handleBridgeMessage(message: BridgeRequest, ctx?: BridgeContext): Promise<BridgeResponse> {
+  const { id, type, payload } = message;
+
+  try {
+    switch (type) {
+      case 'api:proxy': {
+        const apiUrl = ctx?.manager?.getApiUrl();
+        if (!apiUrl) {
+          const body = JSON.stringify({ error: 'OpenCode API unavailable' });
+          const data: ApiProxyResponsePayload = {
+            status: 503,
+            headers: { 'content-type': 'application/json' },
+            bodyBase64: base64EncodeUtf8(body),
+          };
+          return { id, type, success: true, data };
+        }
+
+        const { method, path: requestPath, headers, bodyBase64 } = (payload || {}) as ApiProxyRequestPayload;
+        const normalizedMethod = typeof method === 'string' && method.trim() ? method.trim().toUpperCase() : 'GET';
+        const normalizedPath =
+          typeof requestPath === 'string' && requestPath.trim().length > 0
+            ? requestPath.trim().startsWith('/')
+              ? requestPath.trim()
+              : `/${requestPath.trim()}`
+            : '/';
+
+        const base = `${apiUrl.replace(/\/+$/, '')}/`;
+        const targetUrl = new URL(normalizedPath.replace(/^\/+/, ''), base).toString();
+        const requestHeaders: Record<string, string> = { ...(headers || {}) };
+
+        // Ensure SSE requests are negotiated correctly.
+        if (normalizedPath === '/event' || normalizedPath === '/global/event') {
+          if (!requestHeaders.Accept) {
+            requestHeaders.Accept = 'text/event-stream';
+          }
+          requestHeaders['Cache-Control'] = requestHeaders['Cache-Control'] || 'no-cache';
+          requestHeaders.Connection = requestHeaders.Connection || 'keep-alive';
+        }
+
+        try {
+          const response = await fetch(targetUrl, {
+            method: normalizedMethod,
+            headers: requestHeaders,
+            body:
+              typeof bodyBase64 === 'string' && bodyBase64.length > 0 && normalizedMethod !== 'GET' && normalizedMethod !== 'HEAD'
+                ? Buffer.from(bodyBase64, 'base64')
+                : undefined,
+          });
+
+          const arrayBuffer = await response.arrayBuffer();
+          const data: ApiProxyResponsePayload = {
+            status: response.status,
+            headers: collectHeaders(response.headers),
+            bodyBase64: Buffer.from(arrayBuffer).toString('base64'),
+          };
+
+          return { id, type, success: true, data };
+        } catch (error) {
+          const body = JSON.stringify({
+            error: error instanceof Error ? error.message : 'Failed to reach OpenCode API',
+          });
+          const data: ApiProxyResponsePayload = {
+            status: 502,
+            headers: { 'content-type': 'application/json' },
+            bodyBase64: base64EncodeUtf8(body),
+          };
+          return { id, type, success: true, data };
+        }
+      }
+
+      case 'files:list': {
+        const { path: dirPath } = payload as { path: string };
+        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+        const resolvedPath = resolveUserPath(dirPath, workspaceRoot);
+        const uri = vscode.Uri.file(resolvedPath);
+        const entries = await vscode.workspace.fs.readDirectory(uri);
+        const result: FileEntry[] = entries.map(([name, fileType]) => ({
+          name,
+          path: vscode.Uri.joinPath(uri, name).fsPath,
+          isDirectory: fileType === vscode.FileType.Directory,
+        }));
+        return { id, type, success: true, data: { directory: normalizeFsPath(resolvedPath), entries: result } };
+      }
+
+      case 'files:search': {
+        const { query, maxResults = 50 } = payload as { query: string; maxResults?: number };
+        const pattern = `**/*${query}*`;
+        const files = await vscode.workspace.findFiles(pattern, '**/node_modules/**', maxResults);
+        const results: FileSearchResult[] = files.map((file) => ({
+          path: file.fsPath,
+        }));
+        return { id, type, success: true, data: results };
+      }
+
+      case 'workspace:folder': {
+        const folder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
+        return { id, type, success: true, data: { folder } };
+      }
+
+      case 'config:get': {
+        const { key } = payload as { key: string };
+        const config = vscode.workspace.getConfiguration('openchamber');
+        const value = config.get(key);
+        return { id, type, success: true, data: { value } };
+      }
+
+      case 'api:fs:list': {
+        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+        const target = (payload as { path?: string })?.path || workspaceRoot;
+        const resolvedPath = resolveUserPath(target, workspaceRoot) || workspaceRoot;
+        const entries = await listDirectoryEntries(resolvedPath);
+        const normalized = normalizeFsPath(resolvedPath);
+        return { id, type, success: true, data: { entries, directory: normalized, path: normalized } };
+      }
+
+      case 'api:fs:search': {
+        const { directory = '', query = '', limit } = (payload || {}) as { directory?: string; query?: string; limit?: number };
+        const files = await searchDirectory(directory, query, limit);
+        return { id, type, success: true, data: { files } };
+      }
+
+      case 'api:fs:mkdir': {
+        const target = (payload as { path: string })?.path;
+        if (!target) {
+          return { id, type, success: false, error: 'Path is required' };
+        }
+        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+        const resolvedPath = resolveUserPath(target, workspaceRoot);
+        await vscode.workspace.fs.createDirectory(vscode.Uri.file(resolvedPath));
+        return { id, type, success: true, data: { success: true, path: normalizeFsPath(resolvedPath) } };
+      }
+
+      case 'api:fs/home': {
+        const workspaceHome = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+        const home = workspaceHome || os.homedir();
+        return { id, type, success: true, data: { home: normalizeFsPath(home) } };
+      }
+
+      case 'api:fs:read': {
+        const target = (payload as { path: string })?.path;
+        if (!target) {
+          return { id, type, success: false, error: 'Path is required' };
+        }
+        try {
+          const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+          const resolvedPath = resolveUserPath(target, workspaceRoot);
+          const uri = vscode.Uri.file(resolvedPath);
+          const bytes = await vscode.workspace.fs.readFile(uri);
+          const content = Buffer.from(bytes).toString('utf8');
+          return { id, type, success: true, data: { content, path: normalizeFsPath(resolvedPath) } };
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Failed to read file';
+          return { id, type, success: false, error: message };
+        }
+      }
+
+      case 'api:fs:write': {
+        const { path: targetPath, content } = (payload as { path: string; content: string }) || {};
+        if (!targetPath) {
+          return { id, type, success: false, error: 'Path is required' };
+        }
+        if (typeof content !== 'string') {
+          return { id, type, success: false, error: 'Content is required' };
+        }
+        try {
+          const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+          const resolvedPath = resolveUserPath(targetPath, workspaceRoot);
+          const uri = vscode.Uri.file(resolvedPath);
+          // Ensure parent directory exists
+          const parentUri = vscode.Uri.file(path.dirname(resolvedPath));
+          try {
+            await vscode.workspace.fs.createDirectory(parentUri);
+          } catch {
+            // Directory may already exist
+          }
+          await vscode.workspace.fs.writeFile(uri, Buffer.from(content, 'utf8'));
+          return { id, type, success: true, data: { success: true, path: normalizeFsPath(resolvedPath) } };
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Failed to write file';
+          return { id, type, success: false, error: message };
+        }
+      }
+
+      case 'api:fs:exec': {
+        const { commands, cwd } = (payload as { commands: string[]; cwd: string }) || {};
+        if (!Array.isArray(commands) || commands.length === 0) {
+          return { id, type, success: false, error: 'Commands array is required' };
+        }
+        if (!cwd) {
+          return { id, type, success: false, error: 'Working directory (cwd) is required' };
+        }
+        try {
+          const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+          const resolvedCwd = resolveUserPath(cwd, workspaceRoot);
+          const { exec } = await import('child_process');
+          const { promisify } = await import('util');
+          const execAsync = promisify(exec);
+          const shell = process.env.SHELL || (process.platform === 'win32' ? 'cmd.exe' : '/bin/sh');
+          const shellFlag = process.platform === 'win32' ? '/c' : '-c';
+
+          const augmentedEnv = {
+            ...process.env,
+            PATH: process.env.PATH,
+          };
+
+          const results: Array<{
+            command: string;
+            success: boolean;
+            exitCode?: number;
+            stdout?: string;
+            stderr?: string;
+            error?: string;
+          }> = [];
+
+          for (const cmd of commands) {
+            if (typeof cmd !== 'string' || !cmd.trim()) {
+              results.push({ command: cmd, success: false, error: 'Invalid command' });
+              continue;
+            }
+            try {
+              // Use async exec to not block the extension host event loop
+              const { stdout, stderr } = await execAsync(`${shell} ${shellFlag} "${cmd.replace(/"/g, '\\"')}"`, {
+                cwd: resolvedCwd,
+                env: augmentedEnv,
+                timeout: 300000, // 5 minutes per command
+              });
+              results.push({
+                command: cmd,
+                success: true,
+                exitCode: 0,
+                stdout: (stdout || '').trim(),
+                stderr: (stderr || '').trim(),
+              });
+            } catch (execError) {
+              const err = execError as { code?: number; stdout?: string; stderr?: string; message?: string };
+              results.push({
+                command: cmd,
+                success: false,
+                exitCode: typeof err.code === 'number' ? err.code : 1,
+                stdout: (err.stdout || '').trim(),
+                stderr: (err.stderr || '').trim(),
+                error: err.message,
+              });
+            }
+          }
+
+          const allSucceeded = results.every((r) => r.success);
+          return { id, type, success: true, data: { success: allSucceeded, results } };
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Failed to execute commands';
+          return { id, type, success: false, error: message };
+        }
+      }
+
+      case 'api:files/pick': {
+        const MAX_SIZE = 10 * 1024 * 1024;
+        const allowMany = (payload as { allowMany?: boolean })?.allowMany !== false;
+        const defaultUri = vscode.workspace.workspaceFolders?.[0]?.uri;
+
+        const picks = await vscode.window.showOpenDialog({
+          canSelectFiles: true,
+          canSelectFolders: false,
+          canSelectMany: allowMany,
+          defaultUri,
+          openLabel: 'Attach',
+        });
+
+        if (!picks || picks.length === 0) {
+          return { id, type, success: true, data: { files: [], skipped: [] } };
+        }
+
+        const files: Array<{ name: string; mimeType: string; size: number; dataUrl: string }> = [];
+        const skipped: Array<{ name: string; reason: string }> = [];
+
+        const guessMime = (ext: string) => {
+          switch (ext) {
+            case '.png':
+            case '.jpg':
+            case '.jpeg':
+            case '.gif':
+            case '.bmp':
+            case '.webp':
+              return `image/${ext.replace('.', '')}`;
+            case '.pdf':
+              return 'application/pdf';
+            case '.txt':
+            case '.log':
+              return 'text/plain';
+            case '.json':
+              return 'application/json';
+            case '.md':
+            case '.markdown':
+              return 'text/markdown';
+            default:
+              return 'application/octet-stream';
+          }
+        };
+
+        for (const uri of picks) {
+          try {
+            const stat = await vscode.workspace.fs.stat(uri);
+            const size = stat.size ?? 0;
+            const name = path.basename(uri.fsPath);
+
+            if (size > MAX_SIZE) {
+              skipped.push({ name, reason: 'File exceeds 10MB limit' });
+              continue;
+            }
+
+            const bytes = await vscode.workspace.fs.readFile(uri);
+            const ext = path.extname(name).toLowerCase();
+            const mimeType = guessMime(ext);
+            const base64 = Buffer.from(bytes).toString('base64');
+            const dataUrl = `data:${mimeType};base64,${base64}`;
+            files.push({ name, mimeType, size, dataUrl });
+          } catch (error) {
+            const name = path.basename(uri.fsPath);
+            skipped.push({ name, reason: error instanceof Error ? error.message : 'Failed to read file' });
+          }
+        }
+
+        return { id, type, success: true, data: { files, skipped } };
+      }
+
+      case 'api:config/settings:get': {
+        const settings = readSettings(ctx);
+        return { id, type, success: true, data: settings };
+      }
+
+      case 'api:config/settings:save': {
+        const changes = (payload as Record<string, unknown>) || {};
+        const updated = await persistSettings(changes, ctx);
+        return { id, type, success: true, data: updated };
+      }
+
+      case 'api:config/reload': {
+        await ctx?.manager?.restart();
+        return { id, type, success: true, data: { restarted: true } };
+      }
+
+      case 'api:config/agents': {
+        const { method, name, body, directory } = (payload || {}) as { method?: string; name?: string; body?: Record<string, unknown>; directory?: string };
+        const agentName = typeof name === 'string' ? name.trim() : '';
+        if (!agentName) {
+          return { id, type, success: false, error: 'Agent name is required' };
+        }
+
+        // Use directory from request if provided, otherwise fall back to workspace
+        const workingDirectory = (typeof directory === 'string' && directory.trim())
+          ? directory.trim()
+          : (ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath);
+
+        const normalizedMethod = typeof method === 'string' && method.trim() ? method.trim().toUpperCase() : 'GET';
+        if (normalizedMethod === 'GET') {
+          const sources = getAgentSources(agentName, workingDirectory);
+          const scope = sources.md.exists
+            ? sources.md.scope
+            : (sources.json.exists ? sources.json.scope : null);
+          return {
+            id,
+            type,
+            success: true,
+            data: { name: agentName, sources, scope, isBuiltIn: !sources.md.exists && !sources.json.exists },
+          };
+        }
+
+        if (normalizedMethod === 'POST') {
+          // Extract scope from body if present
+          const scopeValue = body?.scope as string | undefined;
+          const scope: AgentScope | undefined = scopeValue === 'project' ? AGENT_SCOPE.PROJECT : scopeValue === 'user' ? AGENT_SCOPE.USER : undefined;
+          createAgent(agentName, (body || {}) as Record<string, unknown>, workingDirectory, scope);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Agent ${agentName} created successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'PATCH') {
+          updateAgent(agentName, (body || {}) as Record<string, unknown>, workingDirectory);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Agent ${agentName} updated successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          deleteAgent(agentName, workingDirectory);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Agent ${agentName} deleted successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:config/commands': {
+        const { method, name, body, directory } = (payload || {}) as { method?: string; name?: string; body?: Record<string, unknown>; directory?: string };
+        const commandName = typeof name === 'string' ? name.trim() : '';
+        if (!commandName) {
+          return { id, type, success: false, error: 'Command name is required' };
+        }
+
+        // Use directory from request if provided, otherwise fall back to workspace
+        const workingDirectory = (typeof directory === 'string' && directory.trim())
+          ? directory.trim()
+          : (ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath);
+
+        const normalizedMethod = typeof method === 'string' && method.trim() ? method.trim().toUpperCase() : 'GET';
+        if (normalizedMethod === 'GET') {
+          const sources = getCommandSources(commandName, workingDirectory);
+          const scope = sources.md.exists
+            ? sources.md.scope
+            : (sources.json.exists ? sources.json.scope : null);
+          return {
+            id,
+            type,
+            success: true,
+            data: { name: commandName, sources, scope, isBuiltIn: !sources.md.exists && !sources.json.exists },
+          };
+        }
+
+        if (normalizedMethod === 'POST') {
+          // Extract scope from body if present
+          const scopeValue = body?.scope as string | undefined;
+          const scope: CommandScope | undefined = scopeValue === 'project' ? COMMAND_SCOPE.PROJECT : scopeValue === 'user' ? COMMAND_SCOPE.USER : undefined;
+          createCommand(commandName, (body || {}) as Record<string, unknown>, workingDirectory, scope);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Command ${commandName} created successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'PATCH') {
+          updateCommand(commandName, (body || {}) as Record<string, unknown>, workingDirectory);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Command ${commandName} updated successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          deleteCommand(commandName, workingDirectory);
+          await ctx?.manager?.restart();
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: true,
+              message: `Command ${commandName} deleted successfully. Reloading interface…`,
+              reloadDelayMs: CLIENT_RELOAD_DELAY_MS,
+            },
+          };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:config/skills': {
+        const { method, name, body } = (payload || {}) as { method?: string; name?: string; body?: Record<string, unknown> };
+        const workingDirectory = ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+        const normalizedMethod = typeof method === 'string' && method.trim() ? method.trim().toUpperCase() : 'GET';
+
+        // LIST all skills (no name provided)
+        if (!name && normalizedMethod === 'GET') {
+          const skills = discoverSkills(workingDirectory);
+          return { id, type, success: true, data: { skills } };
+        }
+
+        const skillName = typeof name === 'string' ? name.trim() : '';
+        if (!skillName) {
+          return { id, type, success: false, error: 'Skill name is required' };
+        }
+
+        if (normalizedMethod === 'GET') {
+          const sources = getSkillSources(skillName, workingDirectory);
+          return {
+            id,
+            type,
+            success: true,
+            data: { name: skillName, sources, scope: sources.md.scope, source: sources.md.source },
+          };
+        }
+
+        if (normalizedMethod === 'POST') {
+          const scopeValue = body?.scope as string | undefined;
+          const scope: SkillScope | undefined = scopeValue === 'project' ? SKILL_SCOPE.PROJECT : scopeValue === 'user' ? SKILL_SCOPE.USER : undefined;
+          createSkill(skillName, (body || {}) as Record<string, unknown>, workingDirectory, scope);
+          // Skills are just files - OpenCode loads them on-demand, no restart needed
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: false,
+              message: `Skill ${skillName} created successfully`,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'PATCH') {
+          updateSkill(skillName, (body || {}) as Record<string, unknown>, workingDirectory);
+          // Skills are just files - OpenCode loads them on-demand, no restart needed
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: false,
+              message: `Skill ${skillName} updated successfully`,
+            },
+          };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          deleteSkill(skillName, workingDirectory);
+          // Skills are just files - OpenCode loads them on-demand, no restart needed
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              requiresReload: false,
+              message: `Skill ${skillName} deleted successfully`,
+            },
+          };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:config/skills:catalog': {
+        const refresh = Boolean((payload as { refresh?: boolean } | undefined)?.refresh);
+        const workingDirectory = ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+        const settings = readSettings(ctx);
+        const rawCatalogs = (settings as { skillCatalogs?: unknown }).skillCatalogs;
+
+        const additionalSources: SkillsCatalogSourceConfig[] = Array.isArray(rawCatalogs)
+          ? (rawCatalogs
+              .map((entry) => {
+                if (!entry || typeof entry !== 'object') return null;
+                const candidate = entry as Record<string, unknown>;
+                const id = typeof candidate.id === 'string' ? candidate.id.trim() : '';
+                const label = typeof candidate.label === 'string' ? candidate.label.trim() : '';
+                const source = typeof candidate.source === 'string' ? candidate.source.trim() : '';
+                const subpath = typeof candidate.subpath === 'string' ? candidate.subpath.trim() : '';
+                if (!id || !label || !source) return null;
+                const normalized: SkillsCatalogSourceConfig = {
+                  id,
+                  label,
+                  description: source,
+                  source,
+                  ...(subpath ? { defaultSubpath: subpath } : {}),
+                };
+                return normalized;
+              })
+              .filter((v) => v !== null) as SkillsCatalogSourceConfig[])
+          : [];
+
+        const data = await getSkillsCatalog(workingDirectory, refresh, additionalSources);
+        return { id, type, success: true, data };
+      }
+
+      case 'api:config/skills:scan': {
+        const body = (payload || {}) as { source?: string; subpath?: string; gitIdentityId?: string };
+        const data = await scanSkillsRepositoryFromGit({
+          source: String(body.source || ''),
+          subpath: body.subpath,
+        });
+        return { id, type, success: true, data };
+      }
+
+      case 'api:config/skills:install': {
+        const body = (payload || {}) as {
+          source?: string;
+          subpath?: string;
+          scope?: 'user' | 'project';
+          selections?: Array<{ skillDir: string }>;
+          conflictPolicy?: 'prompt' | 'skipAll' | 'overwriteAll';
+          conflictDecisions?: Record<string, 'skip' | 'overwrite'>;
+        };
+
+        const workingDirectory = ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+        const data = await installSkillsFromGit({
+          source: String(body.source || ''),
+          subpath: body.subpath,
+          scope: body.scope === 'project' ? 'project' : 'user',
+          workingDirectory: body.scope === 'project' ? workingDirectory : undefined,
+          selections: Array.isArray(body.selections) ? body.selections : [],
+          conflictPolicy: body.conflictPolicy,
+          conflictDecisions: body.conflictDecisions,
+        });
+
+        return { id, type, success: true, data };
+      }
+
+      case 'api:config/skills/files': {
+        const { method, name, filePath, content } = (payload || {}) as { 
+          method?: string; 
+          name?: string; 
+          filePath?: string; 
+          content?: string;
+        };
+        const workingDirectory = ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+        const skillName = typeof name === 'string' ? name.trim() : '';
+        if (!skillName) {
+          return { id, type, success: false, error: 'Skill name is required' };
+        }
+
+        const relativePath = typeof filePath === 'string' ? filePath.trim() : '';
+        if (!relativePath) {
+          return { id, type, success: false, error: 'File path is required' };
+        }
+
+        const sources = getSkillSources(skillName, workingDirectory);
+        if (!sources.md.dir) {
+          return { id, type, success: false, error: `Skill "${skillName}" not found` };
+        }
+
+        const skillDir = sources.md.dir;
+        const normalizedMethod = typeof method === 'string' && method.trim() ? method.trim().toUpperCase() : 'GET';
+
+        if (normalizedMethod === 'GET') {
+          const fileContent = readSkillSupportingFile(skillDir, relativePath);
+          if (fileContent === null) {
+            return { id, type, success: false, error: `File "${relativePath}" not found in skill "${skillName}"` };
+          }
+          return { id, type, success: true, data: { content: fileContent } };
+        }
+
+        if (normalizedMethod === 'PUT') {
+          writeSkillSupportingFile(skillDir, relativePath, content || '');
+          return { id, type, success: true, data: { success: true } };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          deleteSkillSupportingFile(skillDir, relativePath);
+          return { id, type, success: true, data: { success: true } };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:opencode/directory': {
+        const target = (payload as { path?: string })?.path;
+        if (!target) {
+          return { id, type, success: false, error: 'Path is required' };
+        }
+        const baseDirectory =
+          ctx?.manager?.getWorkingDirectory() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || os.homedir();
+        const resolvedPath = resolveUserPath(target, baseDirectory);
+        const result = await ctx?.manager?.setWorkingDirectory(resolvedPath);
+        if (!result) {
+          return { id, type, success: false, error: 'OpenCode manager unavailable' };
+        }
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:models/metadata': {
+        try {
+          const data = await fetchModelsMetadata();
+          return { id, type, success: true, data };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          return { id, type, success: false, error: errorMessage };
+        }
+      }
+
+      case 'editor:openFile': {
+        const { path: filePath, line, column } = payload as { path: string; line?: number; column?: number };
+        try {
+          const doc = await vscode.workspace.openTextDocument(filePath);
+          const options: vscode.TextDocumentShowOptions = {};
+          if (typeof line === 'number') {
+            const pos = new vscode.Position(Math.max(0, line - 1), column || 0);
+            options.selection = new vscode.Range(pos, pos);
+          }
+          await vscode.window.showTextDocument(doc, options);
+          return { id, type, success: true };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          return { id, type, success: false, error: errorMessage };
+        }
+      }
+
+      case 'editor:openDiff': {
+        const { original, modified, label } = payload as { original: string; modified: string; label?: string };
+        try {
+          // If the paths are just content, we need to create virtual documents or temp files.
+          // However, 'editor:openDiff' usually implies comparing two URIs.
+          // If the payload contains file paths:
+          const originalUri = vscode.Uri.file(original);
+          const modifiedUri = vscode.Uri.file(modified);
+          const title = label || `${path.basename(original)} ↔ ${path.basename(modified)}`;
+          
+          await vscode.commands.executeCommand('vscode.diff', originalUri, modifiedUri, title);
+          return { id, type, success: true };
+        } catch (error) {
+           const errorMessage = error instanceof Error ? error.message : String(error);
+           return { id, type, success: false, error: errorMessage };
+        }
+      }
+
+      case 'api:provider/auth:delete': {
+        const { providerId } = (payload || {}) as { providerId?: string };
+        if (!providerId) {
+          return { id, type, success: false, error: 'Provider ID is required' };
+        }
+        try {
+          const removed = removeProviderAuth(providerId);
+          if (removed) {
+            await ctx?.manager?.restart();
+          }
+          return {
+            id,
+            type,
+            success: true,
+            data: {
+              success: true,
+              removed,
+              requiresReload: removed,
+              message: removed
+                ? `Provider ${providerId} disconnected successfully. Reloading interface…`
+                : `Provider ${providerId} was not configured.`,
+              reloadDelayMs: removed ? CLIENT_RELOAD_DELAY_MS : undefined,
+            },
+          };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          return { id, type, success: false, error: errorMessage };
+        }
+      }
+
+      case 'vscode:command': {
+        const { command, args } = (payload || {}) as { command?: string; args?: unknown[] };
+        if (!command) {
+          return { id, type, success: false, error: 'Command is required' };
+        }
+        try {
+          const result = await vscode.commands.executeCommand(command, ...(args || []));
+          return { id, type, success: true, data: { result } };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          return { id, type, success: false, error: errorMessage };
+        }
+      }
+
+      // ============== Git Operations ==============
+
+      case 'api:git/check': {
+        const { directory } = (payload || {}) as { directory?: string };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const isRepo = await gitService.checkIsGitRepository(directory);
+        return { id, type, success: true, data: isRepo };
+      }
+
+      case 'api:git/worktree-type': {
+        const { directory } = (payload || {}) as { directory?: string };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const isLinked = await gitService.isLinkedWorktree(directory);
+        return { id, type, success: true, data: isLinked };
+      }
+
+      case 'api:git/status': {
+        const { directory } = (payload || {}) as { directory?: string };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const status = await gitService.getGitStatus(directory);
+        return { id, type, success: true, data: status };
+      }
+
+      case 'api:git/branches': {
+        const { directory, method, name, startPoint, force } = (payload || {}) as { 
+          directory?: string; 
+          method?: string;
+          name?: string;
+          startPoint?: string;
+          force?: boolean;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+
+        const normalizedMethod = typeof method === 'string' ? method.toUpperCase() : 'GET';
+
+        if (normalizedMethod === 'GET') {
+          const branches = await gitService.getGitBranches(directory);
+          return { id, type, success: true, data: branches };
+        }
+
+        if (normalizedMethod === 'POST') {
+          if (!name) {
+            return { id, type, success: false, error: 'Branch name is required' };
+          }
+          const result = await gitService.createBranch(directory, name, startPoint);
+          return { id, type, success: true, data: result };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          if (!name) {
+            return { id, type, success: false, error: 'Branch name is required' };
+          }
+          const result = await gitService.deleteGitBranch(directory, name, force);
+          return { id, type, success: true, data: result };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:git/remote-branches': {
+        const { directory, branch, remote } = (payload || {}) as { 
+          directory?: string; 
+          branch?: string;
+          remote?: string;
+        };
+        if (!directory || !branch) {
+          return { id, type, success: false, error: 'Directory and branch are required' };
+        }
+        const result = await gitService.deleteRemoteBranch(directory, branch, remote);
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/checkout': {
+        const { directory, branch } = (payload || {}) as { directory?: string; branch?: string };
+        if (!directory || !branch) {
+          return { id, type, success: false, error: 'Directory and branch are required' };
+        }
+        const result = await gitService.checkoutBranch(directory, branch);
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/worktrees': {
+        const { directory, method, path: worktreePath, branch, createBranch, force } = (payload || {}) as { 
+          directory?: string; 
+          method?: string;
+          path?: string;
+          branch?: string;
+          createBranch?: boolean;
+          force?: boolean;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+
+        const normalizedMethod = typeof method === 'string' ? method.toUpperCase() : 'GET';
+
+        if (normalizedMethod === 'GET') {
+          const worktrees = await gitService.listGitWorktrees(directory);
+          return { id, type, success: true, data: worktrees };
+        }
+
+        if (normalizedMethod === 'POST') {
+          if (!worktreePath || !branch) {
+            return { id, type, success: false, error: 'Path and branch are required' };
+          }
+          const result = await gitService.addGitWorktree(directory, worktreePath, branch, createBranch);
+          return { id, type, success: true, data: result };
+        }
+
+        if (normalizedMethod === 'DELETE') {
+          if (!worktreePath) {
+            return { id, type, success: false, error: 'Path is required' };
+          }
+          const result = await gitService.removeGitWorktree(directory, worktreePath, force);
+          return { id, type, success: true, data: result };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:git/diff': {
+        const { directory, path: filePath, staged, contextLines } = (payload || {}) as { 
+          directory?: string; 
+          path?: string;
+          staged?: boolean;
+          contextLines?: number;
+        };
+        if (!directory || !filePath) {
+          return { id, type, success: false, error: 'Directory and path are required' };
+        }
+        const result = await gitService.getGitDiff(directory, filePath, staged, contextLines);
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/file-diff': {
+        const { directory, path: filePath, staged } = (payload || {}) as { 
+          directory?: string; 
+          path?: string;
+          staged?: boolean;
+        };
+        if (!directory || !filePath) {
+          return { id, type, success: false, error: 'Directory and path are required' };
+        }
+        const result = await gitService.getGitFileDiff(directory, filePath, staged);
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/revert': {
+        const { directory, path: filePath } = (payload || {}) as { directory?: string; path?: string };
+        if (!directory || !filePath) {
+          return { id, type, success: false, error: 'Directory and path are required' };
+        }
+        await gitService.revertGitFile(directory, filePath);
+        return { id, type, success: true, data: { success: true } };
+      }
+
+      case 'api:git/commit': {
+        const { directory, message, addAll, files } = (payload || {}) as { 
+          directory?: string; 
+          message?: string;
+          addAll?: boolean;
+          files?: string[];
+        };
+        if (!directory || !message) {
+          return { id, type, success: false, error: 'Directory and message are required' };
+        }
+        const result = await gitService.createGitCommit(directory, message, { addAll, files });
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/push': {
+        const { directory, remote, branch, options } = (payload || {}) as { 
+          directory?: string; 
+          remote?: string;
+          branch?: string;
+          options?: string[] | Record<string, unknown>;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const result = await gitService.gitPush(directory, { remote, branch, options });
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/pull': {
+        const { directory, remote, branch } = (payload || {}) as { 
+          directory?: string; 
+          remote?: string;
+          branch?: string;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const result = await gitService.gitPull(directory, { remote, branch });
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/fetch': {
+        const { directory, remote, branch } = (payload || {}) as { 
+          directory?: string; 
+          remote?: string;
+          branch?: string;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const result = await gitService.gitFetch(directory, { remote, branch });
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/log': {
+        const { directory, maxCount, from, to, file } = (payload || {}) as { 
+          directory?: string; 
+          maxCount?: number;
+          from?: string;
+          to?: string;
+          file?: string;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        const result = await gitService.getGitLog(directory, { maxCount, from, to, file });
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/commit-files': {
+        const { directory, hash } = (payload || {}) as { directory?: string; hash?: string };
+        if (!directory || !hash) {
+          return { id, type, success: false, error: 'Directory and hash are required' };
+        }
+        const result = await gitService.getCommitFiles(directory, hash);
+        return { id, type, success: true, data: result };
+      }
+
+      case 'api:git/identity': {
+        const { directory, method, userName, userEmail, sshKey } = (payload || {}) as { 
+          directory?: string; 
+          method?: string;
+          userName?: string;
+          userEmail?: string;
+          sshKey?: string | null;
+        };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+
+        const normalizedMethod = typeof method === 'string' ? method.toUpperCase() : 'GET';
+
+        if (normalizedMethod === 'GET') {
+          const identity = await gitService.getCurrentGitIdentity(directory);
+          return { id, type, success: true, data: identity };
+        }
+
+        if (normalizedMethod === 'POST') {
+          if (!userName || !userEmail) {
+            return { id, type, success: false, error: 'userName and userEmail are required' };
+          }
+          const result = await gitService.setGitIdentity(directory, userName, userEmail, sshKey);
+          return { id, type, success: true, data: result };
+        }
+
+        return { id, type, success: false, error: `Unsupported method: ${normalizedMethod}` };
+      }
+
+      case 'api:git/ignore-openchamber': {
+        const { directory } = (payload || {}) as { directory?: string };
+        if (!directory) {
+          return { id, type, success: false, error: 'Directory is required' };
+        }
+        await gitService.ensureOpenChamberIgnored(directory);
+        return { id, type, success: true, data: { success: true } };
+      }
+
+      default:
+        return { id, type, success: false, error: `Unknown message type: ${type}` };
+    }
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return { id, type, success: false, error: errorMessage };
+  }
+}

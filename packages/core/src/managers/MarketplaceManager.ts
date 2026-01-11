@@ -82,9 +82,7 @@ export class MarketplaceManager extends EventEmitter {
              await this.mcpManager.startServerSimple('skill-registry', {
                 command: 'npx', 
                 args: ['tsx', binPath],
-                env: {
-                    ...process.env,
-                }
+                env: process.env as Record<string, string>
             });
             console.log('[MarketplaceManager] Started Skill Registry MCP Server');
         } else {

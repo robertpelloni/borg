@@ -49,6 +49,8 @@ import { WebSearchTool } from './tools/WebSearchTool.js';
 import { EconomyManager } from './managers/EconomyManager.js';
 import { NodeManager } from './managers/NodeManager.js';
 import { createCouncilRoutes } from './routes/councilRoutes.js';
+import { createAutopilotRoutes } from './routes/autopilotRoutes.js';
+import { cliRegistry, cliSessionManager, smartPilotManager, vetoManager, debateHistoryManager } from './managers/autopilot/index.js';
 import { AuthMiddleware } from './middleware/AuthMiddleware.js';
 import { SystemTrayManager } from './managers/SystemTrayManager.js';
 import { ConductorManager } from './managers/ConductorManager.js';
@@ -230,6 +232,9 @@ this.conductorManager = new ConductorManager(rootDir);
 
     // Council Routes (Multi-LLM debate/voting)
     this.app.route('/api/council', createCouncilRoutes());
+
+    // Autopilot Routes (CLI sessions, smart pilot, veto, debate history)
+    this.app.route('/api/autopilot', createAutopilotRoutes());
 
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
@@ -852,6 +857,11 @@ this.app.get('/api/vibekanban/status', (c) => {
              return "Unknown tool";
         });
     });
+
+    // Initialize Autopilot System
+    await cliRegistry.detectAll();
+    await cliSessionManager.initialize();
+    console.log(`[Core] Autopilot system initialized - ${cliRegistry.getAvailableTools().length} CLI tools detected`);
     
     this.httpServer = createServer();
     this.io = new SocketIOServer(this.httpServer, {

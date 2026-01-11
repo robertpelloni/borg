@@ -1,0 +1,72 @@
+name: Bug Report
+description: Create a report to help us improve Algonius Browser
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: input
+    id: version
+    attributes:
+      label: Algonius Browser Version
+      description: What version of Algonius Browser are you running?
+      placeholder: e.g., 0.4.11
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Tell us what happened...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. My prompt is '...'
+        2. I click '...'
+        3. I see '...'
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component of Algonius Browser is affected?
+      options:
+        - Chrome Extension
+        - MCP Host
+        - Browser Automation Tools
+        - Installation
+        - Other (please specify in description)
+    validations:
+      required: true
+      
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please provide your system information
+      placeholder: |
+        OS: Linux/macOS/Windows
+        Chrome Version: 131.x.x
+        MCP Host Version: x.x.x
+        Extension Version: 0.4.11
+    validations:
+      required: true
+ 
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem

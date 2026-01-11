@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Kapture MCP Test Client</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <h1>Kapture MCP Test Client</h1>
+      <div class="connection-status">
+        <span class="status-indicator" id="status"></span>
+        <span id="status-text">Connecting...</span>
+      </div>
+    </header>
+
+    <!-- Browser Container -->
+    <div class="browser-container">
+      <!-- Browser Tabs -->
+      <div class="browser-tabs">
+        <div class="tabs-header">
+          <div class="tab-list" id="tab-list">
+            <!-- Dynamic tabs will be inserted here -->
+          </div>
+          <button id="refresh-tabs" class="btn-refresh" title="Refresh tabs" disabled>⟳</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Browser Navigation Bar -->
+          <div class="browser-nav-bar">
+            <button class="nav-btn" id="nav-back" title="Go back">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <path fill="currentColor" d="M11 2L5 8l6 6v-12z"/>
+              </svg>
+            </button>
+            <button class="nav-btn" id="nav-forward" title="Go forward">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <path fill="currentColor" d="M5 2l6 6-6 6V2z"/>
+              </svg>
+            </button>
+            <input type="text" class="nav-url-input" id="nav-url" placeholder="Enter URL...">
+            <button class="nav-btn nav-refresh" id="nav-refresh" title="Navigate">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <path fill="currentColor" d="M12 8l-6-6v4H2v4h4v4l6-6z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Main Content with Sidebar -->
+          <div class="main-content">
+            <!-- Left Sidebar -->
+            <div class="sidebar" id="sidebar">
+              <div class="sidebar-section">
+                <h3 class="sidebar-section-header">Tools</h3>
+                <div class="sidebar-items" id="tools-list">
+                  <!-- Dynamic tools will be inserted here -->
+                </div>
+              </div>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section">
+                <h3 class="sidebar-section-header">Resources</h3>
+                <div class="sidebar-items" id="resources-list">
+                  <!-- Dynamic resources will be inserted here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+              <div class="content-container" id="content-container">
+                <div class="empty-state">
+                  <h2>Select from sidebar</h2>
+                  <p>Choose a tool or resource from the left sidebar</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tab Info Bar -->
+    <div class="tab-info-section" id="tab-info-section">
+      <div class="tab-info-content" id="tab-info-content">
+        <span class="info-placeholder">No tab selected</span>
+      </div>
+    </div>
+
+    <!-- Draggable Divider -->
+    <div class="console-divider" id="console-divider"></div>
+
+    <!-- Console -->
+    <div class="console" id="console">
+      <div class="console-header">
+        <h3>Console</h3>
+        <button id="clear-console" class="btn-secondary btn-small">Clear</button>
+      </div>
+      <div id="console-output" class="console-output"></div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

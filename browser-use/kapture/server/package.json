@@ -1,0 +1,50 @@
+{
+  "name": "kapture-mcp",
+  "version": "2.1.1",
+  "description": "MCP server for Kapture browser automation",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "kapture-mcp": "dist/cli.js"
+  },
+  "files": [
+    "dist/**/*",
+    "static/**/*",
+    "README.md",
+    "package.json"
+  ],
+  "keywords": [
+    "mcp",
+    "browser-automation",
+    "chrome-extension",
+    "kapture",
+    "devtools"
+  ],
+  "author": "William Kapke",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/williamkapke/kapture.git",
+    "directory": "server"
+  },
+  "scripts": {
+    "build": "tsc && cp src/*.yaml dist/ && chmod +x dist/cli.js dist/index.js dist/bridge.js dist/setup.js",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.3",
+    "js-yaml": "^4.1.0",
+    "mcp2websocket": "^2.0.0",
+    "ws": "^8.18.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

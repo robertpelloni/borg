@@ -1,0 +1,35 @@
+# OpenCode Monitor Configuration
+
+[paths]
+# Default path to OpenCode messages directory
+messages_dir = "~/.local/share/opencode/storage/message"
+# Directory for exports
+export_dir = "./exports"
+
+[ui]
+# Table style: "rich", "simple", "minimal"
+table_style = "rich"
+# Enable progress bars
+progress_bars = true
+# Enable colors in output
+colors = true
+# Refresh interval for live dashboard (seconds)
+live_refresh_interval = 5
+
+[export]
+# Default export format: "csv", "json"
+default_format = "csv"
+# Include metadata in exports
+include_metadata = true
+# Include raw data in exports
+include_raw_data = false
+
+[models]
+# Path to models pricing configuration
+config_file = "models.json"
+
+[analytics]
+# Default timeframe for reports: "daily", "weekly", "monthly"
+default_timeframe = "daily"
+# Number of recent sessions to analyze by default
+recent_sessions_limit = 50

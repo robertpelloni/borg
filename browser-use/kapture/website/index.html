@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapture - Browser Automation for AI</title>
+    <meta name="description" content="Control your browser with AI using Chrome DevTools and the Model Context Protocol. 100% open source, no analytics, no trackers.">
+    <meta property="og:title" content="Kapture - Browser Automation for AI">
+    <meta property="og:description" content="Control your browser with AI using Chrome DevTools and the Model Context Protocol. 100% open source, no analytics, no trackers.">
+    <meta property="og:image" content="https://williamkapke.github.io/kapture/assets/images/og-image.png">
+    <meta property="og:url" content="https://williamkapke.github.io/kapture/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="alternate icon" type="image/png" href="assets/images/icon48.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <img src="assets/logo.svg" alt="Kapture" style="height: 28px; width: auto; margin-right: 8px;">
+                <span>Kapture</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How it Works</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="MCP_USAGE.html">Docs</a></li>
+                <li><a href="MULTI_ASSISTANT_GUIDE.html">Multi-AI</a></li>
+                <li><a href="https://github.com/williamkapke/kapture">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+            <img src="assets/logo.svg" alt="Kapture Logo" style="height: 60px; width: auto; margin-right: 16px;">
+            <h1 style="margin: 0;">Kapture</h1>
+        </div>
+        <p class="subtitle">Built from the ground up as an MCP browser automation tool.</p>
+
+        <div style="background: #667eea; color: white; padding: 12px 24px; border-radius: 50px; display: inline-flex; align-items: center; margin: 20px 0; font-weight: 500;">
+            <span style="margin-right: 8px;">✨</span>
+            NEW: Run Multiple AI Assistants Simultaneously!
+            <a href="MULTI_ASSISTANT_GUIDE.html" style="color: white; margin-left: 8px; text-decoration: underline;">Learn More →</a>
+        </div>
+
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,3.18L19,6.3V11.22C19,12.92 18.5,14.65 17.65,16.17C16.5,18.24 14.75,19.95 12.73,20.85L12,21.17L11.27,20.85C9.25,19.95 7.5,18.24 6.35,16.17C5.5,14.65 5,12.92 5,11.22V6.3L12,3.18M12,7A3,3 0 0,0 9,10A3,3 0 0,0 12,13A3,3 0 0,0 15,10A3,3 0 0,0 12,7Z"/></svg>
+                <span>100% Open Source</span>
+            </div>
+            <div class="trust-badge">
+                <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M17.13,17C15.92,18.85 14.11,20.24 12,20.92C9.89,20.24 8.08,18.85 6.87,17C6.53,16.5 6.24,16 6,15.47C6,13.82 8.71,12.47 12,12.47C15.29,12.47 18,13.79 18,15.47C17.76,16 17.47,16.5 17.13,17Z"/></svg>
+                <span>No Analytics</span>
+            </div>
+            <div class="trust-badge">
+                <svg viewBox="0 0 24 24"><path d="M21,11C21,16.55 17.16,21.74 12,23C6.84,21.74 3,16.55 3,11V5L12,1L21,5V11M12,21C15.75,20 19,15.54 19,11.22V6.3L12,3.18L5,6.3V11.22C5,15.54 8.25,20 12,21M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9"/></svg>
+                <span>No Trackers</span>
+            </div>
+        </div>
+
+        <div class="hero-buttons">
+            <a href="https://to.kap.co/kapture-extension" class="btn btn-primary" target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+                Install Extension
+            </a>
+            <a href="https://github.com/williamkapke/kapture" class="btn btn-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/></svg>
+                View on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Screenshot Showcase Section -->
+    <section class="showcase-section">
+        <!-- See Kapture in Action -->
+        <div class="showcase-content">
+            <div class="section-header">
+                <h2>See Kapture in Action</h2>
+                <p>A powerful DevTools extension that brings browser automation to your fingertips</p>
+            </div>
+
+            <div class="showcase-main">
+                <div class="browser-frame">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <div class="browser-dot"></div>
+                            <div class="browser-dot"></div>
+                            <div class="browser-dot"></div>
+                        </div>
+                    </div>
+                    <div class="screenshot-container">
+                        <img src="assets/images/ScreenshotWithExtensionPanel.webp" alt="Kapture DevTools Panel showing screenshot preview, command execution, and real-time response monitoring">
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-features">
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">📊</div>
+                    <h3>Real-time Command History</h3>
+                    <p>See every command sent and response received with detailed timing information</p>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">🔌</div>
+                    <h3>WebSocket Connection Status</h3>
+                    <p>Monitor connection health and tab registration status at a glance</p>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">🖼️</div>
+                    <h3>Visual Response Preview</h3>
+                    <p>Screenshots displayed as clickable images with full JSON data in DevTools panel</p>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">🌐</div>
+                    <h3>Browser Detection</h3>
+                    <p>Automatically detects Chrome, Edge, Brave, Opera, and Vivaldi browsers</p>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">⚡</div>
+                    <h3>XPath Support</h3>
+                    <p>All element tools support both CSS selectors and XPath expressions</p>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon">🚀</div>
+                    <h3>Browser Selection</h3>
+                    <p>Open new tabs in specific browsers or use system default</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>MCP Tools & Resources</h2>
+                <p>Complete browser automation through Model Context Protocol</p>
+            </div>
+
+            <!-- Tools Section -->
+            <div class="mcp-section-header">🛠️ MCP Tools</div>
+            <div class="mcp-grid">
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">🧭</div>
+                        <div class="mcp-card-title">
+                            <h4>Navigation & Tab Management</h4>
+                            <p>Control browser navigation and tabs</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">navigate
+                        <div class="mcp-item-description">Navigate to any URL with timeout support</div>
+                    </div>
+                    <div class="mcp-item">back
+                        <div class="mcp-item-description">Go back in browser history</div>
+                    </div>
+                    <div class="mcp-item">forward
+                        <div class="mcp-item-description">Go forward in browser history</div>
+                    </div>
+                    <div class="mcp-item">reload
+                        <div class="mcp-item-description">Reload the current page</div>
+                    </div>
+                    <div class="mcp-item">list_tabs
+                        <div class="mcp-item-description">List all connected browser tabs</div>
+                    </div>
+                    <div class="mcp-item">tab_detail
+                        <div class="mcp-item-description">Get detailed information about a tab</div>
+                    </div>
+                    <div class="mcp-item">new_tab
+                        <div class="mcp-item-description">Open new tab with browser selection</div>
+                    </div>
+                    <div class="mcp-item">close
+                        <div class="mcp-item-description">Close a browser tab</div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">👆</div>
+                        <div class="mcp-card-title">
+                            <h4>Interaction</h4>
+                            <p>Interact with page elements</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">click
+                        <div class="mcp-item-description">Click elements using CSS selector or XPath</div>
+                    </div>
+                    <div class="mcp-item">hover
+                        <div class="mcp-item-description">Hover over elements to trigger effects</div>
+                    </div>
+                    <div class="mcp-item">fill
+                        <div class="mcp-item-description">Fill form inputs with text values</div>
+                    </div>
+                    <div class="mcp-item">select
+                        <div class="mcp-item-description">Select options from HTML dropdowns</div>
+                    </div>
+                    <div class="mcp-item">keypress
+                        <div class="mcp-item-description">Send keyboard events with modifier support</div>
+                    </div>
+                    <div class="mcp-item">focus
+                        <div class="mcp-item-description">Set focus on form elements</div>
+                    </div>
+                    <div class="mcp-item">blur
+                        <div class="mcp-item-description">Remove focus from elements</div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">📊</div>
+                        <div class="mcp-card-title">
+                            <h4>Information</h4>
+                            <p>Extract data from pages</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">screenshot
+                        <div class="mcp-item-description">Capture page or element screenshots</div>
+                    </div>
+                    <div class="mcp-item">dom
+                        <div class="mcp-item-description">Get HTML content of page or elements</div>
+                    </div>
+                    <div class="mcp-item">elements
+                        <div class="mcp-item-description">Query elements with visibility filtering</div>
+                    </div>
+                    <div class="mcp-item">console_logs
+                        <div class="mcp-item-description">Retrieve browser console messages</div>
+                    </div>
+                    <div class="mcp-item">elementsFromPoint
+                        <div class="mcp-item-description">Get elements at specific coordinates</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="mcp-section-header" style="margin-top: 40px;">📚 MCP Resources</div>
+            <div class="mcp-grid">
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">📑</div>
+                        <div class="mcp-card-title">
+                            <h4>Tab Management</h4>
+                            <p>Monitor and access browser tabs</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tabs
+                        <div class="mcp-item-description">List all connected browser tabs</div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}
+                        <div class="mcp-item-description">Get detailed information about a specific tab</div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">📋</div>
+                        <div class="mcp-card-title">
+                            <h4>Console Logs</h4>
+                            <p>Access browser console output</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}/console
+                        <div class="mcp-item-description">
+                            Get console logs with pagination: <code>?before={timestamp}&limit={count}</code><br>
+                            Filter by level: <code>?level={log|info|warn|error}</code><br>
+                            Max 500 logs per page • Returns <code>nextCursor</code> for pagination
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">📸</div>
+                        <div class="mcp-card-title">
+                            <h4>Screenshots</h4>
+                            <p>Capture page visuals</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}/screenshot
+                        <div class="mcp-item-description">
+                            Capture with options: <code>?selector={css}</code><br>
+                            <code>?scale={0.1-1.0}&format={webp|jpeg|png}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">🔍</div>
+                        <div class="mcp-card-title">
+                            <h4>Element Inspection</h4>
+                            <p>Inspect page elements</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}/elementsFromPoint
+                        <div class="mcp-item-description">
+                            Get all elements at coordinates: <code>?x={x}&y={y}</code><br>
+                            Returns element stack with selectors, bounds, and styles
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">🌐</div>
+                        <div class="mcp-card-title">
+                            <h4>DOM Access</h4>
+                            <p>Extract HTML content</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}/dom
+                        <div class="mcp-item-description">
+                            Get HTML of page or element: <code>?selector={css}</code><br>
+                            Returns outerHTML for extraction and analysis
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">🎯</div>
+                        <div class="mcp-card-title">
+                            <h4>Element Queries</h4>
+                            <p>Query multiple elements</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">kapture://tab/{tabId}/elements
+                        <div class="mcp-item-description">
+                            Query all matching elements: <code>?selector={css}&visible={true|false|all}</code><br>
+                            Returns array with details and select options
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HTTP Endpoints Section -->
+    <section class="endpoints-section" style="background: #f7fafc; padding: 60px 20px;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Direct HTTP Endpoints</h2>
+                <p>Access data and images directly via HTTP for debugging and integration</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">
+                    Base URL: <code style="padding: 4px 8px; background: white; border-radius: 4px;">http://localhost:61822/</code><br>
+                    <span style="color: #718096;">Extension automatically connects to server on port 61822</span>
+                </p>
+            </div>
+
+            <div class="mcp-grid" style="max-width: 900px; margin: 0 auto;">
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">📊</div>
+                        <div class="mcp-card-title">
+                            <h4>Data Endpoints</h4>
+                            <p>JSON responses for data access</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">GET /
+                        <div class="mcp-item-description">Server status and MCP client info</div>
+                    </div>
+                    <div class="mcp-item">GET /tabs
+                        <div class="mcp-item-description">List all connected browser tabs</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}
+                        <div class="mcp-item-description">Detailed tab information</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/console
+                        <div class="mcp-item-description">Console logs with pagination</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/dom
+                        <div class="mcp-item-description">HTML content of page or element</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/elements
+                        <div class="mcp-item-description">Query elements by selector</div>
+                    </div>
+                </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-header">
+                        <div class="mcp-card-icon">🖼️</div>
+                        <div class="mcp-card-title">
+                            <h4>Image Endpoints</h4>
+                            <p>Direct image file access</p>
+                        </div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/screenshot
+                        <div class="mcp-item-description">Screenshot data with base64 encoding</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/screenshot/view
+                        <div class="mcp-item-description">Direct image file for viewing/embedding</div>
+                    </div>
+                    <div class="mcp-item">GET /tab/{tabId}/elementsFromPoint
+                        <div class="mcp-item-description">Elements at specific coordinates</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section problems-section">
+        <!-- Why Kapture? -->
+        <div class="container">
+            <div class="section-header">
+                <h2>What is wrong with other solutions?</h2>
+                <p>Browser automation is essential, but existing solutions have critical problems</p>
+            </div>
+
+            <div class="problem-cards">
+                <div class="problem-card">
+                    <h3>NOT Open Source</h3>
+                    <p>Some projects track your use and do not make the ENTIRE source code available</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Single AI Limitation</h3>
+                    <p>Others only support one AI assistant at a time preventing parallel workflows</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Complex Setup</h3>
+                    <p>Some solutions require Selenium, Chrome drivers, or headless browser configurations</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Poor Error Handling</h3>
+                    <p>Cryptic errors that are difficult for AI agents to understand and recover from</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Connection Issues</h3>
+                    <p>WebSocket disconnections and lack of reconnection support</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Limited Debugging</h3>
+                    <p>No easy way to test commands or see what's happening</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section architecture-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: white;">How It Works</h2>
+                <p style="color: #cbd5e0;">Three-layer architecture for maximum reliability</p>
+            </div>
+
+            <div class="architecture-content">
+                <div class="architecture-diagram">
+                    <img src="assets/images/HowKaptureWorks.webp" alt="Kapture Architecture Diagram showing the flow from AI Applications through MCP Protocol to Kapture MCP Server, then via WebSockets to Chrome/Brave Browser Extensions and DevTools Panels" style="width: 100%; height: auto;">
+                </div>
+
+                <div class="architecture-benefits">
+                    <ul>
+                        <li>
+                            <div class="icon">✓</div>
+                            <div>
+                                <strong>Clean Separation</strong><br>
+                                Each layer handles its responsibilities independently
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">✓</div>
+                            <div>
+                                <strong>Graceful Error Handling</strong><br>
+                                Errors are caught and reported clearly at each layer
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">✓</div>
+                            <div>
+                                <strong>Easy Debugging</strong><br>
+                                Monitor and test at any point in the stack
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">✓</div>
+                            <div>
+                                <strong>Multiple Connections</strong><br>
+                                Support for concurrent browser sessions
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Test App Showcase -->
+            <div class="test-app-showcase" style="margin-top: 80px;">
+                <div class="test-app-content">
+                    <h3>MCP Test Client Included</h3>
+                    <p>Kapture comes with a powerful Electron-based test application that lets developers connect to the MCP server and test commands as if they were an AI agent.</p>
+                    <p>Perfect for debugging, development, and understanding how AI agents will interact with your browser automation setup.</p>
+                    <ul class="test-app-features">
+                        <li>Test all MCP tools interactively</li>
+                        <li>Real-time console output</li>
+                        <li>Parameter validation</li>
+                        <li>Connection status monitoring</li>
+                    </ul>
+                </div>
+                <div class="test-app-screenshot">
+                    <img src="assets/images/test-app-screenshot.webp" alt="Kapture MCP Test Client showing interactive tool testing interface">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to automate?</h2>
+        <p>Give your AI the power to browse the web</p>
+        <div class="hero-buttons">
+            <a href="https://to.kap.co/kapture-extension" class="btn btn-primary" style="background: white; color: #667eea;" target="_blank" rel="noopener">
+                Install Kapture
+            </a>
+            <a href="MCP_USAGE.html" class="btn btn-secondary" style="border: 2px solid white; color: white; background: transparent;">
+                Read Documentation
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/williamkapke/kapture">GitHub</a>
+            <a href="MCP_USAGE.html">Documentation</a>
+            <a href="https://github.com/williamkapke/kapture/issues">Issues</a>
+            <a href="https://github.com/williamkapke/kapture#contributing">Contribute</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-bottom">
+            <p>Kapture is an independent open-source project focused on reliable browser automation for AI applications</p>
+        </div>
+    </footer>
+</body>
+</html>

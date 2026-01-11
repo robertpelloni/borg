@@ -371,15 +371,6 @@
 [submodule "external/opencode-core"]
 	path = opencode-core
 	url = https://github.com/sst/opencode
-[submodule "external/opencode-sdk-go"]
-	path = sdks/opencode-sdk-go
-	url = https://github.com/sst/opencode-sdk-go
-[submodule "external/opencode-sdk-js"]
-	path = sdks/opencode-sdk-js
-	url = https://github.com/sst/opencode-sdk-js
-[submodule "external/opencode-sdk-python"]
-	path = sdks/opencode-sdk-python
-	url = https://github.com/sst/opencode-sdk-python
 [submodule "external/plugins/opencode-background"]
 	path = plugins/opencode-background
 	url = https://github.com/zenobi-us/opencode-background

@@ -1,0 +1,77 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Create extension directory
+      run: mkdir -p build
+    
+    - name: Copy extension files
+      run: |
+        cp -r extension/* build/
+        # Remove any development or mock files
+        rm -rf build/mocks
+        rm -f build/*.jpg
+        rm -f build/*.webp
+        rm -f build/PRIVACY_POLICY.md
+        rm -f build/README.md
+        rm -f build/icons/generate-icons.html
+    
+    - name: Get version from manifest
+      id: version
+      run: |
+        VERSION=$(grep -o '"version": "[^"]*"' build/manifest.json | cut -d'"' -f4)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Extension version: $VERSION"
+    
+    - name: Create zip file
+      run: |
+        cd build
+        zip -r ../kapture-extension-v${{ steps.version.outputs.version }}.zip .
+        cd ..
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Kapture Browser Extension v${{ steps.version.outputs.version }}
+          
+          ## Installation
+          1. Download the `kapture-extension-v${{ steps.version.outputs.version }}.zip` file
+          2. Extract the zip file to a folder
+          3. Open Chrome and navigate to `chrome://extensions/`
+          4. Enable "Developer mode"
+          5. Click "Load unpacked" and select the extracted folder
+          
+          ## What's Changed
+          See [commits](https://github.com/${{ github.repository }}/commits/${{ github.ref }}) for details.
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./kapture-extension-v${{ steps.version.outputs.version }}.zip
+        asset_name: kapture-extension-v${{ steps.version.outputs.version }}.zip
+        asset_content_type: application/zip
