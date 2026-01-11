@@ -48,6 +48,7 @@ import { LoopManager } from './agents/LoopManager.js';
 import { WebSearchTool } from './tools/WebSearchTool.js';
 import { EconomyManager } from './managers/EconomyManager.js';
 import { NodeManager } from './managers/NodeManager.js';
+import { createCouncilRoutes } from './routes/councilRoutes.js';
 import { AuthMiddleware } from './middleware/AuthMiddleware.js';
 import { SystemTrayManager } from './managers/SystemTrayManager.js';
 import { ConductorManager } from './managers/ConductorManager.js';
@@ -226,6 +227,9 @@ this.conductorManager = new ConductorManager(rootDir);
     // Health & System
     this.app.get('/health', (c) => c.json(this.healthService.getSystemStatus()));
     this.app.get('/api/doctor', async (c) => c.json(await this.systemDoctor.checkAll()));
+
+    // Council Routes (Multi-LLM debate/voting)
+    this.app.route('/api/council', createCouncilRoutes());
 
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
