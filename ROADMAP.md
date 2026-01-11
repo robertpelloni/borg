@@ -144,13 +144,15 @@
 - [x] **Usage Guide:** docs/council/USAGE.md - scenarios, CI/CD integration, best practices
 - [x] **Configuration:** docs/council/CONFIGURATION.md - providers, settings, security
 
+### Council Dashboard UI (Completed)
+- [x] **Human-in-the-Loop Veto:** VetoManager with approve/reject/extend timeout, countdown timers
+- [x] **Debate History:** DebateHistoryManager with persistent records, analytics, search, JSON/CSV export
+- [x] **Smart Pilot:** SmartPilotManager with auto-approval limits, pause/resume, configurable timeouts
+
 ### Future Council Enhancements (Available for Integration)
 - [ ] **Dynamic Supervisor Selection:** Auto-select optimal team based on task type
-- [ ] **Human-in-the-Loop Veto:** Developer acts as Council Chair
-- [ ] **Debate History:** Persistent debate records with analytics
 - [ ] **Supervisor Analytics:** Performance tracking per supervisor
 - [ ] **Debate Templates:** Pre-configured debate scenarios
-- [ ] **Smart Pilot:** Auto-continue when council approves
 - [ ] **Plugin Ecosystem:** External supervisor plugins
 
 ## Phase 12: TUI Orchestrator (In Progress)
@@ -190,6 +192,12 @@
 - [x] **Feature Matrix:** docs/superai-cli/FEATURE-MATRIX.md - AI coding tools comparison
 - [x] **TUI Roadmap:** docs/superai-cli/ROADMAP.md - SuperAI CLI development timeline
 - [x] **Agent Specs:** docs/superai-cli/AGENTS.md - Agent definition schemas
+
+### Dashboard UI Expansion (Completed)
+- [x] **Autopilot Dashboard:** CLI registry, sessions management, smart pilot controls, veto queue, debate history
+- [x] **Hardware Dashboard:** Serial ports, system specs, activity monitor, mining operations
+- [x] **Conductor Dashboard:** Task management, status monitoring, VibeKanban integration
+- [x] **Sessions Dashboard:** Session list with messages, handoffs management, activity timeline
 
 ### Future TUI Enhancements
 - [ ] **VS Code Extension:** IDE integration via Extension API

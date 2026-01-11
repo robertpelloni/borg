@@ -61,4 +61,14 @@ export class SessionManager extends EventEmitter {
             })
             .filter(Boolean) as Session[];
     }
+
+    deleteSession(id: string): boolean {
+        const filepath = path.join(this.sessionsDir, `${id}.json`);
+        if (fs.existsSync(filepath)) {
+            fs.unlinkSync(filepath);
+            this.emit('sessionDeleted', id);
+            return true;
+        }
+        return false;
+    }
 }

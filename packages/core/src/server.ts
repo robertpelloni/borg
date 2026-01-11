@@ -536,6 +536,47 @@ this.conductorManager = new ConductorManager(rootDir);
         return c.json({ submodules: this.submoduleManager.getSubmodules() });
     });
 
+    // --- Sessions Routes ---
+    this.app.get('/api/sessions', (c) => {
+        return c.json({ sessions: this.sessionManager.listSessions() });
+    });
+
+    this.app.get('/api/sessions/:id', (c) => {
+        const session = this.sessionManager.loadSession(c.req.param('id'));
+        if (!session) return c.json({ error: 'Session not found' }, 404);
+        return c.json(session);
+    });
+
+    this.app.delete('/api/sessions/:id', (c) => {
+        const success = this.sessionManager.deleteSession(c.req.param('id'));
+        return c.json({ success });
+    });
+
+    this.app.post('/api/sessions/:id/resume', async (c) => {
+        const session = this.sessionManager.loadSession(c.req.param('id'));
+        if (!session) return c.json({ error: 'Session not found' }, 404);
+        return c.json({ status: 'resumed', sessionId: session.id });
+    });
+
+    // --- Handoffs Routes ---
+    this.app.get('/api/handoffs', (c) => {
+        return c.json({ handoffs: this.handoffManager.getHandoffs() });
+    });
+
+    this.app.post('/api/handoffs', async (c) => {
+        const { description, context } = await c.req.json();
+        const id = await this.handoffManager.createHandoff(description, context);
+        return c.json({ id, status: 'created' });
+    });
+
+    this.app.post('/api/handoffs/:id/claim', async (c) => {
+        const handoffs = this.handoffManager.getHandoffs();
+        const handoff = handoffs.find(h => h.id === c.req.param('id'));
+        if (!handoff) return c.json({ error: 'Handoff not found' }, 404);
+        handoff.status = 'claimed';
+        return c.json({ status: 'claimed', handoff });
+    });
+
     // --- Conductor Routes ---
     this.app.get('/api/conductor/tasks', async (c) => {
         return c.json({ tasks: await this.conductorManager.listTasks() });
