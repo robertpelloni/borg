@@ -6,19 +6,19 @@
 	url = https://github.com/robertpelloni/MCP-SuperAssistant
 [submodule "references/magg"]
 	path = references/magg
-	url = https://github.com/robertpelloni/magg
+	url = https://github.com/sitbon/magg
 [submodule "references/mcphub"]
 	path = references/mcphub
-	url = https://github.com/robertpelloni/mcphub
+	url = https://github.com/samanhappy/mcphub
 [submodule "references/mcpproxy-go"]
 	path = references/mcpproxy-go
-	url = https://github.com/robertpelloni/mcpproxy-go
+	url = https://github.com/smart-mcp-proxy/mcpproxy-go
 [submodule "references/pluggedin-mcp"]
 	path = references/pluggedin-mcp
-	url = https://github.com/robertpelloni/pluggedin-mcp
+	url = https://github.com/VeriTeknik/pluggedin-mcp
 [submodule "references/Super-MCP"]
 	path = references/Super-MCP
-	url = https://github.com/robertpelloni/Super-MCP
+	url = https://github.com/nspr-io/Super-MCP
 [submodule "submodules/claude-mem"]
 	path = memory/plugins/claude-mem
 	url = https://github.com/robertpelloni/claude-mem
@@ -27,55 +27,55 @@
 	url = https://github.com/opencode-ai/opencode
 [submodule "references/notebooklm-mcp"]
 	path = references/notebooklm-mcp
-	url = https://github.com/robertpelloni/notebooklm-mcp
+	url = https://github.com/roomi-fields/notebooklm-mcp
 [submodule "references/voicemode"]
 	path = references/voicemode
-	url = https://github.com/robertpelloni/voicemode
+	url = https://github.com/mbailey/voicemode
 [submodule "references/pluggedin-app"]
 	path = references/pluggedin-app
-	url = https://github.com/robertpelloni/pluggedin-app
+	url = https://github.com/VeriTeknik/pluggedin-app
 [submodule "references/pctx"]
 	path = references/pctx
-	url = https://github.com/robertpelloni/pctx
+	url = https://github.com/portofcontext/pctx
 [submodule "references/mcp-server-code-execution-mode"]
 	path = references/mcp-server-code-execution-mode
-	url = https://github.com/robertpelloni/mcp-server-code-execution-mode
+	url = https://github.com/elusznik/mcp-server-code-execution-mode
 [submodule "references/mux"]
 	path = references/mux
-	url = https://github.com/robertpelloni/mux
+	url = https://github.com/coder/mux
 [submodule "references/Puzld.ai"]
 	path = references/Puzld.ai
-	url = https://github.com/robertpelloni/Puzld.ai
+	url = https://github.com/MedChaouch/Puzld.ai
 [submodule "references/emdash"]
 	path = references/emdash
-	url = https://github.com/robertpelloni/emdash
+	url = https://github.com/generalaction/emdash
 [submodule "references/claude-squad"]
 	path = references/claude-squad
-	url = https://github.com/robertpelloni/claude-squad
+	url = https://github.com/smtg-ai/claude-squad
 [submodule "references/mcpm.sh"]
 	path = references/mcpm.sh
-	url = https://github.com/robertpelloni/mcpm.sh
+	url = https://github.com/pathintegral-institute/mcpm.sh
 [submodule "references/superpowers"]
 	path = references/superpowers
-	url = https://github.com/robertpelloni/superpowers
+	url = https://github.com/obra/superpowers
 [submodule "references/smolagents"]
 	path = references/smolagents
-	url = https://github.com/robertpelloni/smolagents
+	url = https://github.com/huggingface/smolagents
 [submodule "references/pal-mcp-server"]
 	path = references/pal-mcp-server
-	url = https://github.com/robertpelloni/pal-mcp-server
+	url = https://github.com/BeehiveInnovations/pal-mcp-server
 [submodule "references/Polymcp"]
 	path = references/Polymcp
-	url = https://github.com/robertpelloni/Polymcp
+	url = https://github.com/poly-mcp/Polymcp
 [submodule "references/lazy-mcp"]
 	path = references/lazy-mcp
-	url = https://github.com/robertpelloni/lazy-mcp
+	url = https://github.com/machjesusmoto/lazy-mcp
 [submodule "references/MCP-Zero"]
 	path = references/MCP-Zero
-	url = https://github.com/robertpelloni/MCP-Zero
+	url = https://github.com/xfey/MCP-Zero
 [submodule "references/mcp-tool-chainer"]
 	path = references/mcp-tool-chainer
-	url = https://github.com/robertpelloni/mcp-tool-chainer
+	url = https://github.com/thirdstrandstudio/mcp-tool-chainer
 [submodule "references/prompt-eng-tutorial"]
 	path = references/prompt-eng-tutorial
 	url = https://github.com/anthropics/prompt-eng-interactive-tutorial
@@ -477,7 +477,7 @@
 	url = https://github.com/davepoon/claude-code-subagents-collection
 [submodule "references/agents/claude-squad"]
 	path = references/agents/claude-squad
-	url = https://github.com/robertpelloni/claude-squad
+	url = https://github.com/smtg-ai/claude-squad
 [submodule "references/agents/devin.cursorrules"]
 	path = references/agents/devin.cursorrules
 	url = https://github.com/grapeot/devin.cursorrules
@@ -548,7 +548,7 @@
 
 [submodule "references/mcp_repos/Super-MCP"]
 	path = references/mcp_repos/Super-MCP
-	url = https://github.com/robertpelloni/Super-MCP
+	url = https://github.com/nspr-io/Super-MCP
 
 [submodule "references/mcp_repos/awesome-mcp-servers-appcypher"]
 	path = references/mcp_repos/awesome-mcp-servers-appcypher
@@ -632,7 +632,7 @@
 
 [submodule "references/mcp_repos/mcp-tool-chainer"]
 	path = references/mcp_repos/mcp-tool-chainer
-	url = https://github.com/robertpelloni/mcp-tool-chainer
+	url = https://github.com/thirdstrandstudio/mcp-tool-chainer
 
 [submodule "references/mcp_repos/mcp-toolz"]
 	path = references/mcp_repos/mcp-toolz
@@ -648,7 +648,7 @@
 
 [submodule "references/mcp_repos/mcphub"]
 	path = references/mcp_repos/mcphub
-	url = https://github.com/robertpelloni/mcphub
+	url = https://github.com/samanhappy/mcphub
 
 [submodule "references/mcp_repos/mcpm.sh"]
 	path = references/mcp_repos/mcpm.sh
@@ -660,7 +660,7 @@
 
 [submodule "references/mcp_repos/mcpproxy-go"]
 	path = references/mcp_repos/mcpproxy-go
-	url = https://github.com/robertpelloni/mcpproxy-go
+	url = https://github.com/smart-mcp-proxy/mcpproxy-go
 
 [submodule "references/mcp_repos/mem0-mcp"]
 	path = references/mcp_repos/mem0-mcp
@@ -676,11 +676,11 @@
 
 [submodule "references/mcp_repos/notebooklm-mcp"]
 	path = references/mcp_repos/notebooklm-mcp
-	url = https://github.com/robertpelloni/notebooklm-mcp
+	url = https://github.com/roomi-fields/notebooklm-mcp
 
 [submodule "references/mcp_repos/pal-mcp-server"]
 	path = references/mcp_repos/pal-mcp-server
-	url = https://github.com/robertpelloni/pal-mcp-server
+	url = https://github.com/BeehiveInnovations/pal-mcp-server
 
 [submodule "references/mcp_repos/playwright-mcp"]
 	path = references/mcp_repos/playwright-mcp
@@ -688,7 +688,7 @@
 
 [submodule "references/mcp_repos/pluggedin-mcp"]
 	path = references/mcp_repos/pluggedin-mcp
-	url = https://github.com/robertpelloni/pluggedin-mcp
+	url = https://github.com/VeriTeknik/pluggedin-mcp
 
 [submodule "references/mcp_repos/sourcerer-mcp"]
 	path = references/mcp_repos/sourcerer-mcp
@@ -724,7 +724,7 @@
 
 [submodule "references/tools/magg"]
 	path = references/tools/magg
-	url = https://github.com/robertpelloni/magg
+	url = https://github.com/sitbon/magg
 
 [submodule "references/tools/spec-kit"]
 	path = references/tools/spec-kit
@@ -740,7 +740,7 @@
 
 [submodule "references/web_repos/pluggedin-app"]
 	path = references/web_repos/pluggedin-app
-	url = https://github.com/robertpelloni/pluggedin-app
+	url = https://github.com/VeriTeknik/pluggedin-app
 
 [submodule "submodules/Agent-MCP"]
 	path = submodules/Agent-MCP
@@ -748,7 +748,7 @@
 
 [submodule "submodules/agent-cli"]
 	path = submodules/agent-cli
-	url = https://github.com/robertpelloni/mcp-cli
+	url = https://github.com/apify/mcp-cli
 
 [submodule "submodules/claude-lazy-loading"]
 	path = submodules/claude-lazy-loading
@@ -820,7 +820,7 @@
 
 [submodule "submodules/mcp-hub"]
 	path = submodules/mcp-hub
-	url = https://github.com/robertpelloni/mcphub
+	url = https://github.com/samanhappy/mcphub
 
 [submodule "submodules/mcp-launcher"]
 	path = submodules/mcp-launcher
@@ -890,7 +890,7 @@
 	url = https://github.com/williamkapke/kapture
 [submodule "submodules/mcp-cli"]
 	path = submodules/mcp-cli
-	url = https://github.com/robertpelloni/mcp-cli
+	url = https://github.com/apify/mcp-cli
 [submodule "submodules/vibe-kanban"]
 	path = submodules/vibe-kanban
 	url = https://github.com/BloopAI/vibe-kanban
@@ -906,93 +906,90 @@
 [submodule "submodules/aichat"]
 	path = submodules/aichat
 	url = https://github.com/sigoden/aichat
-[submodule "submodules/musicbrainz-soulseek-downloader"]
-	path = submodules/musicbrainz-soulseek-downloader
-	url = https://github.com/robertpelloni/picard
 [submodule "submodules/notebooklm-mcp"]
 	path = submodules/notebooklm-mcp
-	url = https://github.com/robertpelloni/notebooklm-mcp
+	url = https://github.com/roomi-fields/notebooklm-mcp
 [submodule "submodules/pluggedin-mcp"]
 	path = submodules/pluggedin-mcp
-	url = https://github.com/robertpelloni/pluggedin-mcp
+	url = https://github.com/VeriTeknik/pluggedin-mcp
 [submodule "submodules/pctx"]
 	path = submodules/pctx
-	url = https://github.com/robertpelloni/pctx
+	url = https://github.com/portofcontext/pctx
 [submodule "submodules/Puzld.ai"]
 	path = submodules/Puzld.ai
-	url = https://github.com/robertpelloni/Puzld.ai
+	url = https://github.com/MedChaouch/Puzld.ai
 [submodule "submodules/mux"]
 	path = submodules/mux
-	url = https://github.com/robertpelloni/mux
+	url = https://github.com/coder/mux
 [submodule "submodules/voicemode"]
 	path = submodules/voicemode
-	url = https://github.com/robertpelloni/voicemode
+	url = https://github.com/mbailey/voicemode
 [submodule "submodules/superpowers"]
 	path = submodules/superpowers
-	url = https://github.com/robertpelloni/superpowers
+	url = https://github.com/obra/superpowers
 [submodule "submodules/mcpm.sh"]
 	path = submodules/mcpm.sh
-	url = https://github.com/robertpelloni/mcpm.sh
+	url = https://github.com/pathintegral-institute/mcpm.sh
 [submodule "submodules/Super-MCP"]
 	path = submodules/Super-MCP
-	url = https://github.com/robertpelloni/Super-MCP
+	url = https://github.com/nspr-io/Super-MCP
 [submodule "submodules/pluggedin-app"]
 	path = submodules/pluggedin-app
-	url = https://github.com/robertpelloni/pluggedin-app
+	url = https://github.com/VeriTeknik/pluggedin-app
 [submodule "submodules/emdash"]
 	path = submodules/emdash
-	url = https://github.com/robertpelloni/emdash
+	url = https://github.com/generalaction/emdash
 [submodule "submodules/mcpproxy-go"]
 	path = submodules/mcpproxy-go
-	url = https://github.com/robertpelloni/mcpproxy-go
+	url = https://github.com/smart-mcp-proxy/mcpproxy-go
 [submodule "submodules/smolagents"]
 	path = submodules/smolagents
-	url = https://github.com/robertpelloni/smolagents
+	url = https://github.com/huggingface/smolagents
 [submodule "submodules/mcphub"]
 	path = submodules/mcphub
-	url = https://github.com/robertpelloni/mcphub
+	url = https://github.com/samanhappy/mcphub
 [submodule "submodules/mcp-server-code-execution-mode"]
 	path = submodules/mcp-server-code-execution-mode
-	url = https://github.com/robertpelloni/mcp-server-code-execution-mode
+	url = https://github.com/elusznik/mcp-server-code-execution-mode
 [submodule "submodules/pal-mcp-server"]
 	path = submodules/pal-mcp-server
-	url = https://github.com/robertpelloni/pal-mcp-server
+	url = https://github.com/BeehiveInnovations/pal-mcp-server
 [submodule "submodules/Polymcp"]
 	path = submodules/Polymcp
-	url = https://github.com/robertpelloni/Polymcp
+	url = https://github.com/poly-mcp/Polymcp
 [submodule "submodules/claude-squad"]
 	path = submodules/claude-squad
-	url = https://github.com/robertpelloni/claude-squad
+	url = https://github.com/smtg-ai/claude-squad
 [submodule "submodules/lazy-mcp"]
 	path = submodules/lazy-mcp
-	url = https://github.com/robertpelloni/lazy-mcp
+	url = https://github.com/machjesusmoto/lazy-mcp
 [submodule "submodules/MCP-SuperAssistant"]
 	path = submodules/MCP-SuperAssistant
 	url = https://github.com/robertpelloni/MCP-SuperAssistant
 [submodule "submodules/jules-agent-sdk-python"]
 	path = submodules/jules-agent-sdk-python
-	url = https://github.com/robertpelloni/jules-agent-sdk-python
+	url = https://github.com/AsyncFuncAI/jules-agent-sdk-python
 [submodule "submodules/magg"]
 	path = submodules/magg
-	url = https://github.com/robertpelloni/magg
+	url = https://github.com/sitbon/magg
 [submodule "submodules/mcp-tool-chainer"]
 	path = submodules/mcp-tool-chainer
-	url = https://github.com/robertpelloni/mcp-tool-chainer
+	url = https://github.com/thirdstrandstudio/mcp-tool-chainer
 [submodule "submodules/MCP-Zero"]
 	path = submodules/MCP-Zero
-	url = https://github.com/robertpelloni/MCP-Zero
+	url = https://github.com/xfey/MCP-Zero
 [submodule "submodules/claudex"]
 	path = submodules/claudex
-	url = https://github.com/robertpelloni/claudex
+	url = https://github.com/Mng-dev-ai/claudex
 [submodule "submodules/Auditor"]
 	path = submodules/Auditor
-	url = https://github.com/robertpelloni/Auditor
+	url = https://github.com/TheAuditorTool/Auditor
 [submodule "submodules/PowerTrader_AI"]
 	path = submodules/PowerTrader_AI
 	url = https://github.com/robertpelloni/PowerTrader_AI
 [submodule "submodules/reag"]
 	path = submodules/reag
-	url = https://github.com/robertpelloni/reag
+	url = https://github.com/superagent-ai/reag
 [submodule "memory/systems/langmem"]
 	path = memory/systems/langmem
 	url = https://github.com/langchain-ai/langmem
@@ -1022,13 +1019,13 @@
 	url = https://github.com/farion1231/cc-switch
 [submodule "superai-cli/agents/claude-squad"]
 	path = superai-cli/agents/claude-squad
-	url = https://github.com/robertpelloni/claude-squad
+	url = https://github.com/smtg-ai/claude-squad
 [submodule "superai-cli/routers/claude-code-router"]
 	path = superai-cli/routers/claude-code-router
 	url = https://github.com/musistudio/claude-code-router
 [submodule "superai-cli/clis/emdash"]
 	path = superai-cli/clis/emdash
-	url = https://github.com/robertpelloni/emdash
+	url = https://github.com/generalaction/emdash
 [submodule "superai-cli/tools/code-assistant-manager"]
 	path = superai-cli/tools/code-assistant-manager
 	url = https://github.com/Chat2AnyLLM/code-assistant-manager
