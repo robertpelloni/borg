@@ -291,3 +291,41 @@ Common error codes:
 - `rate_limit_exceeded` - Too many requests
 - `validation_error` - Invalid request body
 - `internal_error` - Server error
+
+---
+
+## MetaMCP Integration
+
+AIOS integrates MetaMCP functionality for advanced MCP server orchestration, multi-transport support, and sandboxed code execution.
+
+### Documentation
+
+For comprehensive MetaMCP documentation, see:
+
+| Document | Description |
+|----------|-------------|
+| [Overview](metamcp/README.md) | Architecture, migration guide, quick start |
+| [Core Concepts](metamcp/CONCEPTS.md) | Namespaces, endpoints, tool sets, code mode, agents |
+| [REST API](metamcp/API.md) | Complete API reference for MetaMCP endpoints |
+| [Middleware](metamcp/MIDDLEWARE.md) | ListTools/CallTool pipelines, custom middleware |
+| [Configuration](metamcp/CONFIGURATION.md) | Environment variables, database config, policies |
+| [Code Execution](metamcp/CODE_EXECUTION.md) | Sandboxed TS/Python execution, `run_code`, `run_agent` |
+
+### Key Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/metamcp/servers` | List all MCP servers with namespace info |
+| `POST /api/metamcp/tools/search` | Fuzzy + semantic tool search |
+| `POST /api/metamcp/code/execute` | Execute sandboxed TypeScript/Python |
+| `GET /api/metamcp/namespaces` | List namespaces and their endpoints |
+| `POST /api/metamcp/endpoints/:id/connect` | Connect to an MCP endpoint |
+
+### Features
+
+- **Multi-Transport**: STDIO, SSE, and Streamable HTTP transports
+- **Namespaces & Endpoints**: Organize MCP servers hierarchically
+- **Policy-Based Access**: Fine-grained tool access control
+- **Tool Search**: Fuzzy matching + semantic search with embeddings
+- **Code Mode**: Isolated-vm sandbox for safe code execution
+- **Saved Scripts**: Persist and reuse code snippets
