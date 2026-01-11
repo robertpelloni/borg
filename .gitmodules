@@ -1007,3 +1007,6 @@
 [submodule "tools/misc/vibeship-idearater"]
 	path = tools/misc/vibeship-idearater
 	url = https://github.com/vibeforge1111/vibeship-idearater
+[submodule "agent-tools/mux"]
+	path = agent-tools/mux
+	url = https://github.com/coder/mux
