@@ -10,11 +10,19 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "pnpm --filter \"./packages/*\" lint",
-    "start:all": "pnpm run build && pnpm start"
+    "start:all": "pnpm run build && pnpm start",
+    "benchmark": "vitest bench",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.16",
     "typescript": "^5.3.3",
     "vitest": "^4.0.16"
+  },
+  "pnpm": {
+    "overrides": {
+      "glob": ">=10.5.0",
+      "esbuild": ">=0.25.0"
+    }
   }
 }

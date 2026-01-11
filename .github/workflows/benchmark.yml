@@ -1,0 +1,53 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/core/src/**'
+      - 'packages/core/bench/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/core/src/**'
+      - 'packages/core/bench/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  benchmark:
+    name: Run Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          
+      - run: pnpm install --frozen-lockfile
+      
+      - name: Run benchmarks
+        run: pnpm run benchmark
+        
+      - name: Store benchmark results
+        uses: benchmark-action/github-action-benchmark@v1
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: AIOS Performance Benchmarks
+          tool: 'customSmallerIsBetter'
+          output-file-path: benchmark-results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: '150%'
+          comment-on-alert: true
+          fail-on-alert: false
+        continue-on-error: true
