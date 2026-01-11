@@ -274,45 +274,32 @@ interface AgentDefinition {
 
 ---
 
-## Part IV: The Bobcoin Economy
+## Part IV: Infrastructure & Hardware
 
-### 4.1 Philosophy: "Proof of Health"
+### 4.1 Philosophy: Extensible Platform
 
-Bobcoin is a cryptocurrency that rewards:
-- **Physical Activity** (dancing, exercise)
-- **Social Interaction**
-- **Healthy Relationships**
-
-**Anti-Hoarding Design:** High velocity, use-it-or-lose-it mechanics.
+AIOS is designed to be an extensible platform that can integrate with various hardware and infrastructure components.
 
 ### 4.2 Technical Stack
 
-- **Privacy:** Monero/Solana hybrid for speed + anonymity
-- **Mining:** "Proof of Dance" - arcade machines verify physical exertion
-- **Infrastructure:** Machines double as:
-  - Tor Nodes
-  - Distributed Storage (MegaTorrents)
-  - Game Servers (MMORPG)
+- **Infrastructure:** Support for:
+  - Distributed networking (Tor integration)
+  - Distributed Storage
+  - Game/Application Servers
 
 ### 4.3 AIOS Role
 
-The plugin is the **software layer** connecting Miners to the Bobcoin Network:
+The plugin is the **software layer** connecting hardware and services:
 
 | Component | Function |
 |-----------|----------|
-| `EconomyManager` | Mock wallet and mining sessions |
 | `NodeManager` | Tor, Torrent, Storage toggles |
-| `super-ai mine` | CLI command for activity submission |
-| Hardware Integration | Serial/GPIO for "Proof of Dance" |
+| Hardware Integration | Serial/GPIO for device connections |
 
 ### 4.4 Implementation Status
 
-- [x] Bobcoin submodule integration
-- [x] Economy Manager (mock)
 - [x] Infrastructure simulation (Node Manager)
-- [x] Miner CLI command
-- [x] Physical mining (Serial/GPIO)
-- [ ] Real wallet integration (pending)
+- [x] Hardware integration (Serial/GPIO)
 
 ---
 
@@ -369,7 +356,7 @@ The plugin is the **software layer** connecting Miners to the Bobcoin Network:
 | **3: Multi-Platform** | ✅ | CLI Wrapper, VSCode Extension, Chrome Extension |
 | **4: Advanced** | ✅ | PipelineTool, Context Injection, RAG, Toon Format |
 | **5: Intelligence** | ✅ | Memory Consolidation, Autonomous Loops, Auth |
-| **6: Economy** | ✅ | Bobcoin, Node Manager, Physical Mining |
+| **6: Infrastructure** | ✅ | Node Manager, Hardware Integration |
 | **7: Maintenance** | ✅ | CI/CD, Type Safety, Documentation |
 
 ### Current Migration

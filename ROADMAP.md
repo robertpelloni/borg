@@ -38,14 +38,11 @@
 - [x] **Deep Research:** Dedicated agent for multi-step web research.
 - [x] **Auth & Security:** Secure Socket.io and API endpoints.
 
-## Phase 6: Economy & Autonomy (Completed)
-- [x] **Bobcoin Integration:** Submodule added and Economy Manager implemented (Mock).
+## Phase 6: Autonomy & Infrastructure (Completed)
 - [x] **Universal Instructions:** Centralized agent instructions and development protocol.
 - [x] **Infrastructure Simulation:** Node Manager (Tor, Torrent, Storage) implemented.
-- [x] **Miner CLI:** `super-ai mine` command for simulating physical activity.
 - [x] **Ralph Loop Maintenance:** Periodic synchronization of all submodules (v1.2.1).
-- [x] **Physical Mining:** Integrate real hardware signals (Serial/GPIO) for "Proof of Dance".
-- [x] **Wallet Connect:** Real wallet integration via WalletManager with viem.
+- [x] **Hardware Integration:** Serial/GPIO support for physical device signals.
 
 ## Phase 7: Maintenance & Stability (Completed)
 - [x] **Deep Initialization:** Submodule synchronization and cleanup.
@@ -65,8 +62,7 @@
 - [x] **Documentation:** Created RESOURCES.md for all new directories
 
 ### Core Features
-- [x] **Wallet Connect:** WalletManager with viem (multi-chain: mainnet, sepolia, polygon, arbitrum, optimism, base)
-- [x] **Physical Mining:** HardwareManager with serialport integration for Proof-of-Dance
+- [x] **Hardware Integration:** HardwareManager with serialport support for physical devices
 - [x] **Multi-CLI Swiss Army Knife:** ClientManager with full orchestration (claude/gemini/opencode/aider/cursor/codex/cline)
 
 ### Advanced MCP Features

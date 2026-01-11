@@ -7,15 +7,14 @@
 
 1.  **Architecture:**
     -   Complete Monorepo Structure with Core, UI, CLI, Adapters, VSCode, and Browser packages.
-    -   Integrated `metamcp` and `bobcoin` submodules.
+    -   Integrated `metamcp` and core AI submodules.
 
 2.  **Core Services:**
     -   Fastify + Socket.io backend.
     -   Managers for Agents, Skills, Hooks, Prompts, Context, MCP, Browser, VSCode.
     -   **Intelligence:** `ModelGateway`, `AgentExecutor` (ReAct), `VectorStore`, `MemoryManager`.
     -   **Autonomy:** `SchedulerManager`, `LoopManager`.
-    -   **Economy:** `EconomyManager` (Bobcoin "Proof of Dance" mock).
-    -   **Tools:** `PipelineTool`, `PromptImprover`, `WebSearchTool`, `submit_activity`, `get_balance`.
+    -   **Tools:** `PipelineTool`, `PromptImprover`, `WebSearchTool`.
 
 3.  **Clients:**
     -   `@super-ai/cli`: `start`, `status`, `run`.
@@ -26,13 +25,11 @@
 
 ## Recent Features (0.2.3-alpha)
 
--   **Bobcoin Integration:** Added submodule and economy layer.
 -   **Documentation Overhaul:** Implemented `UNIVERSAL_INSTRUCTIONS.md` and enforced protocol.
--   **Vision:** Defined the "Arcade Economy" in `docs/VISION.md`.
+-   **Vision:** Defined the AI orchestration architecture in `docs/VISION.md`.
 
 ## Next Steps (Recommended)
 
-1.  **Physical Mining:** Integrate hardware signals (e.g., serial port reading from an arcade cabinet) to replace the mock `submit_activity`.
-2.  **Wallet Connect:** Implement real crypto wallet connection in `EconomyManager`.
-3.  **Deep Research:** Polish the researcher agent with more robust web search (e.g., integrating a real Serper API key via `SecretManager`).
-4.  **Auth & Security:** Secure the Socket.io connection.
+1.  **Hardware Integration:** Integrate hardware signals (e.g., serial port reading) for physical device connections.
+2.  **Deep Research:** Polish the researcher agent with more robust web search (e.g., integrating a real Serper API key via `SecretManager`).
+3.  **Auth & Security:** Secure the Socket.io connection.
