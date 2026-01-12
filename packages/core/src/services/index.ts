@@ -136,3 +136,30 @@ export type {
   RateLimitStats,
   RateLimitConfig,
 } from './RateLimitService.js';
+
+export { AuditLogService, getAuditLogService, resetAuditLogService } from './AuditLogService.js';
+export type {
+  AuditAction,
+  AuditCategory,
+  AuditSeverity,
+  RetentionPolicy,
+  AuditActor,
+  AuditResource,
+  AuditChange,
+  AuditEntry,
+  AuditQuery,
+  AuditStats,
+  ComplianceReport,
+  AuditConfig,
+} from './AuditLogService.js';
+
+export { QueueService, getQueueService, resetQueueService } from './QueueService.js';
+export type {
+  JobStatus,
+  JobPriority,
+  Job,
+  JobHandler,
+  QueueConfig,
+  QueueStats,
+  QueueServiceConfig,
+} from './QueueService.js';
