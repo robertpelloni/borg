@@ -3,7 +3,7 @@
  * Ported from opencode-autopilot with AIOS integration
  */
 
-import type { Supervisor, SupervisorConfig, CouncilMessage } from '../supervisors/BaseSupervisor.js';
+import type { Supervisor, SupervisorConfig, CouncilMessage, SupervisorSpecialty } from '../supervisors/BaseSupervisor.js';
 import { createSupervisor, SupervisorRegistry } from '../supervisors/index.js';
 
 export type ConsensusMode = 
@@ -60,8 +60,24 @@ export class SupervisorCouncilManager {
   
   private registry: SupervisorRegistry;
   private supervisorWeights: Map<string, number> = new Map();
+  private supervisorSpecialties: Map<string, SupervisorSpecialty[]> = new Map();
   private config: CouncilConfig;
   private fallbackIndex = 0;
+
+  // Keyword-to-specialty mapping for task analysis
+  private static readonly SPECIALTY_KEYWORDS: Record<SupervisorSpecialty, string[]> = {
+    'security': ['security', 'auth', 'authentication', 'authorization', 'xss', 'csrf', 'injection', 'sql injection', 'vulnerability', 'exploit', 'encryption', 'password', 'token', 'jwt', 'oauth', 'permissions', 'access control', 'sanitize', 'escape'],
+    'performance': ['performance', 'latency', 'speed', 'optimization', 'optimize', 'cache', 'caching', 'memory', 'cpu', 'slow', 'fast', 'efficient', 'bottleneck', 'profiling', 'benchmark', 'scalability', 'load', 'throughput'],
+    'architecture': ['architecture', 'design', 'pattern', 'structure', 'refactor', 'module', 'dependency', 'coupling', 'cohesion', 'solid', 'abstraction', 'interface', 'separation', 'microservice', 'monolith', 'layer', 'component'],
+    'testing': ['test', 'testing', 'unit test', 'integration test', 'e2e', 'coverage', 'mock', 'stub', 'assertion', 'jest', 'mocha', 'pytest', 'tdd', 'bdd', 'fixture', 'spec'],
+    'code-quality': ['code quality', 'clean code', 'readability', 'maintainability', 'lint', 'format', 'style', 'convention', 'naming', 'comment', 'documentation', 'complexity', 'duplication', 'smell', 'technical debt'],
+    'frontend': ['frontend', 'ui', 'ux', 'react', 'vue', 'angular', 'css', 'html', 'dom', 'component', 'styling', 'responsive', 'accessibility', 'a11y', 'animation', 'layout', 'browser'],
+    'backend': ['backend', 'api', 'rest', 'graphql', 'server', 'endpoint', 'route', 'controller', 'service', 'middleware', 'request', 'response', 'http', 'websocket'],
+    'database': ['database', 'db', 'sql', 'nosql', 'query', 'schema', 'migration', 'orm', 'index', 'transaction', 'postgres', 'mysql', 'mongodb', 'redis', 'table', 'relation'],
+    'devops': ['devops', 'ci', 'cd', 'pipeline', 'deploy', 'deployment', 'docker', 'kubernetes', 'k8s', 'container', 'infrastructure', 'terraform', 'ansible', 'aws', 'gcp', 'azure', 'monitoring', 'logging'],
+    'documentation': ['documentation', 'docs', 'readme', 'guide', 'tutorial', 'example', 'api docs', 'jsdoc', 'typedoc', 'swagger', 'openapi'],
+    'general': ['general', 'other', 'misc']
+  };
 
   private consensusHandlers: Record<ConsensusMode, ConsensusModeHandler> = {
     'simple-majority': this.handleSimpleMajority.bind(this),

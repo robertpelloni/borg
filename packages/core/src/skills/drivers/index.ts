@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Skill, SkillDefinition, SkillType } from '../types.js';
+import { Skill, SkillDefinition } from '../types.js';
 import { CodeExecutionManager } from '../../managers/CodeExecutionManager.js';
+
+export { VibeshipSkillDriver } from './VibeshipSkillDriver.js';
 
 export abstract class SkillDriver {
   abstract canHandle(skill: SkillDefinition): boolean;

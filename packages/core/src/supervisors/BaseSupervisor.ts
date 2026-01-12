@@ -9,6 +9,19 @@ export interface CouncilMessage {
   content: string;
 }
 
+export type SupervisorSpecialty = 
+  | 'security'
+  | 'performance'
+  | 'architecture'
+  | 'testing'
+  | 'code-quality'
+  | 'frontend'
+  | 'backend'
+  | 'database'
+  | 'devops'
+  | 'documentation'
+  | 'general';
+
 export interface SupervisorConfig {
   name: string;
   provider: string;
@@ -18,6 +31,7 @@ export interface SupervisorConfig {
   systemPrompt?: string;
   temperature?: number;
   weight?: number;
+  specialties?: SupervisorSpecialty[];
 }
 
 export interface Supervisor {

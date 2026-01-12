@@ -50,7 +50,13 @@ import { EconomyManager } from './managers/EconomyManager.js';
 import { NodeManager } from './managers/NodeManager.js';
 import { createCouncilRoutes } from './routes/councilRoutes.js';
 import { createAutopilotRoutes } from './routes/autopilotRoutes.js';
-import { cliRegistry, cliSessionManager, smartPilotManager, vetoManager, debateHistoryManager } from './managers/autopilot/index.js';
+import { createSkillRoutes } from './routes/skillRoutes.js';
+import { createMemoryRoutes } from './routes/memoryRoutesHono.js';
+import { createOrchestrationRoutes } from './routes/orchestrationRoutesHono.js';
+import { createToolSetRoutes } from './routes/toolSetRoutesHono.js';
+import { createCLIProxyRoutes } from './routes/cliProxyRoutesHono.js';
+import { cliRegistry, cliSessionManager, smartPilotManager, vetoManager, debateHistoryManager, dynamicSelectionManager } from './managers/autopilot/index.js';
+import { LLMProviderRegistry, getLLMProviderRegistry } from './providers/LLMProviderRegistry.js';
 import { AuthMiddleware } from './middleware/AuthMiddleware.js';
 import { SystemTrayManager } from './managers/SystemTrayManager.js';
 import { ConductorManager } from './managers/ConductorManager.js';
@@ -114,7 +120,7 @@ private conductorManager: ConductorManager;
 
     this.hookManager = new HookManager(path.join(rootDir, 'hooks'));
     this.agentManager = new AgentManager(rootDir);
-    this.skillManager = new SkillManager(path.join(rootDir, 'skills'));
+    this.skillManager = new SkillManager();
     this.promptManager = new PromptManager(path.join(rootDir, 'prompts'));
     this.contextManager = new ContextManager(path.join(rootDir, 'context'));
     this.commandManager = new CommandManager(path.join(rootDir, 'commands'));
@@ -235,6 +241,21 @@ this.conductorManager = new ConductorManager(rootDir);
 
     // Autopilot Routes (CLI sessions, smart pilot, veto, debate history)
     this.app.route('/api/autopilot', createAutopilotRoutes());
+
+    // Skill Routes (462 vibeship skills + local skills)
+    this.app.route('/api/skills', createSkillRoutes(this.skillManager));
+
+    // Memory Routes (includes vibememo semantic memory)
+    this.app.route('/api/memory', createMemoryRoutes(this.memoryManager));
+
+    // Orchestration Routes (debates, code review, memory compaction, providers)
+    this.app.route('/api/orchestration', createOrchestrationRoutes());
+
+    // Tool Set Routes (tool collections)
+    this.app.route('/api/toolsets', createToolSetRoutes());
+
+    // CLI Proxy Routes (OAuth account management for AI providers)
+    this.app.route('/api/cliproxy', createCLIProxyRoutes());
 
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
@@ -853,6 +874,137 @@ this.app.get('/api/vibekanban/status', (c) => {
         const agent = this.agentManager.getAgents().find(a => a.name === args.agentName);
         if (!agent) throw new Error(`Agent ${args.agentName} not found.`);
         return await this.agentExecutor.run(agent, args.task, {}, `sub-${Date.now()}`);
+    });
+
+    // Register Natural Language Agent Tool (run_agent)
+    // This tool enables agents to perform complex tasks via natural language
+    // without pre-defined tools - it generates and executes code dynamically
+    this.proxyManager.registerInternalTool({
+        name: "run_agent",
+        description: "Execute a complex task using natural language. This tool will generate and execute code to accomplish the task. Use for tasks that don't have a dedicated tool available.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                task: { 
+                    type: "string", 
+                    description: "Natural language description of the task to perform" 
+                },
+                provider: { 
+                    type: "string", 
+                    description: "LLM provider to use (openai, anthropic, gemini, qwen, deepseek, groq). Defaults to openai.",
+                    enum: ["openai", "anthropic", "gemini", "qwen", "deepseek", "groq"]
+                },
+                model: { 
+                    type: "string", 
+                    description: "Model to use (e.g., gpt-4o, claude-sonnet-4-20250514). If not specified, uses provider default." 
+                },
+                context: {
+                    type: "object",
+                    description: "Optional context data to pass to the task"
+                }
+            },
+            required: ["task"]
+        }
+    }, async (args: { task: string; provider?: string; model?: string; context?: Record<string, unknown> }) => {
+        const providerId = args.provider || 'openai';
+        const llmRegistry = getLLMProviderRegistry();
+        
+        // Get API key from secrets
+        const apiKeyMap: Record<string, string> = {
+            openai: 'OPENAI_API_KEY',
+            anthropic: 'ANTHROPIC_API_KEY',
+            gemini: 'GOOGLE_AI_API_KEY',
+            qwen: 'QWEN_API_KEY',
+            deepseek: 'DEEPSEEK_API_KEY',
+            groq: 'GROQ_API_KEY'
+        };
+        
+        const apiKey = this.secretManager.getSecret(apiKeyMap[providerId] || 'OPENAI_API_KEY');
+        if (!apiKey) {
+            throw new Error(`API key not configured for provider ${providerId}. Set ${apiKeyMap[providerId]} in secrets.`);
+        }
+        
+        llmRegistry.setProviderConfig(providerId, { apiKey });
+        
+        // Get available tools for context
+        const availableTools = await this.proxyManager.getAllTools();
+        const toolNames = availableTools.slice(0, 50).map((t: { name: string; description?: string }) => 
+            `- ${t.name}: ${t.description?.slice(0, 100) || 'No description'}`
+        ).join('\n');
+        
+        const systemPrompt = `You are a code generation assistant. Generate executable TypeScript/JavaScript code to accomplish the user's task.
+
+Available MCP Tools (use via callTool function):
+${toolNames}
+
+Context provided:
+${args.context ? JSON.stringify(args.context, null, 2) : 'None'}
+
+IMPORTANT RULES:
+1. Generate ONLY executable code - no explanations, no markdown code blocks
+2. Use async/await for all tool calls
+3. The 'callTool' function is available: await callTool(toolName, args)
+4. Return results using 'return' statement
+5. Handle errors gracefully with try/catch
+6. Code should be self-contained and complete
+
+Example:
+async function main() {
+    const result = await callTool('read_file', { path: '/tmp/test.txt' });
+    return result;
+}
+return await main();`;
+
+        const model = args.model || llmRegistry.getModelForTier(providerId, 'sonnet');
+        
+        // Generate code using LLM
+        const completion = await llmRegistry.complete({
+            provider: providerId,
+            messages: [{ role: 'user', content: args.task }],
+            model,
+            apiKey,
+            systemPrompt,
+            temperature: 0.3,
+            maxTokens: 4096
+        });
+        
+        let generatedCode = completion.content;
+        
+        // Clean up code (remove markdown if present)
+        if (generatedCode.includes('```')) {
+            const codeMatch = generatedCode.match(/```(?:typescript|javascript|js|ts)?\n?([\s\S]*?)```/);
+            if (codeMatch) {
+                generatedCode = codeMatch[1];
+            }
+        }
+        generatedCode = generatedCode.trim();
+        
+        // Execute the generated code
+        try {
+            const result = await this.codeExecutionManager.execute(generatedCode, async (name, toolArgs) => {
+                return await this.proxyManager.callTool(name, toolArgs);
+            });
+            
+            return {
+                success: true,
+                task: args.task,
+                provider: providerId,
+                model,
+                generatedCode,
+                result,
+                usage: completion.usage
+            };
+        } catch (execError: unknown) {
+            return {
+                success: false,
+                task: args.task,
+                provider: providerId,
+                model,
+                generatedCode,
+                error: (execError as Error).message,
+                usage: completion.usage
+            };
+        }
     });
 
     // Register Session Tools

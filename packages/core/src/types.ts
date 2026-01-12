@@ -32,10 +32,18 @@ export interface AgentDefinition {
   tags?: string[];
 }
 
-export interface SkillDefinition {
-  name: string;
-  content: string; // Markdown content
-}
+export type { 
+  SkillDefinition, 
+  Skill, 
+  SkillType,
+  VibeshipSkillData,
+  VibeshipSkillYaml,
+  VibeshipValidation,
+  VibeshipSharpEdge,
+  VibeshipCollaboration,
+  SkillSourceConfig,
+  UnifiedSkillConfig
+} from './skills/types.js';
 
 export interface McpServerConfig {
   command: string;

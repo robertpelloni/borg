@@ -30,3 +30,30 @@ export { VectorStore } from './VectorStore.js';
 export { TrafficObserver } from './TrafficObserver.js';
 export { SystemDoctor } from './SystemDoctor.js';
 export { DockerService } from './DockerService.js';
+
+// AI/Orchestration Services (from jules-autopilot integration)
+export { DebateEngineService, getDebateEngineService } from './DebateEngineService.js';
+export type { 
+  Participant, 
+  DebateConfig, 
+  DebateTurn, 
+  DebateRound, 
+  DebateResult,
+  ConferenceResult,
+} from './DebateEngineService.js';
+
+export { CodeReviewService, getCodeReviewService } from './CodeReviewService.js';
+export type {
+  ReviewPersona,
+  ReviewRequest,
+  ReviewIssue,
+  ReviewResult,
+} from './CodeReviewService.js';
+
+export { MemoryCompactionService, getMemoryCompactionService } from './MemoryCompactionService.js';
+export type {
+  Activity,
+  MemoryFile,
+  CompactionConfig,
+  HandoffDocument,
+} from './MemoryCompactionService.js';
