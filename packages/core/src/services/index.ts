@@ -57,3 +57,9 @@ export type {
   CompactionConfig,
   HandoffDocument,
 } from './MemoryCompactionService.js';
+
+export { AgentTemplateService, getAgentTemplateService } from './AgentTemplateService.js';
+export type {
+  AgentTemplate,
+  AgentCategory,
+} from './AgentTemplateService.js';
