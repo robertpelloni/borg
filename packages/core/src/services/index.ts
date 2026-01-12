@@ -63,3 +63,14 @@ export type {
   AgentTemplate,
   AgentCategory,
 } from './AgentTemplateService.js';
+
+export { ToolAnalyticsService, getToolAnalyticsService } from './ToolAnalyticsService.js';
+export type {
+  ToolInvocation,
+  ToolStats,
+  AgentStats,
+  SessionStats,
+  UsageTrend,
+  ErrorPattern,
+  AnalyticsQuery,
+} from './ToolAnalyticsService.js';

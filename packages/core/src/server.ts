@@ -58,6 +58,7 @@ import { createCLIProxyRoutes } from './routes/cliProxyRoutesHono.js';
 import { createProfileRoutes } from './routes/profileRoutesHono.js';
 import { createLLMGatewayRoutes } from './routes/llmGatewayRoutesHono.js';
 import { createAgentTemplateRoutes } from './routes/agentTemplateRoutesHono.js';
+import { createAnalyticsRoutes } from './routes/analyticsRoutesHono.js';
 import { cliRegistry, cliSessionManager, smartPilotManager, vetoManager, debateHistoryManager, dynamicSelectionManager } from './managers/autopilot/index.js';
 import { LLMProviderRegistry, getLLMProviderRegistry } from './providers/LLMProviderRegistry.js';
 import { AuthMiddleware } from './middleware/AuthMiddleware.js';
@@ -268,6 +269,9 @@ this.conductorManager = new ConductorManager(rootDir);
 
     // Agent Template Routes (pre-configured agent templates)
     this.app.route('/api/templates', createAgentTemplateRoutes());
+
+    // Analytics Routes (tool usage tracking and metrics)
+    this.app.route('/api/analytics', createAnalyticsRoutes());
 
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
