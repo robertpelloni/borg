@@ -111,3 +111,14 @@ export type {
   CostSummary,
   ModelPricing,
 } from './BudgetService.js';
+
+export { IntegrationService, getIntegrationService } from './IntegrationService.js';
+export type {
+  IntegrationType,
+  AuthType,
+  IntegrationStatus,
+  Integration,
+  IntegrationTemplate,
+  OAuthConfig,
+  WebhookEvent,
+} from './IntegrationService.js';
