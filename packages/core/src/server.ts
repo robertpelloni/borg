@@ -375,11 +375,18 @@ this.conductorManager = new ConductorManager(rootDir);
     this.app.route('/api/tool-annotations', createToolAnnotationRoutes(this.toolAnnotationManager));
 
     // Architect Mode Routes (two-model reasoning+editing)
-    this.app.route('/api/architect', createArchitectRoutes({
+    const architectRoutes = createArchitectRoutes({
       modelGateway: this.modelGateway,
       secretManager: this.secretManager,
-    }));
+    });
+    this.app.route('/api/architect', architectRoutes);
 
+    // Bridge ArchitectMode events to Socket.io
+    // Note: We need a way to get the architect instance. 
+    // Since architectRoutesHono exports createArchitectRoutes which has a local singleton,
+    // we should probably expose it or have a getter.
+    // For now, let's assume we can obtain it or bridge it inside setupRoutes if we refactor createArchitectRoutes.
+    
     this.app.route('/api/worktrees', createGitWorktreeRoutes({
       baseDir: this.rootDir,
     }));

@@ -114,7 +114,10 @@ export class HybridRagSystem extends EventEmitter {
 
     const normalized = new Map<string, number>();
     for (const result of results) {
-      normalized.set(result.id, (result.score - min) / range);
+      const normalizedScore = max === min 
+        ? (result.score > 0 ? 1.0 : 0.0) 
+        : (result.score - min) / range;
+      normalized.set(result.id, normalizedScore);
     }
     return normalized;
   }

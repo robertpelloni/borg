@@ -9,6 +9,7 @@ description = "AIOS integration for Zed editor"
 crate-type = ["cdylib"]
 
 [dependencies]
-zed_extension_api = "0.0.6"
+zed_extension_api = "0.1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+ureq = { version = "2.9", features = ["json"] }
