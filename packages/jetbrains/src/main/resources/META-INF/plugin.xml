@@ -1,0 +1,62 @@
+<idea-plugin>
+    <id>com.aios.plugin</id>
+    <name>AIOS - AI Orchestration System</name>
+    <vendor email="support@aios.dev" url="https://aios.dev">AIOS Team</vendor>
+
+    <description><![CDATA[
+    Connect your JetBrains IDE to AIOS Hub for AI-powered development assistance.
+    
+    Features:
+    <ul>
+        <li>Council Debates - Multi-model code review and decision making</li>
+        <li>Architect Mode - Two-model reasoning and editing</li>
+        <li>Supervisor Analytics - Performance tracking</li>
+        <li>Memory Search - Semantic code search</li>
+        <li>Agent Execution - Run AI agents on your code</li>
+    </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    <ul>
+        <li>0.1.0 - Initial release with Council integration</li>
+    </ul>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="AIOS" secondary="true" icon="AllIcons.Toolwindows.ToolWindowMessages"
+                    anchor="right" factoryClass="com.aios.plugin.AiosToolWindowFactory"/>
+        <projectService serviceImplementation="com.aios.plugin.AiosService"/>
+        <notificationGroup id="AIOS Notifications" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <group id="AiosActionGroup" text="AIOS" description="AIOS Actions" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            
+            <action id="Aios.Connect" class="com.aios.plugin.actions.ConnectAction"
+                    text="Connect to Hub" description="Connect to AIOS Hub"/>
+            <action id="Aios.Disconnect" class="com.aios.plugin.actions.DisconnectAction"
+                    text="Disconnect" description="Disconnect from AIOS Hub"/>
+            <separator/>
+            <action id="Aios.StartDebate" class="com.aios.plugin.actions.StartDebateAction"
+                    text="Start Council Debate" description="Start a council debate on selected code"/>
+            <action id="Aios.ArchitectMode" class="com.aios.plugin.actions.ArchitectModeAction"
+                    text="Architect Mode" description="Start two-model reasoning session"/>
+            <action id="Aios.ViewAnalytics" class="com.aios.plugin.actions.ViewAnalyticsAction"
+                    text="View Analytics" description="View supervisor analytics"/>
+            <separator/>
+            <action id="Aios.RunAgent" class="com.aios.plugin.actions.RunAgentAction"
+                    text="Run Agent" description="Run an AI agent on current file"/>
+            <action id="Aios.SearchMemory" class="com.aios.plugin.actions.SearchMemoryAction"
+                    text="Search Memory" description="Search AIOS memory"/>
+        </group>
+        
+        <action id="Aios.QuickDebate" class="com.aios.plugin.actions.StartDebateAction"
+                text="AIOS: Quick Debate" description="Start council debate on selection">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>

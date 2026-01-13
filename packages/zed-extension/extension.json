@@ -1,0 +1,36 @@
+{
+    "id": "aios",
+    "name": "AIOS",
+    "version": "0.1.0",
+    "description": "AI Orchestration System integration for Zed",
+    "repository": "https://github.com/aios/aios",
+    "authors": ["AIOS Team"],
+    "lib": {
+        "kind": "Rust",
+        "version": "0.1.0"
+    },
+    "slash_commands": [
+        {
+            "name": "aios-debate",
+            "description": "Start a council debate on the current selection",
+            "requires_argument": true,
+            "argument_description": "Description of what to debate"
+        },
+        {
+            "name": "aios-architect",
+            "description": "Start an architect mode session",
+            "requires_argument": true,
+            "argument_description": "Task description for reasoning model"
+        },
+        {
+            "name": "aios-analytics",
+            "description": "View supervisor analytics",
+            "requires_argument": false
+        },
+        {
+            "name": "aios-templates",
+            "description": "List available debate templates",
+            "requires_argument": false
+        }
+    ]
+}

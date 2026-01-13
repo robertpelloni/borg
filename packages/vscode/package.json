@@ -51,10 +51,26 @@
         "command": "aios.openDashboard",
         "title": "AIOS: Open Dashboard"
       },
-      {
-        "command": "aios.showLogs",
-        "title": "AIOS: Show Logs"
-      }
+{
+      "command": "aios.showLogs",
+      "title": "AIOS: Show Logs"
+    },
+    {
+      "command": "aios.startDebate",
+      "title": "AIOS: Start Council Debate"
+    },
+    {
+      "command": "aios.viewAnalytics",
+      "title": "AIOS: View Supervisor Analytics"
+    },
+    {
+      "command": "aios.listDebateTemplates",
+      "title": "AIOS: List Debate Templates"
+    },
+    {
+      "command": "aios.architectMode",
+      "title": "AIOS: Architect Mode (Two-Model)"
+    }
     ],
     "configuration": {
       "title": "AIOS",

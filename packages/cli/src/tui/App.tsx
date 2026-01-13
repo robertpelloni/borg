@@ -5,6 +5,9 @@ import { DashboardView } from './views/Dashboard.js';
 import { ChatView } from './views/Chat.js';
 import { AgentsView } from './views/Agents.js';
 import { ToolsView } from './views/Tools.js';
+import { SessionsView } from './views/Sessions.js';
+import { LspView } from './views/Lsp.js';
+import { HealthView } from './views/Health.js';
 
 const VERSION = '0.4.0';
 
@@ -12,7 +15,10 @@ const views: Array<{ key: string; id: ViewType; label: string }> = [
     { key: '1', id: 'dashboard', label: 'Dashboard' },
     { key: '2', id: 'chat', label: 'Chat' },
     { key: '3', id: 'agents', label: 'Agents' },
-    { key: '4', id: 'tools', label: 'Tools' }
+    { key: '4', id: 'tools', label: 'Tools' },
+    { key: '5', id: 'sessions', label: 'Sessions' },
+    { key: '6', id: 'lsp', label: 'LSP' },
+    { key: '7', id: 'health', label: 'Health' },
 ];
 
 export const App: React.FC = () => {
@@ -37,6 +43,9 @@ export const App: React.FC = () => {
             case 'chat': return <ChatView />;
             case 'agents': return <AgentsView />;
             case 'tools': return <ToolsView />;
+            case 'sessions': return <SessionsView />;
+            case 'lsp': return <LspView />;
+            case 'health': return <HealthView />;
         }
     };
 

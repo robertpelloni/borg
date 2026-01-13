@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2026-01-13
+
+### Added
+- **Phase 11 & 12 Completion:** Multi-Model AI Council and TUI Orchestrator phases fully completed.
+
+#### RAG System (AIChat Pattern)
+- `HnswIndex.ts` - HNSW approximate nearest neighbor search with configurable M, efConstruction, efSearch
+- `BM25Index.ts` - BM25 keyword scoring with IDF weighting and k1/b tuning
+- `HybridRagSystem.ts` - Combined hybrid search with configurable vector/keyword weights
+
+#### Architect Mode (Aider Pattern)
+- `ArchitectMode.ts` - Two-model reasoning+editing with EventEmitter for streaming
+- `architectRoutesHono.ts` - REST API at `/api/architect/*` for session management
+
+#### Git Worktree Isolation (Claude-Squad Pattern)
+- `GitWorktreeManager.ts` - Parallel git worktrees for agent isolation
+- `gitWorktreeRoutesHono.ts` - REST API at `/api/worktrees/*` for worktree CRUD
+
+#### Dynamic Supervisor Selection
+- Enhanced `SupervisorCouncilManager.selectOptimalTeam()` with historical performance weighting
+- `inferSpecialtiesFromFiles()` for file-type specialty inference
+- `estimateTaskComplexity()` for task complexity scoring
+- Diversity bonus for team composition
+
+#### Supervisor Plugin Ecosystem
+- `SupervisorPluginManager.ts` - Plugin loading from directory/npm, inline registration
+- `supervisorPluginRoutesHono.ts` - REST API at `/api/supervisor-plugins/*`
+- Example plugin at `plugins/supervisors/example-supervisor/`
+
+#### Supervisor Analytics & Debate Templates
+- `supervisorAnalyticsRoutesHono.ts` - Performance tracking REST API
+- `debateTemplateRoutesHono.ts` - Pre-configured debate scenarios REST API
+
+#### IDE Extensions
+- **VS Code:** Enhanced with Council integration (startDebate, viewAnalytics, listDebateTemplates, architectMode)
+- **JetBrains:** Kotlin plugin skeleton with Tool Window, Actions, HTTP client
+- **Zed:** Rust WASM extension with slash commands (debate, architect, analytics)
+- **Neovim:** Full Lua plugin with Telescope integration (pickers for templates, analytics, sessions)
+
+### Changed
+- Updated ROADMAP.md to mark Phase 11 & 12 as completed
+
 ## [0.4.1] - 2026-01-09
 
 ### Added

@@ -47,7 +47,13 @@ ${agent.instructions}
 
         // 4. Save Session (if Manager provided)
         if (this.sessionManager) {
-            this.sessionManager.saveSession(sessionId, agent.name, messages.concat({ role: 'assistant', content: response }));
+            const sessionMessages = messages.map(m => ({
+                role: m.role as 'user' | 'assistant' | 'system',
+                content: m.content,
+                timestamp: Date.now(),
+            }));
+            sessionMessages.push({ role: 'assistant', content: response, timestamp: Date.now() });
+            this.sessionManager.saveSession(sessionId, agent.name, sessionMessages);
         }
 
         return response;

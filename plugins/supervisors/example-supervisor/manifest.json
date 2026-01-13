@@ -1,0 +1,13 @@
+{
+  "name": "example-supervisor",
+  "version": "1.0.0",
+  "description": "Example supervisor plugin demonstrating the plugin interface",
+  "author": "AIOS Team",
+  "main": "index.js",
+  "specialties": ["code-quality", "general"],
+  "provider": "custom",
+  "config": {
+    "temperature": 0.7,
+    "maxTokens": 2000
+  }
+}

@@ -85,6 +85,27 @@ export interface DebateTemplate {
   systemPrompt: string;
 }
 
+/**
+ * Cross-review result from karpathy/llm-council pattern
+ * Each supervisor anonymously ranks other supervisors' opinions
+ */
+export interface CrossReviewRanking {
+  anonymousId: string;      // "Response A", "Response B", etc.
+  rank: number;             // 1 = best
+  reasoning?: string;
+}
+
+export interface CrossReviewResult {
+  reviewer: string;           // Supervisor who performed this review
+  rankings: CrossReviewRanking[];
+  rawResponse: string;
+}
+
+export interface AggregateRankings {
+  supervisorRankings: Map<string, number>;  // supervisor name -> average rank (lower = better)
+  peerReviewBoosts: Map<string, number>;    // supervisor name -> weight adjustment factor
+}
+
 const BUILTIN_TEMPLATES: DebateTemplate[] = [
   {
     id: 'security-review',
@@ -259,28 +280,140 @@ export class SupervisorCouncilManager {
     return matched.size > 0 ? Array.from(matched) : ['general'];
   }
 
-  async selectOptimalTeam(task: DevelopmentTask): Promise<Supervisor[]> {
+  async selectOptimalTeam(task: DevelopmentTask, options?: {
+    minTeamSize?: number;
+    maxTeamSize?: number;
+    includeHistoricalPerformance?: boolean;
+    diversityBonus?: boolean;
+  }): Promise<Supervisor[]> {
     const taskSpecialties = this.analyzeTaskSpecialties(task);
+    const fileSpecialties = this.inferSpecialtiesFromFiles(task.files);
+    const allSpecialties = [...new Set([...taskSpecialties, ...fileSpecialties])];
+    const complexity = this.estimateTaskComplexity(task);
     const available = await this.getAvailableSupervisors();
 
     if (available.length === 0) return [];
 
+    const minSize = options?.minTeamSize ?? Math.min(2, available.length);
+    const maxSize = options?.maxTeamSize ?? Math.min(5, available.length);
+    const useHistory = options?.includeHistoricalPerformance ?? true;
+    const diversityBonus = options?.diversityBonus ?? true;
+
     const scored = available.map(supervisor => {
       const supervisorSpecs = this.getSupervisorSpecialties(supervisor.name);
-      const matchCount = taskSpecialties.filter(ts => 
+      
+      let specialtyScore = allSpecialties.filter(ts => 
         supervisorSpecs.includes(ts) || supervisorSpecs.includes('general')
       ).length;
+      
+      if (supervisorSpecs.includes('general') && specialtyScore === 0) {
+        specialtyScore = 0.5;
+      }
+
+      let performanceScore = 1.0;
+      if (useHistory) {
+        const analytics = this.supervisorAnalytics.get(supervisor.name);
+        if (analytics && analytics.totalVotes >= 3) {
+          const confidenceBonus = analytics.avgConfidence * 0.3;
+          const consistencyBonus = Math.min(analytics.totalVotes / 20, 0.3);
+          performanceScore = 1 + confidenceBonus + consistencyBonus;
+        }
+      }
+
+      let complexityMatch = 1.0;
+      if (complexity >= 0.7) {
+        const hasArchitecture = supervisorSpecs.includes('architecture');
+        const hasSecurity = supervisorSpecs.includes('security');
+        if (hasArchitecture || hasSecurity) {
+          complexityMatch = 1.3;
+        }
+      }
+
       const weight = this.getSupervisorWeight(supervisor.name);
-      return { supervisor, score: matchCount * weight };
+      const totalScore = specialtyScore * weight * performanceScore * complexityMatch;
+      
+      return { supervisor, score: totalScore, specialties: supervisorSpecs };
     });
 
     scored.sort((a, b) => b.score - a.score);
 
     const hasMatches = scored.some(s => s.score > 0);
-    if (!hasMatches) return available;
+    if (!hasMatches) return available.slice(0, maxSize);
 
-    const topScore = scored[0].score;
-    return scored.filter(s => s.score >= topScore * 0.5).map(s => s.supervisor);
+    let selectedTeam: typeof scored = [];
+    const coveredSpecialties = new Set<SupervisorSpecialty>();
+
+    for (const candidate of scored) {
+      if (selectedTeam.length >= maxSize) break;
+      
+      let diversityScore = 0;
+      if (diversityBonus) {
+        for (const spec of candidate.specialties) {
+          if (!coveredSpecialties.has(spec)) {
+            diversityScore += 0.2;
+          }
+        }
+      }
+
+      const adjustedScore = candidate.score + diversityScore;
+      const topScore = selectedTeam.length > 0 ? selectedTeam[0].score : candidate.score;
+      
+      if (selectedTeam.length < minSize || adjustedScore >= topScore * 0.4) {
+        selectedTeam.push(candidate);
+        candidate.specialties.forEach(s => coveredSpecialties.add(s));
+      }
+    }
+
+    return selectedTeam.map(s => s.supervisor);
+  }
+
+  private inferSpecialtiesFromFiles(files: string[]): SupervisorSpecialty[] {
+    const specialties = new Set<SupervisorSpecialty>();
+    
+    const filePatterns: Array<{ pattern: RegExp; specialty: SupervisorSpecialty }> = [
+      { pattern: /\.(tsx?|jsx?)$/i, specialty: 'frontend' },
+      { pattern: /\.(css|scss|less|styled)$/i, specialty: 'frontend' },
+      { pattern: /\.(vue|svelte)$/i, specialty: 'frontend' },
+      { pattern: /components?[\/\\]/i, specialty: 'frontend' },
+      { pattern: /auth[\/\\]|authentication|authorization/i, specialty: 'security' },
+      { pattern: /\.sql$|migrations?[\/\\]|schema/i, specialty: 'database' },
+      { pattern: /prisma|drizzle|knex|sequelize/i, specialty: 'database' },
+      { pattern: /routes?[\/\\]|controllers?[\/\\]|api[\/\\]/i, specialty: 'backend' },
+      { pattern: /\.test\.|\.spec\.|__tests__|cypress|playwright/i, specialty: 'testing' },
+      { pattern: /docker|kubernetes|k8s|\.ya?ml$|ci[\/\\]|\.github[\/\\]/i, specialty: 'devops' },
+      { pattern: /readme|docs?[\/\\]|\.md$/i, specialty: 'documentation' },
+      { pattern: /perf|benchmark|cache|optimize/i, specialty: 'performance' },
+    ];
+
+    for (const file of files) {
+      for (const { pattern, specialty } of filePatterns) {
+        if (pattern.test(file)) {
+          specialties.add(specialty);
+        }
+      }
+    }
+
+    return Array.from(specialties);
+  }
+
+  private estimateTaskComplexity(task: DevelopmentTask): number {
+    let complexity = 0;
+
+    const fileCount = task.files.length;
+    if (fileCount > 10) complexity += 0.3;
+    else if (fileCount > 5) complexity += 0.2;
+    else if (fileCount > 2) complexity += 0.1;
+
+    const textLength = (task.description + (task.context || '')).length;
+    if (textLength > 2000) complexity += 0.2;
+    else if (textLength > 1000) complexity += 0.1;
+
+    const complexKeywords = ['refactor', 'architecture', 'security', 'migration', 'breaking', 'performance', 'scale', 'distributed'];
+    const text = (task.description + ' ' + (task.context || '')).toLowerCase();
+    const keywordMatches = complexKeywords.filter(k => text.includes(k)).length;
+    complexity += keywordMatches * 0.1;
+
+    return Math.min(1, complexity);
   }
 
   async debateWithAutoSelect(task: DevelopmentTask): Promise<CouncilDecision & { selectedTeam: string[] }> {
@@ -357,6 +490,23 @@ export class SupervisorCouncilManager {
       debateContext += '\n\n**Round ' + round + ' Opinions:**\n' + validOpinions.join('\n\n');
     }
 
+    // Stage 2: Anonymous Cross-Review (karpathy/llm-council pattern)
+    const opinionMap = this.extractOpinionsFromDebateContext(debateContext, team);
+    let peerReviewBoosts: Map<string, number> | null = null;
+
+    if (opinionMap.size >= 2) {
+      const crossReviews = await this.collectCrossReviews(team, opinionMap, task.description);
+      const validReviews = crossReviews.filter(r => r.rankings.length > 0);
+
+      if (validReviews.length > 0) {
+        const { labelToSupervisor } = this.anonymizeOpinions(opinionMap);
+        const aggregateRankings = this.calculateAggregateRankings(validReviews, labelToSupervisor);
+        peerReviewBoosts = aggregateRankings.peerReviewBoosts;
+        const reviewSummary = this.formatCrossReviewSummary(validReviews, aggregateRankings);
+        debateContext += '\n\n**Anonymous Peer Reviews:**\n' + reviewSummary;
+      }
+    }
+
     const voteResults = await Promise.all(
       team.map(async (supervisor) => {
         try {
@@ -372,7 +522,9 @@ export class SupervisorCouncilManager {
           const response = await supervisor.chat([votePrompt]);
           const approved = this.parseVote(response);
           const confidence = this.parseConfidence(response);
-          const weight = this.getSupervisorWeight(supervisor.name);
+          const baseWeight = this.getSupervisorWeight(supervisor.name);
+          const peerBoost = peerReviewBoosts?.get(supervisor.name) ?? 1;
+          const weight = baseWeight * peerBoost;
           return { supervisor: supervisor.name, approved, confidence, weight, comment: response };
         } catch {
           return {
@@ -414,6 +566,173 @@ export class SupervisorCouncilManager {
       reasoning: this.generateConsensusReasoning(votes, approved, weightedConsensus, dissent, mode, modeReasoning),
       dissent,
     };
+  }
+
+  private anonymizeOpinions(
+    opinions: Map<string, string>
+  ): { anonymized: Map<string, string>; labelToSupervisor: Map<string, string> } {
+    const anonymized = new Map<string, string>();
+    const labelToSupervisor = new Map<string, string>();
+    let index = 0;
+
+    for (const [supervisor, opinion] of opinions) {
+      const label = `Response ${String.fromCharCode(65 + index)}`;
+      anonymized.set(label, opinion);
+      labelToSupervisor.set(label, supervisor);
+      index++;
+    }
+
+    return { anonymized, labelToSupervisor };
+  }
+
+  private extractOpinionsFromDebateContext(
+    debateContext: string,
+    supervisors: Supervisor[]
+  ): Map<string, string> {
+    const opinions = new Map<string, string>();
+
+    for (const supervisor of supervisors) {
+      const pattern = new RegExp(`\\*\\*${supervisor.name}\\*\\*:\\s*([\\s\\S]*?)(?=\\*\\*[^*]+\\*\\*:|$)`, 'g');
+      const matches = [...debateContext.matchAll(pattern)];
+      if (matches.length > 0) {
+        const lastMatch = matches[matches.length - 1];
+        opinions.set(supervisor.name, lastMatch[1].trim());
+      }
+    }
+
+    return opinions;
+  }
+
+  private async collectCrossReviews(
+    supervisors: Supervisor[],
+    opinions: Map<string, string>,
+    taskDescription: string
+  ): Promise<CrossReviewResult[]> {
+    const { anonymized, labelToSupervisor } = this.anonymizeOpinions(opinions);
+
+    const responsesText = Array.from(anonymized.entries())
+      .map(([label, opinion]) => `**${label}:**\n${opinion}`)
+      .join('\n\n---\n\n');
+
+    const crossReviewPrompt = `You are evaluating peer responses to this task:
+${taskDescription}
+
+Here are the anonymized responses from other reviewers:
+
+${responsesText}
+
+Your task:
+1. Evaluate each response for accuracy, insight, and completeness
+2. Identify strengths and weaknesses of each
+3. Provide your final ranking
+
+IMPORTANT: End your response with a clear ranking section in this exact format:
+
+FINAL RANKING:
+1. Response X (best)
+2. Response Y
+3. Response Z (worst)
+
+Replace X, Y, Z with the actual letters (A, B, C, etc.)`;
+
+    const results = await Promise.all(
+      supervisors.map(async (supervisor) => {
+        const selfLabel = Array.from(labelToSupervisor.entries())
+          .find(([_, name]) => name === supervisor.name)?.[0];
+
+        const filteredText = Array.from(anonymized.entries())
+          .filter(([label]) => label !== selfLabel)
+          .map(([label, opinion]) => `**${label}:**\n${opinion}`)
+          .join('\n\n---\n\n');
+
+        const personalizedPrompt = crossReviewPrompt.replace(responsesText, filteredText);
+
+        try {
+          const response = await supervisor.chat([{ role: 'user', content: personalizedPrompt }]);
+          const rankings = this.parseRankings(response, labelToSupervisor);
+          return { reviewer: supervisor.name, rankings, rawResponse: response };
+        } catch {
+          return { reviewer: supervisor.name, rankings: [], rawResponse: 'Failed to provide cross-review' };
+        }
+      })
+    );
+
+    return results;
+  }
+
+  private parseRankings(
+    response: string,
+    labelToSupervisor: Map<string, string>
+  ): CrossReviewRanking[] {
+    const rankings: CrossReviewRanking[] = [];
+    const rankingSection = response.split(/FINAL RANKING:/i)[1];
+
+    if (!rankingSection) return rankings;
+
+    const rankPattern = /(\d+)\.\s*Response\s+([A-Z])/gi;
+    let match;
+
+    while ((match = rankPattern.exec(rankingSection)) !== null) {
+      const rank = parseInt(match[1], 10);
+      const letter = match[2].toUpperCase();
+      const label = `Response ${letter}`;
+
+      if (labelToSupervisor.has(label)) {
+        rankings.push({ anonymousId: label, rank });
+      }
+    }
+
+    return rankings;
+  }
+
+  private calculateAggregateRankings(
+    crossReviews: CrossReviewResult[],
+    labelToSupervisor: Map<string, string>
+  ): AggregateRankings {
+    const rankSums = new Map<string, number[]>();
+
+    for (const review of crossReviews) {
+      for (const ranking of review.rankings) {
+        const supervisor = labelToSupervisor.get(ranking.anonymousId);
+        if (supervisor) {
+          const existing = rankSums.get(supervisor) ?? [];
+          existing.push(ranking.rank);
+          rankSums.set(supervisor, existing);
+        }
+      }
+    }
+
+    const supervisorRankings = new Map<string, number>();
+    const peerReviewBoosts = new Map<string, number>();
+
+    for (const [supervisor, ranks] of rankSums) {
+      const avgRank = ranks.length > 0 ? ranks.reduce((a, b) => a + b, 0) / ranks.length : 999;
+      supervisorRankings.set(supervisor, avgRank);
+
+      const totalParticipants = labelToSupervisor.size;
+      const midpoint = (totalParticipants + 1) / 2;
+      const boost = 1 + (midpoint - avgRank) * 0.1;
+      peerReviewBoosts.set(supervisor, Math.max(0.5, Math.min(1.5, boost)));
+    }
+
+    return { supervisorRankings, peerReviewBoosts };
+  }
+
+  private formatCrossReviewSummary(
+    crossReviews: CrossReviewResult[],
+    aggregateRankings: AggregateRankings
+  ): string {
+    const sorted = Array.from(aggregateRankings.supervisorRankings.entries())
+      .sort((a, b) => a[1] - b[1]);
+
+    let summary = '**Peer Review Leaderboard:**\n';
+    for (let i = 0; i < sorted.length; i++) {
+      const [supervisor, avgRank] = sorted[i];
+      const boost = aggregateRankings.peerReviewBoosts.get(supervisor) ?? 1;
+      summary += `${i + 1}. ${supervisor} (avg rank: ${avgRank.toFixed(2)}, vote weight boost: ${boost.toFixed(2)}x)\n`;
+    }
+
+    return summary;
   }
 
   setLeadSupervisor(name: string): void {
@@ -555,6 +874,23 @@ export class SupervisorCouncilManager {
       debateContext += '\n\n**Round ' + round + ' Opinions:**\n' + validOpinions.join('\n\n');
     }
 
+    // Stage 2: Anonymous Cross-Review (karpathy/llm-council pattern)
+    const opinionMap = this.extractOpinionsFromDebateContext(debateContext, available);
+    let peerReviewBoosts: Map<string, number> | null = null;
+
+    if (opinionMap.size >= 2) {
+      const crossReviews = await this.collectCrossReviews(available, opinionMap, task.description);
+      const validReviews = crossReviews.filter(r => r.rankings.length > 0);
+
+      if (validReviews.length > 0) {
+        const { labelToSupervisor } = this.anonymizeOpinions(opinionMap);
+        const aggregateRankings = this.calculateAggregateRankings(validReviews, labelToSupervisor);
+        peerReviewBoosts = aggregateRankings.peerReviewBoosts;
+        const reviewSummary = this.formatCrossReviewSummary(validReviews, aggregateRankings);
+        debateContext += '\n\n**Anonymous Peer Reviews:**\n' + reviewSummary;
+      }
+    }
+
     const voteResults = await Promise.all(
       available.map(async (supervisor) => {
         try {
@@ -571,7 +907,9 @@ export class SupervisorCouncilManager {
           const response = await supervisor.chat([votePrompt]);
           const approved = this.parseVote(response);
           const confidence = this.parseConfidence(response);
-          const weight = this.getSupervisorWeight(supervisor.name);
+          const baseWeight = this.getSupervisorWeight(supervisor.name);
+          const peerBoost = peerReviewBoosts?.get(supervisor.name) ?? 1;
+          const weight = baseWeight * peerBoost;
           
           return {
             supervisor: supervisor.name,

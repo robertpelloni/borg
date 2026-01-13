@@ -149,13 +149,13 @@
 - [x] **Debate History:** DebateHistoryManager with persistent records, analytics, search, JSON/CSV export
 - [x] **Smart Pilot:** SmartPilotManager with auto-approval limits, pause/resume, configurable timeouts
 
-### Future Council Enhancements (Available for Integration)
-- [ ] **Dynamic Supervisor Selection:** Auto-select optimal team based on task type
-- [ ] **Supervisor Analytics:** Performance tracking per supervisor
-- [ ] **Debate Templates:** Pre-configured debate scenarios
-- [ ] **Plugin Ecosystem:** External supervisor plugins
+### Future Council Enhancements (Completed)
+- [x] **Dynamic Supervisor Selection:** Auto-select optimal team based on task type
+- [x] **Supervisor Analytics:** Performance tracking per supervisor
+- [x] **Debate Templates:** Pre-configured debate scenarios
+- [x] **Plugin Ecosystem:** External supervisor plugins
 
-## Phase 12: TUI Orchestrator (In Progress)
+## Phase 12: TUI Orchestrator (Completed)
 > SuperAI CLI integration - Go-based terminal UI for AI coding tool orchestration
 
 ### Core TUI (packages/tui/)
@@ -199,11 +199,11 @@
 - [x] **Conductor Dashboard:** Task management, status monitoring, VibeKanban integration
 - [x] **Sessions Dashboard:** Session list with messages, handoffs management, activity timeline
 
-### Future TUI Enhancements
-- [ ] **VS Code Extension:** IDE integration via Extension API
-- [ ] **JetBrains Plugin:** IntelliJ Platform integration
-- [ ] **Zed Extension:** WASM-based extension for Zed editor
-- [ ] **Neovim Plugin:** Lua plugin with Telescope integration
-- [ ] **RAG System:** HNSW vector search + BM25 reranking (AIChat pattern)
-- [ ] **Architect Mode:** Two-model reasoning+editing (Aider pattern)
-- [ ] **Git Worktree Isolation:** Parallel agents in isolated checkouts (Claude-Squad pattern)
+### Future TUI Enhancements (Completed)
+- [x] **VS Code Extension:** IDE integration via Extension API (Council, Architect Mode, Analytics)
+- [x] **JetBrains Plugin:** IntelliJ Platform integration (Kotlin, Tool Window, Actions)
+- [x] **Zed Extension:** WASM-based extension for Zed editor (Rust, slash commands)
+- [x] **Neovim Plugin:** Lua plugin with Telescope integration (full implementation)
+- [x] **RAG System:** HNSW vector search + BM25 reranking (AIChat pattern)
+- [x] **Architect Mode:** Two-model reasoning+editing (Aider pattern)
+- [x] **Git Worktree Isolation:** Parallel agents in isolated checkouts (Claude-Squad pattern)

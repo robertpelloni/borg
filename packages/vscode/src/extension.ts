@@ -49,6 +49,10 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('aios.invokeTool', invokeTool),
         vscode.commands.registerCommand('aios.openDashboard', openDashboard),
         vscode.commands.registerCommand('aios.showLogs', () => outputChannel.show()),
+        vscode.commands.registerCommand('aios.startDebate', startCouncilDebate),
+        vscode.commands.registerCommand('aios.viewAnalytics', viewSupervisorAnalytics),
+        vscode.commands.registerCommand('aios.listDebateTemplates', listDebateTemplates),
+        vscode.commands.registerCommand('aios.architectMode', startArchitectMode),
     ];
 
     commands.forEach(cmd => context.subscriptions.push(cmd));
@@ -479,5 +483,246 @@ export function deactivate() {
     }
     if (outputChannel) {
         outputChannel.dispose();
+    }
+}
+
+async function startCouncilDebate() {
+    const config = vscode.workspace.getConfiguration('aios');
+    const url = config.get<string>('hubUrl') || 'http://localhost:3000';
+
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage('No active editor. Open a file to debate.');
+        return;
+    }
+
+    const description = await vscode.window.showInputBox({
+        title: 'Council Debate',
+        prompt: 'Describe what to debate about this code',
+        placeHolder: 'e.g., Review security implications of this implementation'
+    });
+
+    if (!description) return;
+
+    const selection = editor.document.getText(editor.selection);
+    const context = selection || editor.document.getText();
+    const filePath = editor.document.uri.fsPath;
+
+    try {
+        log(`Starting council debate: ${description}`);
+        vscode.window.showInformationMessage('Starting council debate...');
+
+        const response = await fetch(`${url}/api/council/debate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                task: {
+                    id: `vscode-${Date.now()}`,
+                    description,
+                    files: [filePath],
+                    context: context.substring(0, 10000)
+                }
+            })
+        });
+
+        if (!response.ok) throw new Error('Debate request failed');
+
+        const result = await response.json();
+        
+        outputChannel.appendLine(`\n=== Council Debate Result ===`);
+        outputChannel.appendLine(`Decision: ${result.decision}`);
+        outputChannel.appendLine(`Consensus: ${result.consensusLevel}%`);
+        outputChannel.appendLine(`Reasoning: ${result.reasoning}`);
+        outputChannel.appendLine(`Votes: ${JSON.stringify(result.votes, null, 2)}`);
+        outputChannel.show();
+
+        vscode.window.showInformationMessage(`Council decision: ${result.decision} (${result.consensusLevel}% consensus)`);
+
+    } catch (e: any) {
+        log(`Council debate error: ${e.message}`);
+        vscode.window.showErrorMessage(`Council debate failed: ${e.message}`);
+    }
+}
+
+async function viewSupervisorAnalytics() {
+    const config = vscode.workspace.getConfiguration('aios');
+    const url = config.get<string>('hubUrl') || 'http://localhost:3000';
+
+    try {
+        const response = await fetch(`${url}/api/supervisor-analytics/summary`);
+        if (!response.ok) throw new Error('Failed to fetch analytics');
+
+        const data = await response.json();
+        const summary = data.summary;
+
+        const items = [
+            `Total Supervisors: ${summary.totalSupervisors}`,
+            `Total Debates: ${summary.totalDebates}`,
+            `Approved: ${summary.totalApproved}`,
+            `Rejected: ${summary.totalRejected}`,
+            `Avg Consensus: ${summary.avgConsensus?.toFixed(1) || 'N/A'}%`,
+            `Avg Confidence: ${summary.avgConfidence?.toFixed(2) || 'N/A'}`,
+            summary.mostActive ? `Most Active: ${summary.mostActive.name} (${summary.mostActive.votes} votes)` : '',
+            summary.highestApprovalRate ? `Top Performer: ${summary.highestApprovalRate.name} (${summary.highestApprovalRate.rate}%)` : '',
+        ].filter(Boolean);
+
+        await vscode.window.showQuickPick(items, { title: 'Supervisor Analytics' });
+
+    } catch (e: any) {
+        log(`Analytics error: ${e.message}`);
+        vscode.window.showErrorMessage(`Failed to fetch analytics: ${e.message}`);
+    }
+}
+
+interface TemplatePickItem extends vscode.QuickPickItem {
+    templateId: string;
+    templateData: any;
+}
+
+async function listDebateTemplates() {
+    const config = vscode.workspace.getConfiguration('aios');
+    const url = config.get<string>('hubUrl') || 'http://localhost:3000';
+
+    try {
+        const response = await fetch(`${url}/api/debate-templates`);
+        if (!response.ok) throw new Error('Failed to fetch templates');
+
+        const data = await response.json();
+        
+        const items: TemplatePickItem[] = data.templates.map((t: any) => ({
+            label: t.name,
+            description: t.id,
+            detail: t.description || 'No description',
+            templateId: t.id,
+            templateData: t
+        }));
+
+        const selected = await vscode.window.showQuickPick(items, {
+            title: 'Debate Templates',
+            placeHolder: 'Select a template to start a debate'
+        });
+
+        if (selected) {
+            await startDebateWithTemplate(selected.templateData);
+        }
+
+    } catch (e: any) {
+        log(`Templates error: ${e.message}`);
+        vscode.window.showErrorMessage(`Failed to fetch templates: ${e.message}`);
+    }
+}
+
+async function startDebateWithTemplate(template: any) {
+    const config = vscode.workspace.getConfiguration('aios');
+    const url = config.get<string>('hubUrl') || 'http://localhost:3000';
+
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage('No active editor');
+        return;
+    }
+
+    const description = await vscode.window.showInputBox({
+        title: `${template.name} Debate`,
+        prompt: 'Describe the specific task',
+        placeHolder: 'e.g., Review authentication implementation'
+    });
+
+    if (!description) return;
+
+    const selection = editor.document.getText(editor.selection);
+    const context = selection || editor.document.getText();
+
+    try {
+        log(`Starting ${template.name} debate`);
+        vscode.window.showInformationMessage(`Starting ${template.name} debate...`);
+
+        const response = await fetch(`${url}/api/debate-templates/${template.id}/debate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                task: {
+                    description,
+                    files: [editor.document.uri.fsPath],
+                    context: context.substring(0, 10000)
+                }
+            })
+        });
+
+        if (!response.ok) throw new Error('Template debate failed');
+
+        const result = await response.json();
+        
+        outputChannel.appendLine(`\n=== ${template.name} Debate Result ===`);
+        outputChannel.appendLine(JSON.stringify(result, null, 2));
+        outputChannel.show();
+
+    } catch (e: any) {
+        log(`Template debate error: ${e.message}`);
+        vscode.window.showErrorMessage(`Template debate failed: ${e.message}`);
+    }
+}
+
+async function startArchitectMode() {
+    const config = vscode.workspace.getConfiguration('aios');
+    const url = config.get<string>('hubUrl') || 'http://localhost:3000';
+
+    const task = await vscode.window.showInputBox({
+        title: 'Architect Mode',
+        prompt: 'Describe the task for the reasoning model',
+        placeHolder: 'e.g., Design a caching layer for the API endpoints'
+    });
+
+    if (!task) return;
+
+    try {
+        log(`Starting architect mode: ${task}`);
+        vscode.window.showInformationMessage('Starting architect session...');
+
+        const response = await fetch(`${url}/api/architect/sessions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task })
+        });
+
+        if (!response.ok) throw new Error('Architect session failed');
+
+        const session = await response.json();
+        
+        outputChannel.appendLine(`\n=== Architect Session: ${session.sessionId} ===`);
+        outputChannel.appendLine(`Status: ${session.status}`);
+        outputChannel.appendLine(`\n--- Reasoning Output ---`);
+        outputChannel.appendLine(session.reasoningOutput || 'Reasoning in progress...');
+        
+        if (session.plan) {
+            outputChannel.appendLine(`\n--- Edit Plan ---`);
+            outputChannel.appendLine(`Description: ${session.plan.description}`);
+            outputChannel.appendLine(`Complexity: ${session.plan.complexity}`);
+            outputChannel.appendLine(`Files: ${session.plan.files?.join(', ')}`);
+            outputChannel.appendLine(`Steps: ${JSON.stringify(session.plan.steps, null, 2)}`);
+        }
+        
+        outputChannel.show();
+
+        const action = await vscode.window.showInformationMessage(
+            `Architect session created. Status: ${session.status}`,
+            'Approve Plan',
+            'Reject Plan',
+            'View in Dashboard'
+        );
+
+        if (action === 'Approve Plan') {
+            await fetch(`${url}/api/architect/sessions/${session.sessionId}/approve`, { method: 'POST' });
+            vscode.window.showInformationMessage('Plan approved, edits being executed');
+        } else if (action === 'Reject Plan') {
+            await fetch(`${url}/api/architect/sessions/${session.sessionId}/reject`, { method: 'POST' });
+            vscode.window.showInformationMessage('Plan rejected');
+        } else if (action === 'View in Dashboard') {
+            vscode.env.openExternal(vscode.Uri.parse(`${url}/architect/${session.sessionId}`));
+        }
+
+    } catch (e: any) {
+        log(`Architect mode error: ${e.message}`);
+        vscode.window.showErrorMessage(`Architect mode failed: ${e.message}`);
     }
 }

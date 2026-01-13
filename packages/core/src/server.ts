@@ -61,6 +61,27 @@ import { createAgentTemplateRoutes } from './routes/agentTemplateRoutesHono.js';
 import { createAnalyticsRoutes } from './routes/analyticsRoutesHono.js';
 import { createWorkflowRoutes } from './routes/workflowRoutesHono.js';
 import { createSchedulerRoutes } from './routes/schedulerRoutesHono.js';
+import { createLspRoutes } from './routes/lspRoutesHono.js';
+import { createSessionShareRoutes } from './routes/sessionShareRoutesHono.js';
+import { createGitUndoRoutes } from './routes/gitUndoRoutesHono.js';
+import { GitUndoManager } from './managers/GitUndoManager.js';
+import { createFeatureFlagRoutes } from './routes/featureFlagRoutesHono.js';
+import { createSecretRoutes } from './routes/secretRoutesHono.js';
+import { createQueueRoutes } from './routes/queueRoutesHono.js';
+import { createAuditLogRoutes } from './routes/auditLogRoutesHono.js';
+import { createRateLimitRoutes } from './routes/rateLimitRoutesHono.js';
+import { createIntegrationRoutes } from './routes/integrationRoutesHono.js';
+import { createBudgetRoutes } from './routes/budgetRoutesHono.js';
+import { createNotificationRoutes } from './routes/notificationRoutesHono.js';
+import { createOidcRoutes } from './routes/oidcRoutesHono.js';
+import { OidcManager } from './managers/OidcManager.js';
+import { createToolAnnotationRoutes } from './routes/toolAnnotationRoutesHono.js';
+import { ToolAnnotationManager } from './managers/ToolAnnotationManager.js';
+import { createArchitectRoutes } from './routes/architectRoutesHono.js';
+import { createGitWorktreeRoutes } from './routes/gitWorktreeRoutesHono.js';
+import { createSupervisorAnalyticsRoutes } from './routes/supervisorAnalyticsRoutesHono.js';
+import { createDebateTemplateRoutes } from './routes/debateTemplateRoutesHono.js';
+import { createSupervisorPluginRoutes } from './routes/supervisorPluginRoutesHono.js';
 import { cliRegistry, cliSessionManager, smartPilotManager, vetoManager, debateHistoryManager, dynamicSelectionManager } from './managers/autopilot/index.js';
 import { LLMProviderRegistry, getLLMProviderRegistry } from './providers/LLMProviderRegistry.js';
 import { AuthMiddleware } from './middleware/AuthMiddleware.js';
@@ -117,6 +138,9 @@ export class CoreService {
 private conductorManager: ConductorManager;
   private vibeKanbanManager: VibeKanbanManager;
   private hardwareManager: HardwareManager;
+  private gitUndoManager: GitUndoManager;
+  private oidcManager: OidcManager;
+  private toolAnnotationManager: ToolAnnotationManager;
 
   constructor(
     private rootDir: string
@@ -140,6 +164,9 @@ private conductorManager: ConductorManager;
     this.marketplaceManager = new MarketplaceManager(rootDir);
     this.profileManager = new ProfileManager(rootDir);
     this.sessionManager = new SessionManager(rootDir);
+    this.gitUndoManager = new GitUndoManager({ projectRoot: rootDir });
+    this.oidcManager = new OidcManager();
+    this.toolAnnotationManager = new ToolAnnotationManager();
     this.systemDoctor = new SystemDoctor();
     this.browserManager = new BrowserManager();
     this.modelGateway = new ModelGateway(this.secretManager);
@@ -281,6 +308,9 @@ this.conductorManager = new ConductorManager(rootDir);
     // Scheduler Routes (cron-based task scheduling)
     this.app.route('/api/scheduler', createSchedulerRoutes(this.schedulerManager));
 
+    // LSP Routes (Language Server Protocol auto-loading)
+    this.app.route('/api/lsp', createLspRoutes());
+
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
         const version = fs.existsSync(versionPath) ? fs.readFileSync(versionPath, 'utf-8').trim() : 'unknown';
@@ -307,6 +337,58 @@ this.conductorManager = new ConductorManager(rootDir);
         const id = c.req.param('id');
         return c.json({ session: this.sessionManager.loadSession(id) });
     });
+
+    // Session Share Routes (public share links)
+    this.app.route('/api/sessions/share', createSessionShareRoutes(this.sessionManager));
+
+    // Git Undo/Redo Routes (file change tracking with git integration)
+    this.app.route('/api/git-undo', createGitUndoRoutes(this.gitUndoManager));
+
+    // Feature Flag Routes
+    this.app.route('/api/feature-flags', createFeatureFlagRoutes());
+
+    // Secret Management Routes
+    this.app.route('/api/secrets', createSecretRoutes());
+
+    // Queue Routes
+    this.app.route('/api/queues', createQueueRoutes());
+
+    // Audit Log Routes
+    this.app.route('/api/audit-logs', createAuditLogRoutes());
+
+    // Rate Limit Routes
+    this.app.route('/api/rate-limits', createRateLimitRoutes());
+
+    // Integration Routes
+    this.app.route('/api/integrations', createIntegrationRoutes());
+
+    // Budget Routes
+    this.app.route('/api/budgets', createBudgetRoutes());
+
+    // Notification Routes
+    this.app.route('/api/notifications', createNotificationRoutes());
+
+    // OIDC Routes (OpenID Connect authentication)
+    this.app.route('/api/oidc', createOidcRoutes(this.oidcManager));
+
+    // Tool Annotation Routes (tool metadata and UI hints)
+    this.app.route('/api/tool-annotations', createToolAnnotationRoutes(this.toolAnnotationManager));
+
+    // Architect Mode Routes (two-model reasoning+editing)
+    this.app.route('/api/architect', createArchitectRoutes({
+      modelGateway: this.modelGateway,
+      secretManager: this.secretManager,
+    }));
+
+    this.app.route('/api/worktrees', createGitWorktreeRoutes({
+      baseDir: this.rootDir,
+    }));
+
+    this.app.route('/api/supervisor-analytics', createSupervisorAnalyticsRoutes());
+
+    this.app.route('/api/debate-templates', createDebateTemplateRoutes());
+
+    this.app.route('/api/supervisor-plugins', createSupervisorPluginRoutes());
 
     this.app.post('/api/inspector/replay', async (c) => {
         const { tool, args } = await c.req.json();

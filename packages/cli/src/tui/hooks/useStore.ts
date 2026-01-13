@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type ViewType = 'dashboard' | 'chat' | 'agents' | 'tools';
+export type ViewType = 'dashboard' | 'chat' | 'agents' | 'tools' | 'sessions' | 'lsp' | 'health';
 
 interface AppStore {
     currentView: ViewType;

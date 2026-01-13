@@ -1,0 +1,372 @@
+    Updating crates.io index
+     Locking 36 packages to latest compatible versions
+      Adding zed_extension_api v0.0.6 (available: v0.7.0)
+   1.816560900s  INFO prepare_target{force=false package_id=aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension) target="aios_zed_extension"}: cargo::core::compiler::fingerprint: fingerprint error for aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("aios_zed_extension", ["cdylib"], "C:\\Users\\hyper\\workspace\\aios\\packages\\zed-extension\\src\\lib.rs", Edition2021) }
+   1.816660100s  INFO prepare_target{force=false package_id=aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension) target="aios_zed_extension"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\aios-zed-extension-82ddaafa2e4ff783\lib-aios_zed_extension`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+   1.833750400s  INFO prepare_target{force=false package_id=serde v1.0.228 target="serde"}: cargo::core::compiler::fingerprint: fingerprint error for serde v1.0.228/Check { test: false }/TargetInner { ..: lib_target("serde", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde-1.0.228\\src\\lib.rs", Edition2021) }
+   1.833783000s  INFO prepare_target{force=false package_id=serde v1.0.228 target="serde"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\serde-40fe8de9a5d84cff\lib-serde`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_libgit2_prerelease
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: git_midx_writer_dump
+  18: git_filter_source_repo
+  19: git_midx_writer_dump
+  20: BaseThreadInitThunk
+  21: RtlUserThreadStart
+   1.836718500s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="serde_core"}: cargo::core::compiler::fingerprint: fingerprint error for serde_core v1.0.228/Check { test: false }/TargetInner { ..: lib_target("serde_core", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde_core-1.0.228\\src\\lib.rs", Edition2021) }
+   1.836755900s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="serde_core"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\serde_core-f9c54758a275c741\lib-serde_core`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   1.844473300s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint: fingerprint error for serde_json v1.0.149/Check { test: false }/TargetInner { ..: lib_target("serde_json", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde_json-1.0.149\\src\\lib.rs", Edition2021) }
+   1.844511100s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\serde_json-ac9f4829759fe579\lib-serde_json`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_libgit2_prerelease
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: git_midx_writer_dump
+  18: git_filter_source_repo
+  19: git_midx_writer_dump
+  20: BaseThreadInitThunk
+  21: RtlUserThreadStart
+   1.845451500s  INFO prepare_target{force=false package_id=itoa v1.0.17 target="itoa"}: cargo::core::compiler::fingerprint: fingerprint error for itoa v1.0.17/Check { test: false }/TargetInner { ..: lib_target("itoa", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\itoa-1.0.17\\src\\lib.rs", Edition2021) }
+   1.845476900s  INFO prepare_target{force=false package_id=itoa v1.0.17 target="itoa"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\itoa-9a1ff27909d46ca5\lib-itoa`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   1.846325200s  INFO prepare_target{force=false package_id=memchr v2.7.6 target="memchr"}: cargo::core::compiler::fingerprint: fingerprint error for memchr v2.7.6/Check { test: false }/TargetInner { benched: false, ..: lib_target("memchr", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\memchr-2.7.6\\src\\lib.rs", Edition2021) }
+   1.846349500s  INFO prepare_target{force=false package_id=memchr v2.7.6 target="memchr"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\memchr-a943e3526722948d\lib-memchr`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   1.849030900s  INFO prepare_target{force=false package_id=zmij v1.0.13 target="zmij"}: cargo::core::compiler::fingerprint: fingerprint error for zmij v1.0.13/Check { test: false }/TargetInner { ..: lib_target("zmij", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\zmij-1.0.13\\src\\lib.rs", Edition2021) }
+   1.849056000s  INFO prepare_target{force=false package_id=zmij v1.0.13 target="zmij"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\zmij-2f3a05c80af2b739\lib-zmij`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   1.852502600s  INFO prepare_target{force=false package_id=zed_extension_api v0.0.6 target="zed_extension_api"}: cargo::core::compiler::fingerprint: fingerprint error for zed_extension_api v0.0.6/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("zed_extension_api", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\zed_extension_api-0.0.6\\src\\extension_api.rs", Edition2021) }
+   1.852534000s  INFO prepare_target{force=false package_id=zed_extension_api v0.0.6 target="zed_extension_api"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\zed_extension_api-a3219818660b6eec\lib-zed_extension_api`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_libgit2_prerelease
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: git_midx_writer_dump
+  18: git_filter_source_repo
+  19: git_midx_writer_dump
+  20: BaseThreadInitThunk
+  21: RtlUserThreadStart
+   1.853661000s  INFO prepare_target{force=false package_id=wit-bindgen v0.22.0 target="wit_bindgen"}: cargo::core::compiler::fingerprint: fingerprint error for wit-bindgen v0.22.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("wit_bindgen", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wit-bindgen-0.22.0\\src\\lib.rs", Edition2021) }
+   1.853690800s  INFO prepare_target{force=false package_id=wit-bindgen v0.22.0 target="wit_bindgen"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\wit-bindgen-cdfa5c6c94910de6\lib-wit_bindgen`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_libgit2_prerelease
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: git_midx_writer_dump
+  19: git_filter_source_repo
+  20: git_midx_writer_dump
+  21: BaseThreadInitThunk
+  22: RtlUserThreadStart
+   1.855146000s  INFO prepare_target{force=false package_id=bitflags v2.10.0 target="bitflags"}: cargo::core::compiler::fingerprint: fingerprint error for bitflags v2.10.0/Check { test: false }/TargetInner { ..: lib_target("bitflags", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\bitflags-2.10.0\\src\\lib.rs", Edition2021) }
+   1.855196800s  INFO prepare_target{force=false package_id=bitflags v2.10.0 target="bitflags"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\bitflags-7711d02a91a4308f\lib-bitflags`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_filter_source_repo
+  14: git_libgit2_prerelease
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: git_midx_writer_dump
+  20: git_filter_source_repo
+  21: git_midx_writer_dump
+  22: BaseThreadInitThunk
+  23: RtlUserThreadStart
+   1.856398500s  INFO prepare_target{force=false package_id=wit-bindgen-rt v0.22.0 target="wit_bindgen_rt"}: cargo::core::compiler::fingerprint: fingerprint error for wit-bindgen-rt v0.22.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("wit_bindgen_rt", ["lib"], "C:\\Users\\hyper\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wit-bindgen-rt-0.22.0\\src\\lib.rs", Edition2021) }
+   1.856425400s  INFO prepare_target{force=false package_id=wit-bindgen-rt v0.22.0 target="wit_bindgen_rt"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\wit-bindgen-rt-e21c429275c3b655\lib-wit_bindgen_rt`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_filter_source_repo
+  12: git_filter_source_repo
+  13: git_filter_source_repo
+  14: git_libgit2_prerelease
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: git_midx_writer_dump
+  20: git_filter_source_repo
+  21: git_midx_writer_dump
+  22: BaseThreadInitThunk
+  23: RtlUserThreadStart
+   1.877355700s  INFO prepare_target{force=false package_id=aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension) target="aios_zed_extension"}: cargo::core::compiler::fingerprint: fingerprint error for aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("aios_zed_extension", ["cdylib"], "C:\\Users\\hyper\\workspace\\aios\\packages\\zed-extension\\src\\lib.rs", Edition2021) }
+   1.877397500s  INFO prepare_target{force=false package_id=aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension) target="aios_zed_extension"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\hyper\workspace\aios\packages\zed-extension\target\debug\.fingerprint\aios-zed-extension-969a57d531909a14\test-lib-aios_zed_extension`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+    Checking memchr v2.7.6
+    Checking itoa v1.0.17
+    Checking bitflags v2.10.0
+    Checking serde_core v1.0.228
+    Checking wit-bindgen-rt v0.22.0
+    Checking zmij v1.0.13
+    Checking wit-bindgen v0.22.0
+    Checking serde_json v1.0.149
+    Checking serde v1.0.228
+    Checking zed_extension_api v0.0.6
+    Checking aios-zed-extension v0.1.0 (C:\Users\hyper\workspace\aios\packages\zed-extension)
+error: could not compile `aios-zed-extension` (lib test) due to 15 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `aios-zed-extension` (lib) due to 15 previous errors
