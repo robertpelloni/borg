@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-<<<<<<< HEAD
 import { GitWorktreeManager, type WorktreeConfig } from '../managers/GitWorktreeManager.js';
 
 interface WorktreeDependencies {
@@ -28,31 +27,16 @@ export function createGitWorktreeRoutes(deps: WorktreeDependencies): Hono {
       defaultBranch,
     });
 
-    return c.json({ status: 'initialized', stats: worktreeManager.getStats() });
-  });
-
-  app.get('/stats', (c) => {
-    const manager = getOrCreateManager(deps.baseDir);
-    return c.json(manager.getStats());
+    return c.json({ status: 'initialized' });
   });
 
   app.get('/', (c) => {
     const manager = getOrCreateManager(deps.baseDir);
-=======
-import { GitWorktreeManager } from '../managers/GitWorktreeManager.js';
-
-export function createGitWorktreeRoutes(config: { baseDir: string }): Hono {
-  const app = new Hono();
-  const manager = new GitWorktreeManager(config);
-
-  app.get('/', (c) => {
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
     return c.json({ worktrees: manager.listWorktrees() });
   });
 
   app.post('/', async (c) => {
     const { agentId } = await c.req.json<{ agentId?: string }>();
-<<<<<<< HEAD
     const manager = getOrCreateManager(deps.baseDir);
 
     try {
@@ -60,19 +44,11 @@ export function createGitWorktreeRoutes(config: { baseDir: string }): Hono {
       return c.json({ worktree }, 201);
     } catch (error) {
       return c.json({ error: (error as Error).message }, 400);
-=======
-    try {
-      const worktree = await manager.createWorktree(agentId);
-      return c.json(worktree);
-    } catch (error) {
-      return c.json({ error: (error as Error).message }, 500);
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
     }
   });
 
   app.get('/:id', (c) => {
     const id = c.req.param('id');
-<<<<<<< HEAD
     const manager = getOrCreateManager(deps.baseDir);
     
     const worktree = manager.getWorktree(id);
@@ -81,14 +57,6 @@ export function createGitWorktreeRoutes(config: { baseDir: string }): Hono {
     }
 
     return c.json({ worktree });
-  });
-
-  app.get('/:id/status', async (c) => {
-    const id = c.req.param('id');
-    const manager = getOrCreateManager(deps.baseDir);
-    
-    const status = await manager.getWorktreeStatus(id);
-    return c.json(status);
   });
 
   app.post('/:id/assign', async (c) => {
@@ -137,69 +105,16 @@ export function createGitWorktreeRoutes(config: { baseDir: string }): Hono {
     }
   });
 
-  app.post('/:id/reset', async (c) => {
-    const id = c.req.param('id');
-    const manager = getOrCreateManager(deps.baseDir);
-
-    try {
-      await manager.resetWorktree(id);
-      return c.json({ status: 'reset' });
-    } catch (error) {
-      return c.json({ error: (error as Error).message }, 500);
-    }
-=======
-    const worktree = manager.getWorktree(id);
-    if (!worktree) return c.json({ error: 'Not found' }, 404);
-    return c.json(worktree);
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
-  });
-
   app.delete('/:id', async (c) => {
     const id = c.req.param('id');
-<<<<<<< HEAD
-    const force = c.req.query('force') === 'true';
     const manager = getOrCreateManager(deps.baseDir);
 
     try {
-      await manager.removeWorktree(id, force);
+      await manager.removeWorktree(id);
       return c.json({ status: 'removed' });
     } catch (error) {
       return c.json({ error: (error as Error).message }, 500);
     }
-  });
-
-  app.get('/agent/:agentId', (c) => {
-    const agentId = c.req.param('agentId');
-    const manager = getOrCreateManager(deps.baseDir);
-    
-    const worktree = manager.getWorktreeForAgent(agentId);
-    if (!worktree) {
-      return c.json({ error: 'No worktree assigned to this agent' }, 404);
-    }
-
-    return c.json({ worktree });
-  });
-
-  app.post('/agent/:agentId/acquire', async (c) => {
-    const agentId = c.req.param('agentId');
-    const manager = getOrCreateManager(deps.baseDir);
-
-    try {
-      const worktree = await manager.getOrCreateWorktree(agentId);
-      return c.json({ worktree });
-    } catch (error) {
-      return c.json({ error: (error as Error).message }, 400);
-    }
-=======
-    await manager.removeWorktree(id);
-    return c.json({ success: true });
-  });
-
-  app.post('/:id/sync', async (c) => {
-    const id = c.req.param('id');
-    const result = await manager.syncWithMain(id);
-    return c.json(result);
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
   });
 
   return app;

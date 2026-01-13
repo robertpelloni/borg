@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
-import { SupervisorPluginManager } from '../../src/managers/SupervisorPluginManager.ts';
+import { SupervisorPluginManager } from '../managers/SupervisorPluginManager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';

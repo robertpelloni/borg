@@ -58,7 +58,11 @@ import { ConductorManager } from './managers/ConductorManager.js';
 import { VibeKanbanManager } from './managers/VibeKanbanManager.js';
 import { HardwareManager } from './managers/HardwareManager.js';
 
-// Phase 11/12 Imports
+// Enterprise Services (Phase 13)
+import { AuditService } from './services/AuditService.js';
+import { RbacService } from './services/RbacService.js';
+
+// Phase 11/12 Routes
 import { ArchitectMode } from './agents/ArchitectMode.js';
 import { createArchitectRoutes } from './routes/architectRoutesHono.js';
 import { createGitWorktreeRoutes } from './routes/gitWorktreeRoutesHono.js';
@@ -66,7 +70,10 @@ import { createSupervisorPluginRoutes } from './routes/supervisorPluginRoutesHon
 import { createSupervisorAnalyticsRoutes } from './routes/supervisorAnalyticsRoutesHono.js';
 import { createDebateTemplateRoutes } from './routes/debateTemplateRoutesHono.js';
 
-// Legacy Route Imports (if needed by existing code)
+// Phase 13 Routes
+import { createRbacRoutes } from './routes/rbacRoutesHono.js';
+
+// Legacy Route Imports
 import { createCouncilRoutes } from './routes/councilRoutes.js';
 import { createAutopilotRoutes } from './routes/autopilotRoutes.js';
 import { createSkillRoutes } from './routes/skillRoutes.js';
@@ -145,8 +152,10 @@ export class CoreService {
   private oidcManager: OidcManager;
   private toolAnnotationManager: ToolAnnotationManager;
   
-  // Phase 11/12
+  // Phase 11/12/13
   private architectMode: ArchitectMode;
+  private auditService: AuditService;
+  private rbacService: RbacService;
 
   constructor(
     private rootDir: string
@@ -215,6 +224,10 @@ export class CoreService {
     this.conductorManager = new ConductorManager(rootDir);
     this.vibeKanbanManager = new VibeKanbanManager(rootDir);
     this.hardwareManager = HardwareManager.getInstance();
+    
+    // Enterprise Foundation
+    this.auditService = AuditService.getInstance();
+    this.rbacService = RbacService.getInstance();
 
     // Initialize Architect Mode
     this.architectMode = new ArchitectMode({
@@ -306,15 +319,38 @@ export class CoreService {
     this.app.route('/api/sessions/share', createSessionShareRoutes(this.sessionManager));
     this.app.route('/api/git-undo', createGitUndoRoutes(this.gitUndoManager));
     this.app.route('/api/feature-flags', createFeatureFlagRoutes());
+    
+    // Permission Protected Routes
+    this.app.use('/api/secrets/*', this.authMiddleware.requirePermission('secrets:manage'));
     this.app.route('/api/secrets', createSecretRoutes());
+    
     this.app.route('/api/queues', createQueueRoutes());
+    
+    this.app.use('/api/audit-logs/*', this.authMiddleware.requirePermission('audit:read'));
     this.app.route('/api/audit-logs', createAuditLogRoutes());
+    
     this.app.route('/api/rate-limits', createRateLimitRoutes());
     this.app.route('/api/integrations', createIntegrationRoutes());
     this.app.route('/api/budgets', createBudgetRoutes());
     this.app.route('/api/notifications', createNotificationRoutes());
     this.app.route('/api/oidc', createOidcRoutes(this.oidcManager));
     this.app.route('/api/tool-annotations', createToolAnnotationRoutes(this.toolAnnotationManager));
+
+    // Phase 11/12 Routes
+    this.app.use('/api/architect/*', this.authMiddleware.requirePermission('architect:session'));
+    this.app.route('/api/architect', createArchitectRoutes(this.architectMode));
+    
+    this.app.route('/api/worktrees', createGitWorktreeRoutes({ baseDir: this.rootDir }));
+    
+    this.app.use('/api/supervisor-plugins/*', this.authMiddleware.requirePermission('council:manage'));
+    this.app.route('/api/supervisor-plugins', createSupervisorPluginRoutes());
+    
+    this.app.route('/api/supervisor-analytics', createSupervisorAnalyticsRoutes());
+    this.app.route('/api/debate-templates', createDebateTemplateRoutes());
+
+    // Phase 13 Enterprise Routes
+    this.app.use('/api/rbac/*', this.authMiddleware.requirePermission('system:config'));
+    this.app.route('/api/rbac', createRbacRoutes());
 
     this.app.get('/api/system', (c) => {
         const versionPath = path.join(this.rootDir, '../..', 'VERSION');
@@ -342,13 +378,6 @@ export class CoreService {
         const id = c.req.param('id');
         return c.json({ session: this.sessionManager.loadSession(id) });
     });
-
-    // Phase 11/12 Routes
-    this.app.route('/api/architect', createArchitectRoutes(this.architectMode));
-    this.app.route('/api/worktrees', createGitWorktreeRoutes({ baseDir: this.rootDir }));
-    this.app.route('/api/supervisor-plugins', createSupervisorPluginRoutes());
-    this.app.route('/api/supervisor-analytics', createSupervisorAnalyticsRoutes());
-    this.app.route('/api/debate-templates', createDebateTemplateRoutes());
 
     this.app.post('/api/inspector/replay', async (c) => {
         const { tool, args } = await c.req.json();
@@ -386,17 +415,18 @@ export class CoreService {
         }
     });
 
-    this.app.post('/api/agents/run', async (c) => {
+    this.app.post('/api/agents/run', this.authMiddleware.requirePermission('agent:run'), async (c) => {
         const { agentName, task, sessionId } = await c.req.json();
         const agents = this.agentManager.getAgents();
         const agent = agents.find(a => a.name === agentName);
         if (!agent) return c.json({ error: "Agent not found" }, 404);
 
         const result = await this.agentExecutor.run(agent, task, {}, sessionId);
+        this.auditService.logAgentAction('system', agentName, 'start', { task, sessionId });
         return c.json({ result });
     });
 
-    this.app.post('/api/agents', async (c) => {
+    this.app.post('/api/agents', this.authMiddleware.requirePermission('agent:manage'), async (c) => {
         const { name, description, instructions, model } = await c.req.json();
         if (!name) return c.json({ error: "Name required" }, 400);
 
@@ -406,7 +436,7 @@ export class CoreService {
         return c.json({ status: 'saved' });
     });
 
-    this.app.post('/api/research', async (c) => {
+    this.app.post('/api/research', this.authMiddleware.requirePermission('agent:run'), async (c) => {
         const { topic } = await c.req.json();
         if (!topic) return c.json({ error: "Topic required" }, 400);
 
@@ -531,11 +561,11 @@ export class CoreService {
         return c.json({ profiles: await this.mcpClientManager.listAuthProfiles() });
     });
 
-    this.app.get('/api/secrets', (c) => {
+    this.app.get('/api/secrets', this.authMiddleware.requirePermission('secrets:manage'), (c) => {
         return c.json({ secrets: this.secretManager.getAllSecrets() });
     });
 
-    this.app.post('/api/secrets', async (c) => {
+    this.app.post('/api/secrets', this.authMiddleware.requirePermission('secrets:manage'), async (c) => {
         const { key, value } = await c.req.json();
         if (!key || !value) {
             return c.json({ error: 'Missing key or value' }, 400);
@@ -544,7 +574,7 @@ export class CoreService {
         return c.json({ status: 'created' });
     });
 
-    this.app.delete('/api/secrets/:key', (c) => {
+    this.app.delete('/api/secrets/:key', this.authMiddleware.requirePermission('secrets:manage'), (c) => {
         const key = c.req.param('key');
         this.secretManager.deleteSecret(key);
         return c.json({ status: 'deleted' });
@@ -770,10 +800,16 @@ export class CoreService {
     this.profileManager.on('profileChanged', (p) => this.io.emit('profile_changed', p));
 
     // ArchitectMode Event Bridging
-    this.architectMode.on('sessionStarted', (data) => this.io.emit('architect_session_started', data));
+    this.architectMode.on('sessionStarted', (data) => {
+        this.io.emit('architect_session_started', data);
+        this.auditService.logArchitectAction('system', data.sessionId, 'start');
+    });
     this.architectMode.on('reasoningComplete', (data) => this.io.emit('architect_reasoning_complete', data));
     this.architectMode.on('planCreated', (data) => this.io.emit('architect_plan_created', data));
-    this.architectMode.on('planApproved', (data) => this.io.emit('architect_plan_approved', data));
+    this.architectMode.on('planApproved', (data) => {
+        this.io.emit('architect_plan_approved', data);
+        this.auditService.logArchitectAction('system', data.sessionId, 'approve');
+    });
     this.architectMode.on('editingStarted', (data) => this.io.emit('architect_editing_started', data));
     this.architectMode.on('fileEdited', (data) => this.io.emit('architect_file_edited', data));
     this.architectMode.on('editingComplete', (data) => this.io.emit('architect_editing_complete', data));

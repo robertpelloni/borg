@@ -1,20 +1,52 @@
-import type { Context } from 'hono';
+import type { Context, Next } from 'hono';
 import { SecretManager } from '../managers/SecretManager.js';
+import { RbacService, type UserRole, type Permission } from '../services/RbacService.js';
 
 interface SocketWithAuth {
     handshake: {
         auth?: { token?: string };
         query?: { token?: string };
     };
+    userRole?: UserRole;
 }
 
 export class AuthMiddleware {
-    constructor(private secretManager: SecretManager) {}
+    private rbac: RbacService;
 
-    async verifyHono(c: Context): Promise<{ valid: boolean }> {
+    constructor(private secretManager: SecretManager) {
+        this.rbac = RbacService.getInstance();
+    }
+
+    async verifyHono(c: Context, requiredPermission?: Permission): Promise<{ valid: boolean; role: UserRole; error?: string }> {
         const token = this.extractTokenFromHono(c);
         const expected = this.secretManager.getSecret('SUPER_AI_TOKEN') || 'dev-token';
-        return { valid: token === expected };
+
+        if (token !== expected) {
+            return { valid: false, role: 'viewer', error: 'Unauthorized' };
+        }
+
+        // In dev mode with the master token, we grant 'admin' role
+        const role: UserRole = 'admin';
+        
+        if (requiredPermission && !this.rbac.hasPermission(role, requiredPermission)) {
+            return { valid: false, role, error: 'Forbidden' };
+        }
+
+        return { valid: true, role };
+    }
+
+    requirePermission(permission: Permission) {
+        return async (c: Context, next: Next) => {
+            const result = await this.verifyHono(c, permission);
+            if (!result.valid) {
+                if (result.error === 'Forbidden') {
+                    return c.json({ error: 'Forbidden: Missing permission ' + permission }, 403);
+                }
+                return c.json({ error: 'Unauthorized' }, 401);
+            }
+            c.set('userRole', result.role);
+            return next();
+        };
     }
 
     verifySocket(socket: SocketWithAuth, next: (err?: Error) => void) {
@@ -22,6 +54,7 @@ export class AuthMiddleware {
         const expected = this.secretManager.getSecret('SUPER_AI_TOKEN') || 'dev-token';
 
         if (token === expected) {
+            socket.userRole = 'admin';
             next();
         } else {
             next(new Error('Unauthorized'));

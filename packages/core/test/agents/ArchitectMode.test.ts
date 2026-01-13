@@ -1,44 +1,43 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test';
-import { ArchitectMode, type ArchitectSession, type EditPlan } from '../../src/agents/ArchitectMode.ts';
+import { ArchitectMode, type ArchitectSession, type EditPlan } from '../agents/ArchitectMode.js';
+
+// Mock the model chat function
+const mockChatFn = mock(async (model: string, messages: any[]) => {
+  const systemMessage = messages.find(m => m.role === 'system')?.content || '';
+  const userMessage = messages.find(m => m.role === 'user')?.content || '';
+  
+  if (systemMessage.includes('edit plan') || userMessage.toLowerCase().includes('create the edit plan as json')) {
+    return JSON.stringify({
+      description: 'Implementation plan',
+      estimatedComplexity: 'medium',
+      files: [
+        { path: 'src/file1.ts', action: 'modify', reasoning: 'Update logic' },
+        { path: 'src/file2.ts', action: 'modify', reasoning: 'Update styles' }
+      ],
+      steps: ['Step 1', 'Step 2'],
+      risks: ['Risk A']
+    });
+  }
+  
+  if (systemMessage.includes('code editor')) {
+    return '// Edited code content';
+  }
+  
+  return 'Architectural analysis and reasoning output.';
+});
 
 describe('ArchitectMode', () => {
   let architect: ArchitectMode;
-  let mockChatFn: any;
 
   beforeEach(() => {
-    // Define mock inside beforeEach to reset it for every test
-    mockChatFn = mock(async (model: string, messages: any[]) => {
-      const allContent = messages.map(m => m.content).join(' ').toLowerCase();
-      
-      // JSON Planning response
-      if (allContent.includes('json')) {
-        return JSON.stringify({
-          description: 'Implementation plan',
-          estimatedComplexity: 'medium',
-          files: [
-            { path: 'src/file1.ts', action: 'modify', reasoning: 'Update logic' },
-            { path: 'src/file2.ts', action: 'modify', reasoning: 'Update styles' }
-          ],
-          steps: ['Step 1', 'Step 2'],
-          risks: ['Risk A']
-        });
-      }
-      
-      // Code Editing response
-      if (allContent.includes('editor')) {
-        return '// Edited code content';
-      }
-      
-      return 'Architectural analysis and reasoning output.';
-    });
-
     architect = new ArchitectMode({
       reasoningModel: 'o3-mini',
       editingModel: 'gpt-4o',
     });
-    architect.setChatFunction(mockChatFn);
-    // Silence error events
+    architect.setChatFunction(mockChatFn as any);
+    // Silence error events to prevent unhandled rejections during intentional failures
     architect.on('error', () => {});
+    mockChatFn.mockClear();
   });
 
   describe('Session Management', () => {
@@ -48,8 +47,7 @@ describe('ArchitectMode', () => {
       expect(session).toBeDefined();
       expect(session.id).toBeDefined();
       expect(session.task).toBe('Implement auth');
-      // Transition from reasoning to reviewing happens in background
-      expect(['reasoning', 'reviewing']).toContain(session.status);
+      expect(session.status).toBe('reviewing');
     });
 
     test('should get session by ID', async () => {
@@ -72,6 +70,7 @@ describe('ArchitectMode', () => {
   describe('Reasoning and Planning', () => {
     test('should invoke chat function for reasoning and planning', async () => {
       await architect.startSession('Complex feature');
+      
       expect(mockChatFn).toHaveBeenCalled();
     });
 
@@ -82,33 +81,23 @@ describe('ArchitectMode', () => {
       
       await architect.startSession('Test task');
       
-      // Wait for background tasks
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
       expect(events).toContain('started');
       expect(events).toContain('planned');
     });
 
     test('should handle reasoning errors', async () => {
-      // Temporarily override for this specific test
-      mockChatFn.mockImplementationOnce(async () => { throw new Error('Model timeout'); });
+      mockChatFn.mockRejectedValueOnce(new Error('Model timeout'));
       
       const session = await architect.startSession('Will fail');
-      
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      const updated = architect.getSession(session.id);
-      expect(updated?.status).toBe('error');
+      expect(session.status).toBe('error');
     });
   });
 
   describe('Plan Approval and Execution', () => {
     test('should transition to editing after approval', async () => {
       const session = await architect.startSession('Test task');
-      
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
       const approved = architect.approvePlan(session.id);
+      
       expect(approved).toBe(true);
       expect(architect.getSession(session.id)?.status).toBe('editing');
     });
@@ -116,7 +105,9 @@ describe('ArchitectMode', () => {
     test('should generate edits for planned files', async () => {
       const session = await architect.startSession('Multi-file task');
       
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Reset mock to track edit calls
+      mockChatFn.mockClear();
+      mockChatFn.mockResolvedValue('// Edited code');
       
       await architect.executeEdits(session.id);
       
@@ -137,15 +128,18 @@ describe('ArchitectMode', () => {
     test('should revise plan with feedback', async () => {
       const session = await architect.startSession('Test task');
       
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Ensure we clear previous calls to mockChatFn
+      mockChatFn.mockClear();
       
       const revised = await architect.revisePlan(session.id, 'Use different pattern');
       
-      await new Promise(resolve => setTimeout(resolve, 100));
+      const updatedSession = architect.getSession(session.id);
+      if (updatedSession?.status === 'error') {
+        console.error('Revision failed error:', updatedSession.reasoningOutput);
+      }
       
-      const updated = architect.getSession(session.id);
       expect(revised).toBeDefined();
-      expect(updated?.status).toBe('reviewing');
+      expect(updatedSession?.status).toBe('reviewing');
     });
   });
 });

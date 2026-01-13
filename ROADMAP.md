@@ -164,10 +164,11 @@
 - [x] **Architect Mode:** Two-model reasoning+editing (Aider pattern)
 - [x] **Git Worktree Isolation:** Parallel agents in isolated checkouts (Claude-Squad pattern)
 
-## Phase 13: Enterprise & Ecosystem (Pending)
+## Phase 13: Enterprise & Ecosystem (In Progress)
 ### Advanced Governance & Security
-- [ ] **RBAC & SSO:** Role-based access control and Single Sign-On integration
-- [ ] **Audit Logging:** Comprehensive audit trails for all agent actions and council decisions
+- [x] **RBAC Foundation:** Role-based access control service and middleware (admin, developer, operator, viewer)
+- [ ] **SSO integration:** OIDC/SAML foundation
+- [x] **Enhanced Audit Logging:** Comprehensive audit trails for agent, council, and architect actions
 - [ ] **Policy Engine:** Declarative policies for agent behavior and resource usage
 
 ### Distributed Orchestration

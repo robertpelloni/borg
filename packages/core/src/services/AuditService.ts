@@ -13,7 +13,17 @@ type AuditEventType =
   | 'tool.execute'
   | 'tool.blocked'
   | 'config.change'
-  | 'admin.action';
+  | 'admin.action'
+  | 'agent.start'
+  | 'agent.stop'
+  | 'agent.error'
+  | 'council.debate.start'
+  | 'council.debate.complete'
+  | 'council.vote'
+  | 'architect.session.start'
+  | 'architect.plan.approve'
+  | 'rbac.role.assign'
+  | 'rbac.permission.denied';
 
 interface AuditEvent {
   id: string;
@@ -121,6 +131,50 @@ export class AuditService extends EventEmitter {
       resource: toolName,
       action: 'execute',
       outcome,
+      metadata
+    });
+  }
+
+  logAgentAction(actor: string, agentName: string, action: 'start' | 'stop' | 'error', metadata?: Record<string, unknown>): void {
+    this.log({
+      type: `agent.${action}` as AuditEventType,
+      actor,
+      resource: agentName,
+      action,
+      outcome: action === 'error' ? 'failure' : 'success',
+      metadata
+    });
+  }
+
+  logCouncilAction(actor: string, debateId: string, action: 'start' | 'complete' | 'vote', outcome: 'success' | 'failure', metadata?: Record<string, unknown>): void {
+    this.log({
+      type: `council.debate.${action}` as AuditEventType,
+      actor,
+      resource: debateId,
+      action,
+      outcome,
+      metadata
+    });
+  }
+
+  logArchitectAction(actor: string, sessionId: string, action: 'start' | 'approve', metadata?: Record<string, unknown>): void {
+    this.log({
+      type: `architect.session.${action}` as AuditEventType,
+      actor,
+      resource: sessionId,
+      action,
+      outcome: 'success',
+      metadata
+    });
+  }
+
+  logRbacAction(actor: string, target: string, action: 'assign' | 'denied', metadata?: Record<string, unknown>): void {
+    this.log({
+      type: `rbac.${action === 'assign' ? 'role.assign' : 'permission.denied'}` as AuditEventType,
+      actor,
+      resource: target,
+      action,
+      outcome: action === 'assign' ? 'success' : 'blocked',
       metadata
     });
   }

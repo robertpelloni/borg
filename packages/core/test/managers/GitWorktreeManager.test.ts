@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
-import { GitWorktreeManager, type Worktree } from '../../src/managers/GitWorktreeManager.ts';
+import { GitWorktreeManager, type Worktree } from '../managers/GitWorktreeManager.js';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -16,6 +16,11 @@ describe('GitWorktreeManager', () => {
     const tmpBase = os.tmpdir();
     const testId = Date.now();
     
+    // Create a bare repository to act as origin
+    const originRepoPath = path.join(tmpBase, `git-origin-${testId}`);
+    fs.mkdirSync(originRepoPath, { recursive: true });
+    execSync('git init --bare', { cwd: originRepoPath, stdio: 'pipe' });
+    
     // Create local test repository
     testRepoPath = path.join(tmpBase, `git-local-${testId}`);
     fs.mkdirSync(testRepoPath, { recursive: true });
@@ -25,17 +30,16 @@ describe('GitWorktreeManager', () => {
     execSync('git config user.email "test@test.com"', { cwd: testRepoPath, stdio: 'pipe' });
     execSync('git config user.name "Test User"', { cwd: testRepoPath, stdio: 'pipe' });
     
-    // Create initial commit
+    // Setup remote
+    execSync(`git remote add origin "${originRepoPath.replace(/\\/g, '/')}"`, { cwd: testRepoPath, stdio: 'pipe' });
+    
+    // Create initial commit and push to main
     fs.writeFileSync(path.join(testRepoPath, 'README.md'), '# Test Repo');
     execSync('git add .', { cwd: testRepoPath, stdio: 'pipe' });
     execSync('git commit -m "Initial commit"', { cwd: testRepoPath, stdio: 'pipe' });
+    execSync('git push -u origin HEAD:main', { cwd: testRepoPath, stdio: 'pipe' });
     
-    // Fake origin by creating a branch and tracking it
-    execSync('git branch origin/main', { cwd: testRepoPath, stdio: 'pipe' });
-    execSync('git config branch.main.remote .', { cwd: testRepoPath, stdio: 'pipe' });
-    execSync('git config branch.main.merge refs/heads/main', { cwd: testRepoPath, stdio: 'pipe' });
-    
-    manager = new GitWorktreeManager({ baseDir: testRepoPath });
+    manager = new GitWorktreeManager({ baseDir: testRepoPath, defaultBranch: 'main' });
   });
 
   afterEach(async () => {
@@ -134,18 +138,15 @@ describe('GitWorktreeManager', () => {
   describe('Sync and Merge', () => {
     test('should sync worktree with main', async () => {
       const wt = await manager.createWorktree();
-      
-      try {
-        const result = await manager.syncWithMain(wt.id);
-        expect(result).toBeDefined();
-      } catch (e) {
-        expect(e).toBeDefined();
-      }
+      // Sync should now work with the origin remote setup in beforeEach
+      const result = await manager.syncWithMain(wt.id);
+      expect(result.success).toBe(true);
     });
 
     test('should merge worktree to main', async () => {
       const wt = await manager.createWorktree('merger');
       
+      // Create some changes
       fs.writeFileSync(path.join(wt.path, 'new-file.txt'), 'content');
       
       const result = await manager.mergeToMain(wt.id, 'Merge changes');

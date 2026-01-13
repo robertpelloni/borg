@@ -3,7 +3,6 @@ import { SupervisorPluginManager } from '../managers/SupervisorPluginManager.js'
 
 export function createSupervisorPluginRoutes(): Hono {
   const app = new Hono();
-<<<<<<< HEAD
   const pluginManager = SupervisorPluginManager.getInstance();
 
   app.get('/', (c) => {
@@ -13,7 +12,6 @@ export function createSupervisorPluginRoutes(): Hono {
       version: p.manifest.version,
       description: p.manifest.description,
       specialties: p.manifest.specialties,
-      provider: p.manifest.provider,
       status: p.status,
       loadedAt: p.loadedAt,
     }));
@@ -60,91 +58,30 @@ export function createSupervisorPluginRoutes(): Hono {
     });
   });
 
-  app.post('/load/directory', async (c) => {
-    const { directory } = await c.req.json<{ directory?: string }>();
-    
-    try {
-      const results = await pluginManager.loadFromDirectory(directory);
-      return c.json({ results });
-    } catch (error) {
-      return c.json({ error: (error as Error).message }, 500);
-    }
-  });
-
-  app.post('/load/path', async (c) => {
-    const { path } = await c.req.json<{ path: string }>();
-    
-    if (!path) {
-      return c.json({ error: 'path is required' }, 400);
-    }
-
-    const result = await pluginManager.loadPlugin(path);
-    if (!result.success) {
-      return c.json({ error: result.error }, 400);
-    }
-
-    return c.json({ pluginId: result.pluginId }, 201);
-  });
-
-  app.post('/load/npm', async (c) => {
-    const { packageName } = await c.req.json<{ packageName: string }>();
-    
-    if (!packageName) {
-      return c.json({ error: 'packageName is required' }, 400);
-    }
-
-    const result = await pluginManager.loadFromNpm(packageName);
-    if (!result.success) {
-      return c.json({ error: result.error }, 400);
-    }
-
-    return c.json({ pluginId: result.pluginId }, 201);
-=======
-  const manager = SupervisorPluginManager.getInstance();
-
-  app.get('/', (c) => {
-    return c.json({ plugins: manager.listPlugins() });
-  });
-
-  app.get('/stats', (c) => {
-    return c.json(manager.getStats());
-  });
-
   app.post('/register', async (c) => {
     const { name, code, options } = await c.req.json<{ name: string; code: string; options?: any }>();
     
     // In a real implementation, we'd need a safe way to evaluate the code
     // For now, let's assume registerInlinePlugin takes a chat function
-    return c.json({ error: 'Dynamic code registration not fully implemented' }, 501);
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
+    try {
+        // This is a placeholder for actual code evaluation logic
+        // pluginManager.registerInlinePlugin(name, async (msg) => eval(code));
+        return c.json({ error: 'Dynamic code registration not fully implemented' }, 501);
+    } catch (e) {
+        return c.json({ error: (e as Error).message }, 400);
+    }
   });
 
   app.post('/:id/enable', (c) => {
     const id = c.req.param('id');
-<<<<<<< HEAD
-    const enabled = pluginManager.enablePlugin(id);
-    
-    if (!enabled) {
-      return c.json({ error: 'Plugin not found' }, 404);
-    }
-
-    return c.json({ status: 'enabled' });
-=======
-    manager.enablePlugin(id);
+    pluginManager.enablePlugin(id);
     return c.json({ success: true });
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
   });
 
   app.post('/:id/disable', (c) => {
     const id = c.req.param('id');
-<<<<<<< HEAD
-    const disabled = pluginManager.disablePlugin(id);
-    
-    if (!disabled) {
-      return c.json({ error: 'Plugin not found' }, 404);
-    }
-
-    return c.json({ status: 'disabled' });
+    pluginManager.disablePlugin(id);
+    return c.json({ success: true });
   });
 
   app.delete('/:id', async (c) => {
@@ -162,21 +99,6 @@ export function createSupervisorPluginRoutes(): Hono {
     const id = c.req.param('id');
     const health = await pluginManager.checkPluginHealth(id);
     return c.json(health);
-  });
-
-  app.get('/health/all', async (c) => {
-    const healthMap = await pluginManager.checkAllHealth();
-    const health: Record<string, { available: boolean; error?: string }> = {};
-    
-    for (const [id, status] of healthMap) {
-      health[id] = status;
-    }
-    
-    return c.json({ health });
-=======
-    manager.disablePlugin(id);
-    return c.json({ success: true });
->>>>>>> a3fab027fd172b66d6a0ec76e91f86354afa48e0
   });
 
   return app;
