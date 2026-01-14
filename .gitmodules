@@ -1090,3 +1090,30 @@
 [submodule "superai-cli/clis/kimi-cli"]
 	path = superai-cli/clis/kimi-cli
 	url = https://github.com/MoonshotAI/kimi-cli
+[submodule "superai-cli/clis/codex-kaioken"]
+	path = superai-cli/clis/codex-kaioken
+	url = https://github.com/jayasuryajsk/codex-kaioken
+[submodule "tools/security/claude-code-safety-net"]
+	path = tools/security/claude-code-safety-net
+	url = https://github.com/kenryu42/claude-code-safety-net
+[submodule "skills/external/ensue-skill"]
+	path = skills/external/ensue-skill
+	url = https://github.com/mutable-state-inc/ensue-skill
+[submodule "code-sandbox/tools/safeexec"]
+	path = code-sandbox/tools/safeexec
+	url = https://github.com/agentify-sh/safeexec
+[submodule "agents/workty"]
+	path = agents/workty
+	url = https://github.com/binbandit/workty
+[submodule "tools/github/claude-code-gh-dash"]
+	path = tools/github/claude-code-gh-dash
+	url = https://github.com/jakozloski/claude-code-gh-dash
+[submodule "agents/refs/agentapi"]
+	path = agents/refs/agentapi
+	url = https://github.com/coder/agentapi
+[submodule "superai-cli/tools/gomuxai"]
+	path = superai-cli/tools/gomuxai
+	url = https://github.com/tikimcfee/gomuxai
+[submodule "mcp-servers/ai/consult-llm-mcp"]
+	path = mcp-servers/ai/consult-llm-mcp
+	url = https://github.com/raine/consult-llm-mcp
