@@ -913,3 +913,12 @@
 [submodule "testing/agentic-qe/cf-devpod"]
 	path = testing/agentic-qe/cf-devpod
 	url = https://github.com/cf-devpod/cf-devpod
+[submodule "memory/mcp-servers/mcp-servers-official"]
+	path = memory/mcp-servers/mcp-servers-official
+	url = https://github.com/modelcontextprotocol/servers
+[submodule "memory/mcp-servers/supermemory-mcp"]
+	path = memory/mcp-servers/supermemory-mcp
+	url = https://github.com/supermemoryai/supermemory-mcp
+[submodule "memory/mcp-servers/qdrant-mcp"]
+	path = memory/mcp-servers/qdrant-mcp
+	url = https://github.com/qdrant/mcp-server-qdrant
