@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.2] - 2026-01-14
+## [0.5.0] - 2026-01-14
 
 ### Major Pivot: The SuperAI Era
 Shifted focus from "Enterprise Wrapper" to "Best-in-Class AI Coding Harness" (SuperAI).
@@ -16,56 +16,19 @@ Shifted focus from "Enterprise Wrapper" to "Best-in-Class AI Coding Harness" (Su
   - `TrafficInspector`: High-fidelity visualization of MCP calls with request/response correlation.
   - `ToolInventory`: Dashboard for tracking local tool status and versions.
   - `InfrastructureDashboard`: Real-time monitoring of Redis, P2P Mesh, and Consensus.
+- **SuperAI CLI:** New `superai-cli/` directory structure consolidating all CLI tools, adapters, and agents.
+- **TUI Dashboard:** Ink-based terminal UI (`aios tui`) for managing the system from the command line.
+- **Memory Ecosystem:** Comprehensive memory system integration with dedicated `memory/` directory structure supporting multiple backends (Vector, Graph, Local).
+- **Submodule Dashboard:** Created `SUBMODULES.md` to track and document the extensive list of integrated tools and libraries.
   
 ### Changed
 - **Branding:** Renamed "JULES" to "SuperAI Engine" or "SuperAI Command".
 - **Documentation:** Massive reorganization of `SUBMODULES.md` into functional categories (Memory, CLI, Agents).
 - **Core:** Fully migrated from Fastify routes to Hono for better performance and type safety.
+- **Structure:** Reorganized submodules into functional zones (`memory/`, `superai-cli/`) for better discoverability.
 
 ### Removed
 - **Legacy Routes:** Deleted `contextRoutes.ts`, `ingestionRoutes.ts`, `memoryRoutes.ts` (Fastify versions).
-
-## [0.5.0] - 2026-01-13
-
-### Added
-- **Phase 11 & 12 Completion:** Multi-Model AI Council and TUI Orchestrator phases fully completed.
-
-#### RAG System (AIChat Pattern)
-- `HnswIndex.ts` - HNSW approximate nearest neighbor search with configurable M, efConstruction, efSearch
-- `BM25Index.ts` - BM25 keyword scoring with IDF weighting and k1/b tuning
-- `HybridRagSystem.ts` - Combined hybrid search with configurable vector/keyword weights
-
-#### Architect Mode (Aider Pattern)
-- `ArchitectMode.ts` - Two-model reasoning+editing with EventEmitter for streaming
-- `architectRoutesHono.ts` - REST API at `/api/architect/*` for session management
-
-#### Git Worktree Isolation (Claude-Squad Pattern)
-- `GitWorktreeManager.ts` - Parallel git worktrees for agent isolation
-- `gitWorktreeRoutesHono.ts` - REST API at `/api/worktrees/*` for worktree CRUD
-
-#### Dynamic Supervisor Selection
-- Enhanced `SupervisorCouncilManager.selectOptimalTeam()` with historical performance weighting
-- `inferSpecialtiesFromFiles()` for file-type specialty inference
-- `estimateTaskComplexity()` for task complexity scoring
-- Diversity bonus for team composition
-
-#### Supervisor Plugin Ecosystem
-- `SupervisorPluginManager.ts` - Plugin loading from directory/npm, inline registration
-- `supervisorPluginRoutesHono.ts` - REST API at `/api/supervisor-plugins/*`
-- Example plugin at `plugins/supervisors/example-supervisor/`
-
-#### Supervisor Analytics & Debate Templates
-- `supervisorAnalyticsRoutesHono.ts` - Performance tracking REST API
-- `debateTemplateRoutesHono.ts` - Pre-configured debate scenarios REST API
-
-#### IDE Extensions
-- **VS Code:** Enhanced with Council integration (startDebate, viewAnalytics, listDebateTemplates, architectMode)
-- **JetBrains:** Kotlin plugin skeleton with Tool Window, Actions, HTTP client
-- **Zed:** Rust WASM extension with slash commands (debate, architect, analytics)
-- **Neovim:** Full Lua plugin with Telescope integration (pickers for templates, analytics, sessions)
-
-### Changed
-- Updated ROADMAP.md to mark Phase 11 & 12 as completed
 
 ## [0.4.1] - 2026-01-09
 
