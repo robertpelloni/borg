@@ -57,7 +57,8 @@ export class ToolInventoryService extends EventEmitter {
       { id: 'bun', name: 'Bun', category: 'cli', status: 'unknown', installCommand: 'curl -fsSL https://bun.sh/install | bash', lastChecked: 0 },
       { id: 'python', name: 'Python', category: 'cli', status: 'unknown', installCommand: 'brew install python', lastChecked: 0 },
       { id: 'node', name: 'Node.js', category: 'cli', status: 'unknown', installCommand: 'brew install node', lastChecked: 0 },
-      { id: 'git', name: 'Git', category: 'cli', status: 'unknown', installCommand: 'brew install git', lastChecked: 0 }
+      { id: 'git', name: 'Git', category: 'cli', status: 'unknown', installCommand: 'brew install git', lastChecked: 0 },
+      { id: 'google-drive-mcp', name: 'Google Drive MCP', category: 'mcp', status: 'unknown', installCommand: 'docker run -d --rm -v mcp-gdrive:/gdrive-server -e GDRIVE_CREDENTIALS_PATH=/gdrive-server/credentials.json mcp/gdrive', lastChecked: 0 }
     ];
     defaults.forEach(t => this.tools.set(t.id, t));
     this.saveInventory();

@@ -12,6 +12,7 @@ import { A2AMesh } from "@/components/enterprise/A2AMesh";
 import { DataResidencyConfig } from "@/components/enterprise/DataResidencyConfig";
 import { GpuDashboard } from "@/components/enterprise/GpuDashboard";
 import { InfrastructureDashboard } from "@/components/enterprise/InfrastructureDashboard";
+import { TrafficInspector } from "@/components/enterprise/TrafficInspector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

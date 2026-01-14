@@ -922,3 +922,171 @@
 [submodule "memory/mcp-servers/qdrant-mcp"]
 	path = memory/mcp-servers/qdrant-mcp
 	url = https://github.com/qdrant/mcp-server-qdrant
+[submodule "memory/systems/beads"]
+	path = memory/systems/beads
+	url = https://github.com/steveyegge/beads
+[submodule "memory/systems/cognee"]
+	path = memory/systems/cognee
+	url = https://github.com/topoteretes/cognee
+[submodule "memory/systems/redplanethq-core"]
+	path = memory/systems/redplanethq-core
+	url = https://github.com/redplanethq/core
+[submodule "memory/systems/txtai"]
+	path = memory/systems/txtai
+	url = https://github.com/neuml/txtai
+[submodule "memory/systems/memai"]
+	path = memory/systems/memai
+	url = https://github.com/KraftyUX/memai
+[submodule "memory/systems/cipher"]
+	path = memory/systems/cipher
+	url = https://github.com/campfirein/cipher
+[submodule "memory/systems/MemMachine"]
+	path = memory/systems/MemMachine
+	url = https://github.com/MemMachine/MemMachine
+[submodule "memory/systems/Long-Term-Memory-API"]
+	path = memory/systems/Long-Term-Memory-API
+	url = https://github.com/jakops88-hub/Long-Term-Memory-API
+[submodule "memory/systems/Mimir"]
+	path = memory/systems/Mimir
+	url = https://github.com/orneryd/Mimir
+[submodule "memory/systems/pieces-cli-agent"]
+	path = memory/systems/pieces-cli-agent
+	url = https://github.com/pieces-app/cli-agent
+[submodule "memory/systems/letta"]
+	path = memory/systems/letta
+	url = https://github.com/letta-ai/letta
+[submodule "memory/systems/context-portal"]
+	path = memory/systems/context-portal
+	url = https://github.com/GreatScottyMac/context-portal
+[submodule "memory/systems/beads_viewer"]
+	path = memory/systems/beads_viewer
+	url = https://github.com/Dicklesworthstone/beads_viewer
+[submodule "memory/systems/sem-mem"]
+	path = memory/systems/sem-mem
+	url = https://github.com/DrDavidL/sem-mem
+[submodule "memory/systems/jean-memory"]
+	path = memory/systems/jean-memory
+	url = https://github.com/jean-technologies/jean-memory
+[submodule "memory/systems/automem"]
+	path = memory/systems/automem
+	url = https://github.com/verygoodplugins/automem
+[submodule "memory/mcp-servers/mcp-automem"]
+	path = memory/mcp-servers/mcp-automem
+	url = https://github.com/verygoodplugins/mcp-automem
+[submodule "memory/systems/Context-Engine"]
+	path = memory/systems/Context-Engine
+	url = https://github.com/zeddy89/Context-Engine
+[submodule "memory/systems/Claude-Matrix"]
+	path = memory/systems/Claude-Matrix
+	url = https://github.com/ojowwalker77/Claude-Matrix
+[submodule "memory/systems/roampal-core"]
+	path = memory/systems/roampal-core
+	url = https://github.com/roampal-ai/roampal-core
+[submodule "memory/systems/Memori"]
+	path = memory/systems/Memori
+	url = https://github.com/MemoriLabs/Memori
+[submodule "memory/systems/hindsight"]
+	path = memory/systems/hindsight
+	url = https://github.com/vectorize-io/hindsight
+[submodule "memory/systems/lifecontext"]
+	path = memory/systems/lifecontext
+	url = https://github.com/LifeContext/lifecontext
+[submodule "memory/systems/memvault-sync"]
+	path = memory/systems/memvault-sync
+	url = https://github.com/jakops88-hub/memvault-sync
+[submodule "memory/plugins/opencode-plugin-simple-memory"]
+	path = memory/plugins/opencode-plugin-simple-memory
+	url = https://github.com/cnicolov/opencode-plugin-simple-memory
+[submodule "memory/vector-stores/pgvector"]
+	path = memory/vector-stores/pgvector
+	url = https://github.com/pgvector/pgvector
+[submodule "memory/systems/letta-code"]
+	path = memory/systems/letta-code
+	url = https://github.com/letta-ai/letta-code
+[submodule "memory/systems/OpenMemory"]
+	path = memory/systems/OpenMemory
+	url = https://github.com/CaviraOSS/OpenMemory
+[submodule "memory/mcp-servers/mcp-memory-service"]
+	path = memory/mcp-servers/mcp-memory-service
+	url = https://github.com/doobidoo/mcp-memory-service
+[submodule "memory/systems/serena"]
+	path = memory/systems/serena
+	url = https://github.com/oraios/serena
+[submodule "memory/systems/octocode"]
+	path = memory/systems/octocode
+	url = https://github.com/Muvon/octocode
+[submodule "memory/systems/probe"]
+	path = memory/systems/probe
+	url = https://github.com/probelabs/probe
+[submodule "memory/mcp-servers/deepcontext-mcp"]
+	path = memory/mcp-servers/deepcontext-mcp
+	url = https://github.com/Wildcard-Official/deepcontext-mcp
+[submodule "memory/systems/code-to-tree"]
+	path = memory/systems/code-to-tree
+	url = https://github.com/micl2e2/code-to-tree
+[submodule "memory/systems/CodeWeaver"]
+	path = memory/systems/CodeWeaver
+	url = https://github.com/tesserato/CodeWeaver
+[submodule "memory/systems/codebase-context"]
+	path = memory/systems/codebase-context
+	url = https://github.com/PatrickSys/codebase-context
+[submodule "mcp-servers/search/mindsdb"]
+	path = mcp-servers/search/mindsdb
+	url = https://github.com/mindsdb/mindsdb
+[submodule "mcp-servers/search/DesktopCommanderMCP"]
+	path = mcp-servers/search/DesktopCommanderMCP
+	url = https://github.com/wonderwhy-er/DesktopCommanderMCP
+[submodule "mcp-servers/search/web-search-mcp"]
+	path = mcp-servers/search/web-search-mcp
+	url = https://github.com/mrkrsl/web-search-mcp
+[submodule "mcp-servers/search/mcp-everything-search"]
+	path = mcp-servers/search/mcp-everything-search
+	url = https://github.com/mamertofabian/mcp-everything-search
+[submodule "mcp-servers/financial/octagon-mcp-server"]
+	path = mcp-servers/financial/octagon-mcp-server
+	url = https://github.com/OctagonAI/octagon-mcp-server
+[submodule "mcp-servers/financial/alpha_vantage_mcp"]
+	path = mcp-servers/financial/alpha_vantage_mcp
+	url = https://github.com/alphavantage/alpha_vantage_mcp
+[submodule "mcp-servers/financial/financial-datasets-mcp"]
+	path = mcp-servers/financial/financial-datasets-mcp
+	url = https://github.com/financial-datasets/mcp-server
+[submodule "mcp-servers/financial/trade-agent-mcp"]
+	path = mcp-servers/financial/trade-agent-mcp
+	url = https://github.com/Trade-Agent/trade-agent-mcp
+[submodule "mcp-servers/financial/coingecko-typescript"]
+	path = mcp-servers/financial/coingecko-typescript
+	url = https://github.com/coingecko/coingecko-typescript
+[submodule "mcp-servers/financial/binance-mcp-server"]
+	path = mcp-servers/financial/binance-mcp-server
+	url = https://github.com/ethancod1ng/binance-mcp-server
+[submodule "mcp-servers/financial/Upsonic"]
+	path = mcp-servers/financial/Upsonic
+	url = https://github.com/Upsonic/Upsonic
+[submodule "mcp-servers/financial/ai-hedge-fund"]
+	path = mcp-servers/financial/ai-hedge-fund
+	url = https://github.com/virattt/ai-hedge-fund
+[submodule "mcp-servers/browser/cua"]
+	path = mcp-servers/browser/cua
+	url = https://github.com/trycua/cua
+[submodule "mcp-servers/browser/spark-mcp"]
+	path = mcp-servers/browser/spark-mcp
+	url = https://github.com/sensuslab/spark-mcp
+[submodule "mcp-servers/browser/clickclickclick"]
+	path = mcp-servers/browser/clickclickclick
+	url = https://github.com/instavm/clickclickclick
+[submodule "mcp-servers/browser/fara"]
+	path = mcp-servers/browser/fara
+	url = https://github.com/microsoft/fara
+[submodule "mcp-servers/browser/generalagents-python"]
+	path = mcp-servers/browser/generalagents-python
+	url = https://github.com/generalagents/generalagents-python
+[submodule "mcp-servers/browser/algonius-browser"]
+	path = mcp-servers/browser/algonius-browser
+	url = https://github.com/algonius/algonius-browser
+[submodule "superai-cli/clis/codebuff"]
+	path = superai-cli/clis/codebuff
+	url = https://github.com/CodebuffAI/codebuff
+[submodule "superai-cli/clis/kimi-cli"]
+	path = superai-cli/clis/kimi-cli
+	url = https://github.com/MoonshotAI/kimi-cli

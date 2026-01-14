@@ -1,10 +1,11 @@
 import { MemoryPlugin, MemoryEntry } from '../managers/MemoryPluginManager.js';
+// @ts-ignore
 import { ChromaClient, Collection, DefaultEmbeddingFunction } from 'chromadb';
 
 export class ChromaMemoryPlugin implements MemoryPlugin {
   name = 'chroma';
-  private client: ChromaClient;
-  private collection: Collection | null = null;
+  private client: any;
+  private collection: any = null;
 
   constructor(url: string = 'http://localhost:8000') {
     this.client = new ChromaClient({ path: url });
@@ -49,7 +50,9 @@ export class ChromaMemoryPlugin implements MemoryPlugin {
       where: type ? { type: { $eq: type } } : undefined
     });
 
-    return results.ids[0].map((id, index) => ({
+    if (!results.ids || !results.ids[0]) return [];
+
+    return results.ids[0].map((id: string, index: number) => ({
       id,
       content: results.documents[0][index] || '',
       type: (results.metadatas[0][index]?.type as any) || 'short_term',
