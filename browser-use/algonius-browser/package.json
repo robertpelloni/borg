@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.27.2",
     "eslint": "8.57.0",
     "eslint-config-airbnb-typescript": "18.0.0",
     "eslint-config-prettier": "9.1.0",
@@ -61,7 +61,7 @@
     "tslib": "^2.6.3",
     "typescript": "5.5.4",
     "turbo": "^2.5.3",
-    "vite": "6.3.5",
+    "vite": "6.4.1",
     "run-script-os": "^1.1.6"
   },
   "lint-staged": {
