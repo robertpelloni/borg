@@ -2,7 +2,7 @@
 #    uv pip compile --no-strip-extras --output-file=requirements/common-constraints.txt requirements/requirements.in requirements/requirements-browser.in requirements/requirements-dev.in requirements/requirements-help.in requirements/requirements-playwright.in
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.2
+aiohttp==3.13.3
     # via
     #   huggingface-hub
     #   litellm
@@ -96,7 +96,7 @@ distro==1.9.0
     #   posthog
 fastuuid==0.14.0
     # via litellm
-filelock==3.20.1
+filelock==3.20.3
     # via
     #   huggingface-hub
     #   torch
@@ -254,7 +254,7 @@ markdown-it-py==4.0.0
     # via rich
 markupsafe==3.0.3
     # via jinja2
-marshmallow==3.26.1
+marshmallow==3.26.2
     # via dataclasses-json
 matplotlib==3.10.8
     # via -r requirements/requirements-dev.in
@@ -374,7 +374,7 @@ ptyprocess==0.7.0
     # via pexpect
 pyarrow==22.0.0
     # via streamlit
-pyasn1==0.6.1
+pyasn1==0.6.2
     # via
     #   pyasn1-modules
     #   rsa
@@ -593,11 +593,11 @@ tzdata==2025.3
     # via pandas
 uritemplate==4.2.0
     # via google-api-python-client
-urllib3==2.6.2
+urllib3==2.6.3
     # via requests
 uv==0.9.18
     # via -r requirements/requirements-dev.in
-virtualenv==20.35.4
+virtualenv==20.36.1
     # via pre-commit
 watchfiles==1.1.1
     # via -r requirements/requirements.in
