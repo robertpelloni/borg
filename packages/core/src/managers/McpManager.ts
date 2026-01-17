@@ -136,9 +136,10 @@ export class McpManager extends EventEmitter {
             }
         }
 
-        if (!dbServer.enabled) {
-            throw new Error(`Server ${dbServer.name} is disabled`);
+        if (dbServer.enabled === false) {
+             throw new Error(`Server ${dbServer.name} is disabled`);
         }
+
 
         // Check if already connected
         const existing = this.connectedServers.get(dbServer.id);
