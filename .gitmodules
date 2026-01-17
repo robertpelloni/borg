@@ -99,10 +99,10 @@
 	url = https://github.com/proffesor-for-testing/agentic-qe
 [submodule "submodules/metamcp"]
 	path = mcp-hubs/metamcp
-	url = https://github.com/robertpelloni/metamcp
+	url = https://github.com/metatool-ai/metamcp
 [submodule "submodules/jules-app"]
 	path = submodules/jules-app
-	url = https://github.com/robertpelloni/jules-app
+	url = https://github.com/sbhavani/jules-app
 [submodule "external/agents_repos/agent-sessions"]
 	path = agents/agent-sessions
 	url = https://github.com/jazzyalex/agent-sessions
@@ -1119,7 +1119,7 @@
 	url = https://github.com/raine/consult-llm-mcp
 [submodule "external/mcp-directories/metamcp"]
 	path = external/mcp-directories/metamcp
-	url = https://github.com/robertpelloni/metamcp
+	url = https://github.com/metatool-ai/metamcp
 [submodule "external/mcp-directories/awesome-mcp-servers"]
 	path = external/mcp-directories/awesome-mcp-servers
 	url = https://github.com/punkpeye/awesome-mcp-servers
@@ -2578,3 +2578,39 @@
 [submodule "external/unsorted/opencode-skillful"]
 	path = external/unsorted/opencode-skillful
 	url = https://github.com/zenobi-us/opencode-skillful
+[submodule "external/orchestration/promptflow"]
+	path = external/orchestration/promptflow
+	url = https://github.com/microsoft/promptflow
+	shallow = true
+[submodule "external/clis/smart-ralph"]
+	path = external/clis/smart-ralph
+	url = https://github.com/tzachbon/smart-ralph
+	shallow = true
+[submodule "external/clis/claude-code-scheduler"]
+	path = external/clis/claude-code-scheduler
+	url = https://github.com/jshchnz/claude-code-scheduler
+	shallow = true
+[submodule "external/computer-use/uPhone"]
+	path = external/computer-use/uPhone
+	url = https://github.com/Jinketomy-Masheldia/uPhone
+	shallow = true
+[submodule "external/computer-use/webctl"]
+	path = external/computer-use/webctl
+	url = https://github.com/cosinusalpha/webctl
+	shallow = true
+[submodule "external/unsorted/call-me"]
+	path = external/unsorted/call-me
+	url = https://github.com/ZeframLou/call-me
+	shallow = true
+[submodule "external/forks/bkircher/skills"]
+	path = external/forks/bkircher/skills
+	url = https://github.com/bkircher/skills
+[submodule "external/forks/finmap-org/mcp-server"]
+	path = external/forks/finmap-org/mcp-server
+	url = https://github.com/finmap-org/mcp-server
+[submodule "external/forks/paperinvest/mcp-server"]
+	path = external/forks/paperinvest/mcp-server
+	url = https://github.com/paperinvest/mcp-server
+[submodule "external/forks/zhifac/gemini-cli-router"]
+	path = external/forks/zhifac/gemini-cli-router
+	url = https://github.com/zhifac/gemini-cli-router

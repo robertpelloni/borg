@@ -37,6 +37,7 @@ import { SystemDoctor } from './services/SystemDoctor.js';
 import { BrowserManager } from './managers/BrowserManager.js';
 import { TrafficObserver } from './services/TrafficObserver.js';
 import { VectorStore } from './services/VectorStore.js';
+import { DatabaseManager } from './db/DatabaseManager.js';
 import { SystemPromptManager } from './managers/SystemPromptManager.js';
 import { PipelineTool, executePipeline } from './tools/PipelineTool.js';
 import { createPromptImprover } from './tools/PromptImprover.js';
@@ -58,7 +59,10 @@ import { ConductorManager } from './managers/ConductorManager.js';
 import { VibeKanbanManager } from './managers/VibeKanbanManager.js';
 import { HardwareManager } from './managers/HardwareManager.js';
 
+import { AutopilotManager } from './managers/AutopilotManager.js';
+
 // Enterprise Services (Phase 13)
+
 import { AuditService } from './services/AuditService.js';
 import { RbacService } from './services/RbacService.js';
 
@@ -71,11 +75,13 @@ import { createSupervisorAnalyticsRoutes } from './routes/supervisorAnalyticsRou
 import { createDebateTemplateRoutes } from './routes/debateTemplateRoutesHono.js';
 import { createInventoryRoutes } from './routes/inventoryRoutesHono.js';
 import { createTrafficRoutes } from './routes/trafficRoutesHono.js';
+import { createToolRoutes } from './routes/toolRoutesHono.js';
 
 // Phase 13 Routes
 
 
 import { createRbacRoutes } from './routes/rbacRoutesHono.js';
+import { createResourceRoutes } from './routes/resourceRoutesHono.js';
 import { ResourceIndexService } from './services/ResourceIndexService.js';
 
 // Legacy Route Imports
@@ -92,6 +98,10 @@ import { createAgentTemplateRoutes } from './routes/agentTemplateRoutesHono.js';
 import { createAnalyticsRoutes } from './routes/analyticsRoutesHono.js';
 import { createWorkflowRoutes } from './routes/workflowRoutesHono.js';
 import { createSchedulerRoutes } from './routes/schedulerRoutesHono.js';
+import { createJulesKeeperRoutes } from './routes/julesKeeperRoutesHono.js';
+import { JulesKeeperManager, createNoopJulesClient, type JulesClient } from './managers/JulesKeeperManager.js';
+import { JulesApiClient } from './services/JulesApiClient.js';
+import { JulesKeeperSettingsStore } from './services/JulesKeeperSettingsStore.js';
 import { createLspRoutes } from './routes/lspRoutesHono.js';
 import { createSessionShareRoutes } from './routes/sessionShareRoutesHono.js';
 import { createGitUndoRoutes } from './routes/gitUndoRoutesHono.js';
@@ -106,8 +116,12 @@ import { createNotificationRoutes } from './routes/notificationRoutesHono.js';
 import { createOidcRoutes } from './routes/oidcRoutesHono.js';
 import { createToolAnnotationRoutes } from './routes/toolAnnotationRoutesHono.js';
 
+import { IngestionManager } from './managers/IngestionManager.js';
+import { TrafficInspectionService } from './services/TrafficInspectionService.js';
+
 export class CoreService {
   private app = new Hono();
+
   private io!: SocketIOServer;
   private httpServer!: ReturnType<typeof createServer>;
   
@@ -153,15 +167,19 @@ export class CoreService {
   private conductorManager: ConductorManager;
   private vibeKanbanManager: VibeKanbanManager;
   private hardwareManager: HardwareManager;
+  private julesKeeperManager!: JulesKeeperManager;
   private gitUndoManager: GitUndoManager;
   private oidcManager: OidcManager;
-  private toolAnnotationManager: ToolAnnotationManager;
-  
-  // Phase 11/12/13
+    private toolAnnotationManager: ToolAnnotationManager;
+    private autopilotManager: AutopilotManager;
+    
+    // Phase 11/12/13
+
   private architectMode: ArchitectMode;
   private auditService: AuditService;
   private rbacService: RbacService;
   private resourceIndexService: ResourceIndexService;
+  private ingestionManager: IngestionManager;
 
   constructor(
     private rootDir: string
@@ -188,6 +206,7 @@ export class CoreService {
     this.gitUndoManager = new GitUndoManager({ projectRoot: rootDir });
     this.oidcManager = new OidcManager();
     this.toolAnnotationManager = new ToolAnnotationManager();
+    this.toolAnnotationManager.setDatabase(DatabaseManager.getInstance());
     this.systemDoctor = new SystemDoctor();
     this.browserManager = new BrowserManager();
     this.modelGateway = new ModelGateway(this.secretManager);
@@ -196,26 +215,43 @@ export class CoreService {
     this.systemPromptManager = new SystemPromptManager(rootDir);
     this.contextGenerator = new ContextGenerator(rootDir);
     this.resourceIndexService = new ResourceIndexService(rootDir);
+    // this.autopilotManager = new AutopilotManager(this.agentExecutor, this.agentManager); // Moved below AgentExecutor init
 
-    this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager);
     this.handoffManager = new HandoffManager(rootDir, this.memoryManager);
     this.trafficObserver = new TrafficObserver(this.modelGateway, this.memoryManager);
+    
+    // Initialize Traffic Inspector
+    TrafficInspectionService.getInstance(this.logManager);
 
     this.healthService = new HealthService(this.mcpManager, this.modelGateway);
 
+
     this.proxyManager = new McpProxyManager(this.mcpManager, this.logManager);
+
 
     this.hubServer = new HubServer(
         this.proxyManager,
         this.codeExecutionManager,
         this.agentManager,
         this.skillManager,
-        this.promptManager
+        this.promptManager,
+        (endpointPath: string) => this.mcpManager.getEndpointByPath(endpointPath)?.namespaceId
     );
 
     this.mcpInterface = new McpInterface(this.hubServer);
     this.agentExecutor = new AgentExecutor(this.proxyManager, this.secretManager, this.sessionManager, this.systemPromptManager);
+    this.proxyManager.setAgentDependencies(this.agentExecutor, this.agentManager);
+    this.proxyManager.setToolAnnotationManager(this.toolAnnotationManager);
+
+    // Ingestion & Document Management (Requires AgentExecutor)
+    this.ingestionManager = new IngestionManager(this.memoryManager, this.agentExecutor);
+    this.documentManager = new DocumentManager(path.join(rootDir, 'documents'), this.memoryManager, this.ingestionManager);
+
+    this.autopilotManager = new AutopilotManager(this.agentExecutor, this.agentManager);
+
     this.schedulerManager = new SchedulerManager(rootDir, this.agentExecutor, this.proxyManager);
+
+
     this.submoduleManager = new SubmoduleManager();
     this.vscodeManager = new VSCodeManager();
     this.loopManager = new LoopManager(this.schedulerManager);
@@ -231,6 +267,31 @@ export class CoreService {
     this.conductorManager = new ConductorManager(rootDir);
     this.vibeKanbanManager = new VibeKanbanManager(rootDir);
     this.hardwareManager = HardwareManager.getInstance();
+
+    const julesApiKey = this.secretManager.getSecret('JULES_API_KEY');
+
+    let julesClient: JulesClient = createNoopJulesClient();
+    if (julesApiKey) {
+        const api = new JulesApiClient({ apiKey: julesApiKey });
+        julesClient = {
+            async listSessions() {
+                const res = await api.listSessions({ pageSize: 100 });
+                return res.sessions as any;
+            },
+            async approvePlan(sessionId: string) {
+                await api.approvePlan(sessionId);
+            },
+            async interruptSession() {},
+            async continueSession() {},
+            async sendMessage(sessionId: string, message: string) {
+                await api.sendMessage(sessionId, message);
+            },
+        };
+    }
+
+    this.julesKeeperManager = new JulesKeeperManager(julesClient);
+    const keeperStore = new JulesKeeperSettingsStore(rootDir);
+    this.julesKeeperManager.setConfig(keeperStore.load());
     
     // Enterprise Foundation
     this.auditService = AuditService.getInstance();
@@ -304,7 +365,24 @@ export class CoreService {
   }
 
   private setupRoutes() {
+    this.app.post('/api/autopilot/tasks', async (c) => {
+        const task = await c.req.json();
+        this.autopilotManager.addTask(task);
+        return c.json({ status: 'queued', taskId: task.id });
+    });
+
+    this.app.post('/api/autopilot/start', async (c) => {
+        await this.autopilotManager.start();
+        return c.json({ status: 'started' });
+    });
+
+    this.app.post('/api/autopilot/stop', async (c) => {
+        this.autopilotManager.stop();
+        return c.json({ status: 'stopped' });
+    });
+
     // Health & System
+
     this.app.get('/health', (c) => c.json(this.healthService.getSystemStatus()));
     this.app.get('/api/doctor', async (c) => c.json(await this.systemDoctor.checkAll()));
 
@@ -327,6 +405,8 @@ export class CoreService {
     this.app.route('/api/git-undo', createGitUndoRoutes(this.gitUndoManager));
     this.app.route('/api/inventory', createInventoryRoutes());
     this.app.route('/api/traffic', createTrafficRoutes());
+    // @ts-ignore - Accessing private property for route creation
+    this.app.route('/api/tools', createToolRoutes(this.proxyManager['searchService']));
     this.app.route('/api/feature-flags', createFeatureFlagRoutes());
 
     
@@ -345,8 +425,13 @@ export class CoreService {
     this.app.route('/api/notifications', createNotificationRoutes());
     this.app.route('/api/oidc', createOidcRoutes(this.oidcManager));
     this.app.route('/api/tool-annotations', createToolAnnotationRoutes(this.toolAnnotationManager));
+    this.app.route('/api/resources', createResourceRoutes(this.resourceIndexService));
+    const keeperStore = new JulesKeeperSettingsStore(this.rootDir);
+    this.app.route('/api/jules/keeper', createJulesKeeperRoutes(this.julesKeeperManager, keeperStore));
+
 
     // Phase 11/12 Routes
+
     this.app.use('/api/architect/*', this.authMiddleware.requirePermission('architect:session'));
     this.app.route('/api/architect', createArchitectRoutes(this.architectMode));
     
@@ -633,6 +718,31 @@ export class CoreService {
     this.app.post('/api/hub/messages', async (c) => {
         const sessionId = c.req.query('sessionId') || '';
         const body = await c.req.json();
+
+        const endpointPath = typeof body?.params?.endpointPath === 'string' ? body.params.endpointPath : undefined;
+        if (endpointPath) {
+            const endpoint = this.mcpManager.getEndpointByPath(endpointPath);
+            if (endpoint?.apiKeyId) {
+                const apiKey = c.req.header('X-API-Key');
+                if (!apiKey) {
+                    return c.json({ error: 'X-API-Key required' }, 401);
+                }
+
+                let valid = false;
+                try {
+                    const db = DatabaseManager.getInstance();
+                    const validated = db.validateApiKey(apiKey);
+                    valid = Boolean(validated && validated.id === endpoint.apiKeyId);
+                } catch {
+                    valid = false;
+                }
+
+                if (!valid) {
+                    return c.json({ error: 'Invalid API key' }, 403);
+                }
+            }
+        }
+
         const result = await this.hubServer.handleMessage(sessionId, body);
         return c.json(result);
     });
@@ -663,9 +773,16 @@ export class CoreService {
         return c.json({ submodules: this.submoduleManager.getSubmodules() });
     });
 
-    this.app.get('/api/resources', (c) => {
-        return c.json({ resources: this.resourceIndexService.getResources() });
-    });
+    // this.app.get('/api/resources', (c) => {
+    //     return c.json({ resources: this.resourceIndexService.getResources() });
+    // });
+
+    // this.app.get('/api/resources/:id', (c) => {
+    //     const id = c.req.param('id');
+    //     const resource = this.resourceIndexService.getResourceById(id);
+    //     if (!resource) return c.json({ error: 'Resource not found' }, 404);
+    //     return c.json({ resource });
+    // });
 
     // --- Conductor Routes ---
     this.app.get('/api/conductor/tasks', async (c) => {

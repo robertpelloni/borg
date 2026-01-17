@@ -7,6 +7,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
 
+import { IngestionManager } from './IngestionManager.js';
+
 /**
  * Manages document ingestion (PDF, txt, md) from a watched directory.
  * Chunks content and stores it in the MemoryManager for retrieval.
@@ -14,7 +16,11 @@ const pdf = require('pdf-parse');
 export class DocumentManager extends EventEmitter {
     private watcher: fs.FSWatcher | null = null;
 
-    constructor(private docDir: string, private memoryManager: MemoryManager) {
+    constructor(
+        private docDir: string, 
+        private memoryManager: MemoryManager,
+        private ingestionManager?: IngestionManager
+    ) {
         super();
         this.ensureDir();
         this.startWatching();
@@ -62,7 +68,14 @@ export class DocumentManager extends EventEmitter {
                 return;
             }
 
+            // Smart Ingestion (Summarization + Fact Extraction)
+            if (this.ingestionManager) {
+                console.log(`[DocumentManager] Smart ingesting ${path.basename(filepath)}...`);
+                await this.ingestionManager.ingest(path.basename(filepath), content, { tags: ['document', ext] });
+            }
+
             // Simple Chunking Strategy (by paragraphs or char limit)
+            // We still keep this for raw retrieval
             const chunks = this.chunkText(content, 1000); // 1000 char chunks
 
             for (let i = 0; i < chunks.length; i++) {
