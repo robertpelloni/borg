@@ -5,16 +5,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, RefreshCw } from 'lucide-react';
+import { Search, Filter, RefreshCw, CheckCircle } from 'lucide-react';
+import { Progress } from "@/components/ui/progress";
+import Link from 'next/link';
 
 interface Resource {
+  id: string;
   url: string;
+  normalized_url?: string;
+  name?: string;
   category: string;
-  path: string;
+  categories?: string[];
+  path?: string;
+  source?: string;
+  kind?: string;
+  submodule?: boolean;
   researched: boolean;
   summary: string;
   features: string[];
+  tags?: string[];
   last_updated: string;
+  // New fields for dashboard
+  installed?: boolean;
+  authType?: 'api_key' | 'oauth' | 'none';
+  usage?: number;
+  budget?: number;
 }
 
 export default function AI_Tools_Dashboard() {
@@ -28,7 +43,17 @@ export default function AI_Tools_Dashboard() {
     try {
       const res = await fetch('/api/resources');
       const data = await res.json();
-      setResources(data.resources || []);
+      
+      // Enrich with mock status data for now
+      const enriched = (data.resources || []).map((r: Resource) => ({
+        ...r,
+        installed: Math.random() > 0.7, // Mock detection
+        authType: Math.random() > 0.5 ? 'api_key' : 'oauth',
+        usage: Math.floor(Math.random() * 100),
+        budget: 1000
+      }));
+      
+      setResources(enriched);
     } catch (e) {
       console.error("Failed to fetch resources", e);
     } finally {
@@ -44,7 +69,8 @@ export default function AI_Tools_Dashboard() {
 
   const filteredResources = resources.filter(resource => {
     const matchesSearch = resource.url.toLowerCase().includes(search.toLowerCase()) || 
-                          resource.path.toLowerCase().includes(search.toLowerCase()) ||
+                          (resource.path || '').toLowerCase().includes(search.toLowerCase()) ||
+                          (resource.name || '').toLowerCase().includes(search.toLowerCase()) ||
                           (resource.summary || '').toLowerCase().includes(search.toLowerCase());
     const matchesFilter = filter === 'All' || resource.category === filter;
     return matchesSearch && matchesFilter;
@@ -94,8 +120,9 @@ export default function AI_Tools_Dashboard() {
                   <tr className="border-b border-gray-800">
                     <th className="text-left py-3 px-2">Tool Name / URL</th>
                     <th className="text-left py-3 px-2">Category</th>
-                    <th className="text-left py-3 px-2">Status</th>
-                    <th className="text-left py-3 px-2">Research</th>
+                    <th className="text-left py-3 px-2">Install Status</th>
+                    <th className="text-left py-3 px-2">Auth</th>
+                    <th className="text-left py-3 px-2">Usage / Budget</th>
                     <th className="text-left py-3 px-2">Actions</th>
                   </tr>
                 </thead>
@@ -103,7 +130,10 @@ export default function AI_Tools_Dashboard() {
                   {filteredResources.map((resource, idx) => (
                     <tr key={idx} className="border-b border-gray-800 hover:bg-gray-900/50">
                       <td className="py-3 px-2">
-                        <div className="font-medium">{resource.path.split('/').pop()}</div>
+                        <div className="font-medium flex items-center gap-2">
+                            {resource.name || resource.path?.split('/').pop() || resource.url}
+                            {resource.submodule && <Badge variant="outline" className="text-[10px] h-4">Submodule</Badge>}
+                        </div>
                         <a href={resource.url} target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:underline truncate max-w-[300px] block">
                           {resource.url}
                         </a>
@@ -112,19 +142,32 @@ export default function AI_Tools_Dashboard() {
                         <Badge variant="secondary">{resource.category}</Badge>
                       </td>
                       <td className="py-3 px-2">
-                        {resource.researched ? (
-                          <span className="text-green-500 flex items-center gap-1">● Indexed</span>
+                        {resource.installed ? (
+                          <span className="text-green-500 flex items-center gap-1 text-xs"><CheckCircle className="h-3 w-3" /> Installed</span>
                         ) : (
-                          <span className="text-yellow-500 flex items-center gap-1">● Pending</span>
+                          <span className="text-gray-500 flex items-center gap-1 text-xs">Not Installed</span>
                         )}
                       </td>
                       <td className="py-3 px-2">
-                        <div className="text-xs text-muted-foreground line-clamp-2 max-w-[200px]">
-                          {resource.summary || "Waiting for Research Squad..."}
+                        <Badge variant="outline" className="text-xs">
+                            {resource.authType === 'oauth' ? 'OAuth' : 'API Key'}
+                        </Badge>
+                      </td>
+                      <td className="py-3 px-2">
+                        <div className="text-xs">
+                            <span className="font-mono">${resource.usage}</span> / <span className="text-muted-foreground">${resource.budget}</span>
+                            <Progress value={(resource.usage! / resource.budget!) * 100} className="h-1 mt-1 w-24" />
                         </div>
                       </td>
                       <td className="py-3 px-2">
-                        <Button variant="ghost" size="sm">Details</Button>
+                        <div className="flex gap-2">
+                            <Button variant="ghost" size="sm" asChild>
+                            <Link href={`/dashboard/tools/${resource.id}`}>Details</Link>
+                            </Button>
+                            {!resource.installed && (
+                                <Button variant="secondary" size="sm" className="h-7 text-xs">Install</Button>
+                            )}
+                        </div>
                       </td>
                     </tr>
                   ))}
