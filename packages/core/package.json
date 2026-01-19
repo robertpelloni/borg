@@ -33,7 +33,7 @@
     "jsonpath-plus": "^10.3.0",
     "node-schedule": "^2.1.1",
     "open": "^11.0.0",
-    "openai": "^6.15.0",
+    "openai": "^6.16.0",
     "pdf-parse": "^2.4.5",
     "socket.io": "^4.7.2",
     "systeminformation": "^5.30.1",
