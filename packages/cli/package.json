@@ -1,33 +1,27 @@
 {
   "name": "@aios/cli",
-  "version": "0.1.0-skeleton",
+  "version": "0.1.0",
   "type": "module",
   "bin": {
     "aios": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w",
-    "start": "node dist/index.js"
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint src/"
   },
   "dependencies": {
-    "@serialport/parser-readline": "^13.0.0",
-    "axios": "^1.6.0",
-    "chalk": "^5.3.0",
+    "@aios/core": "workspace:*",
     "commander": "^11.1.0",
-    "ink": "^6.6.0",
-    "ink-select-input": "^6.2.0",
-    "ink-spinner": "^5.0.0",
-    "ink-text-input": "^6.0.0",
-    "ora": "^8.0.0",
-    "react": "^19.2.3",
-    "serialport": "^13.0.0",
-    "socket.io-client": "^4.7.4",
-    "zustand": "^5.0.9"
+    "ink": "^4.4.1",
+    "react": "18.2.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "@types/serialport": "^10.2.0",
+    "@aios/tsconfig": "workspace:*",
+    "@types/react": "^18.2.0",
+    "eslint": "^8.56.0",
     "typescript": "^5.3.3"
   }
 }

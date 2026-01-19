@@ -1,29 +1,30 @@
-import { Command } from 'commander';
-import { startCommand } from './commands/start.js';
-import { statusCommand } from './commands/status.js';
-import { runAgentCommand } from './commands/run.js';
-import { mineCommand } from './commands/mine.js';
-import { tuiCommand } from './commands/tui.js';
-import { agentsCommand } from './commands/agents.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));
+#!/usr/bin/env node
+import { Command } from "commander";
+import React from 'react';
+import { render } from 'ink';
+import { App } from './ui/App.js';
 
 const program = new Command();
 
 program
-  .name('aios')
-  .description('CLI for AIOS Monorepo')
-  .version(pkg.version);
+  .name("aios")
+  .description("The Ultimate AI Operating System CLI")
+  .version("0.1.0");
 
-program.addCommand(startCommand);
-program.addCommand(statusCommand);
-program.addCommand(runAgentCommand);
-program.addCommand(mineCommand);
-program.addCommand(tuiCommand);
-program.addCommand(agentsCommand);
+program
+  .command("start")
+  .description("Start the AIOS Orchestrator")
+  .action(() => {
+    // Logic to spawn the core server or just connect
+    console.log("Starting Orchestrator...");
+    // For now, assume core is running or start it via child_process
+  });
+
+program
+  .command("status")
+  .description("Check AIOS Status")
+  .action(async () => {
+    render(React.createElement(App, { view: 'status' }));
+  });
 
 program.parse(process.argv);

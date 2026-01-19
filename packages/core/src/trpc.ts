@@ -17,6 +17,9 @@ export const appRouter = t.router({
                 progress: 45
             };
         }),
+    indexingStatus: t.procedure.query(() => {
+        return { status: 'idle', filesIndexed: 0, totalFiles: 0 };
+    }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,5 +1,5 @@
 
-import lancedb from "lancedb";
+import * as lancedb from "vectordb";
 import path from "path";
 import os from "os";
 
@@ -32,22 +32,24 @@ export class VectorStore {
 
     async createTable(data: CodeChunk[]) {
         if (!this.db) await this.init();
-        // Drop if exists for clean state during dev, or append?
-        // For now, let's use overwrite logic or create.
-        this.table = await this.db!.createTable("code_chunks", data, { mode: "overwrite" });
+        const dataObjects = data.map(d => ({ ...d } as Record<string, unknown>));
+        // Cast options to any to bypass strict check if mode is widely supported at runtime
+        this.table = await this.db!.createTable("code_chunks", dataObjects, { mode: "overwrite" } as any);
     }
 
     async add(data: CodeChunk[]) {
         if (!this.table) {
             await this.createTable(data);
         } else {
-            await this.table.add(data);
+            const dataObjects = data.map(d => ({ ...d } as Record<string, unknown>));
+            await this.table.add(dataObjects);
         }
     }
 
     async search(queryVector: number[], limit = 5): Promise<CodeChunk[]> {
         if (!this.table) return [];
-        const results = await this.table.vectorSearch(queryVector).limit(limit).toArray();
+        // vectordb search returns a Query builder, likely needs execute()
+        const results = await this.table.search(queryVector).limit(limit).execute();
         return results as unknown as CodeChunk[];
     }
 }
