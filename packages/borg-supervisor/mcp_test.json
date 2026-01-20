@@ -1,0 +1,23 @@
+{
+    "servers": {
+        "existing-server": {
+            "command": "echo",
+            "args": [
+                "hello"
+            ],
+            "disabled": false,
+            "autoApprove": []
+        },
+        "borg-supervisor": {
+            "command": "node",
+            "args": [
+                "C:\\Users\\hyper\\workspace\\aios\\packages\\borg-supervisor\\dist\\index.js"
+            ],
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "disabled": false,
+            "autoApprove": []
+        }
+    }
+}
