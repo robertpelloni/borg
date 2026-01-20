@@ -6,13 +6,16 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { Installer } from './installer.js';
 import { ProcessManager } from './process_manager.js';
+import { InputManager } from './input_manager.js';
 
 class SupervisorServer {
     private server: Server;
     private processManager: ProcessManager;
+    private inputManager: InputManager;
 
     constructor() {
         this.processManager = new ProcessManager();
+        this.inputManager = new InputManager();
         this.server = new Server(
             {
                 name: "borg-supervisor",
@@ -60,6 +63,20 @@ class SupervisorServer {
                             },
                             required: ["pid"]
                         }
+                    },
+                    {
+                        name: "simulate_input",
+                        description: "Send keyboard input (PowerShell SendKeys)",
+                        inputSchema: {
+                            type: "object",
+                            properties: {
+                                keys: {
+                                    type: "string",
+                                    description: "Keys to send (e.g. 'ctrl+r', 'f5')"
+                                }
+                            },
+                            required: ["keys"]
+                        }
                     }
                 ]
             };
@@ -85,6 +102,14 @@ class SupervisorServer {
             if (request.params.name === "kill_process") {
                 const pid = request.params.arguments?.pid as number;
                 const result = await this.processManager.killProcess(pid);
+                return {
+                    content: [{ type: "text", text: result }]
+                };
+            }
+
+            if (request.params.name === "simulate_input") {
+                const keys = request.params.arguments?.keys as string;
+                const result = await this.inputManager.sendKeys(keys);
                 return {
                     content: [{ type: "text", text: result }]
                 };
