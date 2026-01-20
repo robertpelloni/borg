@@ -1,0 +1,23 @@
+# AIOS Research and Integration Tasks
+
+- [ ] Create `LINKS_TO_PROCESS.md` with all the links provided by the user
+- [ ] Process "MCP Directories" Group
+    - [ ] Research each link
+    - [ ] Summarize and Index
+    - [ ] Add as submodule if applicable
+- [ ] Process "Skills" Group
+- [ ] Process "Multi Agent Orchestration" Group
+- [ ] Process "CLIs" Group
+- [ ] Process "MCPs, misc" Group
+- [ ] Process "Code indexing" Group
+- [ ] Process "Memory systems" Group
+- [ ] Process "MCP reduce context..." Group
+- [ ] Process "RAG" Group
+- [ ] Process "Database" Group
+- [ ] Process "Computer-use" Group
+- [ ] Process "Code sandboxing" Group
+- [ ] Process "Search" Group
+- [ ] Process "Routers, providers" Group
+- [ ] Compile "Master Group Features" list
+- [ ] Design AIOS architecture based on compiled features
+- [ ] Update `task.md` with implementation steps for AIOS Core features

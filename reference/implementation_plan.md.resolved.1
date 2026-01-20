@@ -1,0 +1,19 @@
+
+# Model Fallback Implementation Plan
+
+## Goal
+Implement automatic model fallback in [ModelSelector.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/ModelSelector.ts) to handle quota exhaustion errors.
+
+## Strategy
+1.  **Quota Tracking:** Maintain a `quotaState` map for each provider/model.
+2.  **Fallback Chain:**
+    *   **Worker:** Gemini 3 Flash -> GLM 4.7 -> Haiku
+    *   **Supervisor:** Opus 4.5 -> GPT-4o -> Sonnet 3.5
+3.  **Error Handling:** Intercept API errors (429, 403 Quota). Mark model as "Depleted" for a cool-down period.
+4.  **Auto-Switch:** [selectModel()](file:///c:/Users/hyper/workspace/aios/packages/core/src/ModelSelector.ts#18-42) should return the next available model in the chain if the primary is depleted.
+
+## Changes
+*   [MODIFY] [packages/core/src/ModelSelector.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/ModelSelector.ts)
+    *   Add `FallbackConfig` interface.
+    *   Implement `reportFailure(modelId)` method.
+    *   Refine [selectModel(taskType)](file:///c:/Users/hyper/workspace/aios/packages/core/src/ModelSelector.ts#18-42) to check availability.

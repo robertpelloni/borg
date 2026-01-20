@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "A structured list of all the links the user provided, categorized, to serve as a queue for the research agent.",
+  "updatedAt": "2026-01-18T21:59:31.706484300Z"
+}

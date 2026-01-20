@@ -1,0 +1,18 @@
+# Phase 16: SuperAI Browser Extension
+
+## 1. Extension Scaffolding
+- [ ] **Manifest Setup:** Configure `manifest.json` (MV3) for Chrome/Edge.
+- [ ] **Build Pipeline:** Update [apps/extension/package.json](file:///c:/Users/hyper/workspace/aios/apps/extension/package.json) for extension building (Vite/Webpack).
+- [ ] **Core Connectivity:** Implement WebSocket client in background script to connect to `ws://localhost:3000` (Core Orchestrator).
+
+## 2. MCP Injection (The Bridge)
+- [ ] **Content Script:** Inject script into `chatgpt.com`, `claude.ai`, `gemini.google.com`.
+- [ ] **Prompt Injection:** Add a "/" command menu or UI overlay to these pages to invoke local tools.
+- [ ] **Tool Execution:** Forward tool calls from the web page -> Extension -> Core -> Local Tool -> Back to Web.
+
+## 3. Context & Memory
+- [ ] **Page Scraping:** Implement "Read Page" tool (using `read_browser_page` equivalent logic locally or via extension API).
+- [ ] **Chat Export:** Button to "Save to AIOS Memory" (sends chat content to Vector Store).
+
+## 4. Verification
+- [ ] **E2E Test:** Verify a local tool (e.g., `list_files`) can be triggered from a web chat interface.

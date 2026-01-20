@@ -1,0 +1,26 @@
+# Phase 16: SuperAI Browser Extension
+
+## 1. Extension Scaffolding
+- [x] **Manifest Setup:** Configure [manifest.json](file:///c:/Users/hyper/workspace/aios/apps/extension/manifest.json) (MV3) for Chrome/Edge.
+- [x] **Build Pipeline:** Update [apps/extension/package.json](file:///c:/Users/hyper/workspace/aios/apps/extension/package.json) for extension building (Vite/Webpack).
+- [x] **Core Connectivity:** Implement WebSocket client in background script to connect to `ws://localhost:3000` (Core Orchestrator).
+
+## 2. MCP Injection (The Bridge)
+- [x] **Content Script:** Inject script into `chatgpt.com`, `claude.ai`, `gemini.google.com`.
+- [x] **Prompt Injection:** Add a "/" command menu or UI overlay to these pages to invoke local tools.
+- [x] **Tool Execution:** Forward tool calls from the web page -> Extension -> Core -> Local Tool -> Back to Web.
+- [x] **Universal MCP Host:** Basic [MCPServer](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts#21-132) wrapper created.
+- [x] **Router Logic:** Implement sub-MCP routing.
+- [x] **Tool Aggregation:** [Router.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/Router.ts) aggregates tools from connected sub-MCPs.
+- [x] **Dashboard UI:** Connect WebUI to Core via tRPC/WebSockets.
+
+## 3. Context & Memory
+- [ ] **Page Scraping:** Implement "Read Page" tool (using `read_browser_page` equivalent logic locally or via extension API).
+- [ ] **Chat Export:** Button to "Save to AIOS Memory" (sends chat content to Vector Store).
+
+## 4. Verification
+- [ ] **E2E Test:** Verify a local tool (e.g., `list_files`) can be triggered from a web chat interface.
+
+# Phase 20: AIOS Core - Director & Swarm
+- [x] **ModelSelector:** Quota management logic and **Automatic Fallback** (Priority).
+- [ ] **Orchestration Loop:** Implement the `Director` agent logic to manage sub-agents.

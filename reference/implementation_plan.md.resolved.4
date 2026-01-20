@@ -1,0 +1,63 @@
+
+# Phase 23: Skills & Guardrails (Factory Droid Absorption)
+
+## Goal
+Achieve feature parity with Factory Droid by implementing a text-based "Skills" system and a secure "Guardrails" engine.
+
+## 1. Skills Engine
+**Objective:** Allow users to define reusable workflows in `SKILL.md` files.
+
+### Changes
+*   **[NEW] [packages/core/src/skills/SkillRegistry.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/skills/SkillRegistry.ts)**:
+    *   Scans `~/.aios/skills` and `./.aios/skills`.
+    *   Parses YAML frontmatter + Markdown.
+    *   Exposes `list_skills` and `read_skill` tools.
+*   **[MODIFY] [packages/core/src/MCPServer.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts)**:
+    *   Initialize [SkillRegistry](file:///c:/Users/hyper/workspace/aios/packages/core/src/skills/SkillRegistry.ts#16-79).
+    *   Inject available skills into the system prompt or tool list (Dynamic Disclosure).
+
+## 2. Guardrails (Permission Manager)
+**Objective:** Prevent dangerous actions without approval.
+
+### Changes
+*   **[NEW] `packages/core/src/security/PermissionManager.ts`**:
+    *   `checkPermission(toolName, args, autonomyLevel)` -> `boolean`.
+    *   Risk Rules:
+        *   **High:** `rm -rf`, `git push`, sensitive file reads.
+        *   **Medium:** `npm install`, file edits.
+        *   **Low:** [ls](file:///c:/Users/hyper/workspace/aios/packages/vscode/src/extension.ts#372-403), `cat`, `git status`.
+*   **[MODIFY] [packages/core/src/MCPServer.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts)**:
+    *   Wrap `CallTool` handler.
+    *   Before execution, call `PermissionManager.checkPermission()`.
+    *   If denied, return `UserApprovalRequired` error or prompt user (via TUI request).
+
+## 3. Autonomy Levels
+**Objective:** Allow users to set "Cruise Control".
+
+*   **[MODIFY] [packages/cli/src/index.ts](file:///c:/Users/hyper/workspace/aios/packages/cli/src/index.ts)**:
+    *   Add `--auto <level>` flag (`low`, `medium`, `high`).
+    *   Pass this config to Core start.
+
+## Phase 24: Borg Supervisor (New)
+
+### Goal
+Create `packages/borg-supervisor`, a self-installing MCP server that acts as a watchdog for the development environment.
+
+### Features
+1.  **Self-Installation**: Locate Antigravity/MCP config and register itself.
+2.  **Process Supervision**: Monitor specific PIDs or Window Titles (e.g., "Visual Studio Code", "Borg").
+3.  **Input Simulation**: Auto-click "Reload" or "Reconnect" buttons on crash.
+4.  **Council Integration**: Use `packages/core` logic for decision making (Debate/Approve).
+
+### Proposed Tools
+*   `install_supervisor`: Adds itself to the `mcpServers` config.
+*   `list_processes`: Find target process PIDs.
+*   `kill_process` / `restart_process`: Lifecycle management.
+*   `get_screen_analysis`: Screenshot + basic OCR/Vision check (for "Not Responding" dialogs).
+*   `simulate_input`: Keyboard/Mouse events.
+*   `read_logs`: Access tool/system logs for diagnosis.
+
+### Tech Stack
+*   **Runtime**: Node.js
+*   **Libs**: `nut.js` (Input), `active-win` (Window detection), `ps-list` (Process list).
+

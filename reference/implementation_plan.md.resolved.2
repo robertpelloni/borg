@@ -1,0 +1,19 @@
+
+# Phase 21: Tool Aggregation
+
+## Goal
+Make [MCPServer](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts#21-121) dynamically expose tools from connected sub-MCPs (like `filesystem`).
+
+## Changes
+
+### 1. [packages/core/src/Router.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/Router.ts)
+- [MODIFY] `listTools()`: Iterate over `this.clients`, call `listTools()` on each, prefix tool names with namespace (optional, or flatten).
+- [MODIFY] `callTool(name, args)`: Identify which client owns the tool and delegate execution.
+
+### 2. [packages/core/src/MCPServer.ts](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts)
+- [MODIFY] [setupHandlers()](file:///c:/Users/hyper/workspace/aios/packages/core/src/MCPServer.ts#49-93):
+    - `ListTools`: `[...internalTools, ...await router.listTools()]`
+    - `CallTool`: If not internal -> `await router.callTool(name, args)`
+
+## Protocol Note
+- We will assume a flat namespace for now (e.g., `filesystem` MCP provides `read_file`, `write_file`). If conflicts arise, we will implement namespacing (e.g., `filesystem__read_file`).

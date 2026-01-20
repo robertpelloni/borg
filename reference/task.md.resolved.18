@@ -1,0 +1,20 @@
+# Phase 14: Deep Code Intelligence
+
+## 1. Foundation Update
+- [x] **Clean Slate:** Archive old [task.md](file:///c:/Users/hyper/.gemini/antigravity/brain/09cc9be2-869c-4467-8e98-a4a2eb27e838/task.md) content (done).
+- [x] **Dependencies:** Install [tree-sitter](file:///c:/Users/hyper/workspace/aios/packages/core/node_modules/tree-sitter), [lancedb](file:///c:/Users/hyper/workspace/aios/packages/core/node_modules/lancedb) (or similar), [glob](file:///c:/Users/hyper/workspace/aios/packages/core/node_modules/fast-glob) in `packages/core`.
+
+## 2. Code Indexing Service (`RepoMapService`)
+- [x] **Design:** Create `Indexer.design.md`.
+- [x] **File Walker:** Implement efficient file traversal (ignoring .git, node_modules).
+- [x] **Tree-sitter Setup:** Configure parser for TS/JS/Python.
+- [x] **Chunking Strategy:** Implement AST-based chunking.
+
+## 3. Vector Storage ("Infinite Memory")
+- [x] **Database Setup:** Initialize LanceDB (embedded) in `packages/core`.
+- [ ] **Embedding Provider:** Integrate a lightweight local embedding model (or API fallback).
+- [x] **Store/Retrieve:** Implement `saveContext` and `queryContext` methods.
+
+## 4. Integration
+- [x] **API Exposure:** Add `search_codebase` tool to `MCPServer`.
+- [x] **Dashboard Hook:** Visualize indexing status in WebUI.

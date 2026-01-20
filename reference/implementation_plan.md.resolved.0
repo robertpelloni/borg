@@ -1,0 +1,34 @@
+# AIOS Scaffolding Plan (Turborepo Initialization)
+
+## Goal
+Initialize the `aios` repository as a high-performance **Turborepo** monorepo to house the Dashboard (`apps/web`), Orchestrator (`packages/core`), and CLI (`packages/cli`).
+
+## Proposed Changes
+
+### 1. Root Structure (Turborepo)
+*   Initialize `package.json` with `workspaces` configuration.
+*   Add `turbo.json` for build pipeline orchestration.
+*   Configure `pnpm-workspace.yaml`.
+
+### 2. Applications (`apps/`)
+*   **`apps/web`**: Initialize a Next.js 14 project (App Router) with Tailwind CSS and ShadCN UI.
+    *   This will act as the "Mission Control" Dashboard.
+*   **`apps/extension`**: Create a placeholder directory/package for the future Browser Extension.
+
+### 3. Packages (`packages/`)
+*   **`packages/core`**: Initialize a TypeScript-based Node.js package.
+    *   Dependencies: `@modelcontextprotocol/sdk`, `express`, `zod`.
+    *   Purpose: The central Orchestrator and MCP Host.
+*   **`packages/ui`**: Initialize a shared React component library (for Dashboard & Extension).
+*   **`packages/tsconfig`**: Shared TypeScript configurations (`base`, `nextjs`, `react-library`).
+
+## Verification Plan
+
+### Automated Verification
+1.  **Build Check:** Run `turbo build` from the root to ensure all apps and packages build without error.
+2.  **Lint Check:** Run `turbo lint` to verify code quality standards.
+3.  **Dev Server:** Run `turbo dev` and verify that `apps/web` starts on `localhost:3000`.
+
+### Manual verification
+1.  Navigate to `http://localhost:3000` to confirm the Next.js Dashboard is running.
+2.  Check `packages/core` by running a simple test script (to be added) that imports the MCP SDK.

@@ -1,0 +1,18 @@
+# Phase 15: AIOS CLI Harness
+
+## 1. Scaffolding
+- [x] **Package Init:** Create `packages/cli` with `package.json` and `tsconfig.json`.
+- [x] **Dependencies:** Install `commander`, `ink` (TUI), `react`, `zod`, `@aios/core` (client).
+- [x] **Bin Entry:** Configure `bin` entry point for global `aios` command.
+
+## 2. Core CLI Logic
+- [x] **Entry Point:** Implement `src/index.ts` with `commander` program definition.
+- [x] **Command: Start:** Implement `aios start` to launch the Orchestrator (Core).
+- [x] **Command: Status:** Implement `aios status` to query Core health via tRPC.
+
+## 3. TUI Implementation (Ink)
+- [x] **Layout:** Create basic App layout (Header, LogArea, Input).
+- [x] **Interactive Mode:** Implement `aios chat` or similar interactive session.
+
+## 4. Integration
+- [x] **Reference Core:** Ensure CLI can talk to the running Core server.

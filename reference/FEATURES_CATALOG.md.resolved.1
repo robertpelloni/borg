@@ -1,0 +1,92 @@
+# AIOS Features & Functionality Catalog
+
+This document tracks the features, functionality, and unique concepts of external AI tools referenced in the project. The goal is to compile a master list to achieve feature parity in AIOS.
+
+## Table of Contents
+1. [MCP Directories & Hubs](#mcp-directories--hubs)
+2. [Skills Libraries](#skills-libraries)
+3. [Multi-Agent Orchestration](#multi-agent-orchestration)
+4. [CLIs & Harnesses](#clis--harnesses)
+5. [MCP Servers](#mcp-servers)
+6. [Code Indexing](#code-indexing)
+7. [Memory Systems](#memory-systems)
+8. [Context Optimization](#context-optimization)
+9. [RAG](#rag)
+10. [Database](#database)
+11. [Computer Use](#computer-use)
+12. [Code Sandboxing](#code-sandboxing)
+13. [Search](#search)
+14. [Routers & Providers](#routers--providers)
+
+---
+
+## MCP Directories & Hubs
+*Pending research...*
+
+## Skills Libraries
+*Pending research...*
+
+## Multi-Agent Orchestration
+
+### OpenHands (github.com/OpenHands/OpenHands)
+*Status: Submodule Added. Pending Deep Research.*
+
+### MetaMCP (github.com/robertpelloni/metamcp)
+*Status: Submodule Added. Researched.*
+
+**Overview:**
+MetaMCP is an MCP proxy and aggregator that acts as a middleware gateway for multiple MCP servers. It standardizes connection management, authentication, and tool routing.
+
+**Key Features:**
+- **Aggregator:** Combines multiple MCP servers into a single endpoint.
+- **Progressive Tool Disclosure:** Exposes only meta-tools (`search_tools`, `load_tool`) initially to save context.
+- **Semantic Tool Search:** Uses `pgvector` and embeddings to find relevant tools dynamically ("Tool RAG").
+- **Code Mode:** Secure sandbox (`isolated-vm`) to execute JS/TS code that can chain MCP tool calls.
+- **Traffic Inspection:** Logs all tool calls ("Mcpshark" integration).
+- **Middleware:** Architecture supports pluggable middleware (logging, auth, policy).
+- **Autonomous Agents:** `run_agent` tool uses LLMs to generate and execute code using available tools.
+- **Authentication:** Supports API Keys, OAuth 2.0.
+
+**Architecture:**
+- Backend: Node.js (Express/TRPC).
+- Database: PostgreSQL (with pgvector).
+- Sandbox: `isolated-vm`.
+- Frontend: Next.js.
+
+## CLIs & Harnesses
+
+### Claude Code (github.com/anthropics/claude-code)
+*Status: Submodule (madappgang fork) Added. Pending Deep Research.*
+
+### CodeBuff (github.com/CodebuffAI/codebuff)
+*Status: Submodule Added. Pending Deep Research.*
+
+## MCP Servers
+*Pending research...*
+
+## Code Indexing
+*Pending research...*
+
+## Memory Systems
+*Pending research...*
+
+## Context Optimization
+*Pending research...*
+
+## RAG
+*Pending research...*
+
+## Database
+*Pending research...*
+
+## Computer Use
+*Pending research...*
+
+## Code Sandboxing
+*Pending research...*
+
+## Search
+*Pending research...*
+
+## Routers & Providers
+*Pending research...*
