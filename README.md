@@ -1,4 +1,4 @@
-# AIOS: The Universal AI Operating System
+# BORG (previously AIOS): The Universal AI Operating System
 
 A unified operating system for PC-based local AI tools. Manage everything from tool installation to autonomous multi-agent orchestration in a single, high-fidelity dashboard.
 
