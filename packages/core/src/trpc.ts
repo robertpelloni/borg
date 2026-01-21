@@ -36,6 +36,20 @@ export const appRouter = t.router({
             const result = await TunnelTools[2].handler({});
             return JSON.parse(result.content[0].text);
         })
+    }),
+    config: t.router({
+        readAntigravity: t.procedure.query(async () => {
+            const { ConfigTools } = await import('./tools/ConfigTools.js');
+            // @ts-ignore
+            const result = await ConfigTools[0].handler({});
+            // Parse JSON content from the tool output
+            return JSON.parse(result.content[0].text);
+        }),
+        writeAntigravity: t.procedure.input(z.object({ content: z.string() })).mutation(async ({ input }) => {
+            const { ConfigTools } = await import('./tools/ConfigTools.js');
+            const result = await ConfigTools[1].handler({ content: input.content });
+            return result.content[0].text;
+        })
     })
 });
 
