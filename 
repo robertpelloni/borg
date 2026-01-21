@@ -1,0 +1,80 @@
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch and 'origin/main' have diverged,
+# and have 3 and 1 different commits each, respectively.
+#
+# Changes to be committed:
+#	modified:   package.json
+#	modified:   packages/core/package.json
+#	modified:   packages/core/src/MCPServer.ts
+#	modified:   packages/jetbrains/.gradle/9.2.0/fileHashes/fileHashes.lock
+#	modified:   pnpm-workspace.yaml
+#
+# Changes not staged for commit:
+#	modified:   external/mcp-servers/memory-opensource (modified content)
+#	modified:   external/unsorted/BeatDrop (modified content)
+#	modified:   external/unsorted/opencode-plugin-template (modified content)
+#	modified:   external/unsorted/opencode-skillful (modified content)
+#	modified:   external/unsorted/postiz-app (modified content)
+#
+# Untracked files:
+#	.turbo/cookies/
+#	.turbo/daemon/e8ab57d2baa4de08-turbo.log.2026-01-21
+#	browsers/
+#	cli-harnesses/
+#	external/TheNoeTrevino-dotfiles/
+#	external/orchestration/a2a-main/
+#	external/orchestration/ag-ui-protocol/
+#	external/unsorted/gumroad/
+#	external/unsorted/notebooklm-mcp/
+#	frameworks/
+#	mcp-dev-tools/agent-console/
+#	mcp-dev-tools/resterm/
+#	mcp-hubs/awesome-ai-apps-Arindam200/
+#	mcp-hubs/awesome-ai-apps/
+#	mcp-hubs/awesome-mcp-servers-appcypher/
+#	mcp-hubs/awesome-mcp-servers-punkpeye/
+#	mcp-hubs/awesome-mcp-servers-wong2/
+#	mcp-hubs/awesome-mcp-servers/
+#	mcp-hubs/toolsdk-mcp-registry-toolsdk-ai/
+#	mcp-hubs/toolsdk-mcp-registry/
+#	mcp-routers/agent-mcp-gateway/
+#	mcp-routers/microsoft-mcp-gateway-2/
+#	mcp-routers/microsoft-mcp-gateway/
+#	mcp-routers/ncp/
+#	mcp-servers/browser/algonius-browser-2/
+#	mcp-servers/browser/algonius-browser-3/
+#	mcp-servers/browser/algonius-browser-4/
+#	mcp-servers/misc/
+#	mcp-servers/orchestration/
+#	mcp-tool-rag/
+#	memory/Claude-Matrix/
+#	memory/adapters/
+#	memory/mcp-obsidian-notes-2/
+#	memory/mcp-obsidian-notes/
+#	memory/memora/
+#	memory/systems/memory-opensource/
+#	misc/Andrew6rant/
+#	misc/MZaFaRM/
+#	misc/abanteai/
+#	misc/bilgecan/
+#	misc/claude-limitline/
+#	misc/gemini-extensions/
+#	misc/inframind/
+#	misc/tether-chat/
+#	multi-agent/
+#	nul
+#	skills/anthropics-skills/
+#	skills/bkircher-skills/
+#	skills/claude-code-tips/
+#	skills/gemini-claude-skills/
+#	skills/refs/
+#	skills/skills-openai/
+#	skills/ykdojo-claude-code-tips/
+#	superai-cli/proxies/gemini-openai-proxy-2/
+#	superai-cli/proxies/openai-gemini-2/
+#
