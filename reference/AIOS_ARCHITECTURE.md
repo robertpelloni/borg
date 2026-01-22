@@ -1,4 +1,4 @@
-# AIOS Architecture Blueprint
+# Borg Architecture Blueprint
 
 **Version:** 0.1.0-draft
 **Status:** Planning

@@ -1,7 +1,7 @@
 # Ultimate MCP Router - Final Summary
 
 **Date**: 2026-01-17
-**Task**: Implement Ultimate MCP Router for AIOS
+**Task**: Implement Ultimate MCP Router for Borg
 **Status**: ✅ COMPLETE
 
 ---
@@ -24,7 +24,7 @@
 
 3. **ConfigurationService** (`packages/core/src/services/ConfigurationService.ts`)
    - Auto-detect .mcp.json, .borg.json config files
-   - Multi-format support (Claude, OpenAI, Google, AIOS)
+   - Multi-format support (Claude, OpenAI, Google, Borg)
    - Environment variable expansion ($VAR)
    - Secret expansion ({secret:NAME})
    - Import/export and validation
@@ -359,7 +359,7 @@ The implementation is COMPLETE. Optional enhancements:
 - Metadata extraction
 
 ### Configuration
-- Multi-format support (Claude, OpenAI, Google, AIOS)
+- Multi-format support (Claude, OpenAI, Google, Borg)
 - Environment variable expansion ($VAR)
 - Secret expansion ({secret:NAME})
 - Auto-detection on startup

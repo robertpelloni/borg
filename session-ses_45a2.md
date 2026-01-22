@@ -54,11 +54,11 @@ please continue
 
 ## Assistant (Compaction · claude-opus-4.5 · 40.7s)
 
-## Conversation Summary: AIOS Roadmap 100% Complete
+## Conversation Summary: Borg Roadmap 100% Complete
 
 ### What Was Accomplished
 
-**All 9 phases of the AIOS roadmap are now 100% complete.** This session verified existing implementations and added missing features to complete Phase 8 (Ecosystem Expansion) and Phase 9 (Production Readiness).
+**All 9 phases of the Borg roadmap are now 100% complete.** This session verified existing implementations and added missing features to complete Phase 8 (Ecosystem Expansion) and Phase 9 (Production Readiness).
 
 ---
 
@@ -134,11 +134,11 @@ ROADMAP.md status:
 ### Prompt for Continuing in New Session
 
 ```
-You are continuing work on the AIOS project. Here is the current state:
+You are continuing work on the Borg project. Here is the current state:
 
 ## PROJECT STATUS: ALL ROADMAP PHASES COMPLETE
 
-The AIOS roadmap (Phases 1-9) is 100% complete. All 66 checklist items are done.
+The Borg roadmap (Phases 1-9) is 100% complete. All 66 checklist items are done.
 
 ## RECENT COMMITS (already pushed to main)
 1. feat: complete Phase 8 roadmap - health polling, memory backfill, UI health indicators
@@ -475,7 +475,7 @@ Semantically pruned (1):
 
 All 9 todos from the previous session are now marked **complete**. 
 
-The AIOS roadmap (Phases 1-9) was fully implemented in our last session with 4 commits already pushed to main. The project is in a complete state.
+The Borg roadmap (Phases 1-9) was fully implemented in our last session with 4 commits already pushed to main. The project is in a complete state.
 
 **What would you like to work on next?** Some options:
 - Address Dependabot security vulnerabilities
@@ -4320,7 +4320,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "content": "name: Benchmark\n\non:\n  push:\n    branches: [main]\n    paths:\n      - 'packages/core/src/**'\n      - 'packages/core/bench/**'\n  pull_request:\n    branches: [main]\n    paths:\n      - 'packages/core/src/**'\n      - 'packages/core/bench/**'\n  workflow_dispatch:\n\npermissions:\n  contents: write\n  pull-requests: write\n\njobs:\n  benchmark:\n    name: Run Benchmarks\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: pnpm/action-setup@v4\n        with:\n          version: 9\n          \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'pnpm'\n          \n      - run: pnpm install --frozen-lockfile\n      \n      - name: Run benchmarks\n        run: pnpm run benchmark\n        \n      - name: Store benchmark results\n        uses: benchmark-action/github-action-benchmark@v1\n        if: github.ref == 'refs/heads/main'\n        with:\n          name: AIOS Performance Benchmarks\n          tool: 'customSmallerIsBetter'\n          output-file-path: benchmark-results.json\n          github-token: ${{ secrets.GITHUB_TOKEN }}\n          auto-push: true\n          alert-threshold: '150%'\n          comment-on-alert: true\n          fail-on-alert: false\n        continue-on-error: true\n",
+  "content": "name: Benchmark\n\non:\n  push:\n    branches: [main]\n    paths:\n      - 'packages/core/src/**'\n      - 'packages/core/bench/**'\n  pull_request:\n    branches: [main]\n    paths:\n      - 'packages/core/src/**'\n      - 'packages/core/bench/**'\n  workflow_dispatch:\n\npermissions:\n  contents: write\n  pull-requests: write\n\njobs:\n  benchmark:\n    name: Run Benchmarks\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: pnpm/action-setup@v4\n        with:\n          version: 9\n          \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'pnpm'\n          \n      - run: pnpm install --frozen-lockfile\n      \n      - name: Run benchmarks\n        run: pnpm run benchmark\n        \n      - name: Store benchmark results\n        uses: benchmark-action/github-action-benchmark@v1\n        if: github.ref == 'refs/heads/main'\n        with:\n          name: Borg Performance Benchmarks\n          tool: 'customSmallerIsBetter'\n          output-file-path: benchmark-results.json\n          github-token: ${{ secrets.GITHUB_TOKEN }}\n          auto-push: true\n          alert-threshold: '150%'\n          comment-on-alert: true\n          fail-on-alert: false\n        continue-on-error: true\n",
   "filePath": "C:/Users/hyper/workspace/borg/.github/workflows/benchmark.yml"
 }
 ```
@@ -4778,7 +4778,7 @@ undefined
 
 ### What Was Accomplished
 
-**Previous Session:** Completed AIOS Roadmap Phases 1-9 (100% complete with 66 items).
+**Previous Session:** Completed Borg Roadmap Phases 1-9 (100% complete with 66 items).
 
 **This Session:** Working on post-roadmap enhancements:
 
@@ -4847,7 +4847,7 @@ The issue is that the LRU eviction in `CacheService.ts` doesn't properly track a
 ### Prompt for Continuing
 
 ```
-You are continuing work on the AIOS project post-roadmap enhancements.
+You are continuing work on the Borg project post-roadmap enhancements.
 
 ## CURRENT STATUS
 Working on 4 tasks - 3 complete, 1 in progress:
@@ -6082,7 +6082,7 @@ Tool: bash
 ```
 **Output:**
 ```
-fatal: Unable to create 'C:/Users/hyper/workspace/.git/modules/AIOS/index.lock': File exists.
+fatal: Unable to create 'C:/Users/hyper/workspace/.git/modules/Borg/index.lock': File exists.
 
 Another git process seems to be running in this repository, e.g.
 an editor opened by 'git commit'. Please make sure all processes
@@ -6157,7 +6157,7 @@ Tool: bash
 **Input:**
 ```json
 {
-  "command": "export CI=true DEBIAN_FRONTEND=noninteractive GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never HOMEBREW_NO_AUTO_UPDATE=1 GIT_EDITOR=: EDITOR=: VISUAL='' GIT_SEQUENCE_EDITOR=: GIT_MERGE_AUTOEDIT=no GIT_PAGER=cat PAGER=cat npm_config_yes=true PIP_NO_INPUT=1 YARN_ENABLE_IMMUTABLE_INSTALLS=false; rm -f \"C:/Users/hyper/workspace/.git/modules/AIOS/index.lock\" && git status --short",
+  "command": "export CI=true DEBIAN_FRONTEND=noninteractive GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never HOMEBREW_NO_AUTO_UPDATE=1 GIT_EDITOR=: EDITOR=: VISUAL='' GIT_SEQUENCE_EDITOR=: GIT_MERGE_AUTOEDIT=no GIT_PAGER=cat PAGER=cat npm_config_yes=true PIP_NO_INPUT=1 YARN_ENABLE_IMMUTABLE_INSTALLS=false; rm -f \"C:/Users/hyper/workspace/.git/modules/Borg/index.lock\" && git status --short",
   "description": "Remove git lock and check status"
 }
 ```
@@ -6740,8 +6740,8 @@ Tool: bash
 ```
 origin	https://github.com/robertpelloni/borg (fetch)
 origin	https://github.com/robertpelloni/borg (push)
-origin-backup	https://github.com/robertpelloni/AIOS (fetch)
-origin-backup	https://github.com/robertpelloni/AIOS (push)
+origin-backup	https://github.com/robertpelloni/Borg (fetch)
+origin-backup	https://github.com/robertpelloni/Borg (push)
 
 ```
 ```

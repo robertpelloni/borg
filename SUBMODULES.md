@@ -1,9 +1,9 @@
-# AIOS Ecosystem Dashboard
+# Borg Ecosystem Dashboard
 
 **Last Updated:** 2026-01-15 03:06:46
 **Total Modules:** 715
 
-This dashboard tracks the status of all 715 integrated submodules and tools within the AIOS ecosystem.
+This dashboard tracks the status of all 715 integrated submodules and tools within the Borg ecosystem.
 
 ## SuperAI CLI Ecosystem (38)
 
@@ -822,4 +822,4 @@ This dashboard tracks the status of all 715 integrated submodules and tools with
 | **`computer-use/`** | Desktop automation and GUI control tools. |
 | **`browser-use/`** | Browser automation and web scraping tools. |
 | **`RAG/`** | Retrieval Augmented Generation systems and parsers. |
-| **`packages/`** | Core AIOS monorepo packages (`core`, `ui`, `cli`). |
+| **`packages/`** | Core Borg monorepo packages (`core`, `ui`, `cli`). |

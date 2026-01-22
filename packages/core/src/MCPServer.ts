@@ -418,121 +418,111 @@ export class MCPServer {
                 });
             }
 
-        });
-    }
+            if (request.params.name === "vscode_get_notifications") {
+                return this.broadcastRequestAndAwait('GET_NOTIFICATIONS');
+            }
 
-    if(request.params.name === "vscode_get_notifications") {
-    // Similar logic to others
-    return this.broadcastRequestAndAwait('GET_NOTIFICATIONS');
-}
+            if (request.params.name === "vscode_submit_chat") {
+                if (this.wssInstance) {
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) client.send(JSON.stringify({ type: 'SUBMIT_CHAT_HOOK' }));
+                    });
+                    return { content: [{ type: "text", text: "Sent SUBMIT_CHAT_HOOK." }] };
+                }
+                return { content: [{ type: "text", text: "Error: No WebSocket server." }] };
+            }
 
-if (request.params.name === "vscode_submit_chat") {
-    // This might be a command or a specific message type
-    // We'll send VSCODE_COMMAND with 'workbench.action.chat.submit' if that exists, 
-    // or a custom message type if we need to target a specific webview.
-    // For now, let's assume we want to submit the *Native* Chat if accessible, or just trigger an "Enter" press via native_input as fallback?
-    // Actually, the user wants "Chat Hook".
-    // Let's send a custom message 'SUBMIT_CHAT_HOOK'.
-    if (this.wssInstance) {
-        this.wssInstance.clients.forEach((client: any) => {
-            if (client.readyState === 1) client.send(JSON.stringify({ type: 'SUBMIT_CHAT_HOOK' }));
-        });
-        return { content: [{ type: "text", text: "Sent SUBMIT_CHAT_HOOK." }] };
-    }
-    return { content: [{ type: "text", text: "Error: No WebSocket server." }] };
-}
+            if (request.params.name === "start_task") {
+                const goal = request.params.arguments?.goal as string;
+                const maxSteps = request.params.arguments?.maxSteps as number || 10;
+                const result = await this.director.executeTask(goal, maxSteps);
+                return {
+                    content: [{ type: "text", text: result }]
+                };
+            }
 
-if (request.params.name === "start_task") {
-    const goal = request.params.arguments?.goal as string;
-    const maxSteps = request.params.arguments?.maxSteps as number || 10;
-    const result = await this.director.executeTask(goal, maxSteps);
-    return {
-        content: [{ type: "text", text: result }]
-    };
-}
+            // 2. Check Standard Library
+            const standardTool = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools].find(t => t.name === request.params.name);
+            if (standardTool) {
+                // @ts-ignore
+                return standardTool.handler(request.params.arguments);
+            }
 
-// 2. Check Standard Library
-const standardTool = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools].find(t => t.name === request.params.name);
-if (standardTool) {
-    // @ts-ignore
-    return standardTool.handler(request.params.arguments);
-}
+            // 3. Check Skills
+            if (request.params.name === "list_skills") {
+                return this.skillRegistry.listSkills();
+            }
+            if (request.params.name === "read_skill") {
+                return this.skillRegistry.readSkill(request.params.arguments?.skillName as string);
+            }
 
-// 3. Check Skills
-if (request.params.name === "list_skills") {
-    return this.skillRegistry.listSkills();
-}
-if (request.params.name === "read_skill") {
-    return this.skillRegistry.readSkill(request.params.arguments?.skillName as string);
-}
-
-// 4. Delegation: Forward to sub-MCPs via Router
-try {
-    return await this.router.callTool(request.params.name, request.params.arguments);
-} catch (e: any) {
-    throw new Error(`Tool execution failed: ${e.message}`);
-}
+            // 4. Delegation: Forward to sub-MCPs via Router
+            try {
+                return await this.router.callTool(request.params.name, request.params.arguments);
+            } catch (e: any) {
+                throw new Error(`Tool execution failed: ${e.message}`);
+            }
         });
     }
 
     async start() {
-    // Initialize systems
-    await this.skillRegistry.loadSkills();
+        // Initialize systems
+        await this.skillRegistry.loadSkills();
 
-    // 1. Start Stdio (for local CLI usage)
-    const stdioTransport = new StdioServerTransport();
-    await this.server.connect(stdioTransport);
-    console.error("Borg Core: Stdio Transport Active");
+        // 1. Start Stdio (for local CLI usage)
+        const stdioTransport = new StdioServerTransport();
+        await this.server.connect(stdioTransport);
+        console.error("Borg Core: Stdio Transport Active");
 
-    // 2. Start WebSocket (for Extension/Web usage)
-    const PORT = 3001;
-    const httpServer = http.createServer();
-    const wss = new WebSocketServer({ server: httpServer });
-    this.wssInstance = wss;
-    const wsTransport = new WebSocketServerTransport(wss);
+        // 2. Start WebSocket (for Extension/Web usage)
+        const PORT = 3001;
+        const httpServer = http.createServer();
+        const wss = new WebSocketServer({ server: httpServer });
+        this.wssInstance = wss;
+        const wsTransport = new WebSocketServerTransport(wss);
 
-    httpServer.listen(PORT, () => {
-        console.error(`Borg Core: WebSocket Transport Active on ws://localhost:${PORT}`);
-    });
-
-    // 2.5 Setup WS Message Handling mechanism
-    wss.on('connection', (ws: any) => {
-        ws.on('message', (data: any) => {
-            try {
-                const msg = JSON.parse(data.toString());
-                if (msg.type === 'STATUS_UPDATE' && msg.requestId) {
-                    const resolve = this.pendingRequests.get(msg.requestId);
-                    if (resolve) {
-                        resolve(msg.status);
-                        this.pendingRequests.delete(msg.requestId);
-                    }
-                }
-            } catch (e) {
-                // Ignore non-JSON
-            }
+        httpServer.listen(PORT, () => {
+            console.error(`Borg Core: WebSocket Transport Active on ws://localhost:${PORT}`);
         });
-    });
 
-    // 3. Connect to Supervisor (Native Automation)
-    // We assume we are running from the monorepo root
-    const supervisorPath = path.resolve(process.cwd(), 'packages/borg-supervisor/dist/index.js');
+        // 2.5 Setup WS Message Handling mechanism
+        wss.on('connection', (ws: any) => {
+            ws.on('message', (data: any) => {
+                try {
+                    const msg = JSON.parse(data.toString());
+                    if (msg.type === 'STATUS_UPDATE' && msg.requestId) {
+                        const resolve = this.pendingRequests.get(msg.requestId);
+                        if (resolve) {
+                            resolve(msg.status);
+                            this.pendingRequests.delete(msg.requestId);
+                        }
+                    }
+                } catch (e) {
+                    // Ignore non-JSON
+                }
+            });
+        });
 
-    try {
-        // Check if file exists first? Router will fail if node can't find it.
-        // As this is "Execution", we want to be robust.
-        // But we assume monorepo structure:
-        // root/packages/core
-        // root/packages/borg-supervisor
-        // CWD is packages/core usually.
+        // 3. Connect to Supervisor (Native Automation)
+        // We assume we are running from the monorepo root
+        const supervisorPath = path.resolve(process.cwd(), 'packages/borg-supervisor/dist/index.js');
 
-        // Actually, best to use absolute path based on __dirname source knowledge or relative to CWD
-        // If CWD is `packages/core`
-        await this.router.connectToServer('borg-supervisor', 'node', [supervisorPath]);
-        console.error(`Borg Core: Connected to Supervisor at ${supervisorPath}`);
-    } catch (e) {
-        console.error("Borg Core: Failed to connect to Supervisor. Native automation disabled.", e);
+        try {
+            // Check if file exists first? Router will fail if node can't find it.
+            // As this is "Execution", we want to be robust.
+            // But we assume monorepo structure:
+            // root/packages/core
+            // root/packages/borg-supervisor
+            // CWD is packages/core usually.
+
+            // Actually, best to use absolute path based on __dirname source knowledge or relative to CWD
+            // If CWD is `packages/core`
+            await this.router.connectToServer('borg-supervisor', 'node', [supervisorPath]);
+            console.error(`Borg Core: Connected to Supervisor at ${supervisorPath}`);
+        } catch (e) {
+            console.error("Borg Core: Failed to connect to Supervisor. Native automation disabled.", e);
+        }
+
+        await this.wsServer.connect(wsTransport);
     }
-
-    await this.wsServer.connect(wsTransport);
-}
 }

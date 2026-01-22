@@ -1,6 +1,6 @@
-# AIOS Features & Functionality Catalog
+# Borg Features & Functionality Catalog
 
-This document tracks the features, functionality, and unique concepts of external AI tools referenced in the project. The goal is to compile a master list to achieve feature parity in AIOS.
+This document tracks the features, functionality, and unique concepts of external AI tools referenced in the project. The goal is to compile a master list to achieve feature parity in Borg.
 
 ## Table of Contents
 1. [MCP Directories & Hubs](#mcp-directories--hubs)
@@ -202,7 +202,7 @@ User/Tenant indexing and identity management.
 
 **Key Features:**
 - **Identity Indexing:** Database-backed search for users/orgs.
-- **Auth:** Critical for multi-provider/multi-tenant AIOS architecture.
+- **Auth:** Critical for multi-provider/multi-tenant Borg architecture.
 
 ## Memory Systems
 
@@ -293,7 +293,7 @@ A comprehensive proxy for managing LLM connections, credits, and routing.
 
 ---
 
-## 🏗️ AIOS Design Notes (User Vision)
+## 🏗️ Borg Design Notes (User Vision)
 
 ### The "Director + Swarm" Architecture
 - **Objective:** Establish a "Frontier Model" (e.g., Claude 3.5 Sonnet, GPT-4o) as a **Director/Supervisor**.

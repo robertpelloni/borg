@@ -1,9 +1,9 @@
 
-# AIOS Insights & Findings (Jan 2026 Context)
+# Borg Insights & Findings (Jan 2026 Context)
 
 ## 1. Key Technology Shifts
 *   **Zeroshot Standard:** The `covibes/zeroshot` model (Planner -> Worker -> Blind Validator) is the new gold standard for autonomous engineering. It prevents "lazy coding" by enforcing a validation step where the validator has no prior knowledge of the implementation detail, only the spec.
-*   **Workty Isolation:** `binbandit/workty` usage (Git Worktrees as "Browser Tabs") is essential for reducing context switching overhead. AIOS should treat every task as a potential worktree.
+*   **Workty Isolation:** `binbandit/workty` usage (Git Worktrees as "Browser Tabs") is essential for reducing context switching overhead. Borg should treat every task as a potential worktree.
 *   **Dev Browser:** `SawyerHood/dev-browser` has superseded stateless tools like Playwright. Maintaining cookies, local storage, and open tabs between agent turns is critical for complex web interactions.
 
 ## 2. Hardware & Model Consensus

@@ -1,10 +1,10 @@
-# SuperAI TUI - AIOS Terminal Orchestrator
+# SuperAI TUI - Borg Terminal Orchestrator
 
-> Go-based terminal UI for orchestrating AI coding tools within the AIOS ecosystem
+> Go-based terminal UI for orchestrating AI coding tools within the Borg ecosystem
 
 ## Overview
 
-This package provides a powerful terminal user interface (TUI) built with [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Lip Gloss](https://github.com/charmbracelet/lipgloss) for orchestrating multiple AI coding assistants. It serves as the interactive frontend for the AIOS Meta-Orchestrator.
+This package provides a powerful terminal user interface (TUI) built with [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Lip Gloss](https://github.com/charmbracelet/lipgloss) for orchestrating multiple AI coding assistants. It serves as the interactive frontend for the Borg Meta-Orchestrator.
 
 ## Features
 
@@ -17,7 +17,7 @@ This package provides a powerful terminal user interface (TUI) built with [Bubbl
 | **Multi-Agent** | MessageBus with 6 aggregation modes |
 | **Session Persistence** | Save/load sessions with checkpointing |
 | **Plugin System** | Native plugins (.so/.dll/.dylib) |
-| **MCP Integration** | Connects to AIOS Core at localhost:3000 |
+| **MCP Integration** | Connects to Borg Core at localhost:3000 |
 | **Git Integration** | Status, commit, conflict detection |
 | **Voice Input** | Whisper API speech-to-text |
 | **Remote Agents** | SSH, Docker, Kubernetes backends |
@@ -26,12 +26,12 @@ This package provides a powerful terminal user interface (TUI) built with [Bubbl
 ## Prerequisites
 
 - Go 1.25.5 or later
-- AIOS Core Service running at localhost:3000
+- Borg Core Service running at localhost:3000
 
 ## Installation
 
 ```bash
-# From AIOS root
+# From Borg root
 cd packages/tui
 
 # Build the binary
@@ -59,7 +59,7 @@ go install ./cmd/superai
 Default config location: `~/.superai/config.yaml`
 
 ```yaml
-# MCP Hub connection (AIOS Core)
+# MCP Hub connection (Borg Core)
 mcp:
   hub_url: "http://localhost:3000"
   api_key: "${AIOS_API_KEY}"
@@ -121,9 +121,9 @@ packages/tui/
 └── go.sum
 ```
 
-## Integration with AIOS Core
+## Integration with Borg Core
 
-The TUI connects to AIOS Core Service for:
+The TUI connects to Borg Core Service for:
 
 1. **MCP Tool Access**: All registered MCP servers and tools
 2. **Memory System**: Shared RAG and memory consolidation
@@ -131,7 +131,7 @@ The TUI connects to AIOS Core Service for:
 4. **Council Debates**: Multi-model consensus via Council API
 
 ```go
-// Example: Calling AIOS Core from TUI
+// Example: Calling Borg Core from TUI
 client := mcp.NewHubClient("http://localhost:3000", apiKey)
 result, err := client.CallTool("filesystem", "read_file", map[string]any{
     "path": "/path/to/file.ts",
@@ -160,9 +160,9 @@ air
 
 ## Related Packages
 
-- `packages/core` - AIOS Core Service (Fastify backend)
-- `packages/ui` - AIOS Dashboard (Next.js frontend)
-- `packages/cli` - AIOS CLI (Node.js)
+- `packages/core` - Borg Core Service (Fastify backend)
+- `packages/ui` - Borg Dashboard (Next.js frontend)
+- `packages/cli` - Borg CLI (Node.js)
 
 ## License
 

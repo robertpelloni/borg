@@ -5,7 +5,7 @@
 **Status:** In Progress
 
 ## Context
-The user has requested a massive update to the AIOS project, specifically:
+The user has requested a massive update to the Borg project, specifically:
 - Merging all feature branches.
 - Updating all submodules.
 - Integrating a huge list of new tools/repos as submodules (MCPs, Skills, etc.).

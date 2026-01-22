@@ -11,13 +11,13 @@
 - [ ] **Unified Dashboarding:** Create UI pages for Jules, Opencode, and General Tool management.
 
 ## Phase X: Deep Research & Absorption (Continuous)
-**Goal:** Achieve feature parity with the "Definitive AIOS Resource Index" (432 tools).
+**Goal:** Achieve feature parity with the "Definitive Borg Resource Index" (432 tools).
 - [ ] **Ingest:** Process `reference/aios_master_index.csv`.
 - [ ] **Analyze:** Sub-agents to scrape and summarize every tool.
-- [ ] **Absorb:** Re-implement key features into AIOS Core.
+- [ ] **Absorb:** Re-implement key features into Borg Core.
 - [ ] **Submodules:** Add all relevant repos as upstream references.
 
-## Phase 20: AIOS Core Implementation (New)
+## Phase 20: Borg Core Implementation (New)
 **Goal:** Build the "Director + Swarm" Orchestrator.
 - [x] **Scaffolding:** Monorepo (Turborepo), Next.js Dashboard, Core Package initialized.
 - [x] **ModelSelector:** Quota management logic and **Automatic Fallback** (Priority).
@@ -57,12 +57,12 @@
 
 ### Functionality Injection
 - [ ] **MCP Injection:** Expose local MCP tools (FS, Git, Terminal) to web chats via browser extension.
-- [ ] **Context Export:** One-click export of web chats into AIOS long-term memory.
+- [ ] **Context Export:** One-click export of web chats into Borg long-term memory.
 - [ ] **Memory Recording:** Background recording of browsing research into the Vector Store.
 
 ### Browser Capabilities (via MCP)
 - [ ] **Page Scraping:** Turn current page content into markdown context (Integrating `browser-use/`).
-- [ ] **Console Reader:** Stream browser console logs to the AIOS debugger.
+- [ ] **Console Reader:** Stream browser console logs to the Borg debugger.
 - [ ] **History & Email:** Secure access to history and GMail via authenticated MCP servers.
 
 ## Phase 17: Universal MCP & Orchestration
@@ -86,10 +86,10 @@
 ### Distributed Orchestration
 - [ ] **Multi-Node Council:** Distributed supervisor councils across different regions/nodes
 - [ ] **Agent-to-Agent (A2A) Mesh:** Secure communication protocol for autonomous agent cooperation
-- [ ] **Edge Deployment:** Lightweight AIOS runtime for edge devices
+- [ ] **Edge Deployment:** Lightweight Borg runtime for edge devices
 
 ### Developer Ecosystem
-- [ ] **AIOS Marketplace:** Registry for sharing supervisors, skills, and agent templates
+- [ ] **Borg Marketplace:** Registry for sharing supervisors, skills, and agent templates
 - [ ] **Visual Designer:** Low-code interface for designing agent workflows and council structures
 - [ ] **OpenAPI / SDK:** Formalized external API and multi-language SDKs (Python, Go, Rust)
 

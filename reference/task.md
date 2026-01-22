@@ -16,12 +16,12 @@
 
 ## 3. Context & Memory
 - [ ] **Page Scraping:** Implement "Read Page" tool (using `read_browser_page` equivalent logic locally or via extension API).
-- [ ] **Chat Export:** Button to "Save to AIOS Memory" (sends chat content to Vector Store).
+- [ ] **Chat Export:** Button to "Save to Borg Memory" (sends chat content to Vector Store).
 
 ## 4. Verification
 - [ ] **E2E Test:** Verify a local tool (e.g., `list_files`) can be triggered from a web chat interface.
 
-# Phase 20: AIOS Core - Director & Swarm
+# Phase 20: Borg Core - Director & Swarm
 - [x] **ModelSelector:** Quota management logic and **Automatic Fallback** (Priority).
 - [ ] **Orchestration Loop:** Implement the `Director` agent logic to manage sub-agents.
 

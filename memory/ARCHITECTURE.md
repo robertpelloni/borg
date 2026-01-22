@@ -4,7 +4,7 @@
 **Version:** 0.1.0
 
 ## Overview
-AIOS employs a "Memory Router" architecture that allows swapping, chaining, and parallel usage of multiple memory backends. This ensures no vendor lock-in and allows the best tool for the specific task (e.g., Vector DB for semantic search, Graph for relationships).
+Borg employs a "Memory Router" architecture that allows swapping, chaining, and parallel usage of multiple memory backends. This ensures no vendor lock-in and allows the best tool for the specific task (e.g., Vector DB for semantic search, Graph for relationships).
 
 ## Architecture Layers
 
