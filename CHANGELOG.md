@@ -40,7 +40,7 @@ Shifted focus from "Enterprise Wrapper" to "Best-in-Class AI Coding Harness" (Su
   - `ToolInventory`: Dashboard for tracking local tool status and versions.
   - `InfrastructureDashboard`: Real-time monitoring of Redis, P2P Mesh, and Consensus.
 - **SuperAI CLI:** New `superai-cli/` directory structure consolidating all CLI tools, adapters, and agents.
-- **TUI Dashboard:** Ink-based terminal UI (`aios tui`) for managing the system from the command line.
+- **TUI Dashboard:** Ink-based terminal UI (`borg tui`) for managing the system from the command line.
 - **Memory Ecosystem:** Comprehensive memory system integration with dedicated `memory/` directory structure supporting multiple backends (Vector, Graph, Local).
 - **Submodule Dashboard:** Created `SUBMODULES.md` to track and document the extensive list of integrated tools and libraries.
   

@@ -78,7 +78,7 @@ When adding a supervisor, you can specify:
 
 ## File-Based Configuration
 
-You can also configure the council via `.aios/council.json`:
+You can also configure the council via `.borg/council.json`:
 
 ```json
 {

@@ -1,8 +1,8 @@
-# aios Design Document
+# borg Design Document
 # include "CORE_INSTRUCTIONS.md"
 
 ## Vision
-The **aios** is a **Universal AI Operating System**. It is a persistent, omni-present layer that orchestrates your entire development lifecycle.
+The **borg** is a **Universal AI Operating System**. It is a persistent, omni-present layer that orchestrates your entire development lifecycle.
 
 The core philosophy is **"Completeness via Aggregation"**.
 In a fragmented AI ecosystem, we solve fragmentation by aggregating best-in-class tools (aider, mem0, claude-code) into a single orchestration layer.

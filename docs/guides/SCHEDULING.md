@@ -1,6 +1,6 @@
 # Task Scheduling
 
-The aios includes a `SchedulerManager` that allows you to run MCP Tools or Agents on a recurring schedule (Cron).
+The borg includes a `SchedulerManager` that allows you to run MCP Tools or Agents on a recurring schedule (Cron).
 
 ## Configuration
 

@@ -184,7 +184,7 @@ async checkAllServerHealth(): Promise<HealthCheckResult[]>;
 **Purpose**: Auto-detect configs, expand env vars, manage secrets
 
 **Key Features**:
-- Scan for .mcp.json, .aios.json files
+- Scan for .mcp.json, .borg.json files
 - Multi-format support (Claude, OpenAI, Google)
 - Environment variable expansion ($VAR)
 - Secret expansion ({secret:NAME})
@@ -226,7 +226,7 @@ async autoDetectConfigs(): Promise<ImportResult> {
 }
 
 // Export all configurations
-async exportAllConfigs(format: 'claude' | 'openai' | 'google' | 'aios' = 'aios'): Promise<string> {
+async exportAllConfigs(format: 'claude' | 'openai' | 'google' | 'borg' = 'borg'): Promise<string> {
     return await this.configService.exportConfigs(format);
 }
 
@@ -240,7 +240,7 @@ async writeConfig(filePath: string, config: any): Promise<void> {
         : [];
 
     // Use configService to write
-    await this.configService.writeConfig(filePath, 'aios');
+    await this.configService.writeConfig(filePath, 'borg');
 }
 ```
 
@@ -259,7 +259,7 @@ async importConfigurations(filePaths: string[]): Promise<ImportResult>;
 /**
  * Export all configurations to file
  */
-async exportConfigurations(format: 'aios' | 'claude' | 'openai' | 'google', filePath: string): Promise<string>;
+async exportConfigurations(format: 'borg' | 'claude' | 'openai' | 'google', filePath: string): Promise<string>;
 
 /**
  * Validate configuration before applying
@@ -545,7 +545,7 @@ async importConfigurations(filePaths: string[]): Promise<ImportResult> {
 /**
  * Export configurations to file
  */
-async exportConfigurations(format: 'aios' | 'claude' | 'openai' | 'google', filePath: string): Promise<string> {
+async exportConfigurations(format: 'borg' | 'claude' | 'openai' | 'google', filePath: string): Promise<string> {
     console.log(`[McpProxyManager] Exporting configurations to ${filePath}...`);
     const content = await this.configService.exportConfigs(format);
     this.emit('configs:exported', { format, filePath, content });

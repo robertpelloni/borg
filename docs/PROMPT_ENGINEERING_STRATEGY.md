@@ -1,6 +1,6 @@
 # Prompt Engineering Integration Strategy
 
-This document outlines the plan to integrate Anthropic's official prompt engineering tools and best practices directly into the "aios" UI.
+This document outlines the plan to integrate Anthropic's official prompt engineering tools and best practices directly into the "borg" UI.
 
 **Reference:** `references/prompt-eng-tutorial` (Submodule)
 

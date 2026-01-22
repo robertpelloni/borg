@@ -1,6 +1,6 @@
-# aios - Dashboard UI
+# borg - Dashboard UI
 
-Next.js-based dashboard for the aios.
+Next.js-based dashboard for the borg.
 
 ## Development
 

@@ -1,4 +1,4 @@
-# Session Handoff: aios Core - Phase 3 Completion
+# Session Handoff: borg Core - Phase 3 Completion
 
 **1. Current Status & Achievements (v0.2.11)**
 We have successfully completed the **real-time Supervisor feedback loop**, integrating the Supervisor Plugin with the Core Socket.IO server and the Frontend UI.

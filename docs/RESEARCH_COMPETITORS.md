@@ -1,6 +1,6 @@
 # Competitor Research: CLI Architectures
 
-This document collates deep-dive research into the architectures of major AI Coding CLIs. The goal is to reverse-engineer their best features (System Prompts, Tooling, Context Management) for the aios.
+This document collates deep-dive research into the architectures of major AI Coding CLIs. The goal is to reverse-engineer their best features (System Prompts, Tooling, Context Management) for the borg.
 
 ## 1. OpenCode (SST)
 *   **Source:** `github.com/sst/opencode`
@@ -94,8 +94,8 @@ As part of the "Swiss Army Knife" strategy, we track and integrate the following
 *   **Goose:** `block/goose` - Autonomous developer agent.
 *   **KiloCode:** `Kilo-Org/kilocode` - "Memory Bank" architecture for persistent state.
 
-## 7. Synthesis & Recommendations for aios
-1.  **Universal Context File:** Implement support for `aios.md`, but also auto-detect and respect `OpenCode.md`, `context.md`, and `AGENTS.md`.
+## 7. Synthesis & Recommendations for borg
+1.  **Universal Context File:** Implement support for `borg.md`, but also auto-detect and respect `OpenCode.md`, `context.md`, and `AGENTS.md`.
 2.  **Repo Map:** Implement Aider's "Repo Map" strategy (AST-based summarization) as a core feature of the Hub's `search_tools` or a dedicated `repo_map` tool.
 3.  **Tool Parity:** Ensure we have equivalents for `view` (partial read), `patch` (diff application), and `agent` (sub-agent spawning).
 4.  **Permission Model:** Adopt Amp's granular permission model (Regex matching on args) + OpenCode's session-based approval.

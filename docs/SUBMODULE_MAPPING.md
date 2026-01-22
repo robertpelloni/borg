@@ -46,7 +46,7 @@ The goal is to identify redundant functionality and assign each component a spec
 | :--- | :--- | :--- |
 | `Polymcp` | Reference | **Agent Framework.** Python library for building MCP agents (Code Mode, Unified Agent). |
 | `superpowers` | Reference | **Methodology.** A workflow system (TDD, Planning) for coding agents. |
-| `smolagents` | Reference | **Agent SDK.** Lightweight agent framework. We can write an adapter to run `smolagents` within aios. |
+| `smolagents` | Reference | **Agent SDK.** Lightweight agent framework. We can write an adapter to run `smolagents` within borg. |
 | `claude-squad` | Reference | **Multi-Agent.** Patterns for managing squads of Claude agents. |
 | `magg` | Reference | **Agent Graph.** Multi-Agent Graph generation. |
 | `orchestration` | Reference | **Coordination.** General orchestration patterns. |
@@ -128,7 +128,7 @@ The goal is to identify redundant functionality and assign each component a spec
 
 | Component | Type | Utility / Role |
 | :--- | :--- | :--- |
-| `byterover-zed-extension` | Reference | **Editor Ext.** Zed editor extension for aios/Byterover. |
+| `byterover-zed-extension` | Reference | **Editor Ext.** Zed editor extension for borg/Byterover. |
 | `pluggedin-app` | Reference | **Browser.** Browser automation. |
 
 ## 9. Skills & Collaboration

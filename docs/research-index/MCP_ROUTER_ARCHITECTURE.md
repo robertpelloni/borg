@@ -159,7 +159,7 @@ class SessionManagerService {
 class MCPConfigurationService {
   // Manages MCP configs, secrets, environment variables
   // Key Features:
-  // - Auto-detection: Scan .mcp.json files, .aios.json
+  // - Auto-detection: Scan .mcp.json files, .borg.json
   // - Auto-configuration: Generate configs for new servers
   // - Multi-format support: Claude vs OpenAI vs Google format
   // - Environment Management: .env expansion, secrets management

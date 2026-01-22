@@ -19,8 +19,9 @@ function connect() {
         try {
             const data = JSON.parse(event.data);
 
-            // Handle Direct Commands (like INSERT_TEXT)
-            if (data.type === 'INSERT_TEXT') {
+            // Handle Direct UI Commands
+            const uiCommands = ['INSERT_TEXT', 'SUBMIT_CHAT', 'CLICK_ELEMENT'];
+            if (uiCommands.includes(data.type)) {
                 // Find active tab and send message
                 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     if (tabs[0]?.id) {

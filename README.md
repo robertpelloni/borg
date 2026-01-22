@@ -36,15 +36,15 @@ A unified operating system for PC-based local AI tools. Manage everything from t
 
 ### 🖥️ CLI & TUI Power Tools
 - **SuperAI CLI:** `superai-cli/` consolidated directory for all external CLI tools.
-- **TUI Dashboard:** Interactive terminal UI (`aios tui`) for headless management.
+- **TUI Dashboard:** Interactive terminal UI (`borg tui`) for headless management.
 - **Submodule Management:** Automated tracking of 80+ AI tools and libraries.
 
 ## 📦 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/OhMyOpenCode/aios.git
-cd aios
+git clone https://github.com/OhMyOpenCode/borg.git
+cd borg
 
 # Initialize Submodules (Important!)
 git submodule update --init --recursive

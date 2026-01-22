@@ -11,8 +11,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/robertpelloni/aios.git
-cd aios
+git clone https://github.com/robertpelloni/borg.git
+cd borg
 
 # Install dependencies
 pnpm install
@@ -99,7 +99,7 @@ CMD ["node", "packages/core/dist/index.js"]
 ```yaml
 version: '3.8'
 services:
-  aios-core:
+  borg-core:
     build: .
     ports:
       - "3002:3002"
@@ -111,16 +111,16 @@ services:
       - ./secrets:/app/secrets
     restart: unless-stopped
 
-  aios-ui:
+  borg-ui:
     build: .
     command: node packages/ui/server.js
     ports:
       - "5173:5173"
     environment:
       - NODE_ENV=production
-      - CORE_API_URL=http://aios-core:3002
+      - CORE_API_URL=http://borg-core:3002
     depends_on:
-      - aios-core
+      - borg-core
     restart: unless-stopped
 
   redis:
@@ -142,20 +142,20 @@ volumes:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aios-core
+  name: borg-core
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: aios-core
+      app: borg-core
   template:
     metadata:
       labels:
-        app: aios-core
+        app: borg-core
     spec:
       containers:
-      - name: aios-core
-        image: aios:latest
+      - name: borg-core
+        image: borg:latest
         ports:
         - containerPort: 3002
         env:
@@ -164,7 +164,7 @@ spec:
         - name: SUPER_AI_TOKEN
           valueFrom:
             secretKeyRef:
-              name: aios-secrets
+              name: borg-secrets
               key: token
         resources:
           requests:
@@ -189,10 +189,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aios-core
+  name: borg-core
 spec:
   selector:
-    app: aios-core
+    app: borg-core
   ports:
   - port: 3002
     targetPort: 3002
@@ -209,9 +209,9 @@ Add to Prometheus scrape config:
 
 ```yaml
 scrape_configs:
-  - job_name: 'aios'
+  - job_name: 'borg'
     static_configs:
-      - targets: ['aios-core:3002']
+      - targets: ['borg-core:3002']
     metrics_path: /metrics
 ```
 
@@ -291,5 +291,5 @@ NODE_OPTIONS="--max-old-space-size=4096" node ...
 ### Debug Mode
 
 ```bash
-DEBUG=aios:* node packages/core/dist/index.js
+DEBUG=borg:* node packages/core/dist/index.js
 ```

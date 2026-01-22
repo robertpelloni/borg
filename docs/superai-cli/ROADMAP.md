@@ -41,7 +41,7 @@
 
 ## Phase 2: Tool Execution (v0.3.0) ✅
 
-**Goal**: Execute MCP tools through the aios hub.
+**Goal**: Execute MCP tools through the borg hub.
 
 ### Completed
 - [x] Implement `POST /api/hub/tools/{name}/execute` client

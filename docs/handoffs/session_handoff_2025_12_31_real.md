@@ -1,4 +1,4 @@
-# Session Handoff: aios Core - Phase 4 (Supervisor Hardening)
+# Session Handoff: borg Core - Phase 4 (Supervisor Hardening)
 
 **1. Current Status & Achievements (v0.2.16)**
 We have hardened the **Dynamic Supervisor System**, verifying it against real-world constraints (API keys, quotas) and implementing a robust testing strategy.

@@ -1,6 +1,6 @@
 # Client Configuration Locations
 
-This document serves as a reference for locating the MCP configuration files of various AI tools, IDEs, and CLIs. The "aios" aims to support auto-detection and configuration of these tools.
+This document serves as a reference for locating the MCP configuration files of various AI tools, IDEs, and CLIs. The "borg" aims to support auto-detection and configuration of these tools.
 
 **Priority:** Windows configuration paths are prioritized, but Mac/Linux paths are included where available.
 

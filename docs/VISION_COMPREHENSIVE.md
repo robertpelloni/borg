@@ -69,7 +69,7 @@ AIOS is to AI tools what an operating system is to hardware:
 ### 2.1 Monorepo Structure
 
 ```
-aios/
+borg/
 ├── packages/
 │   ├── core/           # The Brain - Fastify + Socket.io + Managers
 │   ├── ui/             # The Control Center - Next.js Dashboard
@@ -169,7 +169,7 @@ All subsystems are implemented as **Manager** classes extending `EventEmitter`:
 **Features:**
 - **Context Compactor:** Extract Facts, Decisions, Action Items from raw streams
 - **Ingestors:** AgentMessageBroker, Jules, Tool hooks
-- **Git Sync:** Export to `.aios/memory_export.json` for cloud agent access
+- **Git Sync:** Export to `.borg/memory_export.json` for cloud agent access
 - **Dashboard:** `/memory` page with semantic search
 
 ### 3.3 Agent System
@@ -258,7 +258,7 @@ interface AgentDefinition {
 **Feature Parity Goals:**
 - **Oracle:** Route complex queries to reasoning models (o1/r1)
 - **Librarian:** GitHub search and external repo queries
-- **Toolboxes:** Auto-register scripts from `.aios/toolbox/`
+- **Toolboxes:** Auto-register scripts from `.borg/toolbox/`
 - **Repo Map:** AST-based repository mapping
 
 ### 3.8 Client Integrations
@@ -432,8 +432,8 @@ Based on conversation context, three paths forward:
 # Development
 pnpm install              # Install dependencies
 pnpm run start:all        # Build & Start everything
-pnpm --filter @aios/core dev   # Start Core only
-pnpm --filter @aios/ui dev     # Start UI only
+pnpm --filter @borg/core dev   # Start Core only
+pnpm --filter @borg/ui dev     # Start UI only
 pnpm test                 # Run tests
 
 # CLI

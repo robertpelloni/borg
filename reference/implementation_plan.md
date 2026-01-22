@@ -9,7 +9,7 @@ Achieve feature parity with Factory Droid by implementing a text-based "Skills" 
 
 ### Changes
 *   **[NEW] `packages/core/src/skills/SkillRegistry.ts`**:
-    *   Scans `~/.aios/skills` and `./.aios/skills`.
+    *   Scans `~/.borg/skills` and `./.borg/skills`.
     *   Parses YAML frontmatter + Markdown.
     *   Exposes `list_skills` and `read_skill` tools.
 *   **[MODIFY] `packages/core/src/MCPServer.ts`**:

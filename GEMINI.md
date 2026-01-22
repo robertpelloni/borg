@@ -163,7 +163,7 @@ This document consolidates every detail from your original prompts, the architec
         1. **Spawn Sub-agent:** Use a lightweight model to scrape/read the link.
         2. **Analyze:** Determine if it is a Tool, Repo, Concept, or Noise.
         3. **Submodule Strategy:**
-           - IF it is a useful Repo: Add as submodule to `aios/submodules/`.
+           - IF it is a useful Repo: Add as submodule to `borg/submodules/`.
            - IF it is a competitor: Analyze source code for "Killer Features" to implement.
         4. **Documentation:** Create a summary entry in the global index including:
            - Description & Usefulness Rating (1-10).

@@ -50,7 +50,7 @@ We maintain submodules in `memory/systems/*` to:
 - **Local SQLite:** Used for immediate session context and scratchpad.
 
 ## Configuration
-Memory routing is configured in `.aios/config.json`:
+Memory routing is configured in `.borg/config.json`:
 
 ```json
 {

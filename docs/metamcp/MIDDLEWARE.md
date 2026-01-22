@@ -97,7 +97,7 @@ interface MiddlewareContext {
 Records all tool calls to the `tool_call_logs` table.
 
 ```typescript
-import { loggingMiddleware } from '@aios/core';
+import { loggingMiddleware } from '@borg/core';
 
 // Automatically logs:
 // - Tool name
@@ -133,7 +133,7 @@ loggingMiddleware({
 Enforces access control policies.
 
 ```typescript
-import { policyMiddleware } from '@aios/core';
+import { policyMiddleware } from '@borg/core';
 
 // Evaluates policies in priority order
 // First matching policy determines access
@@ -152,7 +152,7 @@ import { policyMiddleware } from '@aios/core';
 Removes tools from listings based on criteria.
 
 ```typescript
-import { filterToolsMiddleware } from '@aios/core';
+import { filterToolsMiddleware } from '@borg/core';
 
 filterToolsMiddleware({
   // Only show tools matching these patterns
@@ -174,7 +174,7 @@ filterToolsMiddleware({
 Transforms tool metadata.
 
 ```typescript
-import { toolOverridesMiddleware } from '@aios/core';
+import { toolOverridesMiddleware } from '@borg/core';
 
 toolOverridesMiddleware({
   overrides: {
@@ -200,7 +200,7 @@ toolOverridesMiddleware({
 Use `compose()` to chain middleware functions:
 
 ```typescript
-import { compose, loggingMiddleware, policyMiddleware, filterToolsMiddleware } from '@aios/core';
+import { compose, loggingMiddleware, policyMiddleware, filterToolsMiddleware } from '@borg/core';
 
 const callToolPipeline = compose(
   loggingMiddleware(),
@@ -313,7 +313,7 @@ const permissionMiddleware: ListToolsMiddleware = (tools, context) => {
 Middleware results can be cached for performance:
 
 ```typescript
-import { withCache } from '@aios/core';
+import { withCache } from '@borg/core';
 
 const cachedFilterMiddleware = withCache(
   filterToolsMiddleware({ hideInactive: true }),

@@ -1,12 +1,12 @@
 # Gemini Integration Strategy
 
-This document outlines the plan to integrate the Gemini ecosystem into the aios, leveraging CLI extensions, skills, and autonomous agent capabilities.
+This document outlines the plan to integrate the Gemini ecosystem into the borg, leveraging CLI extensions, skills, and autonomous agent capabilities.
 
 ## 1. Gemini CLI Extensions
 **Reference:** [Gemini CLI Extensions](https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/index.md)
 
 ### Goal
-Implement the aios as a Gemini CLI extension, allowing Gemini users to access the Hub's capabilities (tools, memory, agents).
+Implement the borg as a Gemini CLI extension, allowing Gemini users to access the Hub's capabilities (tools, memory, agents).
 
 ### Key Extensions to Integrate/Replicate:
 *   **Jules Delegate:** [`gemini-cli-extensions/jules`](https://github.com/gemini-cli-extensions/jules)

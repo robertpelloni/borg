@@ -67,10 +67,29 @@ export class Director {
         // Mock Logic: If history is empty, list files. If files listed, finish.
         const lastEntry = context.history[context.history.length - 1];
 
+        // Mock Logic: Dynamic Intent Detection
+        const goalLower = context.goal.toLowerCase();
+
         if (!lastEntry) {
+            if (goalLower.includes("status")) {
+                return {
+                    action: 'CONTINUE',
+                    toolName: 'vscode_get_status',
+                    params: {},
+                    reasoning: "User asked for editor status."
+                };
+            }
+            if (goalLower.includes("enter") || goalLower.includes("approve")) {
+                return {
+                    action: 'CONTINUE',
+                    toolName: 'native_input',
+                    params: { keys: 'enter' },
+                    reasoning: "User wants to approve/press enter."
+                };
+            }
             return {
                 action: 'CONTINUE',
-                toolName: 'list_directory',
+                toolName: 'list_files',
                 params: { path: process.cwd() },
                 reasoning: "I need to see where I am to start."
             };

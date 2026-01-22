@@ -124,6 +124,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "socket.io-client": "^4.7.4"
+    "ws": "^8.16.0"
   }
 }

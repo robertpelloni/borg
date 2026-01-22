@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-01-05 15:23:58
 
-This document tracks the status of all submodules and repositories in the aios project.
+This document tracks the status of all submodules and repositories in the borg project.
 
 ## Agents
 

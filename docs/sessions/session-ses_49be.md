@@ -56,7 +56,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx"
 }
 ```
 **Output:**
@@ -233,7 +233,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx",
   "newString": "import fs from 'fs';\nimport path from 'path';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport Link from 'next/link';\nimport { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';\nimport EcosystemList from './EcosystemList'; // We'll move the client-side list logic here\n\n// Type definition for our submodule data\nexport interface Submodule {\n  name: string;\n  path: string;\n  category: string;\n  role: string;\n  description: string;\n  rationale: string;\n  integrationStrategy: string;\n  status: string;\n  isInstalled: boolean;\n}\n\nasync function getSubmodules(): Promise<Submodule[]> {\n  // Try to resolve the path relative to where the server process might be running\n  // In a monorepo, it's often the root or the package root.\n  const possiblePaths = [\n    path.join(process.cwd(), 'docs/SUBMODULE_INDEX.csv'),          // Run from root\n    path.join(process.cwd(), '../../docs/SUBMODULE_INDEX.csv'),    // Run from packages/ui\n    path.join(process.cwd(), '../../../docs/SUBMODULE_INDEX.csv'), // Deeper nesting?\n  ];\n\n  let csvPath = '';\n  for (const p of possiblePaths) {\n    if (fs.existsSync(p)) {\n      csvPath = p;\n      break;\n    }\n  }\n\n  if (!csvPath) {\n    console.error('Could not find SUBMODULE_INDEX.csv in:', possiblePaths);\n    return [];\n  }\n  \n  try {\n    const fileContent = fs.readFileSync(csvPath, 'utf-8');\n    const lines = fileContent.split('\\n').filter(line => line.trim() !== '');\n    const headers = lines[0].split(',').map(h => h.trim());\n    \n    // Skip header\n    return lines.slice(1).map(line => {\n      // Handle simple CSV parsing\n      // Note: This split is naive and will break if fields contain commas. \n      // For this specific dataset, it's acceptable.\n      const values = line.split(',').map(v => v.trim());\n      const entry: any = {};\n      \n      headers.forEach((header, index) => {\n        const key = header.toLowerCase().replace(/ /g, '');\n        if (key.includes('strategy')) entry.integrationStrategy = values[index];\n        else entry[key] = values[index];\n      });\n\n      // Check if installed. We need to resolve the path relative to the repo root.\n      // We assume csvPath is at <ROOT>/docs/SUBMODULE_INDEX.csv\n      const repoRoot = path.dirname(path.dirname(csvPath));\n      const fullPath = path.join(repoRoot, entry.path || '');\n      const isInstalled = fs.existsSync(fullPath);\n\n      return {\n        name: entry.name || 'Unknown',\n        path: entry.path || '',\n        category: entry.category || 'Other',\n        role: entry.role || 'Tool',\n        description: entry.description || '',\n        rationale: entry.rationale || '',\n        integrationStrategy: entry.integrationStrategy || '',\n        status: entry.status || 'Unknown',\n        isInstalled\n      };\n    });\n  } catch (error) {\n    console.error('Error reading submodule index:', error);\n    return [];\n  }\n}\n\nexport default async function EcosystemDashboard() {\n  const submodules = await getSubmodules();\n\n  return (\n    <div className=\"space-y-6\">\n      <div className=\"flex justify-between items-center\">\n        <div>\n          <h1 className=\"text-3xl font-bold tracking-tight\">Ecosystem Dashboard</h1>\n          <p className=\"text-muted-foreground mt-2\">\n            Overview of integrated submodules, references, and their operational status.\n          </p>\n        </div>\n        <div className=\"flex gap-2\">\n           <Badge variant=\"outline\" className=\"text-lg py-1 px-3\">\n             {submodules.length} Modules\n           </Badge>\n           <Badge variant=\"secondary\" className=\"text-lg py-1 px-3\">\n             {submodules.filter(s => s.isInstalled).length} Installed\n           </Badge>\n        </div>\n      </div>\n\n      <EcosystemList initialSubmodules={submodules} />\n    </div>\n  );\n}\n",
   "oldString": "import fs from 'fs';\nimport path from 'path';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport Link from 'next/link';\n\n// Type definition for our submodule data\ninterface Submodule {\n  name: string;\n  path: string;\n  category: string;\n  role: string;\n  description: string;\n  rationale: string;\n  integrationStrategy: string;\n  status: string;\n  isInstalled: boolean;\n}\n\nasync function getSubmodules(): Promise<Submodule[]> {\n  // Try to resolve the path relative to where the server process might be running\n  // In a monorepo, it's often the root or the package root.\n  const possiblePaths = [\n    path.join(process.cwd(), 'docs/SUBMODULE_INDEX.csv'),          // Run from root\n    path.join(process.cwd(), '../../docs/SUBMODULE_INDEX.csv'),    // Run from packages/ui\n    path.join(process.cwd(), '../../../docs/SUBMODULE_INDEX.csv'), // Deeper nesting?\n  ];\n\n  let csvPath = '';\n  for (const p of possiblePaths) {\n    if (fs.existsSync(p)) {\n      csvPath = p;\n      break;\n    }\n  }\n\n  if (!csvPath) {\n    console.error('Could not find SUBMODULE_INDEX.csv in:', possiblePaths);\n    return [];\n  }\n  \n  try {\n    const fileContent = fs.readFileSync(csvPath, 'utf-8');\n    const lines = fileContent.split('\\n').filter(line => line.trim() !== '');\n    const headers = lines[0].split(',').map(h => h.trim());\n    \n    // Skip header\n    return lines.slice(1).map(line => {\n      // Handle simple CSV parsing\n      // Note: This split is naive and will break if fields contain commas. \n      // For this specific dataset, it's acceptable.\n      const values = line.split(',').map(v => v.trim());\n      const entry: any = {};\n      \n      headers.forEach((header, index) => {\n        const key = header.toLowerCase().replace(/ /g, '');\n        if (key.includes('strategy')) entry.integrationStrategy = values[index];\n        else entry[key] = values[index];\n      });\n\n      // Check if installed. We need to resolve the path relative to the repo root.\n      // We assume csvPath is at <ROOT>/docs/SUBMODULE_INDEX.csv\n      const repoRoot = path.dirname(path.dirname(csvPath));\n      const fullPath = path.join(repoRoot, entry.path || '');\n      const isInstalled = fs.existsSync(fullPath);\n\n      return {\n        name: entry.name || 'Unknown',\n        path: entry.path || '',\n        category: entry.category || 'Other',\n        role: entry.role || 'Tool',\n        description: entry.description || '',\n        rationale: entry.rationale || '',\n        integrationStrategy: entry.integrationStrategy || '',\n        status: entry.status || 'Unknown',\n        isInstalled\n      };\n    });\n  } catch (error) {\n    console.error('Error reading submodule index:', error);\n    return [];\n  }\n}\n\nexport default async function EcosystemDashboard() {\n  const submodules = await getSubmodules();\n\n  return (\n    <div className=\"space-y-6\">\n      <div className=\"flex justify-between items-center\">\n        <div>\n          <h1 className=\"text-3xl font-bold tracking-tight\">Ecosystem Dashboard</h1>\n          <p className=\"text-muted-foreground mt-2\">\n            Overview of integrated submodules, references, and their operational status.\n          </p>\n        </div>\n        <div className=\"flex gap-2\">\n           <Badge variant=\"outline\" className=\"text-lg py-1 px-3\">\n             {submodules.length} Modules\n           </Badge>\n           <Badge variant=\"secondary\" className=\"text-lg py-1 px-3\">\n             {submodules.filter(s => s.isInstalled).length} Installed\n           </Badge>\n        </div>\n      </div>\n\n      <div className=\"grid gap-6 md:grid-cols-2 lg:grid-cols-3\">\n        {submodules.map((module, index) => (\n          <Card key={index} className=\"flex flex-col h-full border-gray-800 bg-gray-950/50 hover:bg-gray-900/50 transition-colors\">\n            <CardHeader>\n              <div className=\"flex justify-between items-start\">\n                <CardTitle className=\"text-xl text-blue-400\">{module.name}</CardTitle>\n                <Badge variant={module.isInstalled ? \"default\" : \"secondary\"}>\n                  {module.isInstalled ? \"Active\" : \"Reference\"}\n                </Badge>\n              </div>\n              <div className=\"flex gap-2 mt-2\">\n                <Badge variant=\"secondary\" className=\"text-xs\">{module.category}</Badge>\n                <Badge variant=\"outline\" className=\"text-xs\">{module.role}</Badge>\n              </div>\n            </CardHeader>\n            <CardContent className=\"flex-1\">\n              <p className=\"text-sm text-gray-300 mb-4\">{module.description}</p>\n              \n              <div className=\"space-y-2\">\n                <div>\n                  <span className=\"text-xs font-semibold text-gray-500 uppercase\">Rationale</span>\n                  <p className=\"text-xs text-gray-400\">{module.rationale}</p>\n                </div>\n                {module.integrationStrategy && (\n                  <div>\n                    <span className=\"text-xs font-semibold text-gray-500 uppercase\">Integration</span>\n                    <p className=\"text-xs text-gray-400\">{module.integrationStrategy}</p>\n                  </div>\n                )}\n              </div>\n            </CardContent>\n            <CardFooter className=\"pt-4 border-t border-gray-800\">\n              <div className=\"flex justify-between w-full items-center\">\n                 <code className=\"text-xs bg-gray-900 px-2 py-1 rounded text-gray-500 truncate max-w-[150px]\" title={module.path}>\n                   {module.path}\n                 </code>\n                 <Button variant=\"ghost\" size=\"sm\" asChild>\n                   <Link href={`/dashboard/ecosystem/${module.name}`}>Details &rarr;</Link>\n                 </Button>\n              </div>\n            </CardFooter>\n          </Card>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
   "replaceAll": false
@@ -261,14 +261,14 @@ Tool: write
 ```json
 {
   "content": "'use client';\n\nimport { useState } from 'react';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { Input } from '@/components/ui/input';\nimport Link from 'next/link';\nimport { CheckCircle2, XCircle, AlertTriangle, Search, Filter } from 'lucide-react';\nimport type { Submodule } from './page';\n\ninterface EcosystemListProps {\n  initialSubmodules: Submodule[];\n}\n\nexport default function EcosystemList({ initialSubmodules }: EcosystemListProps) {\n  const [filter, setFilter] = useState('All');\n  const [search, setSearch] = useState('');\n  const [categoryFilter, setCategoryFilter] = useState('All');\n\n  const categories = ['All', ...Array.from(new Set(initialSubmodules.map(s => s.category).filter(Boolean)))];\n\n  const filteredSubmodules = initialSubmodules.filter(module => {\n    const matchesStatus = \n      filter === 'All' ? true :\n      filter === 'Active' ? module.isInstalled :\n      filter === 'Reference' ? !module.isInstalled : true;\n\n    const matchesCategory = \n      categoryFilter === 'All' ? true : \n      module.category === categoryFilter;\n\n    const matchesSearch = \n      search === '' ? true :\n      module.name.toLowerCase().includes(search.toLowerCase()) ||\n      module.description.toLowerCase().includes(search.toLowerCase());\n\n    return matchesStatus && matchesCategory && matchesSearch;\n  });\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Filters */}\n      <div className=\"flex flex-col md:flex-row gap-4 justify-between bg-gray-900/30 p-4 rounded-lg border border-gray-800\">\n        <div className=\"flex flex-col md:flex-row gap-4 items-center w-full md:w-auto\">\n          <div className=\"relative w-full md:w-64\">\n            <Search className=\"absolute left-2 top-2.5 h-4 w-4 text-muted-foreground\" />\n            <Input \n              placeholder=\"Search modules...\" \n              value={search} \n              onChange={(e) => setSearch(e.target.value)}\n              className=\"pl-8\"\n            />\n          </div>\n          \n          <div className=\"flex gap-2\">\n            {['All', 'Active', 'Reference'].map(status => (\n              <Button \n                key={status}\n                variant={filter === status ? \"secondary\" : \"ghost\"}\n                size=\"sm\"\n                onClick={() => setFilter(status)}\n              >\n                {status}\n              </Button>\n            ))}\n          </div>\n        </div>\n\n        <div className=\"flex items-center gap-2\">\n            <Filter className=\"h-4 w-4 text-muted-foreground\" />\n            <select \n              className=\"bg-background border border-input rounded-md px-3 py-1 text-sm focus:ring-1 focus:ring-ring\"\n              value={categoryFilter}\n              onChange={(e) => setCategoryFilter(e.target.value)}\n            >\n              {categories.map(cat => (\n                <option key={cat} value={cat}>{cat}</option>\n              ))}\n            </select>\n        </div>\n      </div>\n\n      {/* Grid */}\n      <div className=\"grid gap-6 md:grid-cols-2 lg:grid-cols-3\">\n        {filteredSubmodules.map((module, index) => (\n          <Card key={index} className=\"flex flex-col h-full border-gray-800 bg-gray-950/50 hover:bg-gray-900/50 transition-colors\">\n            <CardHeader>\n              <div className=\"flex justify-between items-start\">\n                <CardTitle className=\"text-xl text-blue-400 flex items-center gap-2\">\n                  {module.name}\n                  {module.isInstalled ? (\n                    <CheckCircle2 className=\"h-4 w-4 text-green-500\" title=\"Installed & Valid\" />\n                  ) : (\n                    <AlertTriangle className=\"h-4 w-4 text-amber-500\" title=\"Reference Only / Not Found\" />\n                  )}\n                </CardTitle>\n                <Badge variant={module.isInstalled ? \"default\" : \"secondary\"}>\n                  {module.isInstalled ? \"Active\" : \"Reference\"}\n                </Badge>\n              </div>\n              <div className=\"flex gap-2 mt-2\">\n                <Badge variant=\"secondary\" className=\"text-xs\">{module.category}</Badge>\n                <Badge variant=\"outline\" className=\"text-xs\">{module.role}</Badge>\n              </div>\n            </CardHeader>\n            <CardContent className=\"flex-1\">\n              <p className=\"text-sm text-gray-300 mb-4 line-clamp-3\" title={module.description}>\n                {module.description}\n              </p>\n              \n              <div className=\"space-y-2\">\n                <div>\n                  <span className=\"text-xs font-semibold text-gray-500 uppercase\">Rationale</span>\n                  <p className=\"text-xs text-gray-400 line-clamp-2\">{module.rationale}</p>\n                </div>\n              </div>\n            </CardContent>\n            <CardFooter className=\"pt-4 border-t border-gray-800\">\n              <div className=\"flex justify-between w-full items-center\">\n                 <code className=\"text-xs bg-gray-900 px-2 py-1 rounded text-gray-500 truncate max-w-[150px]\" title={module.path}>\n                   {module.path}\n                 </code>\n                 <Button variant=\"ghost\" size=\"sm\" asChild>\n                   <Link href={`/dashboard/ecosystem/${module.name}`}>Details &rarr;</Link>\n                 </Button>\n              </div>\n            </CardFooter>\n          </Card>\n        ))}\n        \n        {filteredSubmodules.length === 0 && (\n          <div className=\"col-span-full text-center py-12 text-muted-foreground\">\n            No modules found matching your criteria.\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\EcosystemList.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\EcosystemList.tsx"
 }
 ```
 **Output:**
 ```
 
 <project_diagnostics>
-C:\Users\hyper\workspace\aios\packages\ui\src\app\dashboard\ecosystem\page.tsx
+C:\Users\hyper\workspace\borg\packages\ui\src\app\dashboard\ecosystem\page.tsx
 ERROR [8:27] Cannot find module './EcosystemList' or its corresponding type declarations.
 </project_diagnostics>
 
@@ -293,7 +293,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\EcosystemList.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\EcosystemList.tsx",
   "newString": "              <div className=\"flex justify-between items-start\">\n                <CardTitle className=\"text-xl text-blue-400 flex items-center gap-2\">\n                  {module.name}\n                  {module.isInstalled ? (\n                    <span title=\"Installed & Valid\">\n                      <CheckCircle2 className=\"h-4 w-4 text-green-500\" />\n                    </span>\n                  ) : (\n                    <span title=\"Reference Only / Not Found\">\n                      <AlertTriangle className=\"h-4 w-4 text-amber-500\" />\n                    </span>\n                  )}\n                </CardTitle>\n                <Badge variant={module.isInstalled ? \"default\" : \"secondary\"}>\n                  {module.isInstalled ? \"Active\" : \"Reference\"}\n                </Badge>\n              </div>",
   "oldString": "              <div className=\"flex justify-between items-start\">\n                <CardTitle className=\"text-xl text-blue-400 flex items-center gap-2\">\n                  {module.name}\n                  {module.isInstalled ? (\n                    <CheckCircle2 className=\"h-4 w-4 text-green-500\" title=\"Installed & Valid\" />\n                  ) : (\n                    <AlertTriangle className=\"h-4 w-4 text-amber-500\" title=\"Reference Only / Not Found\" />\n                  )}\n                </CardTitle>\n                <Badge variant={module.isInstalled ? \"default\" : \"secondary\"}>\n                  {module.isInstalled ? \"Active\" : \"Reference\"}\n                </Badge>\n              </div>",
   "replaceAll": false
@@ -327,13 +327,13 @@ Tool: write
 **Input:**
 ```json
 {
-  "content": "import { MemoryManager } from '../packages/core/src/managers/MemoryManager';\nimport path from 'path';\nimport fs from 'fs';\n\nasync function runTest() {\n    console.log(\"Starting Memory Integration Test...\");\n\n    const testDir = path.join(process.cwd(), 'test-data-memory');\n    if (!fs.existsSync(testDir)) {\n        fs.mkdirSync(testDir);\n    }\n\n    const memoryManager = new MemoryManager(testDir);\n    \n    // Test 1: Ingest Memory\n    console.log(\"\\nTest 1: Ingesting Memory...\");\n    const memoryId = await memoryManager.remember({\n        content: \"The aios project version is 0.2.5 and supports cloud memory via Mem0.\",\n        tags: [\"test\", \"version\", \"fact\"]\n    });\n    console.log(`✅ Memory stored with ID: ${memoryId}`);\n\n    // Test 2: Search Memory\n    console.log(\"\\nTest 2: Searching Memory...\");\n    const results = await memoryManager.search({\n        query: \"aios version\"\n    });\n\n    console.log(`Found ${results.length} results.`);\n    const match = results.find(r => r.content.includes(\"0.2.5\"));\n    \n    if (match) {\n        console.log(\"✅ Search successful: Found correct version info.\");\n        console.log(`   - Content: ${match.content}`);\n        console.log(`   - Score: ${match.similarity ?? 'N/A'}`);\n    } else {\n        console.error(\"❌ Search failed: Did not find expected content.\");\n        process.exit(1);\n    }\n\n    // Cleanup\n    console.log(\"\\nCleaning up...\");\n    // fs.rmSync(testDir, { recursive: true, force: true });\n    console.log(\"✅ Test Complete.\");\n}\n\nrunTest().catch(console.error);\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
+  "content": "import { MemoryManager } from '../packages/core/src/managers/MemoryManager';\nimport path from 'path';\nimport fs from 'fs';\n\nasync function runTest() {\n    console.log(\"Starting Memory Integration Test...\");\n\n    const testDir = path.join(process.cwd(), 'test-data-memory');\n    if (!fs.existsSync(testDir)) {\n        fs.mkdirSync(testDir);\n    }\n\n    const memoryManager = new MemoryManager(testDir);\n    \n    // Test 1: Ingest Memory\n    console.log(\"\\nTest 1: Ingesting Memory...\");\n    const memoryId = await memoryManager.remember({\n        content: \"The borg project version is 0.2.5 and supports cloud memory via Mem0.\",\n        tags: [\"test\", \"version\", \"fact\"]\n    });\n    console.log(`✅ Memory stored with ID: ${memoryId}`);\n\n    // Test 2: Search Memory\n    console.log(\"\\nTest 2: Searching Memory...\");\n    const results = await memoryManager.search({\n        query: \"borg version\"\n    });\n\n    console.log(`Found ${results.length} results.`);\n    const match = results.find(r => r.content.includes(\"0.2.5\"));\n    \n    if (match) {\n        console.log(\"✅ Search successful: Found correct version info.\");\n        console.log(`   - Content: ${match.content}`);\n        console.log(`   - Score: ${match.similarity ?? 'N/A'}`);\n    } else {\n        console.error(\"❌ Search failed: Did not find expected content.\");\n        process.exit(1);\n    }\n\n    // Cleanup\n    console.log(\"\\nCleaning up...\");\n    // fs.rmSync(testDir, { recursive: true, force: true });\n    console.log(\"✅ Test Complete.\");\n}\n\nrunTest().catch(console.error);\n",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
 }
 ```
 **Error:**
 ```
-Error: You must read the file C:\Users\hyper\workspace\aios\tests\integration_memory.ts before overwriting it. Use the Read tool first
+Error: You must read the file C:\Users\hyper\workspace\borg\tests\integration_memory.ts before overwriting it. Use the Read tool first
 ```
 ```
 
@@ -347,7 +347,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
 }
 ```
 **Output:**
@@ -370,8 +370,8 @@ Tool: write
 **Input:**
 ```json
 {
-  "content": "import { MemoryManager } from '../packages/core/src/managers/MemoryManager.js';\nimport path from 'path';\nimport fs from 'fs';\n\nasync function runTest() {\n    console.log(\"Starting Memory Integration Test...\");\n\n    const testDir = path.join(process.cwd(), 'test-data-memory');\n    if (!fs.existsSync(testDir)) {\n        fs.mkdirSync(testDir);\n    }\n\n    // Initialize Memory Manager (Mocking SecretManager if needed, or relying on env)\n    const memoryManager = new MemoryManager(testDir);\n    \n    // Test 1: Ingest Memory\n    console.log(\"\\nTest 1: Ingesting Memory...\");\n    const memoryId = await memoryManager.remember({\n        content: \"The aios project version is 0.2.6 and supports cloud memory via Mem0.\",\n        tags: [\"test\", \"version\", \"fact\"]\n    });\n    console.log(`✅ Memory stored with ID: ${memoryId}`);\n\n    // Test 2: Search Memory\n    console.log(\"\\nTest 2: Searching Memory...\");\n    const results = await memoryManager.search({\n        query: \"aios version\"\n    });\n\n    console.log(`Found ${results.length} results.`);\n    const match = results.find(r => r.content.includes(\"0.2.6\"));\n    \n    if (match) {\n        console.log(\"✅ Search successful: Found correct version info.\");\n        console.log(`   - Content: ${match.content}`);\n        console.log(`   - Score: ${match.similarity ?? 'N/A'}`);\n    } else {\n        console.error(\"❌ Search failed: Did not find expected content.\");\n        // Log all results for debugging\n        results.forEach(r => console.log(` - ${r.content}`));\n        process.exit(1);\n    }\n\n    // Cleanup\n    console.log(\"\\nCleaning up...\");\n    // fs.rmSync(testDir, { recursive: true, force: true });\n    console.log(\"✅ Test Complete.\");\n}\n\nrunTest().catch(console.error);\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
+  "content": "import { MemoryManager } from '../packages/core/src/managers/MemoryManager.js';\nimport path from 'path';\nimport fs from 'fs';\n\nasync function runTest() {\n    console.log(\"Starting Memory Integration Test...\");\n\n    const testDir = path.join(process.cwd(), 'test-data-memory');\n    if (!fs.existsSync(testDir)) {\n        fs.mkdirSync(testDir);\n    }\n\n    // Initialize Memory Manager (Mocking SecretManager if needed, or relying on env)\n    const memoryManager = new MemoryManager(testDir);\n    \n    // Test 1: Ingest Memory\n    console.log(\"\\nTest 1: Ingesting Memory...\");\n    const memoryId = await memoryManager.remember({\n        content: \"The borg project version is 0.2.6 and supports cloud memory via Mem0.\",\n        tags: [\"test\", \"version\", \"fact\"]\n    });\n    console.log(`✅ Memory stored with ID: ${memoryId}`);\n\n    // Test 2: Search Memory\n    console.log(\"\\nTest 2: Searching Memory...\");\n    const results = await memoryManager.search({\n        query: \"borg version\"\n    });\n\n    console.log(`Found ${results.length} results.`);\n    const match = results.find(r => r.content.includes(\"0.2.6\"));\n    \n    if (match) {\n        console.log(\"✅ Search successful: Found correct version info.\");\n        console.log(`   - Content: ${match.content}`);\n        console.log(`   - Score: ${match.similarity ?? 'N/A'}`);\n    } else {\n        console.error(\"❌ Search failed: Did not find expected content.\");\n        // Log all results for debugging\n        results.forEach(r => console.log(` - ${r.content}`));\n        process.exit(1);\n    }\n\n    // Cleanup\n    console.log(\"\\nCleaning up...\");\n    // fs.rmSync(testDir, { recursive: true, force: true });\n    console.log(\"✅ Test Complete.\");\n}\n\nrunTest().catch(console.error);\n",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
 }
 ```
 ```
@@ -419,7 +419,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts"
 }
 ```
 **Output:**
@@ -532,7 +532,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\MemoryManager.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\MemoryManager.ts",
   "newString": "        // Helper to search a single provider\n        const searchProvider = async (provider: MemoryProvider) => {\n             try {\n                const results = await provider.search(args.query, 5, embedding);\n                console.log(`[Memory] Search ${provider.id} returned ${results.length} results`);\n                return results;\n            } catch (e) {\n                console.error(`[Memory] Search failed for ${provider.name}:`, e);\n                return [];\n            }\n        };",
   "oldString": "        // Helper to search a single provider\n        const searchProvider = async (provider: MemoryProvider) => {\n             try {\n                return await provider.search(args.query, 5, embedding);\n            } catch (e) {\n                console.error(`[Memory] Search failed for ${provider.name}:`, e);\n                return [];\n            }\n        };",
   "replaceAll": false
@@ -595,8 +595,8 @@ Let's look at `LocalFileProvider.store`. It pushes to `this.memories` and update
 Then `search` uses `this.fuse.search`.
 
 Why did it find 0 results?
-"The aios project version is 0.2.6 and supports cloud memory via Mem0."
-Query: "aios version"
+"The borg project version is 0.2.6 and supports cloud memory via Mem0."
+Query: "borg version"
 
 Fuse.js configuration:
 ```typescript
@@ -605,7 +605,7 @@ Fuse.js configuration:
             threshold: 0.4
         });
 ```
-Threshold 0.4 should match "aios version" against that string.
+Threshold 0.4 should match "borg version" against that string.
 
 Wait, I see `[LocalFileProvider] Loaded 3 items` in the second run. This means persistence is working.
 
@@ -669,7 +669,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts"
 }
 ```
 **Output:**
@@ -782,7 +782,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\providers\\LocalFileProvider.ts",
   "newString": "        this.fuse = new Fuse([], {\n            keys: ['content', 'tags'],\n            threshold: 0.6 // Increased threshold (0.0 is perfect match, 1.0 is no match)\n        });",
   "oldString": "        this.fuse = new Fuse([], {\n            keys: ['content', 'tags'],\n            threshold: 0.4\n        });",
   "replaceAll": false
@@ -821,7 +821,7 @@ Test 2: Searching Memory...
 [Memory] Search mem0 returned 0 results
 Found 3 results.
 ✅ Search successful: Found correct version info.
-   - Content: The aios project version is 0.2.6 and supports cloud memory via Mem0.
+   - Content: The borg project version is 0.2.6 and supports cloud memory via Mem0.
    - Score: N/A
 
 Cleaning up...
@@ -856,7 +856,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\VERSION.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\VERSION.md"
 }
 ```
 **Output:**
@@ -880,7 +880,7 @@ Tool: write
 ```json
 {
   "content": "0.2.6\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\VERSION.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\VERSION.md"
 }
 ```
 ```
@@ -895,7 +895,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\CHANGELOG.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\CHANGELOG.md"
 }
 ```
 **Output:**
@@ -1016,7 +1016,7 @@ Tool: read
 00113| - **Submodules**: Updated `jules-app`, `OpenHands`, and `beads` submodules.
 00114| 
 00115| ## [0.0.1] - Initial Release
-00116| - Initial release of aios.
+00116| - Initial release of borg.
 00117| 
 
 (End of file - total 117 lines)
@@ -1034,7 +1034,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\CHANGELOG.md",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\CHANGELOG.md",
   "newString": "## [0.2.6] - 2025-12-29\n\n### Added\n- **Features**: Implemented Mem0 (Cloud Memory) integration with real API calls.\n- **Improvements**: Enhanced `MemoryManager` to perform parallel searches across all providers (Local, Mem0) and aggregate results.\n- **Dashboard**: Added filtering and health checks to the Ecosystem Dashboard.\n- **Testing**: Added integration tests for MemoryManager.\n\n## [0.2.5] - 2025-12-29\n",
   "oldString": "## [0.2.5] - 2025-12-29\n",
   "replaceAll": false
@@ -1099,7 +1099,7 @@ Here is the summary of the work done in this session and the prompt for the next
 
 ### **Prompt for Next Session**
 
-**Role:** You are the Lead Developer for **aios (AI Operating System)**.
+**Role:** You are the Lead Developer for **borg (AI Operating System)**.
 
 **Current State:**
 *   **Core Server:** Port 3002.
@@ -2668,7 +2668,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\LLM_INSTRUCTIONS.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\LLM_INSTRUCTIONS.md"
 }
 ```
 **Output:**
@@ -2741,7 +2741,7 @@ Tool: grep
 **Output:**
 ```
 Found 100 matches
-C:\Users\hyper\workspace\aios\submodules\jules-app\package-lock.json:
+C:\Users\hyper\workspace\borg\submodules\jules-app\package-lock.json:
   Line 1713:         "slash": "^3.0.0"
   Line 1753:         "slash": "^3.0.0"
   Line 1933:         "slash": "^3.0.0",
@@ -2756,135 +2756,135 @@ C:\Users\hyper\workspace\aios\submodules\jules-app\package-lock.json:
   Line 15197:     "node_modules/slash": {
   Line 15199:       "resolved": "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz",
 
-C:\Users\hyper\workspace\aios\submodules\CLIProxyAPI\internal\watcher\synthesizer\file_test.go:
+C:\Users\hyper\workspace\borg\submodules\CLIProxyAPI\internal\watcher\synthesizer\file_test.go:
   Line 254: 		{"prefix with slashes trimmed", "/myprefix/", "myprefix"},
   Line 256: 		{"prefix with internal slash rejected", "my/prefix", ""},
   Line 579: 			name:      "with slashes",
   Line 581: 			projectID: "project/with/slashes",
   Line 582: 			want:      "path/to/auth.json::project_with_slashes",
 
-C:\Users\hyper\workspace\aios\submodules\CLIProxyAPI\internal\util\translator.go:
+C:\Users\hyper\workspace\borg\submodules\CLIProxyAPI\internal\util\translator.go:
   Line 112: //   - Common backslash escapes (\n, \r, \t, \b, \f, \\) are preserved.
   Line 158: 				// Handle common escape sequences after a backslash within a
   Line 163: 					// Keep the backslash and the character (except for '"' which
   Line 189: 					// Unknown escape: preserve the backslash and the char
 
-C:\Users\hyper\workspace\aios\submodules\CLIProxyAPI\internal\runtime\executor\aistudio_executor.go:
+C:\Users\hyper\workspace\borg\submodules\CLIProxyAPI\internal\runtime\executor\aistudio_executor.go:
   Line 389: 			// A quote is escaped only when preceded by an odd number of consecutive backslashes.
   Line 391: 			backslashes := 0
   Line 393: 				backslashes++
   Line 395: 			if backslashes%2 == 0 {
 
-C:\Users\hyper\workspace\aios\submodules\CLIProxyAPI\internal\logging\request_logger.go:
+C:\Users\hyper\workspace\borg\submodules\CLIProxyAPI\internal\logging\request_logger.go:
   Line 368: 	// Remove leading slash
   Line 399: 	// Replace slashes with hyphens
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Views\Screens\QuotaScreen.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Views\Screens\QuotaScreen.swift:
   Line 86:                     systemImage: "bolt.slash",
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Views\Screens\AgentSetupScreen.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Views\Screens\AgentSetupScreen.swift:
   Line 76:             Label("empty.proxyNotRunning".localized(), systemImage: "bolt.slash")
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Views\Screens\APIKeysScreen.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Views\Screens\APIKeysScreen.swift:
   Line 97:                     Label("apiKeys.empty".localized(), systemImage: "key.slash")
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Services\ClaudeCodeQuotaFetcher.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Services\ClaudeCodeQuotaFetcher.swift:
   Line 150:         let slashPattern = #"(\d+)\s*/\s*(\d+)"#
   Line 151:         if let regex = try? NSRegularExpression(pattern: slashPattern),
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Models\Models.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Models\Models.swift:
   Line 44:         case .codex: return "chevron.left.forwardslash.chevron.right"
   Line 50:         case .copilot: return "chevron.left.forwardslash.chevron.right"
 
-C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Models\AgentModels.swift:
+C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Models\AgentModels.swift:
   Line 90:         case .codexCLI: return "chevron.left.forwardslash.chevron.right"
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\antigravity-jules-orchestration\tests\unit\v250-features.test.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\antigravity-jules-orchestration\tests\unit\v250-features.test.js:
   Line 859:     it('should block forward slashes in owner', () => {
   Line 863:     it('should block forward slashes in repo', () => {
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\antigravity-jules-orchestration\lib\render-autofix.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\antigravity-jules-orchestration\lib\render-autofix.js:
   Line 408:   // Allow only alphanumeric, hyphens, underscores, forward slashes
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\antigravity-jules-orchestration\docs\api\COMMANDS_REFERENCE.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\antigravity-jules-orchestration\docs\api\COMMANDS_REFERENCE.md:
   Line 5: Quick reference for all available slash commands in the Jules orchestration system.
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\antigravity-jules-orchestration\SECURITY.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\antigravity-jules-orchestration\SECURITY.md:
   Line 84: - **Branch Sanitization**: Branch names are sanitized before use in prompts (alphanumeric, hyphens, underscores, slashes only)
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\antigravity-jules-orchestration\CHANGELOG.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\antigravity-jules-orchestration\CHANGELOG.md:
   Line 59: - New slash commands: `/templates`, `/queue`, `/analytics`
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\tests\integration\hook-execution-environments.test.ts:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\tests\integration\hook-execution-environments.test.ts:
   Line 202:         // Windows paths should use backslashes or be normalized
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\src\utils\project-name.ts:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\src\utils\project-name.ts:
   Line 6:  * Handles edge cases: null/undefined cwd, drive roots, trailing slashes
   Line 17:   // Extract basename (handles trailing slashes automatically)
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\src\services\worker\BranchManager.ts:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\src\services\worker\BranchManager.ts:
   Line 18:  * Only allows alphanumeric, hyphens, underscores, forward slashes, and dots
   Line 24:   // Git branch name validation: alphanumeric, hyphen, underscore, slash, dot
   Line 25:   // Must not start with dot, hyphen, or slash
   Line 167:       error: `Invalid branch name: ${targetBranch}. Branch names must be alphanumeric with hyphens, underscores, slashes, or dots.`
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\src\hooks\new-hook.ts:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\src\hooks\new-hook.ts:
   Line 73:   // Strip leading slash from commands for memory agent
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\plugin\ui\viewer-bundle.js:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\plugin\ui\viewer-bundle.js:
   Line 8: `+l.stack}return{value:e,source:t,stack:o,digest:null}}function Ql(e,t,r){return{value:e,source:null,stack:r??null,digest:t??null}}function Pi(e,t){try{console.error(t.value)}catch(r){setTimeout(function(){throw r})}}var Pm=typeof WeakMap=="function"?WeakMap:Map;function Kc(e,t,r){r=ut(-1,r),r.tag=3,r.payload={element:null};var n=t.value;return r.callback=function(){qo||(qo=!0,Vi=n),Pi(e,t)},r}function Yc(e,t,r){r=ut(-1,r),r.tag=3;var n=e.type.getDerivedStateFromError;if(typeof n=="function"){var o=t.value;r.payload=function(){return n(o)},r.callback=function(){Pi(e,t)}}var l=e.stateNode;return l!==null&&typeof l.componentDidCatch=="function"&&(r.callback=function(){Pi(e,t),typeof n!="function"&&(Lt===null?Lt=new Set([this]):Lt.add(this));var i=t.stack;this.componentDidCatch(t.value,{componentStack:i!==null?i:""})}),r}function sa(e,t,r){var n=e.pingCache;if(n===null){n=e.pingCache=new Pm;var o=new Set;n.set(t,o)}else o=n.get(t),o===void 0&&(o=new Set,n.set(t,o));o.has(r)||(o.add(r),e=Xm.bind(null,e,t,r),t.then(e,e))}function aa(e){do{var t;if((t=e.tag===13)&&(t=e.memoizedState,t=t!==null?t.dehydrated!==null:!0),t)return e;e=e.return}while(e!==null);return null}function ca(e,t,r,n,o){return(e.mode&1)===0?(e===t?e.flags|=65536:(e.flags|=128,r.flags|=131072,r.flags&=-52805,r.tag===1&&(r.alternate===null?r.tag=17:(t=ut(-1,1),t.tag=2,xt(r,t,1))),r.lanes|=1),e):(e.flags|=65536,e.lanes=o,e)}var Am=dt.ReactCurrentOwner,Se=!1;function he(e,t,r,n){t.child=e===null?Nc(t,null,r,n):Lr(t,e.child,r,n)}function fa(e,t,r,n,o){r=r.render;var l=t.ref;return Tr(t,o),n=Su(e,t,r,n,l,o),r=Eu(),e!==null&&!Se?(t.updateQueue=e.updateQueue,t.flags&=-2053,e.lanes&=~o,ft(e,t,o)):(H&&r&&uu(t),t.flags|=1,he(e,t,n,o),t.child)}function da(e,t,r,n,o){if(e===null){var l=r.type;return typeof l=="function"&&!Ou(l)&&l.defaultProps===void 0&&r.compare===null&&r.defaultProps===void 0?(t.tag=15,t.type=l,Zc(e,t,l,n,o)):(e=So(r.type,null,n,t,t.mode,o),e.ref=t.ref,e.return=t,t.child=e)}if(l=e.child,(e.lanes&o...
   Line 9: `,nexist:"\u2204",nexists:"\u2204",Nfr:"\u{1D511}",nfr:"\u{1D52B}",ngE:"\u2267\u0338",nge:"\u2271",ngeq:"\u2271",ngeqq:"\u2267\u0338",ngeqslant:"\u2A7E\u0338",nges:"\u2A7E\u0338",nGg:"\u22D9\u0338",ngsim:"\u2275",nGt:"\u226B\u20D2",ngt:"\u226F",ngtr:"\u226F",nGtv:"\u226B\u0338",nharr:"\u21AE",nhArr:"\u21CE",nhpar:"\u2AF2",ni:"\u220B",nis:"\u22FC",nisd:"\u22FA",niv:"\u220B",NJcy:"\u040A",njcy:"\u045A",nlarr:"\u219A",nlArr:"\u21CD",nldr:"\u2025",nlE:"\u2266\u0338",nle:"\u2270",nleftarrow:"\u219A",nLeftarrow:"\u21CD",nleftrightarrow:"\u21AE",nLeftrightarrow:"\u21CE",nleq:"\u2270",nleqq:"\u2266\u0338",nleqslant:"\u2A7D\u0338",nles:"\u2A7D\u0338",nless:"\u226E",nLl:"\u22D8\u0338",nlsim:"\u2274",nLt:"\u226A\u20D2",nlt:"\u226E",nltri:"\u22EA",nltrie:"\u22EC",nLtv:"\u226A\u0338",nmid:"\u2224",NoBreak:"\u2060",NonBreakingSpace:"\xA0",nopf:"\u{1D55F}",Nopf:"\u2115",Not:"\u2AEC",not:"\xAC",NotCongruent:"\u2262",NotCupCap:"\u226D",NotDoubleVerticalBar:"\u2226",NotElement:"\u2209",NotEqual:"\u2260",NotEqualTilde:"\u2242\u0338",NotExists:"\u2204",NotGreater:"\u226F",NotGreaterEqual:"\u2271",NotGreaterFullEqual:"\u2267\u0338",NotGreaterGreater:"\u226B\u0338",NotGreaterLess:"\u2279",NotGreaterSlantEqual:"\u2A7E\u0338",NotGreaterTilde:"\u2275",NotHumpDownHump:"\u224E\u0338",NotHumpEqual:"\u224F\u0338",notin:"\u2209",notindot:"\u22F5\u0338",notinE:"\u22F9\u0338",notinva:"\u2209",notinvb:"\u22F7",notinvc:"\u22F6",NotLeftTriangleBar:"\u29CF\u0338",NotLeftTriangle:"\u22EA",NotLeftTriangleEqual:"\u22EC",NotLess:"\u226E",NotLessEqual:"\u2270",NotLessGreater:"\u2278",NotLessLess:"\u226A\u0338",NotLessSlantEqual:"\u2A7D\u0338",NotLessTilde:"\u2274",NotNestedGreaterGreater:"\u2AA2\u0338",NotNestedLessLess:"\u2AA1\u0338",notni:"\u220C",notniva:"\u220C",notnivb:"\u22FE",notnivc:"\u22FD",NotPrecedes:"\u2280",NotPrecedesEqual:"\u2AAF\u0338",NotPrecedesSlantEqual:"\u22E0",NotReverseElement:"\u220C",NotRightTriangleBar:"\u29D0\u0338",NotRightTriangle:"\u22EB",NotRightTriangleEqual:"\u22ED",NotSqua...
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\plugin\scripts\worker-service.cjs:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\plugin\scripts\worker-service.cjs:
   Line 31: `}Ay.exports=jk;function jk(a,e,r){var t=r||{},s=t.env||process.env.NODE_ENV||"development",i=t.onerror;return function(n){var o,l,c;if(!n&&Cy(e)){Ip("cannot 404 after headers sent");return}if(n?(c=Lk(n),c===void 0?c=qk(e):o=$k(n),l=Mk(n,c,s)):(c=404,l="Cannot "+a.method+" "+Rk(Fk(a))),Ip("default %s",c),n&&i&&Ak(i,n,a,e),Cy(e)){Ip("cannot %d after headers sent",c),a.socket&&a.socket.destroy();return}Uk(a,e,c,o,l)}}function $k(a){if(!(!a.headers||typeof a.headers!="object")){for(var e=Object.create(null),r=Object.keys(a.headers),t=0;t<r.length;t++){var s=r[t];e[s]=a.headers[s]}return e}}function Mk(a,e,r){var t;return r!=="production"&&(t=a.stack,!t&&typeof a.toString=="function"&&(t=a.toString())),t||Iy.message[e]}function Lk(a){if(typeof a.status=="number"&&a.status>=400&&a.status<600)return a.status;if(typeof a.statusCode=="number"&&a.statusCode>=400&&a.statusCode<600)return a.statusCode}function Fk(a){try{return Ok.original(a).pathname}catch{return"resource"}}function qk(a){var e=a.statusCode;return(typeof e!="number"||e<400||e>599)&&(e=500),e}function Cy(a){return typeof a.headersSent!="boolean"?!!a._header:a.headersSent}function Uk(a,e,r,t,s){function i(){var n=Dk(s);if(e.statusCode=r,a.httpVersionMajor<2&&(e.statusMessage=Iy.message[r]),e.removeHeader("Content-Encoding"),e.removeHeader("Content-Language"),e.removeHeader("Content-Range"),Hk(e,t),e.setHeader("Content-Security-Policy","default-src 'none'"),e.setHeader("X-Content-Type-Options","nosniff"),e.setHeader("Content-Type","text/html; charset=utf-8"),e.setHeader("Content-Length",Buffer.byteLength(n,"utf8")),a.method==="HEAD"){e.end();return}e.end(n,"utf8")}if(Nk(a)){i();return}Ck(a),ky(a,i),a.resume()}function Hk(a,e){if(e)for(var r=Object.keys(e),t=0;t<r.length;t++){var s=r[t];a.setHeader(s,e[s])}}});var Di=U((Eq,$y)=>{"use strict";$y.exports=Bk;function Dy(a,e,r){for(var t=0;t<a.length;t++){var s=a[t];r>0&&Array.isArray(s)?Dy(s,e,r-1):e.push(s)}return e}function jy(a,e){for(var r=0;r<a.length;r++){var t...
   Line 1174:     `).all().map(o=>o.project);t.json({projects:n})});handleGetProcessingStatus=this.wrapHandler((r,t)=>{let s=this.sessionManager.isAnySessionProcessing(),i=this.sessionManager.getTotalActiveWork();t.json({isProcessing:s,queueDepth:i})});handleSetProcessing=this.wrapHandler((r,t)=>{this.workerService.broadcastProcessingStatus();let s=this.sessionManager.isAnySessionProcessing(),i=this.sessionManager.getTotalQueueDepth(),n=this.sessionManager.getActiveSessionCount();t.json({status:"ok",isProcessing:s})});parsePaginationParams(r){let t=parseInt(r.query.offset,10)||0,s=Math.min(parseInt(r.query.limit,10)||20,100),i=r.query.project;return{offset:t,limit:s,project:i}}handleImport=this.wrapHandler((r,t)=>{let{sessions:s,summaries:i,observations:n,prompts:o}=r.body,l={sessionsImported:0,sessionsSkipped:0,summariesImported:0,summariesSkipped:0,observationsImported:0,observationsSkipped:0,promptsImported:0,promptsSkipped:0},c=this.dbManager.getSessionStore();if(Array.isArray(s))for(let u of s)c.importSdkSession(u).imported?l.sessionsImported++:l.sessionsSkipped++;if(Array.isArray(i))for(let u of i)c.importSessionSummary(u).imported?l.summariesImported++:l.summariesSkipped++;if(Array.isArray(n))for(let u of n)c.importObservation(u).imported?l.observationsImported++:l.observationsSkipped++;if(Array.isArray(o))for(let u of o)c.importUserPrompt(u).imported?l.promptsImported++:l.promptsSkipped++;t.json({success:!0,stats:l})})};var Xl=class extends xr{constructor(r){super();this.searchManager=r}setupRoutes(r){r.get("/api/search",this.handleUnifiedSearch.bind(this)),r.get("/api/timeline",this.handleUnifiedTimeline.bind(this)),r.get("/api/decisions",this.handleDecisions.bind(this)),r.get("/api/changes",this.handleChanges.bind(this)),r.get("/api/how-it-works",this.handleHowItWorks.bind(this)),r.get("/api/search/observations",this.handleSearchObservations.bind(this)),r.get("/api/search/sessions",this.handleSearchSessions.bind(this)),r.get("/api/search/prompts",this.handleSearchPrompt...
 
-C:\Users\hyper\workspace\aios\submodules\claude-mem\CHANGELOG.md:
+C:\Users\hyper\workspace\borg\submodules\claude-mem\CHANGELOG.md:
   Line 1947: - Added troubleshooting slash command skill for diagnosing claude-mem installation issues
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\jules_mcp\src\schemas\index.ts:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\jules_mcp\src\schemas\index.ts:
   Line 64:       "Invalid branch name. Use only alphanumeric characters, dots, dashes, and slashes"
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\jules-system-prompt\DETAILS2.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\jules-system-prompt\DETAILS2.md:
   Line 91: {"tools": [{"name": "list_files", "description": "lists all files and directories under the given directory (defaults to repo root). Directories in the output will have a trailing slash (e.g., 'src/'). The output is that same as from the Unix command `ls -a -1F --group-directories-first <path>`.", "parameters": {"type": "OBJECT", "properties": {"path": {"type": "STRING", "description": "The directory path to list files from. Defaults to the root of the repo."}}}}, {"name": "read_file", "description": "Reads the content of the specified file in the repo. It will return an error if the file does not exist.", "parameters": {"type": "OBJECT", "properties": {"filepath": {"type": "STRING", "description": "The path of the file to read, relative to the repo root."}}, "required": ["filepath"]}}, {"name": "view_text_website", "description": "Fetches the content of a website as plain text. Useful for accessing documentation or external resources. This tool only works when the sandbox has internet access.", "parameters": {"type": "OBJECT", "properties": {"url": {"type": "STRING", "description": "The URL of the website to fetch."}}, "required": ["url"]}}, {"name": "set_plan", "description": "Use it after initial exploration to set the first plan, and later as needed if the plan is updated.", "parameters": {"type": "OBJECT", "properties": {"plan": {"type": "STRING", "description": "The plan to solve the issue, in Markdown format."}}, "required": ["plan"]}}, {"name": "plan_step_complete", "description": "Marks the current plan step as complete, with a message explaining what actions you took to do so. **Important: Before calling this tool, you must have already verified that your changes were applied correctly (e.g., by using `read_files` or `ls`).** Only call this when you have successfully completed all items needed for this plan step.", "parameters": {"type": "OBJECT", "properties": {"message": {"type": "STRING", "description": "A message explaining what actions were taken."}},...
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\jules-system-prompt\DETAILS-VERBATIM-1.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\jules-system-prompt\DETAILS-VERBATIM-1.md:
   Line 12: * `ls(directory_path: str = "") -> list[str]`: lists all files and directories under the given directory (defaults to repo root). Directories in the output will have a trailing slash (e.g., 'src/').
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\jules-system-prompt\DETAILS-0.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\jules-system-prompt\DETAILS-0.md:
   Line 10: * `ls(directory_path: str = "") -> list[str]`: lists all files and directories under the given directory (defaults to repo root). Directories in the output will have a trailing slash (e.g., 'src/').
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\which\which.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\which\which.js:
   Line 15:   // If it has a slash, then we don't bother searching the pathenv.
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\uri-js\yarn.lock:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\uri-js\yarn.lock:
   Line 143:     slash "^1.0.0"
   Line 179:     slash "^1.0.0"
   Line 204:     slash "^1.0.0"
   Line 2200: slash@^1.0.0:
   Line 2202:   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\serve-static\index.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\serve-static\index.js:
   Line 129:  * Collapse all leading slashes into a single slash
   Line 191:     // append trailing slash
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\serve-static\HISTORY.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\serve-static\HISTORY.md:
   Line 119:   * perf: improve slash collapsing
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\send\index.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\send\index.js:
   Line 784:  * Collapse all leading slashes into a single slash
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\send\README.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\send\README.md:
   Line 250:   // redirect to trailing slash for consistent url
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\send\HISTORY.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\send\HISTORY.md:
   Line 239:   * Fix redirect when `path` starts with multiple forward slashes
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\router\lib\layer.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\router\lib\layer.js:
   Line 47:   this.slash = path === '/' && opts.end === false
   Line 183:     if (this.slash) {
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\router\index.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\router\index.js:
   Line 161:   let slashAdded = false
   Line 193:     // remove added slash
   Line 194:     if (slashAdded) {
@@ -2893,36 +2893,36 @@ C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\nod
   Line 328:         slashAdded = true
   Line 331:       // Setup base URL (no trailing slash)
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\router\README.md:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\router\README.md:
   Line 49: - `strict`        - When `false` trailing slashes are optional (default: `false`)
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\proxy-from-env\test.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\proxy-from-env\test.js:
   Line 112:     env.HTTP_PROXY = 'crazy without colon slash slash';
   Line 113:     testProxyUrl(env, 'http://crazy without colon slash slash', 'http://wow');
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\types\test.d.ts:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\types\test.d.ts:
   Line 546:    * 1. Forward slashes `"/"` can be used as path separators on any platform.
   Line 1748:    * 1. Forward slashes `"/"` can be used as path separators on any platform.
   Line 7347:    * - baseURL: `http://localhost:3000/foo` (without trailing slash) and navigating to `./bar.html` results in
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\utilsBundleImpl.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\utilsBundleImpl.js:
   Line 49: `)),this.write(this.margin[2]),this.restore()}};Eo.exports=zi});var yo=y((yD,Ao)=>{"use strict";var Xh=We(),Vi=class extends Xh{constructor(e){if(super(e),typeof this.options.correctChoice!="number"||this.options.correctChoice<0)throw new Error("Please specify the index of the correct answer from the list of choices")}async toChoices(e,r){let i=await super.toChoices(e,r);if(i.length<2)throw new Error("Please give at least two choices to the user");if(this.options.correctChoice>i.length)throw new Error("Please specify the index of the correct answer from the list of choices");return i}check(e){return e.index===this.options.correctChoice}async result(e){return{selectedAnswer:e,correctAnswer:this.options.choices[this.options.correctChoice].value,correct:await this.check(this.state)}}};Ao.exports=Vi});var wo=y(Ki=>{"use strict";var Fo=le(),ee=(t,e)=>{Fo.defineExport(Ki,t,e),Fo.defineExport(Ki,t.toLowerCase(),e)};ee("AutoComplete",()=>Su());ee("BasicAuth",()=>Pu());ee("Confirm",()=>Mu());ee("Editable",()=>Hu());ee("Form",()=>sr());ee("Input",()=>Ti());ee("Invisible",()=>Vu());ee("List",()=>Yu());ee("MultiSelect",()=>Xu());ee("Numeral",()=>eo());ee("Password",()=>ro());ee("Scale",()=>no());ee("Select",()=>We());ee("Snippet",()=>co());ee("Sort",()=>fo());ee("Survey",()=>Do());ee("Text",()=>mo());ee("Toggle",()=>Co());ee("Quiz",()=>yo())});var bo=y((wD,_o)=>{_o.exports={ArrayPrompt:xt(),AuthPrompt:xi(),BooleanPrompt:nr(),NumberPrompt:Mi(),StringPrompt:tt()}});var So=y((_D,xo)=>{"use strict";var vo=require("assert"),Qi=require("events"),Ue=le(),ve=class extends Qi{constructor(e,r){super(),this.options=Ue.merge({},e),this.answers={...r}}register(e,r){if(Ue.isObject(e)){for(let s of Object.keys(e))this.register(s,e[s]);return this}vo.equal(typeof r,"function","expected a function");let i=e.toLowerCase();return r.prototype instanceof this.Prompt?this.prompts[i]=r:this.prompts[i]=r(this.Prompt,this),this}async prompt(e=[]){for(let r of[].concat(e))try{typeof r=="function"&&(r=aw...
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\transform\babelBundleImpl.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\transform\babelBundleImpl.js:
   Line 14: - Did you mean \`import { "${e}" as foo }\`?`,ImportCallArity:"`import()` requires exactly one or two arguments.",ImportCallNotNewExpression:"Cannot use new with import(...).",ImportCallSpreadArgument:"`...` is not allowed in `import()`.",ImportJSONBindingNotDefault:"A JSON module can only be imported with `default`.",ImportReflectionHasAssertion:"`import module x` cannot have assertions.",ImportReflectionNotBinding:'Only `import module x from "./module"` is valid.',IncompatibleRegExpUVFlags:"The 'u' and 'v' regular expression flags cannot be enabled at the same time.",InvalidBigIntLiteral:"Invalid BigIntLiteral.",InvalidCodePoint:"Code point out of bounds.",InvalidCoverInitializedName:"Invalid shorthand property initializer.",InvalidDecimal:"Invalid decimal.",InvalidDigit:({radix:e})=>`Expected number in radix ${e}.`,InvalidEscapeSequence:"Bad character escape sequence.",InvalidEscapeSequenceTemplate:"Invalid escape sequence in template.",InvalidEscapedReservedWord:({reservedWord:e})=>`Escape sequence in keyword ${e}.`,InvalidIdentifier:({identifierName:e})=>`Invalid identifier ${e}.`,InvalidLhs:({ancestor:e})=>`Invalid left-hand side in ${lu(e)}.`,InvalidLhsBinding:({ancestor:e})=>`Binding invalid left-hand side in ${lu(e)}.`,InvalidLhsOptionalChaining:({ancestor:e})=>`Invalid optional chaining in the left-hand side of ${lu(e)}.`,InvalidNumber:"Invalid number.",InvalidOrMissingExponent:"Floating-point numbers require a valid exponent after the 'e'.",InvalidOrUnexpectedToken:({unexpected:e})=>`Unexpected character '${e}'.`,InvalidParenthesizedAssignment:"Invalid parenthesized assignment pattern.",InvalidPrivateFieldResolution:({identifierName:e})=>`Private name #${e} is not defined.`,InvalidPropertyBindingPattern:"Binding member expression.",InvalidRecordProperty:"Only properties and spread elements are allowed in record definitions.",InvalidRestAssignmentPattern:"Invalid rest operator's argument.",LabelRedeclaration:({labelName:e})=>`Label '${e}' is already declar...
   Line 16: `);case 114:return o("\r");case 120:{let u;return{code:u,pos:t}=cm(e,t,r,n,2,!1,a,i),o(u===null?null:String.fromCharCode(u))}case 117:{let u;return{code:u,pos:t}=ix(e,t,r,n,a,i),o(u===null?null:String.fromCodePoint(u))}case 116:return o("	");case 98:return o("\b");case 118:return o("\v");case 102:return o("\f");case 13:e.charCodeAt(t)===10&&++t;case 10:r=t,++n;case 8232:case 8233:return o("");case 56:case 57:if(s)return o(null);i.strictNumericEscape(t-1,r,n);default:if(l>=48&&l<=55){let u=t-1,p=/^[0-7]+/.exec(e.slice(u,t+2))[0],d=parseInt(p,8);d>255&&(p=p.slice(0,-1),d=parseInt(p,8)),t+=p.length-1;let y=e.charCodeAt(t);if(p!=="0"||y===56||y===57){if(s)return o(null);i.strictNumericEscape(u,r,n)}return o(String.fromCharCode(d))}return o(String.fromCharCode(l))}}function cm(e,t,r,n,s,i,a,o){let l=t,u;return{n:u,pos:t}=sx(e,t,r,n,16,s,i,!1,o,!a),u===null&&(a?o.invalidEscapeSequence(l,r,n):t=l-1),{code:u,pos:t}}function sx(e,t,r,n,s,i,a,o,l,u){let c=t,p=s===16?US.hex:US.decBinOct,d=s===16?ou.hex:s===10?ou.dec:s===8?ou.oct:ou.bin,y=!1,E=0;for(let f=0,m=i==null?1/0:i;f<m;++f){let g=e.charCodeAt(t),D;if(g===95&&o!=="bail"){let _=e.charCodeAt(t-1),O=e.charCodeAt(t+1);if(o){if(Number.isNaN(O)||!d(O)||p.has(_)||p.has(O)){if(u)return{n:null,pos:t};l.unexpectedNumericSeparator(t,r,n)}}else{if(u)return{n:null,pos:t};l.numericSeparatorInEscapeSequence(t,r,n)}++t;continue}if(g>=97?D=g-97+10:g>=65?D=g-65+10:vH(g)?D=g-48:D=1/0,D>=s){if(D<=9&&u)return{n:null,pos:t};if(D<=9&&l.invalidDigit(t,r,n,s))D=0;else if(a)D=0,y=!0;else break}++t,E=E*s+D}return t===c||i!=null&&t-c!==i||y?{n:null,pos:t}:{n:E,pos:t}}function ix(e,t,r,n,s,i){let a=e.charCodeAt(t),o;if(a===123){if(++t,{code:o,pos:t}=cm(e,t,r,n,e.indexOf("}",t)-t,!0,s,i),++t,o!==null&&o>1114111)if(s)i.invalidCodePoint(t,r,n);else return{code:null,pos:t}}else({code:o,pos:t}=cm(e,t,r,n,4,!1,s,i));return{code:o,pos:t}}function co(e,t,r){return new Tn(r,e-t,e)}var CH=new Set([103,109,115,105,121,117,100,118]),En=class{constructor(t){let ...
   Line 416: };`,e)}});var zO=T(mf=>{"use strict";Object.defineProperty(mf,"__esModule",{value:!0});mf.moduleResolve=JO;mf.resolve=sEe;function _n(){let e=require("assert");return _n=function(){return e},e}function Il(){let e=d1e(require("fs"),!0);return Il=function(){return e},e}function Ws(){let e=require("process");return Ws=function(){return e},e}function Se(){let e=require("url");return Se=function(){return e},e}function ff(){let e=require("path");return ff=function(){return e},e}function df(){let e=require("module");return df=function(){return e},e}function RO(){let e=require("v8");return RO=function(){return e},e}function wl(){let e=require("util");return wl=function(){return e},e}function qO(e){if(typeof WeakMap!="function")return null;var t=new WeakMap,r=new WeakMap;return(qO=function(n){return n?r:t})(e)}function d1e(e,t){if(!t&&e&&e.__esModule)return e;if(e===null||typeof e!="object"&&typeof e!="function")return{default:e};var r=qO(t);if(r&&r.has(e))return r.get(e);var n={__proto__:null},s=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var i in e)if(i!=="default"&&{}.hasOwnProperty.call(e,i)){var a=s?Object.getOwnPropertyDescriptor(e,i):null;a&&(a.get||a.set)?Object.defineProperty(n,i,a):n[i]=e[i]}return n.default=e,r&&r.set(e,n),n}var h1e={}.hasOwnProperty,m1e=/^([A-Z][a-z\d]*)+$/,y1e=new Set(["string","function","number","object","Function","Object","boolean","bigint","symbol"]),nr={};function uE(e,t="and"){return e.length<3?e.join(` ${t} `):`${e.slice(0,-1).join(", ")}, ${t} ${e[e.length-1]}`}var UO=new Map,g1e="__node_internal_",DO;nr.ERR_INVALID_ARG_TYPE=Qr("ERR_INVALID_ARG_TYPE",(e,t,r)=>{_n()(typeof e=="string","'name' must be a string"),Array.isArray(t)||(t=[t]);let n="The ";if(e.endsWith(" argument"))n+=`${e} `;else{let o=e.includes(".")?"property":"argument";n+=`"${e}" ${o} `}n+="must be ";let s=[],i=[],a=[];for(let o of t)_n()(typeof o=="string","All expected entries have to be of type string"),y1e.has(o)?s.push(o.toLowerCase()):m1e.exec(o)===nu...
   Line 418: Default "index" lookups for the main are deprecated for ES modules.`,"DeprecationWarning","DEP0151")}function HO(e){try{return(0,Il().statSync)(e)}catch{}}function pE(e){let t=(0,Il().statSync)(e,{throwIfNoEntry:!1}),r=t?t.isFile():void 0;return r==null?!1:r}function $1e(e,t,r){let n;if(t.main!==void 0){if(n=new(Se()).URL(t.main,e),pE(n))return n;let a=[`./${t.main}.js`,`./${t.main}.json`,`./${t.main}.node`,`./${t.main}/index.js`,`./${t.main}/index.json`,`./${t.main}/index.node`],o=-1;for(;++o<a.length&&(n=new(Se()).URL(a[o],e),!pE(n));)n=void 0;if(n)return jO(n,e,r,t.main),n}let s=["./index.js","./index.json","./index.node"],i=-1;for(;++i<s.length&&(n=new(Se()).URL(s[i],e),!pE(n));)n=void 0;if(n)return jO(n,e,r,t.main),n;throw new mE((0,Se().fileURLToPath)(new(Se()).URL(".",e)),(0,Se().fileURLToPath)(r))}function W1e(e,t,r){if(U1e.exec(e.pathname)!==null)throw new hf(e.pathname,'must not include encoded "/" or "\\" characters',(0,Se().fileURLToPath)(t));let n;try{n=(0,Se().fileURLToPath)(e)}catch(i){let a=i;throw Object.defineProperty(a,"input",{value:String(e)}),Object.defineProperty(a,"module",{value:String(t)}),a}let s=HO(n.endsWith("/")?n.slice(-1):n);if(s&&s.isDirectory()){let i=new R1e(n,(0,Se().fileURLToPath)(t));throw i.url=String(e),i}if(!s||!s.isFile()){let i=new mE(n||e.pathname,t&&(0,Se().fileURLToPath)(t),!0);throw i.url=String(e),i}if(!r){let i=(0,Il().realpathSync)(n),{search:a,hash:o}=e;e=(0,Se().pathToFileURL)(i+(n.endsWith(ff().sep)?"/":"")),e.search=a,e.hash=o}return e}function K1e(e,t,r){return new j1e(e,t&&(0,Se().fileURLToPath)(new(Se()).URL(".",t)),(0,Se().fileURLToPath)(r))}function fE(e,t,r){return new M1e((0,Se().fileURLToPath)(new(Se()).URL(".",t)),e,r&&(0,Se().fileURLToPath)(r))}function G1e(e,t,r,n,s){let i=`request is not a valid match in pattern "${t}" for the "${n?"imports":"exports"}" resolution of ${(0,Se().fileURLToPath)(r)}`;throw new hf(e,i,s&&(0,Se().fileURLToPath)(s))}function Dl(e,t,r,n,s){return t=typeof t=="object"&&t!==nul...
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\common\expectBundleImpl.js:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\lib\common\expectBundleImpl.js:
   Line 48: ${r.message}`,r}let n=e;for(;n=Object.getPrototypeOf(n);)typeof n.constructor=="function"&&n.constructor.call(t);return t.env=K1(),t.send=()=>!0,Object.defineProperty(t,"domain",{get(){return e.domain}}),t}});var Ql=R(gi=>{"use strict";Object.defineProperty(gi,"__esModule",{value:!0});gi.default=ey;function Lt(){let e=J1(Jn());return Lt=function(){return e},e}var Q1=Kl(zl()),X1=Kl(ss());function Kl(e){return e&&e.__esModule?e:{default:e}}function Yl(e){if(typeof WeakMap!="function")return null;var t=new WeakMap,n=new WeakMap;return(Yl=function(r){return r?n:t})(e)}function J1(e,t){if(!t&&e&&e.__esModule)return e;if(e===null||typeof e!="object"&&typeof e!="function")return{default:e};var n=Yl(t);if(n&&n.has(e))return n.get(e);var r={},s=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var o in e)if(o!=="default"&&Object.prototype.hasOwnProperty.call(e,o)){var i=s?Object.getOwnPropertyDescriptor(e,o):null;i&&(i.get||i.set)?Object.defineProperty(r,o,i):r[o]=e[o]}return r.default=e,n&&n.set(e,r),r}var Z1=Object.keys(globalThis).filter(e=>e.startsWith("DTRACE"));function ey(e,t){e.process=(0,Q1.default)();let n=e.Symbol;return Object.defineProperties(e,{[n.for("jest-native-promise")]:{enumerable:!1,value:Promise,writable:!1},[n.for("jest-native-now")]:{enumerable:!1,value:e.Date.now.bind(e.Date),writable:!1},[n.for("jest-native-read-file")]:{enumerable:!1,value:Lt().readFileSync.bind(Lt()),writable:!1},[n.for("jest-native-write-file")]:{enumerable:!1,value:Lt().writeFileSync.bind(Lt()),writable:!1},[n.for("jest-native-exists-file")]:{enumerable:!1,value:Lt().existsSync.bind(Lt()),writable:!1},"jest-symbol-do-not-touch":{enumerable:!1,value:n,writable:!1}}),Z1.forEach(r=>{e[r]=function(...s){return globalThis[r].apply(this,s)}}),Object.assign(e,(0,X1.default)(t))}});var di=R(mi=>{"use strict";Object.defineProperty(mi,"__esModule",{value:!0});mi.default=ty;function ty(e){return e&&e.__esModule?e:{default:e}}});var Xl=R(yi=>{"use strict";Object.defineProperty(yi,"...
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\ThirdPartyNotices.txt:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright\ThirdPartyNotices.txt:
   Line 132: -	slash@3.0.0 (https://github.com/sindresorhus/slash)
   Line 3731: %% slash@3.0.0 NOTICES AND INFORMATION BEGIN HERE
   Line 3743: END OF slash@3.0.0 AND INFORMATION
 
-C:\Users\hyper\workspace\aios\submodules\jules-app\external\google-jules-mcp\node_modules\playwright-core\types\types.d.ts:
+C:\Users\hyper\workspace\borg\submodules\jules-app\external\google-jules-mcp\node_modules\playwright-core\types\types.d.ts:
   Line 3795:    * `F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`,
   Line 7318:    * `F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`,
   Line 9712:      * - baseURL: `http://localhost:3000/foo` (without trailing slash) and navigating to `./bar.html` results in
@@ -3284,7 +3284,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\skills\\calculator.skill.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\skills\\calculator.skill.md"
 }
 ```
 **Output:**
@@ -3315,7 +3315,7 @@ Tool: write
 ```json
 {
   "content": "# Codex Debugging Skill\n\nThis skill allows the agent to consult OpenAI Codex for root cause analysis of bugs.\n\n## Slash Command\n\n`/codex investigate <bug description>`\n\n## Usage\n\nWhen the user invokes this command, follow these steps:\n\n1.  **Context Analysis:** Review the recent conversation and user query to understand the bug, file locations, and what has been attempted.\n2.  **Construct Prompt:** Create a detailed prompt for Codex using the template below.\n3.  **Execute:** Use the `bash` tool to run the `codex` CLI command. **Crucially**, run it synchronously (no background) and with a long timeout.\n4.  **Report:** Parse the output and present the \"Codex Analysis\" section to the user.\n\n## Command Template\n\n```bash\ncodex exec -m gpt-5 -c model_reasoning_effort=\"high\" --sandbox read-only \"\n# Bug Investigation Request\n\n## Issue\n[Brief description]\n\n## Context\n- **File(s):** [path/to/file:line]\n- **Behavior:** [Observed vs Expected]\n- **Tried:** [Previous attempts]\n\n## Question\nWhat is the root cause? Provide analysis and suggested fix.\n\"\n```\n\n## Important Safety Rules\n- Always use `--sandbox read-only`.\n- Never allow Codex to edit files directly via this command.\n- Set a timeout of 600000ms (10 minutes).\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\skills\\codex-debug.skill.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\skills\\codex-debug.skill.md"
 }
 ```
 ```
@@ -3377,7 +3377,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\ContextCompactor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\ContextCompactor.ts"
 }
 ```
 **Output:**
@@ -3453,7 +3453,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\ContextCompactor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\ContextCompactor.ts",
   "newString": "import { AgentExecutor } from '../agents/AgentExecutor.js';\nimport { MemoryManager } from './MemoryManager.js';\n\nexport interface CompactedContext {\n    summary: string;\n    facts: string[];\n    decisions: string[];\n    actionItems: string[];\n}\n\nexport class ContextCompactor {\n    constructor(\n        private agentExecutor: AgentExecutor,\n        private memoryManager?: MemoryManager\n    ) {}\n\n    async compact(content: string, type: 'conversation' | 'tool_output' = 'conversation'): Promise<CompactedContext> {\n        const prompt = `\n        Analyze the following ${type} content and extract key information.\n        Return a JSON object with the following keys:\n        - summary: A concise summary of what happened (max 2 sentences).\n        - facts: A list of factual statements or user preferences discovered.\n        - decisions: A list of technical or product decisions made.\n        - actionItems: A list of tasks or follow-ups identified.\n\n        Content:\n        \"\"\"\n        ${content.substring(0, 8000)} \n        \"\"\"\n        \n        Output JSON only.\n        `;\n\n        try {\n            const result = await this.agentExecutor.run({\n                name: \"ContextCompactor\",\n                description: \"Compacts raw text into structured memory.\",\n                instructions: \"You are a precise data extractor. Output valid JSON only.\",\n                model: \"gpt-4-turbo\" // Or configurable\n            }, prompt);\n\n            if (!result) {\n                return { summary: \"No result from agent\", facts: [], decisions: [], actionItems: [] };\n            }\n\n            // Attempt to parse JSON\n            let compacted: CompactedContext;\n            const jsonMatch = result.match(/\\{[\\s\\S]*\\}/);\n            if (jsonMatch) {\n                compacted = JSON.parse(jsonMatch[0]);\n            } else {\n                compacted = { summary: result, facts: [], decisions: [], actionItems: [] };\n            }\n\n            // Deduplication Logic\n            if (this.memoryManager && compacted.facts.length > 0) {\n                const uniqueFacts: string[] = [];\n                for (const fact of compacted.facts) {\n                    const exists = await this.checkFactExists(fact);\n                    if (!exists) {\n                        uniqueFacts.push(fact);\n                    }\n                }\n                compacted.facts = uniqueFacts;\n            }\n\n            return compacted;\n\n        } catch (e) {\n            console.error(\"Context compaction failed:\", e);\n            return { summary: \"Failed to compact context.\", facts: [], decisions: [], actionItems: [] };\n        }\n    }\n\n    private async checkFactExists(fact: string): Promise<boolean> {\n        if (!this.memoryManager) return false;\n        try {\n            const results = await this.memoryManager.search({ query: fact });\n            // If we find a highly similar memory (e.g. > 0.85), assume it exists\n            return results.some(r => r.similarity !== undefined && r.similarity > 0.85);\n        } catch (e) {\n            return false;\n        }\n    }\n}",
   "oldString": "import { AgentExecutor } from '../agents/AgentExecutor.js';\n\nexport interface CompactedContext {\n    summary: string;\n    facts: string[];\n    decisions: string[];\n    actionItems: string[];\n}\n\nexport class ContextCompactor {\n    constructor(private agentExecutor: AgentExecutor) {}\n\n    async compact(content: string, type: 'conversation' | 'tool_output' = 'conversation'): Promise<CompactedContext> {\n        const prompt = `\n        Analyze the following ${type} content and extract key information.\n        Return a JSON object with the following keys:\n        - summary: A concise summary of what happened (max 2 sentences).\n        - facts: A list of factual statements or user preferences discovered.\n        - decisions: A list of technical or product decisions made.\n        - actionItems: A list of tasks or follow-ups identified.\n\n        Content:\n        \"\"\"\n        ${content.substring(0, 8000)} \n        \"\"\"\n        \n        Output JSON only.\n        `;\n\n        try {\n            const result = await this.agentExecutor.run({\n                name: \"ContextCompactor\",\n                description: \"Compacts raw text into structured memory.\",\n                instructions: \"You are a precise data extractor. Output valid JSON only.\",\n                model: \"gpt-4-turbo\" // Or configurable\n            }, prompt);\n\n            if (!result) {\n                return { summary: \"No result from agent\", facts: [], decisions: [], actionItems: [] };\n            }\n\n            // Attempt to parse JSON\n            const jsonMatch = result.match(/\\{[\\s\\S]*\\}/);\n            if (jsonMatch) {\n                return JSON.parse(jsonMatch[0]);\n            }\n            return { summary: result, facts: [], decisions: [], actionItems: [] };\n        } catch (e) {\n            console.error(\"Context compaction failed:\", e);\n            return { summary: \"Failed to compact context.\", facts: [], decisions: [], actionItems: [] };\n        }\n    }\n}",
   "replaceAll": false
@@ -3471,7 +3471,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\MemoryManager.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\MemoryManager.ts"
 }
 ```
 **Output:**
@@ -3992,7 +3992,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\MemoryManager.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\MemoryManager.ts",
   "newString": "        if (agentExecutor) {\n            this.compactor = new ContextCompactor(agentExecutor, this);\n        }",
   "oldString": "        if (agentExecutor) {\n            this.compactor = new ContextCompactor(agentExecutor);\n        }",
   "replaceAll": false
@@ -4010,7 +4010,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\MemoryManager.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\MemoryManager.ts",
   "newString": "    async backfillEmbeddings() {\n        if (!this.openai) return \"OpenAI not available for embeddings\";\n\n        const provider = this.providers.get('default-file');\n        if (!(provider instanceof LocalFileProvider)) return \"Default provider is not a LocalFileProvider\";\n\n        const allMemories = await provider.getAll();\n        let updatedCount = 0;\n\n        for (const memory of allMemories) {\n            if (!memory.embedding) {\n                try {\n                    const embedding = await this.generateEmbedding(memory.content);\n                    if (embedding) {\n                        memory.embedding = embedding;\n                        await provider.store(memory);\n                        updatedCount++;\n                    }\n                } catch (e) {\n                    console.error(`[Memory] Failed to backfill embedding for ${memory.id}:`, e);\n                }\n            }\n        }\n\n        return `Backfilled embeddings for ${updatedCount} memories.`;\n    }",
   "oldString": "    async backfillEmbeddings() {\n        // Only relevant for FileProvider currently\n        const provider = this.providers.get('default-file');\n        if (provider instanceof LocalFileProvider && this.openai) {\n             // Logic to iterate and update would go here\n             // For now, we'll skip complex backfill logic in this refactor\n             return \"Backfill not implemented for multi-provider yet\";\n        }\n        return \"No suitable provider for backfill\";\n    }",
   "replaceAll": false
@@ -4096,7 +4096,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx"
 }
 ```
 **Output:**
@@ -4232,7 +4232,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\dashboard\\ecosystem\\page.tsx",
   "newString": "        <div className=\"flex gap-2\">\n           {submodules.length > 0 && (\n             <Badge variant=\"outline\" className=\"text-lg py-1 px-3 bg-green-950/30 text-green-400 border-green-800 flex items-center gap-1\">\n               <CheckCircle2 className=\"h-4 w-4\" /> Index Synced\n             </Badge>\n           )}\n           <Badge variant=\"outline\" className=\"text-lg py-1 px-3\">\n             {submodules.length} Modules\n           </Badge>\n           <Badge variant=\"secondary\" className=\"text-lg py-1 px-3\">\n             {submodules.filter(s => s.isInstalled).length} Installed\n           </Badge>\n        </div>",
   "oldString": "        <div className=\"flex gap-2\">\n           <Badge variant=\"outline\" className=\"text-lg py-1 px-3\">\n             {submodules.length} Modules\n           </Badge>\n           <Badge variant=\"secondary\" className=\"text-lg py-1 px-3\">\n             {submodules.filter(s => s.isInstalled).length} Installed\n           </Badge>\n        </div>",
   "replaceAll": false
@@ -4272,7 +4272,7 @@ Tool: write
 ```json
 {
   "content": "import { MemoryManager } from '../packages/core/src/managers/MemoryManager.js';\nimport { AgentExecutor } from '../packages/core/src/agents/AgentExecutor.js';\nimport path from 'path';\nimport fs from 'fs';\n\n// Mock Agent Definition\nconst mockAgentDef = {\n    id: \"test-agent\",\n    name: \"Test Agent\",\n    role: \"Tester\",\n    description: \"A test agent that uses memory.\",\n    capabilities: [\"search_memory\", \"remember\"],\n    instructions: \"You are a helpful assistant. Use your tools to remember and recall information.\",\n    model: \"gpt-4-turbo\"\n};\n\nasync function runTest() {\n    console.log(\"Starting Agent Memory Integration Test...\");\n\n    const testDir = path.join(process.cwd(), 'test-data-agent-memory');\n    if (!fs.existsSync(testDir)) {\n        fs.mkdirSync(testDir);\n    }\n\n    // 1. Initialize Memory Manager\n    const memoryManager = new MemoryManager(testDir);\n    \n    // 2. Initialize Agent Executor with Memory Manager\n    // Note: In real app, AgentManager handles this. Here we manually wire it up.\n    // We need to mock the tools that the agent can call.\n    \n    const tools = memoryManager.getToolDefinitions();\n    \n    // Simple mock of tool execution\n    const toolExecutor = async (toolName: string, args: any) => {\n        if (toolName === 'remember') return await memoryManager.remember(args);\n        if (toolName === 'search_memory') return await memoryManager.search(args);\n        return `Unknown tool: ${toolName}`;\n    };\n\n    // 3. Pre-seed Memory\n    console.log(\"\\n1. Seeding Memory...\");\n    await memoryManager.remember({\n        content: \"The secret code is 'BLUE-OMEGA-99'.\",\n        tags: [\"secret\", \"test\"]\n    });\n    console.log(\"✅ Secret code stored in memory.\");\n\n    // 4. Simulate Agent Task\n    console.log(\"\\n2. Simulating Agent Recall...\");\n    \n    // Since we don't want to burn tokens on a real LLM call for this integration test if we can avoid it,\n    // or if we do, we need the AgentExecutor to actually work. \n    // Assuming AgentExecutor is functional, let's try to run it.\n    // However, AgentExecutor usually requires an LLM provider backend.\n    \n    // For this test, we will verify the *capability* by manually invoking the search tool \n    // effectively simulating what the agent would do.\n    \n    const searchResult = await toolExecutor('search_memory', { query: \"What is the secret code?\" });\n    console.log(`Search Result:`, JSON.stringify(searchResult, null, 2));\n\n    const found = Array.isArray(searchResult) && searchResult.some(m => m.content.includes(\"BLUE-OMEGA-99\"));\n\n    if (found) {\n        console.log(\"✅ Agent 'search_memory' tool successfully retrieved the secret.\");\n    } else {\n        console.error(\"❌ Agent tool failed to retrieve the secret.\");\n        process.exit(1);\n    }\n\n    // Cleanup\n    console.log(\"\\nCleaning up...\");\n    // fs.rmSync(testDir, { recursive: true, force: true });\n    console.log(\"✅ Test Complete.\");\n}\n\nrunTest().catch(console.error);\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_agent_memory.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_agent_memory.ts"
 }
 ```
 ```
@@ -4335,7 +4335,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts"
 }
 ```
 **Output:**
@@ -4551,7 +4551,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "                        let result;\n                        try {\n                            // Check local tools first (MemoryManager tools are not yet in ProxyManager except via hacky ways)\n                            // We should really register MemoryManager as a proper tool provider in ProxyManager.\n                            // But for now, let's intercept.\n                            if (this.memoryManager && (name === 'remember' || name === 'search_memory' || name === 'ingest_content')) {\n                                if (name === 'remember') result = await this.memoryManager.remember(args);\n                                else if (name === 'search_memory') result = await this.memoryManager.search(args);\n                                else if (name === 'ingest_content') result = await this.memoryManager.ingestSession(args.source, args.content);\n                                result = JSON.stringify(result);\n                            } else {\n                                // Call via Proxy (handles local/remote/internal)\n                                const res = await this.proxyManager.callTool(name, args, sessionId);\n                                result = JSON.stringify(res);\n                            }\n                        } catch (e: any) {\n                            result = `Error: ${e.message}`;\n                        }",
   "oldString": "                        let result;\n                        try {\n                            // Call via Proxy (handles local/remote/internal)\n                            const res = await this.proxyManager.callTool(name, args, sessionId);\n                            result = JSON.stringify(res);\n                        } catch (e: any) {\n                            result = `Error: ${e.message}`;\n                        }",
   "replaceAll": false
@@ -4569,7 +4569,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "                // 1. Get Tools\n                // We use getAllTools() which respects progressive disclosure (meta tools)\n                // BUT the agent needs to see the tools it loads.\n                // The proxyManager handles session visibility if we pass a sessionId.\n                // Let's use agent.name as sessionId for now to persist state across runs?\n                // Or a unique run ID.\n                const sessionId = `agent-${agent.name}-${Date.now()}`;\n                let tools = await this.proxyManager.getAllTools(sessionId);\n\n                // Inject Memory Tools if manager is present\n                if (this.memoryManager) {\n                     const memoryTools = this.memoryManager.getToolDefinitions();\n                     // Filter out tools already present to avoid duplicates (though name check is primitive)\n                     const existingNames = new Set(tools.map(t => t.name));\n                     tools = [...tools, ...memoryTools.filter(t => !existingNames.has(t.name))];\n                }\n\n                // Map tools to OpenAI format",
   "oldString": "                // 1. Get Tools\n                // We use getAllTools() which respects progressive disclosure (meta tools)\n                // BUT the agent needs to see the tools it loads.\n                // The proxyManager handles session visibility if we pass a sessionId.\n                // Let's use agent.name as sessionId for now to persist state across runs?\n                // Or a unique run ID.\n                const sessionId = `agent-${agent.name}-${Date.now()}`;\n                const tools = await this.proxyManager.getAllTools(sessionId);\n\n                // Map tools to OpenAI format",
   "replaceAll": false
@@ -4663,7 +4663,7 @@ Tool: write
 ```json
 {
   "content": "0.2.7\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\VERSION.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\VERSION.md"
 }
 ```
 ```
@@ -4678,7 +4678,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\CHANGELOG.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\CHANGELOG.md"
 }
 ```
 **Output:**
@@ -4807,7 +4807,7 @@ Tool: read
 00121| - **Submodules**: Updated `jules-app`, `OpenHands`, and `beads` submodules.
 00122| 
 00123| ## [0.0.1] - Initial Release
-00124| - Initial release of aios.
+00124| - Initial release of borg.
 00125| 
 
 (End of file - total 125 lines)
@@ -4825,7 +4825,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\CHANGELOG.md",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\CHANGELOG.md",
   "newString": "## [0.2.7] - 2025-12-29\n\n### Added\n- **Skills**: Added `codex-debug` skill for root cause analysis using OpenAI Codex via slash command.\n- **Memory**: Implemented fact deduplication in `ContextCompactor` to reduce memory noise.\n- **Memory**: Added `backfillEmbeddings` capability to `MemoryManager`.\n- **Agents**: `AgentExecutor` now natively supports memory tools (`remember`, `search_memory`, `ingest_content`).\n\n## [0.2.6] - 2025-12-29\n",
   "oldString": "## [0.2.6] - 2025-12-29\n",
   "replaceAll": false
@@ -4888,7 +4888,7 @@ Here is the summary of the session and the prompt for the next session.
 
 ### **Prompt for Next Session**
 
-**Role:** You are the Lead Developer for **aios (AI Operating System)**.
+**Role:** You are the Lead Developer for **borg (AI Operating System)**.
 
 **Current State:**
 *   **Core Server:** Port 3002.
@@ -5001,7 +5001,7 @@ Tool: write
 ```json
 {
   "content": "import React from 'react';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { ScrollArea } from '@/components/ui/scroll-area';\nimport { ClipboardList, Lightbulb, CheckSquare, Gavel } from 'lucide-react';\n\nexport interface CompactedContext {\n    summary: string;\n    facts: string[];\n    decisions: string[];\n    actionItems: string[];\n}\n\ninterface ContextViewerProps {\n    context: CompactedContext;\n    className?: string;\n}\n\nexport function ContextViewer({ context, className }: ContextViewerProps) {\n    if (!context) return null;\n\n    return (\n        <Card className={`w-full ${className}`}>\n            <CardHeader className=\"pb-3\">\n                <CardTitle className=\"text-lg font-medium flex items-center gap-2\">\n                    <ClipboardList className=\"h-5 w-5 text-blue-400\" />\n                    Context Summary\n                </CardTitle>\n            </CardHeader>\n            <CardContent className=\"space-y-4\">\n                {/* Summary Section */}\n                <div>\n                    <h4 className=\"text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider\">Overview</h4>\n                    <p className=\"text-sm text-foreground/90 leading-relaxed bg-muted/30 p-2 rounded-md border border-border/50\">\n                        {context.summary || \"No summary available.\"}\n                    </p>\n                </div>\n\n                <div className=\"grid gap-4 md:grid-cols-3\">\n                    {/* Facts */}\n                    <div className=\"space-y-2\">\n                        <h4 className=\"text-xs font-semibold text-blue-400 flex items-center gap-1 uppercase tracking-wider\">\n                            <Lightbulb className=\"h-3 w-3\" /> Facts\n                        </h4>\n                        <ScrollArea className=\"h-[120px] w-full rounded-md border p-2 bg-muted/20\">\n                            {context.facts.length > 0 ? (\n                                <ul className=\"space-y-1\">\n                                    {context.facts.map((fact, i) => (\n                                        <li key={i} className=\"text-xs text-muted-foreground flex gap-2 items-start\">\n                                            <span className=\"mt-1 h-1 w-1 rounded-full bg-blue-500 shrink-0\" />\n                                            {fact}\n                                        </li>\n                                    ))}\n                                </ul>\n                            ) : (\n                                <p className=\"text-xs text-muted-foreground italic\">No facts extracted.</p>\n                            )}\n                        </ScrollArea>\n                    </div>\n\n                    {/* Decisions */}\n                    <div className=\"space-y-2\">\n                        <h4 className=\"text-xs font-semibold text-purple-400 flex items-center gap-1 uppercase tracking-wider\">\n                            <Gavel className=\"h-3 w-3\" /> Decisions\n                        </h4>\n                        <ScrollArea className=\"h-[120px] w-full rounded-md border p-2 bg-muted/20\">\n                            {context.decisions.length > 0 ? (\n                                <ul className=\"space-y-1\">\n                                    {context.decisions.map((decision, i) => (\n                                        <li key={i} className=\"text-xs text-muted-foreground flex gap-2 items-start\">\n                                            <span className=\"mt-1 h-1 w-1 rounded-full bg-purple-500 shrink-0\" />\n                                            {decision}\n                                        </li>\n                                    ))}\n                                </ul>\n                            ) : (\n                                <p className=\"text-xs text-muted-foreground italic\">No decisions made.</p>\n                            )}\n                        </ScrollArea>\n                    </div>\n\n                    {/* Action Items */}\n                    <div className=\"space-y-2\">\n                        <h4 className=\"text-xs font-semibold text-green-400 flex items-center gap-1 uppercase tracking-wider\">\n                            <CheckSquare className=\"h-3 w-3\" /> Actions\n                        </h4>\n                        <ScrollArea className=\"h-[120px] w-full rounded-md border p-2 bg-muted/20\">\n                            {context.actionItems.length > 0 ? (\n                                <ul className=\"space-y-1\">\n                                    {context.actionItems.map((item, i) => (\n                                        <li key={i} className=\"text-xs text-muted-foreground flex gap-2 items-start\">\n                                            <span className=\"mt-1 h-1 w-1 rounded-full bg-green-500 shrink-0\" />\n                                            {item}\n                                        </li>\n                                    ))}\n                                </ul>\n                            ) : (\n                                <p className=\"text-xs text-muted-foreground italic\">No action items.</p>\n                            )}\n                        </ScrollArea>\n                    </div>\n                </div>\n            </CardContent>\n        </Card>\n    );\n}\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\components\\ContextViewer.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\components\\ContextViewer.tsx"
 }
 ```
 ```
@@ -5033,12 +5033,12 @@ Tool: write
 ```json
 {
   "content": "'use client';\n\nimport { useState } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Textarea } from '@/components/ui/textarea';\nimport { ContextViewer, CompactedContext } from '@/components/ContextViewer';\nimport { Loader2, ArrowRight } from 'lucide-react';\n\nexport default function MemoryInspectorPage() {\n    const [input, setInput] = useState('');\n    const [isLoading, setIsLoading] = useState(false);\n    const [result, setResult] = useState<CompactedContext | null>(null);\n\n    const handleCompact = async () => {\n        if (!input.trim()) return;\n        setIsLoading(true);\n        try {\n            // Note: In a real app, this would call an API endpoint that uses the ContextCompactor backend\n            // For now, we'll mock the response to demonstrate the UI\n            // await new Promise(r => setTimeout(r, 1500));\n            \n            // Mock Data\n            const mockResponse: CompactedContext = {\n                summary: \"The user is asking to debug a memory leak in the 'DataProcessor' class. They've already tried running heap dumps but the results are inconclusive.\",\n                facts: [\n                    \"User is working on 'DataProcessor' class\",\n                    \"Issue is a memory leak\",\n                    \"Heap dumps have been analyzed but were inconclusive\",\n                    \"Environment is likely Node.js based on context\"\n                ],\n                decisions: [\n                    \"We will switch to using the 'memwatch-next' library for deeper analysis\",\n                    \"We decided to isolate the test case to a single worker thread\"\n                ],\n                actionItems: [\n                    \"Install 'memwatch-next'\",\n                    \"Create a reproduction script 'repro_leak.js'\",\n                    \"Run the isolated test for 1 hour\"\n                ]\n            };\n            \n            setResult(mockResponse);\n\n            // In production, fetch from: /api/memory/compact?content=...\n            \n        } catch (e) {\n            console.error(e);\n        } finally {\n            setIsLoading(false);\n        }\n    };\n\n    return (\n        <div className=\"container mx-auto p-6 max-w-4xl space-y-8\">\n            <div>\n                <h1 className=\"text-3xl font-bold tracking-tight\">Memory Inspector</h1>\n                <p className=\"text-muted-foreground mt-2\">\n                    Test the Context Compactor logic. Paste raw conversation logs or text below to see how the system extracts structured memory.\n                </p>\n            </div>\n\n            <div className=\"grid gap-6 md:grid-cols-2\">\n                <div className=\"space-y-4\">\n                    <div className=\"flex justify-between items-center\">\n                        <label className=\"text-sm font-medium\">Raw Input Content</label>\n                        <Button \n                            onClick={handleCompact} \n                            disabled={isLoading || !input.trim()}\n                            size=\"sm\"\n                        >\n                            {isLoading ? <Loader2 className=\"mr-2 h-4 w-4 animate-spin\" /> : <ArrowRight className=\"mr-2 h-4 w-4\" />}\n                            Compact Context\n                        </Button>\n                    </div>\n                    <Textarea \n                        placeholder=\"Paste conversation or logs here...\" \n                        className=\"h-[400px] font-mono text-xs bg-muted/50 resize-none\"\n                        value={input}\n                        onChange={(e) => setInput(e.target.value)}\n                    />\n                </div>\n\n                <div className=\"space-y-4\">\n                    <label className=\"text-sm font-medium\">Compacted Memory View</label>\n                    {result ? (\n                        <ContextViewer context={result} className=\"h-[400px]\" />\n                    ) : (\n                        <div className=\"h-[400px] border border-dashed rounded-lg flex items-center justify-center text-muted-foreground bg-muted/20\">\n                            Awaiting output...\n                        </div>\n                    )}\n                </div>\n            </div>\n        </div>\n    );\n}\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
 }
 ```
 **Error:**
 ```
-Error: You must read the file C:\Users\hyper\workspace\aios\packages\ui\src\app\memory\inspector\page.tsx before overwriting it. Use the Read tool first
+Error: You must read the file C:\Users\hyper\workspace\borg\packages\ui\src\app\memory\inspector\page.tsx before overwriting it. Use the Read tool first
 ```
 ```
 
@@ -5052,7 +5052,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
 }
 ```
 **Output:**
@@ -5076,7 +5076,7 @@ Tool: write
 ```json
 {
   "content": "'use client';\n\nimport { useState } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Textarea } from '@/components/ui/textarea';\nimport { ContextViewer, CompactedContext } from '@/components/ContextViewer';\nimport { Loader2, ArrowRight } from 'lucide-react';\n\nexport default function MemoryInspectorPage() {\n    const [input, setInput] = useState('');\n    const [isLoading, setIsLoading] = useState(false);\n    const [result, setResult] = useState<CompactedContext | null>(null);\n\n    const handleCompact = async () => {\n        if (!input.trim()) return;\n        setIsLoading(true);\n        try {\n            // Note: In a real app, this would call an API endpoint that uses the ContextCompactor backend\n            // For now, we'll mock the response to demonstrate the UI\n            // await new Promise(r => setTimeout(r, 1500));\n            \n            // Mock Data\n            const mockResponse: CompactedContext = {\n                summary: \"The user is asking to debug a memory leak in the 'DataProcessor' class. They've already tried running heap dumps but the results are inconclusive.\",\n                facts: [\n                    \"User is working on 'DataProcessor' class\",\n                    \"Issue is a memory leak\",\n                    \"Heap dumps have been analyzed but were inconclusive\",\n                    \"Environment is likely Node.js based on context\"\n                ],\n                decisions: [\n                    \"We will switch to using the 'memwatch-next' library for deeper analysis\",\n                    \"We decided to isolate the test case to a single worker thread\"\n                ],\n                actionItems: [\n                    \"Install 'memwatch-next'\",\n                    \"Create a reproduction script 'repro_leak.js'\",\n                    \"Run the isolated test for 1 hour\"\n                ]\n            };\n            \n            setResult(mockResponse);\n\n            // In production, fetch from: /api/memory/compact?content=...\n            \n        } catch (e) {\n            console.error(e);\n        } finally {\n            setIsLoading(false);\n        }\n    };\n\n    return (\n        <div className=\"container mx-auto p-6 max-w-4xl space-y-8\">\n            <div>\n                <h1 className=\"text-3xl font-bold tracking-tight\">Memory Inspector</h1>\n                <p className=\"text-muted-foreground mt-2\">\n                    Test the Context Compactor logic. Paste raw conversation logs or text below to see how the system extracts structured memory.\n                </p>\n            </div>\n\n            <div className=\"grid gap-6 md:grid-cols-2\">\n                <div className=\"space-y-4\">\n                    <div className=\"flex justify-between items-center\">\n                        <label className=\"text-sm font-medium\">Raw Input Content</label>\n                        <Button \n                            onClick={handleCompact} \n                            disabled={isLoading || !input.trim()}\n                            size=\"sm\"\n                        >\n                            {isLoading ? <Loader2 className=\"mr-2 h-4 w-4 animate-spin\" /> : <ArrowRight className=\"mr-2 h-4 w-4\" />}\n                            Compact Context\n                        </Button>\n                    </div>\n                    <Textarea \n                        placeholder=\"Paste conversation or logs here...\" \n                        className=\"h-[400px] font-mono text-xs bg-muted/50 resize-none\"\n                        value={input}\n                        onChange={(e) => setInput(e.target.value)}\n                    />\n                </div>\n\n                <div className=\"space-y-4\">\n                    <label className=\"text-sm font-medium\">Compacted Memory View</label>\n                    {result ? (\n                        <ContextViewer context={result} className=\"h-[400px]\" />\n                    ) : (\n                        <div className=\"h-[400px] border border-dashed rounded-lg flex items-center justify-center text-muted-foreground bg-muted/20\">\n                            Awaiting output...\n                        </div>\n                    )}\n                </div>\n            </div>\n        </div>\n    );\n}\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
 }
 ```
 ```
@@ -5128,7 +5128,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
   "newString": "import { ContextViewer, CompactedContext } from '@/components/context-viewer';",
   "oldString": "import { ContextViewer, CompactedContext } from '@/components/ContextViewer';",
   "replaceAll": false
@@ -5146,7 +5146,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts"
 }
 ```
 **Output:**
@@ -5380,7 +5380,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "                        let result;\n                        try {\n                            // Check local tools first (MemoryManager tools are not yet in ProxyManager except via hacky ways)\n                            // We should really register MemoryManager as a proper tool provider in ProxyManager.\n                            // But for now, let's intercept.\n                            if (this.memoryManager && (name === 'remember' || name === 'search_memory' || name === 'ingest_content')) {\n                                if (name === 'remember') result = await this.memoryManager.remember(args);\n                                else if (name === 'search_memory') result = await this.memoryManager.search(args);\n                                else if (name === 'ingest_content') result = await this.memoryManager.ingestSession(args.source, args.content);\n                                result = JSON.stringify(result);\n                                \n                                // Auto-ingest tool interactions (facts/decisions)\n                                // We don't ingest 'search_memory' to avoid loops, but 'remember' is interesting.\n                                if (name === 'remember') {\n                                     // No-op for now, as remember IS the storage mechanism\n                                }\n\n                            } else {\n                                // Call via Proxy (handles local/remote/internal)\n                                const res = await this.proxyManager.callTool(name, args, sessionId);\n                                result = JSON.stringify(res);\n\n                                // Auto-ingest significant interactions\n                                if (this.memoryManager) {\n                                    this.memoryManager.ingestInteraction(name, args, res).catch(console.error);\n                                }\n                            }\n                        } catch (e: any) {\n                            result = `Error: ${e.message}`;\n                        }",
   "oldString": "                        let result;\n                        try {\n                            // Check local tools first (MemoryManager tools are not yet in ProxyManager except via hacky ways)\n                            // We should really register MemoryManager as a proper tool provider in ProxyManager.\n                            // But for now, let's intercept.\n                            if (this.memoryManager && (name === 'remember' || name === 'search_memory' || name === 'ingest_content')) {\n                                if (name === 'remember') result = await this.memoryManager.remember(args);\n                                else if (name === 'search_memory') result = await this.memoryManager.search(args);\n                                else if (name === 'ingest_content') result = await this.memoryManager.ingestSession(args.source, args.content);\n                                result = JSON.stringify(result);\n                            } else {\n                                // Call via Proxy (handles local/remote/internal)\n                                const res = await this.proxyManager.callTool(name, args, sessionId);\n                                result = JSON.stringify(res);\n                            }\n                        } catch (e: any) {\n                            result = `Error: ${e.message}`;\n                        }",
   "replaceAll": false
@@ -5416,7 +5416,7 @@ Here is the summary of our session and the detailed prompt for the next session 
 
 ### **Prompt for Next Session**
 
-**Role:** You are the Lead Developer for **aios (AI Operating System)**.
+**Role:** You are the Lead Developer for **borg (AI Operating System)**.
 
 **Current State:**
 *   **Core Server:** Running on Port 3002.
@@ -5539,7 +5539,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts"
 }
 ```
 **Output:**
@@ -6278,7 +6278,7 @@ Tool: read
 00731| 
 00732|     this.proxyManager.registerInternalTool({
 00733|         name: "configure_client",
-00734|         description: "Auto-configure a client (VSCode, Claude, Cursor) to use the aios Hub.",
+00734|         description: "Auto-configure a client (VSCode, Claude, Cursor) to use the borg Hub.",
 00735|         inputSchema: {
 00736|             type: "object",
 00737|             properties: {
@@ -6287,7 +6287,7 @@ Tool: read
 00740|             required: ["clientName"]
 00741|         }
 00742|     }, async (args: any) => {
-00743|         // We need to point to the bin/aios script or the dist/index.js
+00743|         // We need to point to the bin/borg script or the dist/index.js
 00744|         // For robustness, let's point to dist/index.js and let ClientManager handle the node invocation
 00745|         const scriptPath = path.resolve(this.rootDir, 'index.js'); 
 00746|         return await this.clientManager.configureClient(args.clientName, {
@@ -6298,7 +6298,7 @@ Tool: read
 00751| 
 00752|     this.proxyManager.registerInternalTool({
 00753|         name: "install_cli",
-00754|         description: "Install the 'aios' CLI command to your shell profile.",
+00754|         description: "Install the 'borg' CLI command to your shell profile.",
 00755|         inputSchema: { type: "object", properties: {}, required: [] }
 00756|     }, async (args: any) => {
 00757|         return await this.clientManager.installCLI();
@@ -6361,7 +6361,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\ContextCompactor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\ContextCompactor.ts"
 }
 ```
 **Output:**
@@ -6469,7 +6469,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\managers\\IngestionManager.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\managers\\IngestionManager.ts"
 }
 ```
 **Output:**
@@ -6586,7 +6586,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
 }
 ```
 **Output:**
@@ -6774,7 +6774,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "newString": "    this.app.post('/api/memory/ingest/browser', async (_request: any, reply) => {\n        try {\n            const content = await this.browserManager.getActiveTabContent();\n            const result = await this.memoryManager.ingestSession(\"Browser Page\", content);\n            return { result };\n        } catch (e: any) {\n            return reply.code(500).send({ error: e.message });\n        }\n    });\n\n    this.app.post('/api/memory/compact', async (request: any, reply) => {\n        const { content } = request.body;\n        if (!content) return reply.code(400).send({ error: 'Missing content' });\n        \n        try {\n            // Instantiate a fresh compactor for this request using the available executor\n            const compactor = new ContextCompactor(this.agentExecutor, this.memoryManager);\n            const result = await compactor.compact(content, 'conversation');\n            return { result };\n        } catch (e: any) {\n            return reply.code(500).send({ error: e.message });\n        }\n    });\n\n    this.app.setNotFoundHandler((req, res) => {",
   "oldString": "    this.app.post('/api/memory/ingest/browser', async (_request: any, reply) => {\n        try {\n            const content = await this.browserManager.getActiveTabContent();\n            const result = await this.memoryManager.ingestSession(\"Browser Page\", content);\n            return { result };\n        } catch (e: any) {\n            return reply.code(500).send({ error: e.message });\n        }\n    });\n\n    this.app.setNotFoundHandler((req, res) => {",
   "replaceAll": false
@@ -6801,7 +6801,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "newString": "import { ContextMiner } from './utils/ContextMiner.js';\nimport { ContextCompactor } from './managers/ContextCompactor.js';\nimport { ContextGenerator } from './utils/ContextGenerator.js';",
   "oldString": "import { ContextMiner } from './utils/ContextMiner.js';\nimport { ContextGenerator } from './utils/ContextGenerator.js';",
   "replaceAll": false
@@ -6819,7 +6819,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
   "newString": "    const handleCompact = async () => {\n        if (!input.trim()) return;\n        setIsLoading(true);\n        setResult(null); // Clear previous result\n        \n        try {\n            const response = await fetch('/api/memory/compact', {\n                method: 'POST',\n                headers: { 'Content-Type': 'application/json' },\n                body: JSON.stringify({ content: input })\n            });\n\n            if (!response.ok) {\n                const error = await response.json();\n                throw new Error(error.error || 'Failed to compact context');\n            }\n\n            const data = await response.json();\n            setResult(data.result);\n            \n        } catch (e: any) {\n            console.error(e);\n            // Fallback to error display or toast (omitted for brevity)\n            // For now, we'll just show an error state in the result view if possible,\n            // or maybe just log it. \n            // Let's create a minimal error result to show something happened\n             setResult({\n                 summary: `Error: ${e.message}`,\n                 facts: [],\n                 decisions: [],\n                 actionItems: []\n             });\n        } finally {\n            setIsLoading(false);\n        }\n    };",
   "oldString": "    const handleCompact = async () => {\n        if (!input.trim()) return;\n        setIsLoading(true);\n        try {\n            // Note: In a real app, this would call an API endpoint that uses the ContextCompactor backend\n            // For now, we'll mock the response to demonstrate the UI\n            // await new Promise(r => setTimeout(r, 1500));\n            \n            // Mock Data\n            const mockResponse: CompactedContext = {\n                summary: \"The user is asking to debug a memory leak in the 'DataProcessor' class. They've already tried running heap dumps but the results are inconclusive.\",\n                facts: [\n                    \"User is working on 'DataProcessor' class\",\n                    \"Issue is a memory leak\",\n                    \"Heap dumps have been analyzed but were inconclusive\",\n                    \"Environment is likely Node.js based on context\"\n                ],\n                decisions: [\n                    \"We will switch to using the 'memwatch-next' library for deeper analysis\",\n                    \"We decided to isolate the test case to a single worker thread\"\n                ],\n                actionItems: [\n                    \"Install 'memwatch-next'\",\n                    \"Create a reproduction script 'repro_leak.js'\",\n                    \"Run the isolated test for 1 hour\"\n                ]\n            };\n            \n            setResult(mockResponse);\n\n            // In production, fetch from: /api/memory/compact?content=...\n            \n        } catch (e) {\n            console.error(e);\n        } finally {\n            setIsLoading(false);\n        }\n    };",
   "replaceAll": false
@@ -6852,7 +6852,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts"
 }
 ```
 **Output:**
@@ -7178,7 +7178,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\tsconfig.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\tsconfig.json"
 }
 ```
 **Output:**
@@ -7327,7 +7327,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts"
 }
 ```
 **Output:**
@@ -7573,7 +7573,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "import { EventEmitter } from 'events';\nimport { McpProxyManager } from '../managers/McpProxyManager.js';\nimport { AgentDefinition } from '../types.js';\nimport OpenAI from 'openai';\nimport { SecretManager } from '../managers/SecretManager.js';\nimport { LogManager } from '../managers/LogManager.js';\nimport { ContextAnalyzer } from '../utils/ContextAnalyzer.js';\nimport { ContextManager } from '../managers/ContextManager.js';\nimport { MemoryManager } from '../managers/MemoryManager.js';\nimport { ContextCompactor } from '../managers/ContextCompactor.js';\n\nexport class AgentExecutor extends EventEmitter {\n    private openai: OpenAI | null = null;\n    private messageCountSinceReflect = 0;\n    private readonly REFLECTION_THRESHOLD = 5;\n\n    constructor(\n        private proxyManager: McpProxyManager,\n        private secretManager?: SecretManager,\n        private logManager?: LogManager,\n        private contextManager?: ContextManager,\n        private memoryManager?: MemoryManager\n    ) {\n        super();\n        this.initializeOpenAI();\n    }\n",
   "oldString": "import { EventEmitter } from 'events';\nimport { McpProxyManager } from '../managers/McpProxyManager.js';\nimport { AgentDefinition } from '../types.js';\nimport OpenAI from 'openai';\nimport { SecretManager } from '../managers/SecretManager.js';\nimport { LogManager } from '../managers/LogManager.js';\nimport { ContextAnalyzer } from '../utils/ContextAnalyzer.js';\nimport { ContextManager } from '../managers/ContextManager.js';\nimport { MemoryManager } from '../managers/MemoryManager.js';\n\nexport class AgentExecutor extends EventEmitter {\n    private openai: OpenAI | null = null;\n\n    constructor(\n        private proxyManager: McpProxyManager,\n        private secretManager?: SecretManager,\n        private logManager?: LogManager,\n        private contextManager?: ContextManager,\n        private memoryManager?: MemoryManager\n    ) {\n        super();\n        this.initializeOpenAI();\n    }\n",
   "replaceAll": false
@@ -7591,7 +7591,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "        let iterations = 0;\n        const maxIterations = 10;\n        this.messageCountSinceReflect = 0; // Reset per run\n\n        while (iterations < maxIterations) {\n            iterations++;\n            console.log(`[AgentExecutor] Iteration ${iterations}`);\n            \n            // --- Auto-Reflection Logic ---\n            if (this.memoryManager && this.messageCountSinceReflect >= this.REFLECTION_THRESHOLD) {\n                console.log(`[AgentExecutor] Triggering Auto-Reflection (Count: ${this.messageCountSinceReflect})`);\n                await this.performReflection(messages);\n                this.messageCountSinceReflect = 0;\n            }\n\n            try {\n",
   "oldString": "        let iterations = 0;\n        const maxIterations = 10;\n\n        while (iterations < maxIterations) {\n            iterations++;\n            console.log(`[AgentExecutor] Iteration ${iterations}`);\n\n            try {\n",
   "replaceAll": false
@@ -7618,7 +7618,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "    private async performReflection(messages: any[]) {\n        if (!this.memoryManager) return;\n\n        try {\n            // 1. Extract recent history\n            const recentHistory = messages\n                .slice(-this.REFLECTION_THRESHOLD * 2) // Rough estimate of messages\n                .map(m => `${m.role}: ${m.content}`)\n                .join('\\n');\n\n            // 2. Compact using a temporary compactor instance\n            // We pass 'this' (the executor) to the compactor, but we must be careful about recursion.\n            // The compactor uses a specific agent name \"ContextCompactor\".\n            const compactor = new ContextCompactor(this, this.memoryManager);\n            const compacted = await compactor.compact(recentHistory, 'conversation');\n\n            // 3. Save as a \"Session Summary\" memory\n            if (compacted.summary) {\n                await this.memoryManager.remember({\n                    content: `[Auto-Reflection] ${compacted.summary}`,\n                    tags: ['reflection', 'auto-summary']\n                });\n                console.log(`[AgentExecutor] Reflected and saved summary: ${compacted.summary}`);\n            }\n\n            // Optional: We could prune messages here, but that's risky without more logic.\n        } catch (e) {\n            console.error(\"[AgentExecutor] Reflection failed:\", e);\n        }\n    }\n\n    public setMemoryManager(memoryManager: MemoryManager) {\n",
   "oldString": "    public setMemoryManager(memoryManager: MemoryManager) {\n",
   "replaceAll": false
@@ -7688,8 +7688,8 @@ packages/ui build:  We detected multiple lockfiles and selected the directory of
 packages/ui build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
 packages/ui build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
 packages/ui build:  Detected additional lockfiles: 
-packages/ui build:    * C:\Users\hyper\workspace\aios\packages\ui\pnpm-lock.yaml
-packages/ui build:    * C:\Users\hyper\workspace\aios\pnpm-lock.yaml
+packages/ui build:    * C:\Users\hyper\workspace\borg\packages\ui\pnpm-lock.yaml
+packages/ui build:    * C:\Users\hyper\workspace\borg\pnpm-lock.yaml
 packages/ui build:    * C:\Users\hyper\workspace\package-lock.json
 packages/ui build: ▲ Next.js 16.1.1 (Turbopack)
 packages/ui build:   Creating an optimized production build ...
@@ -7803,7 +7803,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts"
 }
 ```
 **Output:**
@@ -8094,7 +8094,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\agents\\AgentExecutor.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\agents\\AgentExecutor.ts",
   "newString": "                    const message = completion.choices[0].message;\n                    messages.push(message);\n                    this.messageCountSinceReflect++; // Count the assistant's reply\n\n                    // 4. Handle Tool Calls\n                    if (message.tool_calls && message.tool_calls.length > 0) {\n                        for (const toolCall of message.tool_calls) {",
   "oldString": "                    const message = completion.choices[0].message;\n                    messages.push(message);\n\n                    // 4. Handle Tool Calls\n                    if (message.tool_calls && message.tool_calls.length > 0) {\n                        for (const toolCall of message.tool_calls) {",
   "replaceAll": false
@@ -8146,8 +8146,8 @@ packages/ui build:  We detected multiple lockfiles and selected the directory of
 packages/ui build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
 packages/ui build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
 packages/ui build:  Detected additional lockfiles: 
-packages/ui build:    * C:\Users\hyper\workspace\aios\packages\ui\pnpm-lock.yaml
-packages/ui build:    * C:\Users\hyper\workspace\aios\pnpm-lock.yaml
+packages/ui build:    * C:\Users\hyper\workspace\borg\packages\ui\pnpm-lock.yaml
+packages/ui build:    * C:\Users\hyper\workspace\borg\pnpm-lock.yaml
 packages/ui build:    * C:\Users\hyper\workspace\package-lock.json
 packages/ui build: ▲ Next.js 16.1.1 (Turbopack)
 packages/ui build:   Creating an optimized production build ...

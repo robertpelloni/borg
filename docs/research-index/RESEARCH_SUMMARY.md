@@ -235,7 +235,7 @@ For efficient progress, I recommend:
 - Master Index: `docs/research-index/MASTER_INDEX.md`
 - Category docs: `docs/research-index/[category]/README.md`
 - Todo list: Available via todoread
-- .gitmodules: `C:\Users\hyper\workspace\aios\.gitmodules`
+- .gitmodules: `C:\Users\hyper\workspace\borg\.gitmodules`
 
 ---
 

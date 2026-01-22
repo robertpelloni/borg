@@ -42,7 +42,7 @@ superai-cli/
 ├── CHANGELOG.md          # Release history
 ├── ROADMAP.md            # Development roadmap
 ├── README.md             # User documentation
-└── go.mod                # Module: github.com/aios/superai-cli
+└── go.mod                # Module: github.com/borg/superai-cli
 ```
 
 ## Configuration System (v0.2.0+)
@@ -175,7 +175,7 @@ ReAct loop engine. 48 lines.
 
 #### 6. MCP Client (`internal/mcp/client.go`)
 MCP hub integration. 45 lines.
-- Connects to aios MCP hub at `localhost:3000`
+- Connects to borg MCP hub at `localhost:3000`
 - `ListTools()`: GET /api/hub/tools → []HubTool
 
 ## Development Guidelines
@@ -239,13 +239,13 @@ runner.AddAgent(&agent.Agent{
 
 ## Integration Points
 
-### MCP Hub (aios)
-The CLI connects to the aios MCP hub running at `localhost:3000`:
+### MCP Hub (borg)
+The CLI connects to the borg MCP hub running at `localhost:3000`:
 - Tool discovery: `GET /api/hub/tools`
 - Tool execution: (planned) `POST /api/hub/tools/{name}/execute`
 
 ### Discovered Submodule Agents
-Located in parent repo at `C:\Users\hyper\workspace\aios\submodules\`:
+Located in parent repo at `C:\Users\hyper\workspace\borg\submodules\`:
 
 | Agent | Type | Invocation |
 |-------|------|------------|

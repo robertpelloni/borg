@@ -362,18 +362,18 @@ socket.on('health_updated', (health: HealthResponse) => {});
 
 ```bash
 # Start the CLI TUI
-aios                      # Launch interactive terminal UI
+borg                      # Launch interactive terminal UI
 
 # Direct commands (non-interactive)
-aios start                # Start backend server
-aios status               # Show system status
-aios run <agent> <task>   # Run agent with task
-aios chat                 # Interactive chat mode
-aios tools                # List available tools
-aios agents               # List agents
-aios skills               # List skills
-aios mine                 # Bobcoin activity submission
-aios connect              # Connect to running server
+borg start                # Start backend server
+borg status               # Show system status
+borg run <agent> <task>   # Run agent with task
+borg chat                 # Interactive chat mode
+borg tools                # List available tools
+borg agents               # List agents
+borg skills               # List skills
+borg mine                 # Bobcoin activity submission
+borg connect              # Connect to running server
 ```
 
 ### Interactive TUI Navigation

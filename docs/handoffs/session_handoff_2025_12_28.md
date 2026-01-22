@@ -1,4 +1,4 @@
-# aios Handoff - Session 2025-12-28
+# borg Handoff - Session 2025-12-28
 
 ## Status Update
 - **Core:** 

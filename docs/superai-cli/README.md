@@ -21,7 +21,7 @@ SuperAI CLI consolidates multiple AI coding assistants into a single, powerful i
 - **Unified Dashboard** - Single interface for all AI tools
 - **Real-time Streaming** - Live output from any agent
 - **Tool Registry** - Extensible tool system with JSON Schema
-- **MCP Integration** - Connect to aios hub for shared tools
+- **MCP Integration** - Connect to borg hub for shared tools
 - **Keyboard-Driven** - Vim-style navigation
 
 ## Quick Start
@@ -102,7 +102,7 @@ superai-cli/
 
 ## Configuration
 
-SuperAI connects to the aios MCP hub at `localhost:3000` for tool discovery. Ensure the hub is running for full functionality.
+SuperAI connects to the borg MCP hub at `localhost:3000` for tool discovery. Ensure the hub is running for full functionality.
 
 ## Development
 
@@ -131,9 +131,9 @@ See [ROADMAP.md](./ROADMAP.md) for the development plan:
 - **v0.7.0** - Advanced UI
 - **v0.8.0** - Plugin System
 
-## Part of aios
+## Part of borg
 
-SuperAI CLI is a submodule of the [aios](https://github.com/aios) monorepo, providing a unified interface for all AI coding tools in the workspace.
+SuperAI CLI is a submodule of the [borg](https://github.com/borg) monorepo, providing a unified interface for all AI coding tools in the workspace.
 
 ## License
 

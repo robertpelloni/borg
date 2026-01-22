@@ -153,25 +153,25 @@ Session ID: ses_45daf4140ffeYLdbIYLZBGtbai
 
 <results>
 <files>
-- /C:\Users\hyper\workspace\aios\ROADMAP.md — Phased development roadmap from foundation to advanced features, showing evolution from basic monorepo to autonomous intelligence
-- /C:\Users\hyper\workspace\aios\docs\VISION.md — Bobcoin economy vision focusing on "Proof of Health" cryptocurrency rewarding physical activity and social interaction
-- /C:\Users\hyper\workspace\aios\docs\project\STRUCTURE.md — Project architecture as "Meta-Orchestrator" for Model Context Protocol with monorepo structure and component roles
-- /C:\Users\hyper\workspace\aios\CHANGELOG.md — Development history showing progression from initial monorepo to advanced features like autonomous agents and memory systems
-- /C:\Users\hyper\workspace\aios\README.md — Core project description as universal hub for AI tools with progressive disclosure and active intelligence features
-- /C:\Users\hyper\workspace\aios\docs\submodules\misc-opencode-roadmap.md — Persistent project planning strategy for coordinating parallel agent work across sessions
-- /C:\Users\hyper\workspace\aios\docs\RESEARCH_CODEMODE.md — Hybrid sandbox strategy for secure code execution combining isolated-vm and Docker containers
-- /C:\Users\hyper\workspace\aios\docs\RESEARCH_BROWSER_CONNECTIVITY.md — Browser integration strategy using extension bridge for seamless user environment connection
-- /C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md — "Motherboard & OS" vision mapping 70+ submodules to specific roles in universal plugin architecture
-- /C:\Users\hyper\workspace\aios\docs\ECOSYSTEM_INTEGRATION.md — "Swiss Army Knife" strategy for aggregating external CLI tools instead of competing with them
-- /C:\Users\hyper\workspace\aios\docs\guides\PROGRESSIVE_DISCLOSURE.md — Context window management strategy hiding tools until needed for optimal LLM performance
-- /C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRATEGY.md — Unified memory system strategy orchestrating multiple backends with synchronization
-- /C:\Users\hyper\workspace\aios\docs\AGENT_STANDARDS_STRATEGY.md — Standardization strategy for agent behavior and plugin architecture across platforms
-- /C:\Users\hyper\workspace\aios\skills\imported\canvas-design\SKILL.md — Design philosophy emphasizing craftsmanship and visual expression through meticulous execution
-- /C:\Users\hyper\workspace\aios\skills\imported\algorithmic-art\SKILL.md — Algorithmic philosophy focusing on computational beauty and emergent behavior through code
+- /C:\Users\hyper\workspace\borg\ROADMAP.md — Phased development roadmap from foundation to advanced features, showing evolution from basic monorepo to autonomous intelligence
+- /C:\Users\hyper\workspace\borg\docs\VISION.md — Bobcoin economy vision focusing on "Proof of Health" cryptocurrency rewarding physical activity and social interaction
+- /C:\Users\hyper\workspace\borg\docs\project\STRUCTURE.md — Project architecture as "Meta-Orchestrator" for Model Context Protocol with monorepo structure and component roles
+- /C:\Users\hyper\workspace\borg\CHANGELOG.md — Development history showing progression from initial monorepo to advanced features like autonomous agents and memory systems
+- /C:\Users\hyper\workspace\borg\README.md — Core project description as universal hub for AI tools with progressive disclosure and active intelligence features
+- /C:\Users\hyper\workspace\borg\docs\submodules\misc-opencode-roadmap.md — Persistent project planning strategy for coordinating parallel agent work across sessions
+- /C:\Users\hyper\workspace\borg\docs\RESEARCH_CODEMODE.md — Hybrid sandbox strategy for secure code execution combining isolated-vm and Docker containers
+- /C:\Users\hyper\workspace\borg\docs\RESEARCH_BROWSER_CONNECTIVITY.md — Browser integration strategy using extension bridge for seamless user environment connection
+- /C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md — "Motherboard & OS" vision mapping 70+ submodules to specific roles in universal plugin architecture
+- /C:\Users\hyper\workspace\borg\docs\ECOSYSTEM_INTEGRATION.md — "Swiss Army Knife" strategy for aggregating external CLI tools instead of competing with them
+- /C:\Users\hyper\workspace\borg\docs\guides\PROGRESSIVE_DISCLOSURE.md — Context window management strategy hiding tools until needed for optimal LLM performance
+- /C:\Users\hyper\workspace\borg\docs\UNIVERSAL_MEMORY_STRATEGY.md — Unified memory system strategy orchestrating multiple backends with synchronization
+- /C:\Users\hyper\workspace\borg\docs\AGENT_STANDARDS_STRATEGY.md — Standardization strategy for agent behavior and plugin architecture across platforms
+- /C:\Users\hyper\workspace\borg\skills\imported\canvas-design\SKILL.md — Design philosophy emphasizing craftsmanship and visual expression through meticulous execution
+- /C:\Users\hyper\workspace\borg\skills\imported\algorithmic-art\SKILL.md — Algorithmic philosophy focusing on computational beauty and emergent behavior through code
 </files>
 
 <answer>
-The Super AI Plugin (aios) is a comprehensive "Meta-Orchestrator" and universal hub for the Model Context Protocol (MCP), designed as a "Motherboard & OS" that integrates AI tools, agents, and local servers into a cohesive ecosystem. Its core vision encompasses three interconnected pillars:
+The Super AI Plugin (borg) is a comprehensive "Meta-Orchestrator" and universal hub for the Model Context Protocol (MCP), designed as a "Motherboard & OS" that integrates AI tools, agents, and local servers into a cohesive ecosystem. Its core vision encompasses three interconnected pillars:
 
 **1. Universal Integration & Progressive Disclosure**: Acts as a central hub aggregating tools from MCP servers, remote instances, and internal capabilities. Uses progressive disclosure to manage context window limits by exposing tools on-demand rather than overwhelming the LLM with hundreds of options simultaneously.
 
@@ -515,13 +515,13 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\ROADMAP.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\ROADMAP.md"
 }
 ```
 **Output:**
 ```
 <file>
-00001| # aios Roadmap
+00001| # borg Roadmap
 00002| # include "CORE_INSTRUCTIONS.md"
 00003| 
 00004| ## Phase 1: Foundation (Completed)
@@ -589,7 +589,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\VISION.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\VISION.md"
 }
 ```
 **Output:**
@@ -625,7 +625,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\project\\STRUCTURE.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\project\\STRUCTURE.md"
 }
 ```
 **Output:**
@@ -708,7 +708,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\SUBMODULE_MAPPING.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\SUBMODULE_MAPPING.md"
 }
 ```
 **Output:**
@@ -762,7 +762,7 @@ Tool: read
 00046| | :--- | :--- | :--- |
 00047| | `Polymcp` | Reference | **Agent Framework.** Python library for building MCP agents (Code Mode, Unified Agent). |
 00048| | `superpowers` | Reference | **Methodology.** A workflow system (TDD, Planning) for coding agents. |
-00049| | `smolagents` | Reference | **Agent SDK.** Lightweight agent framework. We can write an adapter to run `smolagents` within aios. |
+00049| | `smolagents` | Reference | **Agent SDK.** Lightweight agent framework. We can write an adapter to run `smolagents` within borg. |
 00050| | `claude-squad` | Reference | **Multi-Agent.** Patterns for managing squads of Claude agents. |
 00051| | `magg` | Reference | **Agent Graph.** Multi-Agent Graph generation. |
 00052| | `orchestration` | Reference | **Coordination.** General orchestration patterns. |
@@ -844,7 +844,7 @@ Tool: read
 00128| 
 00129| | Component | Type | Utility / Role |
 00130| | :--- | :--- | :--- |
-00131| | `byterover-zed-extension` | Reference | **Editor Ext.** Zed editor extension for aios/Byterover. |
+00131| | `byterover-zed-extension` | Reference | **Editor Ext.** Zed editor extension for borg/Byterover. |
 00132| | `pluggedin-app` | Reference | **Browser.** Browser automation. |
 00133| 
 00134| ## 9. Skills & Collaboration
@@ -886,7 +886,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\ECOSYSTEM_INTEGRATION.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\ECOSYSTEM_INTEGRATION.md"
 }
 ```
 **Output:**
@@ -894,13 +894,13 @@ Tool: read
 <file>
 00001| # Ecosystem Integration Strategy
 00002| 
-00003| This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "aios".
+00003| This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "borg".
 00004| 
 00005| ## 1. Browser Extension & Connectivity
 00006| **Repo:** `references/MCP-SuperAssistant`
 00007| - **Role:** Foundation.
 00008| - **Integration:** This codebase will serve as the reference implementation for the project's Browser Extension interface and the WebSocket/StreamingHTTP server.
-00009| - **Goal:** Enable the "aios" to interact directly with web pages and browser events.
+00009| - **Goal:** Enable the "borg" to interact directly with web pages and browser events.
 00010| 
 00011| ## 2. Data Sources & Voice
 00012| **Repos:** `references/notebooklm-mcp`, `references/voicemode`
@@ -924,7 +924,7 @@ Tool: read
 00030| **Repos:** `references/mux`, `references/smolagents`
 00031| - **Role:** UI & Logic.
 00032| - **Integration:**
-00033|     - `mux`: Its "autonomous agentic loop" logic will be integrated into the aios UI, providing a "Jules-like" interface for long-running tasks.
+00033|     - `mux`: Its "autonomous agentic loop" logic will be integrated into the borg UI, providing a "Jules-like" interface for long-running tasks.
 00034|     - `smolagents`: Will be implemented to allow for a powerful autonomous cloud/local agentic development loop, utilizing skills and subagents.
 00035| 
 00036| ## 6. Multi-CLI Orchestration (The "Swiss Army Knife")
@@ -933,22 +933,22 @@ Tool: read
 00039| - **Role:** Orchestration & Capability Library.
 00040| - **Integration:**
 00041|     - **Super-Wrapper:** Wrap these CLIs to provide them with a Web UI and history.
-00042|     - **Feature Mining:** Audit these CLIs to ensure aios has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
+00042|     - **Feature Mining:** Audit these CLIs to ensure borg has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
 00043|     - **Delegation:** Use them as heavy-duty tools for specific tasks (e.g., "Ask `aider` to refactor this file").
 00044|     - **Submodule Strategy:** Maintain them as submodules in `references/clis/` to keep the "drivers" available for the OS.
 00045| 
 00046| ### Feature Parity Goals (from Amp & Aider)
 00047| *   **Oracle:** Implement an `oracle` tool (via `metamcp`) that routes complex queries to a reasoning model (o1/r1).
 00048| *   **Librarian:** Implement a `librarian` tool that uses `pluggedin-app` or GitHub search to query external repos.
-00049| *   **Toolboxes:** Allow users to drop scripts into `.aios/toolbox/` to auto-register them as MCP tools (inspired by Amp).
+00049| *   **Toolboxes:** Allow users to drop scripts into `.borg/toolbox/` to auto-register them as MCP tools (inspired by Amp).
 00050| *   **Repo Map:** Implement AST-based repository mapping (inspired by Aider).
 00051| 
 00052| ## 7. The "Swiss Army Knife" Strategy (Multi-CLI Orchestration)
 00053| 
-00054| To ensure the aios is the "Universal" operating system, we adopt a "Swiss Army Knife" strategy. Instead of competing with individual CLI tools (like Aider, Gemini CLI, or Claude Code), we **aggregate** them. The aios acts as the "Motherboard" that can mount and drive any of these tools as plugins.
+00054| To ensure the borg is the "Universal" operating system, we adopt a "Swiss Army Knife" strategy. Instead of competing with individual CLI tools (like Aider, Gemini CLI, or Claude Code), we **aggregate** them. The borg acts as the "Motherboard" that can mount and drive any of these tools as plugins.
 00055| 
 00056| ### 7.1. Integrated CLI Drivers
-00057| We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The aios Core Server can invoke these CLIs to perform specialized tasks that they excel at.
+00057| We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The borg Core Server can invoke these CLIs to perform specialized tasks that they excel at.
 00058| 
 00059| | CLI Tool | Repository | Primary Strength | Integration Role |
 00060| | :--- | :--- | :--- | :--- |
@@ -963,7 +963,7 @@ Tool: read
 00069| ### 7.2. Integration Architecture
 00070| 1.  **Submodule Management:** All CLIs are checked out in `references/clis/` to ensure we have the exact source code and can patch/wrap them if necessary.
 00071| 2.  **Unified Interface:** The `metamcp` server exposes a unified tool interface (e.g., `run_code_edit`, `ask_oracle`) that routes to the appropriate CLI.
-00072| 3.  **Context Sharing:** The aios Hub generates a "Universal Context" (e.g., `aios.md` or `context.md`) that these CLIs are instructed to read, ensuring they share the same memory state.
+00072| 3.  **Context Sharing:** The borg Hub generates a "Universal Context" (e.g., `borg.md` or `context.md`) that these CLIs are instructed to read, ensuring they share the same memory state.
 00073| 
 00074| ## 8. Registry & Package Management
 00075| **Repo:** `references/mcpm.sh`
@@ -1272,7 +1272,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\SUBMODULES.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\SUBMODULES.md"
 }
 ```
 **Output:**
@@ -1338,7 +1338,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\guides\\PROGRESSIVE_DISCLOSURE.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\guides\\PROGRESSIVE_DISCLOSURE.md"
 }
 ```
 **Output:**
@@ -1346,7 +1346,7 @@ Tool: read
 <file>
 00001| # Progressive Disclosure Strategy
 00002| 
-00003| aios implements a "Progressive Disclosure" strategy to manage context window limits effectively. Instead of exposing hundreds of tools to the LLM immediately, we expose a minimal set of "Meta Tools" that allow the LLM to discover and load what it needs.
+00003| borg implements a "Progressive Disclosure" strategy to manage context window limits effectively. Instead of exposing hundreds of tools to the LLM immediately, we expose a minimal set of "Meta Tools" that allow the LLM to discover and load what it needs.
 00004| 
 00005| ## Architecture
 00006| 
@@ -1394,7 +1394,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\UNIVERSAL_MEMORY_STRATEGY.md"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\UNIVERSAL_MEMORY_STRATEGY.md"
 }
 ```
 **Output:**
@@ -1402,10 +1402,10 @@ Tool: read
 <file>
 00001| # Universal Memory Strategy: The "Memory Orchestrator"
 00002| 
-00003| This document outlines the expanded strategy for a **Universal Memory System** in aios. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
+00003| This document outlines the expanded strategy for a **Universal Memory System** in borg. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
 00004| 
 00005| ## 1. Vision: The "Memory Orchestrator"
-00006| Instead of building a single monolithic memory store, aios will act as a **Memory Orchestrator**. It will:
+00006| Instead of building a single monolithic memory store, borg will act as a **Memory Orchestrator**. It will:
 00007| 1.  **Detect** existing memory systems (Pinecone, Chroma, Mem0, Browser Storage).
 00008| 2.  **Abstract** them behind a common `MemoryProvider` interface.
 00009| 3.  **Ingest** context from external sources (Jules, VS Code, Browser).
@@ -1503,7 +1503,7 @@ Tool: read
 00101| 
 00102| ## 6. Memory Transfer Protocol
 00103| To enable cloud agents (like Jules) to access local memory, we use a **Git-Based Sync**:
-00104| 1.  **Export**: Local agents run `export_memory` to dump all facts/decisions to `.aios/memory_export.json`.
+00104| 1.  **Export**: Local agents run `export_memory` to dump all facts/decisions to `.borg/memory_export.json`.
 00105| 2.  **Commit**: This file is committed to the repository.
 00106| 3.  **Ingest**: Cloud agents read this file from the repo to "hydrate" their context.
 00107| 
@@ -1638,7 +1638,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\agents\\researcher.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\agents\\researcher.json"
 }
 ```
 **Output:**
@@ -1663,7 +1663,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\agents\\skill-user-agent.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\agents\\skill-user-agent.json"
 }
 ```
 **Output:**
@@ -1821,12 +1821,12 @@ Tool: extract
     "VISION.md: Bobcoin = 'Proof of Health' crypto rewarding physical activity/dancing. Privacy via Monero/Solana tech. Mining = arcade machines as oracles verifying exertion. Infrastructure: Tor nodes + Distributed Storage (MegaTorrents) + Game Servers (MMORPG). Plugin = software layer connecting Miners to Bobcoin Network.",
     "STRUCTURE.md: TypeScript monorepo with pnpm. packages/core (Brain: Fastify+Socket.io, Agent Runtime, MCP Hub, Managers, Gateway, VectorStore). packages/ui (Next.js dashboard). packages/cli (super-ai commands). packages/adapters (Claude/Gemini wrappers). packages/vscode, packages/types. Root dirs: agents/, skills/, mcp-servers/, submodules/, docs/, prompts/, documents/, commands/, hooks/.",
     "SUBMODULE_MAPPING: Motherboard & OS vision. Categories: (1) Core Infrastructure - metamcp, CLIProxyAPI, mcpproxy, Switchboard, mcp-funnel; (2) Interfaces - jules-app, quotio, emdash, mcpenetes; (3) LLM Connectors - opencode, gemini-cli, pluggedin; (4) Agent Runtimes - Polymcp, superpowers, smolagents, claude-squad, magg; (5) Code Execution - code-executor-MCP, lootbox, pctx; (6) Memory - claude-mem, ToolRAG, lazy-mcp; (7) CLIs - aider, goose, kilocode, amp, mentat, fabric.",
-    "ECOSYSTEM_INTEGRATION: Swiss Army Knife strategy. Browser extension via MCP-SuperAssistant. Voice via voicemode. Hub core via pluggedin-mcp, mcpproxy-go, Super-MCP. Code Mode via pctx, mcp-server-code-execution. Autonomous UI via mux, smolagents. CLI orchestration wrapping gemini-cli, aider, mentat, fabric, goose, kilocode, amp. Feature parity: Oracle (reasoning), Librarian (search), Toolboxes (.aios/toolbox/), Repo Map (AST). Registry via mcpm.sh. A2A protocol support.",
+    "ECOSYSTEM_INTEGRATION: Swiss Army Knife strategy. Browser extension via MCP-SuperAssistant. Voice via voicemode. Hub core via pluggedin-mcp, mcpproxy-go, Super-MCP. Code Mode via pctx, mcp-server-code-execution. Autonomous UI via mux, smolagents. CLI orchestration wrapping gemini-cli, aider, mentat, fabric, goose, kilocode, amp. Feature parity: Oracle (reasoning), Librarian (search), Toolboxes (.borg/toolbox/), Repo Map (AST). Registry via mcpm.sh. A2A protocol support.",
     "Agents: 3 JSON definitions (researcher, skill-user-agent, math-whiz)",
     "Skills: 100+ markdown skill files in skills/imported/ covering webapp-testing, video-downloader, theme-factory, notion-*, mcp-builder, document-skills (xlsx, pptx, pdf, docx), content-research-writer, plus codex-debug.skill.md, calculator.skill.md",
     "SUBMODULES.md: v0.4.0 dashboard. Top 20: opencode-autopilot, opencode-core, metamcp v2.4.21, mcpenetes v1.0.3, mcp-shark 1.5.9, agent-client-protocol v0.10.5, mcp-hub v4.2.1, mcp-router v0.6.1, mcp-manager, Agent-MCP v4.20.0, OmniParser v2.0.1, DesktopCommanderMCP v0.2.7, Windows-MCP v0.5.4, claude-code v2.0.74, copilot-cli v0.0.373, gemini-bridge v1.2.0, plandex v2.2.1, software-agent-sdk 1.0.0, opencode-sdk-js v0.1.0, mcp-launcher.",
     "PROGRESSIVE_DISCLOSURE: Token-saving strategy. Default: search_tools, load_tool, run_code, run_agent. Discovery via Fuse.js search. Loading adds tool to sessionVisibleTools. Benefits: 100k→1k tokens, focus, scale. Config: MCP_PROGRESSIVE_MODE=true.",
-    "MEMORY_STRATEGY: Memory Orchestrator vision. MemoryProvider interface (vector/graph/key-value/file). Providers: File, Mem0, Pinecone, Browser Storage. Context Compactor extracts Facts/Decisions/Action Items. Ingestors: AgentMessageBroker, Jules, Tool hooks. Dashboard at /memory. Git-based sync via export_memory to .aios/memory_export.json. Coexistence: wrap existing mem0/chroma, default to local JSON/SQLite.",
+    "MEMORY_STRATEGY: Memory Orchestrator vision. MemoryProvider interface (vector/graph/key-value/file). Providers: File, Mem0, Pinecone, Browser Storage. Context Compactor extracts Facts/Decisions/Action Items. Ingestors: AgentMessageBroker, Jules, Tool hooks. Dashboard at /memory. Git-based sync via export_memory to .borg/memory_export.json. Coexistence: wrap existing mem0/chroma, default to local JSON/SQLite.",
     "mcp-servers: Contains test-server with pnpm setup and zod dependencies. Local MCP servers for tools like git, postgres.",
     "researcher.json: Agent using gpt-4-turbo for deep web research. Tools: web_search, read_active_tab, remember. Outputs markdown reports with citations.",
     "skill-user-agent.json: Meta-agent using claude-3-5-sonnet. Tools: list_skills, get_skill_info, execute_skill. Adopts skill personas or reports script outputs."
@@ -1838,24 +1838,24 @@ Tool: extract
 Context pruning complete. Pruned 18 tool outputs.
 
 Semantically pruned (18):
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\hub\HubSe...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\hub\HubSe...
 → background_output: {"task_id":"bg_3dd35996"}
 → background_output: {"task_id":"bg_37607c1e"}
 → background_output: {"task_id":"bg_b75081a7"}
-→ read: C:\Users\hyper\workspace\aios\ROADMAP.md
-→ read: C:\Users\hyper\workspace\aios\docs\VISION.md
-→ read: C:\Users\hyper\workspace\aios\docs\project\STRUCTURE.md
-→ read: C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
-→ read: C:\Users\hyper\workspace\aios\docs\ECOSYSTEM_INTEGRATION.md
+→ read: C:\Users\hyper\workspace\borg\ROADMAP.md
+→ read: C:\Users\hyper\workspace\borg\docs\VISION.md
+→ read: C:\Users\hyper\workspace\borg\docs\project\STRUCTURE.md
+→ read: C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md
+→ read: C:\Users\hyper\workspace\borg\docs\ECOSYSTEM_INTEGRATION.md
 → glob: "agents/*.json"
 → glob: "skills/**/*.md"
-→ read: C:\Users\hyper\workspace\aios\SUBMODULES.md
-→ read: C:\Users\hyper\workspace\aios\docs\guides\PROGRESSIVE_DIS...
-→ read: C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRAT...
+→ read: C:\Users\hyper\workspace\borg\SUBMODULES.md
+→ read: C:\Users\hyper\workspace\borg\docs\guides\PROGRESSIVE_DIS...
+→ read: C:\Users\hyper\workspace\borg\docs\UNIVERSAL_MEMORY_STRAT...
 → glob: "mcp-servers/**/*"
-→ read: C:\Users\hyper\workspace\aios\agents\researcher.json
-→ read: C:\Users\hyper\workspace\aios\agents\skill-user-agent.json
+→ read: C:\Users\hyper\workspace\borg\agents\researcher.json
+→ read: C:\Users\hyper\workspace\borg\agents\skill-user-agent.json
 ```
 ```
 
@@ -1866,24 +1866,24 @@ Semantically pruned (18):
 ▣ DCP | ~134.7K tokens saved total
 
 ▣ Pruning (~36.3K tokens) — Extraction
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\hub\HubSe...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\hub\HubSe...
 → background_output: {"task_id":"bg_3dd35996"}
 → background_output: {"task_id":"bg_37607c1e"}
 → background_output: {"task_id":"bg_b75081a7"}
-→ read: C:\Users\hyper\workspace\aios\ROADMAP.md
-→ read: C:\Users\hyper\workspace\aios\docs\VISION.md
-→ read: C:\Users\hyper\workspace\aios\docs\project\STRUCTURE.md
-→ read: C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
-→ read: C:\Users\hyper\workspace\aios\docs\ECOSYSTEM_INTEGRATION.md
+→ read: C:\Users\hyper\workspace\borg\ROADMAP.md
+→ read: C:\Users\hyper\workspace\borg\docs\VISION.md
+→ read: C:\Users\hyper\workspace\borg\docs\project\STRUCTURE.md
+→ read: C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md
+→ read: C:\Users\hyper\workspace\borg\docs\ECOSYSTEM_INTEGRATION.md
 → glob: "agents/*.json"
 → glob: "skills/**/*.md"
-→ read: C:\Users\hyper\workspace\aios\SUBMODULES.md
-→ read: C:\Users\hyper\workspace\aios\docs\guides\PROGRESSIVE_DIS...
-→ read: C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRAT...
+→ read: C:\Users\hyper\workspace\borg\SUBMODULES.md
+→ read: C:\Users\hyper\workspace\borg\docs\guides\PROGRESSIVE_DIS...
+→ read: C:\Users\hyper\workspace\borg\docs\UNIVERSAL_MEMORY_STRAT...
 → glob: "mcp-servers/**/*"
-→ read: C:\Users\hyper\workspace\aios\agents\researcher.json
-→ read: C:\Users\hyper\workspace\aios\agents\skill-user-agent.json
+→ read: C:\Users\hyper\workspace\borg\agents\researcher.json
+→ read: C:\Users\hyper\workspace\borg\agents\skill-user-agent.json
 
 ---
 
@@ -1897,8 +1897,8 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\VISION_COMPREHENSIVE.md",
-  "content": "# AIOS: The Comprehensive Vision Document\n\n**Version:** 0.4.0  \n**Last Updated:** 2026-01-09  \n**Status:** Living Document\n\n---\n\n## Executive Summary\n\n**AIOS (Super AI Plugin)** is a **Meta-Orchestrator** for the Model Context Protocol (MCP). It serves as the universal operating system for AI tools, acting as a \"Motherboard\" that connects, coordinates, and enhances any AI agent, tool, or service. The project embodies three core philosophies:\n\n1. **Universal Integration** - Aggregate, don't compete\n2. **Active Intelligence** - Autonomous agents with persistent memory\n3. **Physical-Digital Bridge** - The Bobcoin \"Proof of Health\" economy\n\n---\n\n## Part I: The \"Motherboard & OS\" Vision\n\n### 1.1 Core Metaphor\n\nAIOS is to AI tools what an operating system is to hardware:\n\n| Computer | AIOS |\n|----------|------|\n| Motherboard | Core Service (Hub) |\n| CPU | ModelGateway (LLM abstraction) |\n| RAM | Memory Orchestrator (VectorStore + Providers) |\n| USB Ports | MCP Server Connections |\n| Device Drivers | Adapters (Claude, Gemini, OpenCode) |\n| Applications | Agents & Skills |\n| File System | Context & Document Managers |\n| Task Scheduler | SchedulerManager + LoopManager |\n| Control Panel | Web Dashboard (packages/ui) |\n| Terminal | CLI (packages/cli) |\n\n### 1.2 The Universal Hub Architecture\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                         AIOS HUB                                │\n│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │\n│  │  HubServer  │  │ McpProxy    │  │    ProgressiveDisclose  │  │\n│  │  (JSON-RPC) │  │ Manager     │  │    (search_tools,       │  │\n│  │             │  │             │  │     load_tool)          │  │\n│  └──────┬──────┘  └──────┬──────┘  └───────────┬─────────────┘  │\n│         │                │                     │                │\n│  ┌──────┴────────────────┴─────────────────────┴──────────────┐ │\n│  │                    TOOL REGISTRY                            │ │\n│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │ │\n│  │  │ Internal │ │  Local   │ │  MetaMCP │ │ External │       │ │\n│  │  │  Tools   │ │ MCP Srvs │ │  (Docker)│ │   CLIs   │       │ │\n│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │ │\n│  └────────────────────────────────────────────────────────────┘ │\n└─────────────────────────────────────────────────────────────────┘\n              │              │              │              │\n              ▼              ▼              ▼              ▼\n        ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐\n        │  Claude  │  │  VSCode  │  │  Browser │  │  Custom  │\n        │ Desktop  │  │ Extension│  │ Extension│  │  Client  │\n        └──────────┘  └──────────┘  └──────────┘  └──────────┘\n```\n\n---\n\n## Part II: Technical Architecture\n\n### 2.1 Monorepo Structure\n\n```\naios/\n├── packages/\n│   ├── core/           # The Brain - Fastify + Socket.io + Managers\n│   ├── ui/             # The Control Center - Next.js Dashboard\n│   ├── cli/            # Terminal Interface - super-ai commands\n│   ├── adapters/       # CLI Wrappers - Claude, Gemini, OpenCode\n│   ├── vscode/         # VSCode Extension Client\n│   └── types/          # Shared TypeScript Definitions\n├── agents/             # JSON Agent Definitions (ReAct pattern)\n├── skills/             # 100+ Markdown Skill Files\n├── mcp-servers/        # Local MCP Server Instances\n├── submodules/         # 70+ External Integrations\n├── docs/               # Comprehensive Documentation\n├── prompts/            # System Prompt Library\n├── documents/          # RAG Ingestion Drop Zone\n├── commands/           # Slash Command Definitions\n└── hooks/              # Event Hook Configurations\n```\n\n### 2.2 The Manager Pattern\n\nAll subsystems are implemented as **Manager** classes extending `EventEmitter`:\n\n| Manager | Responsibility |\n|---------|----------------|\n| **AgentManager** | Load/watch agent definitions from JSON |\n| **SkillManager** | Load/watch markdown skill files |\n| **MemoryManager** | Orchestrate memory providers (File, Mem0, Pinecone, Browser) |\n| **ContextManager** | Watch and analyze context files |\n| **McpProxyManager** | Route tool calls, progressive disclosure, internal tools |\n| **HubServer** | Central JSON-RPC handler for MCP protocol |\n| **SessionManager** | Persist agent conversation sessions |\n| **SchedulerManager** | Cron-based task scheduling |\n| **LoopManager** | Autonomous agent loops |\n| **DocumentManager** | Chunk and store documents for RAG |\n| **SecretManager** | Secure API key storage |\n| **ProfileManager** | User configuration profiles |\n| **HandoffManager** | Agent-to-agent context transfer |\n| **BrowserManager** | Browser automation and tab reading |\n| **VSCodeManager** | VSCode integration |\n| **EconomyManager** | Bobcoin mock economy |\n| **NodeManager** | Infrastructure (Tor, Torrent, Storage) |\n| **ConductorManager** | Multi-agent orchestration |\n| **VibeKanbanManager** | Task board management |\n| **SystemTrayManager** | Desktop tray icon and notifications |\n\n### 2.3 API Endpoints (Hono/Fastify)\n\n| Endpoint | Method | Purpose |\n|----------|--------|---------|\n| `/health` | GET | System health status |\n| `/api/doctor` | GET | Full system diagnostics |\n| `/api/state` | GET | Complete system state (agents, skills, hooks, etc.) |\n| `/api/hub/sse` | GET | SSE streaming for MCP clients |\n| `/api/hub/messages` | POST | JSON-RPC message handling |\n| `/api/agents/run` | POST | Execute an agent with a task |\n| `/api/mcp/start` | POST | Start an MCP server |\n| `/api/mcp/stop` | POST | Stop an MCP server |\n| `/api/secrets` | GET/POST/DELETE | Manage API keys |\n| `/api/sessions` | GET | List conversation sessions |\n| `/api/profiles` | GET/POST | Manage user profiles |\n| `/api/memory` | GET | Memory dashboard data |\n| `/api/marketplace` | POST | Install packages |\n| `/api/conductor/start` | POST | Start conductor task |\n| `/api/vibekanban/*` | Various | Kanban board operations |\n\n---\n\n## Part III: Feature Catalog\n\n### 3.1 Progressive Disclosure\n\n**Problem:** LLMs have limited context windows. Exposing 500+ tools wastes tokens.\n\n**Solution:** Start with meta-tools, load on demand.\n\n**Default Tools:**\n- `search_tools` - Fuzzy search via Fuse.js\n- `load_tool` - Whitelist tool for session (FIFO at 200)\n- `run_code` - Execute TypeScript/Python in sandbox\n- `run_agent` - Spawn sub-agent\n\n**Benefits:**\n- Token reduction: 100k → 1k\n- Focus: LLM sees only relevant tools\n- Scale: Connect hundreds of MCP servers\n\n### 3.2 Memory Orchestrator\n\n**Vision:** Unified interface across multiple memory backends.\n\n**Providers:**\n- `FileMemoryProvider` - Local JSON/SQLite\n- `Mem0Provider` - mem0.ai cloud\n- `PineconeProvider` - Vector database\n- `BrowserStorageProvider` - Extension storage\n\n**Features:**\n- **Context Compactor:** Extract Facts, Decisions, Action Items from raw streams\n- **Ingestors:** AgentMessageBroker, Jules, Tool hooks\n- **Git Sync:** Export to `.aios/memory_export.json` for cloud agent access\n- **Dashboard:** `/memory` page with semantic search\n\n### 3.3 Agent System\n\n**ReAct Pattern Implementation:**\n\n```typescript\ninterface AgentDefinition {\n  name: string;\n  model: string; // e.g., \"gpt-4-turbo\", \"claude-3-5-sonnet-20241022\"\n  description: string;\n  instructions: string;\n  tools?: string[]; // Tool whitelist\n}\n```\n\n**Built-in Agents:**\n| Agent | Model | Purpose |\n|-------|-------|---------|\n| `researcher` | gpt-4-turbo | Deep web research with citations |\n| `skill-user-agent` | claude-3-5-sonnet | Meta-agent using skill registry |\n| `math-whiz` | (various) | Mathematical computations |\n\n**Execution Flow:**\n1. AgentExecutor constructs system prompt (global + user + agent config)\n2. Calls ModelGateway with tool definitions\n3. ReAct loop: Think → Act → Observe → Repeat\n4. SessionManager saves conversation history\n\n### 3.4 Autonomous Loops (LoopManager)\n\n**Purpose:** Agents that self-schedule and run indefinitely.\n\n**Tools:**\n- `create_loop(name, agentName, task, cron)` - Start autonomous loop\n- `stop_loop(loopId)` - Terminate loop\n\n**Use Cases:**\n- Nightly code review\n- Continuous monitoring\n- Periodic research updates\n\n### 3.5 Code Mode (Sandboxed Execution)\n\n**Strategy:** Hybrid sandbox combining:\n- `isolated-vm` - Fast TypeScript execution\n- Docker containers - Heavy Python workloads\n\n**Features:**\n- Tool access within sandbox\n- Timeout protection\n- Resource limits\n\n### 3.6 Skill System\n\n**100+ Skills** organized in `skills/imported/`:\n\n| Category | Examples |\n|----------|----------|\n| **Document Generation** | docx, pptx, xlsx, pdf |\n| **Notion Integration** | spec-to-implementation, research-documentation, meeting-intelligence, knowledge-capture |\n| **Development** | mcp-builder, webapp-testing, codex-debug |\n| **Creative** | theme-factory (10+ themes), algorithmic-art, canvas-design |\n| **Productivity** | file-organizer, invoice-organizer, meeting-insights-analyzer |\n| **Research** | content-research-writer, domain-name-brainstormer |\n\n### 3.7 Multi-CLI Orchestration (\"Swiss Army Knife\")\n\n**Philosophy:** Aggregate, don't compete.\n\n**Integrated CLIs (as submodules):**\n\n| CLI | Strength | Integration Role |\n|-----|----------|------------------|\n| **Aider** | SOTA code editing, Repo Map | Code Editor |\n| **Gemini CLI** | Google ecosystem, multimodal | General Purpose |\n| **Claude Code** | v2.0.74 coding assistant | Code Assistant |\n| **Copilot CLI** | GitHub integration | Code Completion |\n| **Mentat** | Coordinate-based editing | Alternative Editor |\n| **Fabric** | Patterns for life/work | Wisdom Engine |\n| **Goose** | Block's developer agent | Developer Agent |\n| **KiloCode** | Memory Bank architecture | Project Manager |\n| **Amp** | Oracle + Librarian | Researcher |\n| **Plandex** | AI-powered planning | Planning |\n\n**Feature Parity Goals:**\n- **Oracle:** Route complex queries to reasoning models (o1/r1)\n- **Librarian:** GitHub search and external repo queries\n- **Toolboxes:** Auto-register scripts from `.aios/toolbox/`\n- **Repo Map:** AST-based repository mapping\n\n### 3.8 Client Integrations\n\n| Client | Status | Configuration |\n|--------|--------|---------------|\n| **Claude Desktop** | ✅ Ready | `%APPDATA%\\Claude\\claude_desktop_config.json` |\n| **VSCode** | ✅ Ready | `%APPDATA%\\Code\\User\\globalStorage\\mcp-servers.json` |\n| **Browser Extension** | 🔨 Skeleton | `packages/browser/` |\n| **Other MCP Clients** | ✅ Supported | Cursor, Cline, Roo Code, Continue, Cody, Codeium |\n\n**Auto-Configuration:** `mcpenetes` v1.0.3 handles client setup.\n\n---\n\n## Part IV: The Bobcoin Economy\n\n### 4.1 Philosophy: \"Proof of Health\"\n\nBobcoin is a cryptocurrency that rewards:\n- **Physical Activity** (dancing, exercise)\n- **Social Interaction**\n- **Healthy Relationships**\n\n**Anti-Hoarding Design:** High velocity, use-it-or-lose-it mechanics.\n\n### 4.2 Technical Stack\n\n- **Privacy:** Monero/Solana hybrid for speed + anonymity\n- **Mining:** \"Proof of Dance\" - arcade machines verify physical exertion\n- **Infrastructure:** Machines double as:\n  - Tor Nodes\n  - Distributed Storage (MegaTorrents)\n  - Game Servers (MMORPG)\n\n### 4.3 AIOS Role\n\nThe plugin is the **software layer** connecting Miners to the Bobcoin Network:\n\n| Component | Function |\n|-----------|----------|\n| `EconomyManager` | Mock wallet and mining sessions |\n| `NodeManager` | Tor, Torrent, Storage toggles |\n| `super-ai mine` | CLI command for activity submission |\n| Hardware Integration | Serial/GPIO for \"Proof of Dance\" |\n\n### 4.4 Implementation Status\n\n- [x] Bobcoin submodule integration\n- [x] Economy Manager (mock)\n- [x] Infrastructure simulation (Node Manager)\n- [x] Miner CLI command\n- [x] Physical mining (Serial/GPIO)\n- [ ] Real wallet integration (pending)\n\n---\n\n## Part V: Submodule Ecosystem\n\n### 5.1 Top 20 Critical Submodules\n\n| Submodule | Version | Purpose |\n|-----------|---------|---------|\n| `opencode-autopilot` | v0.4.0 | AI session orchestration |\n| `opencode-core` | latest | Core AI coding agent |\n| `metamcp` | v2.4.21 | Docker-based MCP backend |\n| `mcpenetes` | v1.0.3 | Client auto-configuration |\n| `mcp-shark` | v1.5.9 | Traffic monitoring/replay |\n| `agent-client-protocol` | v0.10.5 | MCP protocol spec |\n| `mcp-hub` | v4.2.1 | Central MCP hub |\n| `mcp-router` | v0.6.1 | Routing and load balancing |\n| `mcp-manager` | main | Server management UI |\n| `Agent-MCP` | v4.20.0 | MCP server for agents |\n| `OmniParser` | v2.0.1 | Screen parsing/UI detection |\n| `DesktopCommanderMCP` | v0.2.7 | Desktop command execution |\n| `Windows-MCP` | v0.5.4 | Windows tool integration |\n| `claude-code` | v2.0.74 | Claude coding assistant |\n| `copilot-cli` | v0.0.373 | GitHub Copilot CLI |\n| `gemini-bridge` | v1.2.0 | Gemini AI integration |\n| `plandex` | v2.2.1 | AI planning tool |\n| `software-agent-sdk` | v1.0.0 | Autonomous agent SDK |\n| `opencode-sdk-js` | v0.1.0 | JS SDK for OpenCode |\n| `mcp-launcher` | main | Automated server launcher |\n\n### 5.2 Submodule Categories\n\n| Category | Components |\n|----------|------------|\n| **Core Infrastructure** | metamcp, CLIProxyAPI, mcpproxy, Switchboard, mcp-funnel |\n| **Interfaces** | jules-app, quotio, emdash, mcpenetes |\n| **LLM Connectors** | opencode, gemini-cli, pluggedin |\n| **Agent Runtimes** | Polymcp, superpowers, smolagents, claude-squad, magg |\n| **Code Execution** | code-executor-MCP, lootbox, pctx |\n| **Memory** | claude-mem, ToolRAG, lazy-mcp |\n| **Observability** | mcp-shark |\n| **Protocols** | A2A, a2a-js, a2a-python |\n\n---\n\n## Part VI: Development Roadmap\n\n### Completed Phases\n\n| Phase | Status | Highlights |\n|-------|--------|------------|\n| **1: Foundation** | ✅ | Monorepo, Core Service, UI Shell, Basic Managers |\n| **2: Enhancement** | ✅ | Documentation, Dashboard, Versioning |\n| **3: Multi-Platform** | ✅ | CLI Wrapper, VSCode Extension, Chrome Extension |\n| **4: Advanced** | ✅ | PipelineTool, Context Injection, RAG, Toon Format |\n| **5: Intelligence** | ✅ | Memory Consolidation, Autonomous Loops, Auth |\n| **6: Economy** | ✅ | Bobcoin, Node Manager, Physical Mining |\n| **7: Maintenance** | ✅ | CI/CD, Type Safety, Documentation |\n\n### Current Migration\n\n**Fastify → Bun + Hono** (80% complete)\n\n| Task | Status |\n|------|--------|\n| Server.ts rewrite | ✅ Done |\n| SSE endpoint adaptation | 🔨 In Progress |\n| Static file serving | 🔨 In Progress |\n| Socket.io integration | ✅ Done |\n\n### Future Directions\n\n| Initiative | Description |\n|------------|-------------|\n| **Real Wallet** | Actual cryptocurrency integration |\n| **A2A Protocol** | Agent-to-Agent standardized communication |\n| **Voice Mode** | Voice control via voicemode reference |\n| **Multi-Model Consensus** | Claude, Gemini, GPT debate before output |\n| **Mobile Orchestration** | Manage dev from mobile devices |\n\n---\n\n## Part VII: UI Architecture Options\n\nBased on conversation context, three paths forward:\n\n| Option | Stack | Description |\n|--------|-------|-------------|\n| **A: TUI** | Bun + Ink (React for CLI) | Terminal-based \"Mecha Suit\" |\n| **B: Web** | Bun + Hono + React/htmx | Browser dashboard (current) |\n| **C: Both** | Hono backend + Ink CLI | API server + CLI client (recommended) |\n\n**Current State:** Option B implemented with Next.js custom server.\n\n---\n\n## Part VIII: Anti-Patterns & Conventions\n\n### Must Avoid\n\n| Anti-Pattern | Reason |\n|--------------|--------|\n| `as any`, `@ts-ignore` | Type safety violations |\n| Empty catch blocks | Silent error swallowing |\n| Exposed secrets | Security breach |\n| Simulated actions | Tools must do real work |\n| Unicode in DOCX | Corruption issues |\n| Git reverts without request | User control |\n| GPT-5.0 models | Deprecated |\n| opencode-workflows | Use keystone instead |\n\n### Must Follow\n\n| Convention | Implementation |\n|------------|----------------|\n| TypeScript | Strict, ES2022, NodeNext |\n| Package Manager | pnpm workspaces |\n| Linting | ESLint flat config, eslint-config-next |\n| Styling | Tailwind CSS |\n| Manager Pattern | All subsystems as Manager classes |\n| Event-Driven | EventEmitter for cross-manager communication |\n\n---\n\n## Part IX: Quick Reference\n\n### Commands\n\n```bash\n# Development\npnpm install              # Install dependencies\npnpm run start:all        # Build & Start everything\npnpm --filter @aios/core dev   # Start Core only\npnpm --filter @aios/ui dev     # Start UI only\npnpm test                 # Run tests\n\n# CLI\nsuper-ai start            # Start AIOS\nsuper-ai status           # Check status\nsuper-ai run <agent>      # Run agent\nsuper-ai mine             # Submit activity (Bobcoin)\n```\n\n### Environment Variables\n\n```env\nMCP_STDIO_ENABLED=true    # Enable MCP stdio interface\nMCP_PROGRESSIVE_MODE=true # Enable progressive disclosure\nMEM0_API_KEY=xxx          # Mem0 cloud memory\nJULES_API_KEY=xxx         # Jules platform sync\n```\n\n### Key Files\n\n| File | Purpose |\n|------|---------|\n| `VERSION` | Single source of truth for version |\n| `CHANGELOG.md` | Development history |\n| `AGENTS.md` | Project knowledge base |\n| `SUBMODULES.md` | Submodule dashboard |\n| `ROADMAP.md` | Development phases |\n\n---\n\n## Conclusion\n\nAIOS represents a unified vision for AI tool orchestration:\n\n1. **Universal Hub** - Connect any MCP server, CLI, or agent\n2. **Intelligent Core** - Memory, context, autonomous execution\n3. **Physical Bridge** - Bobcoin economy linking digital and physical worlds\n4. **Ecosystem** - 70+ submodules, 100+ skills, multi-platform clients\n\nThe \"Motherboard & OS\" metaphor captures the essence: AIOS doesn't replace tools, it connects and enhances them. It's the operating system for the AI age.\n\n---\n\n*\"We don't compete. We aggregate. We orchestrate. We amplify.\"*\n"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\VISION_COMPREHENSIVE.md",
+  "content": "# AIOS: The Comprehensive Vision Document\n\n**Version:** 0.4.0  \n**Last Updated:** 2026-01-09  \n**Status:** Living Document\n\n---\n\n## Executive Summary\n\n**AIOS (Super AI Plugin)** is a **Meta-Orchestrator** for the Model Context Protocol (MCP). It serves as the universal operating system for AI tools, acting as a \"Motherboard\" that connects, coordinates, and enhances any AI agent, tool, or service. The project embodies three core philosophies:\n\n1. **Universal Integration** - Aggregate, don't compete\n2. **Active Intelligence** - Autonomous agents with persistent memory\n3. **Physical-Digital Bridge** - The Bobcoin \"Proof of Health\" economy\n\n---\n\n## Part I: The \"Motherboard & OS\" Vision\n\n### 1.1 Core Metaphor\n\nAIOS is to AI tools what an operating system is to hardware:\n\n| Computer | AIOS |\n|----------|------|\n| Motherboard | Core Service (Hub) |\n| CPU | ModelGateway (LLM abstraction) |\n| RAM | Memory Orchestrator (VectorStore + Providers) |\n| USB Ports | MCP Server Connections |\n| Device Drivers | Adapters (Claude, Gemini, OpenCode) |\n| Applications | Agents & Skills |\n| File System | Context & Document Managers |\n| Task Scheduler | SchedulerManager + LoopManager |\n| Control Panel | Web Dashboard (packages/ui) |\n| Terminal | CLI (packages/cli) |\n\n### 1.2 The Universal Hub Architecture\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                         AIOS HUB                                │\n│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │\n│  │  HubServer  │  │ McpProxy    │  │    ProgressiveDisclose  │  │\n│  │  (JSON-RPC) │  │ Manager     │  │    (search_tools,       │  │\n│  │             │  │             │  │     load_tool)          │  │\n│  └──────┬──────┘  └──────┬──────┘  └───────────┬─────────────┘  │\n│         │                │                     │                │\n│  ┌──────┴────────────────┴─────────────────────┴──────────────┐ │\n│  │                    TOOL REGISTRY                            │ │\n│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │ │\n│  │  │ Internal │ │  Local   │ │  MetaMCP │ │ External │       │ │\n│  │  │  Tools   │ │ MCP Srvs │ │  (Docker)│ │   CLIs   │       │ │\n│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │ │\n│  └────────────────────────────────────────────────────────────┘ │\n└─────────────────────────────────────────────────────────────────┘\n              │              │              │              │\n              ▼              ▼              ▼              ▼\n        ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐\n        │  Claude  │  │  VSCode  │  │  Browser │  │  Custom  │\n        │ Desktop  │  │ Extension│  │ Extension│  │  Client  │\n        └──────────┘  └──────────┘  └──────────┘  └──────────┘\n```\n\n---\n\n## Part II: Technical Architecture\n\n### 2.1 Monorepo Structure\n\n```\naios/\n├── packages/\n│   ├── core/           # The Brain - Fastify + Socket.io + Managers\n│   ├── ui/             # The Control Center - Next.js Dashboard\n│   ├── cli/            # Terminal Interface - super-ai commands\n│   ├── adapters/       # CLI Wrappers - Claude, Gemini, OpenCode\n│   ├── vscode/         # VSCode Extension Client\n│   └── types/          # Shared TypeScript Definitions\n├── agents/             # JSON Agent Definitions (ReAct pattern)\n├── skills/             # 100+ Markdown Skill Files\n├── mcp-servers/        # Local MCP Server Instances\n├── submodules/         # 70+ External Integrations\n├── docs/               # Comprehensive Documentation\n├── prompts/            # System Prompt Library\n├── documents/          # RAG Ingestion Drop Zone\n├── commands/           # Slash Command Definitions\n└── hooks/              # Event Hook Configurations\n```\n\n### 2.2 The Manager Pattern\n\nAll subsystems are implemented as **Manager** classes extending `EventEmitter`:\n\n| Manager | Responsibility |\n|---------|----------------|\n| **AgentManager** | Load/watch agent definitions from JSON |\n| **SkillManager** | Load/watch markdown skill files |\n| **MemoryManager** | Orchestrate memory providers (File, Mem0, Pinecone, Browser) |\n| **ContextManager** | Watch and analyze context files |\n| **McpProxyManager** | Route tool calls, progressive disclosure, internal tools |\n| **HubServer** | Central JSON-RPC handler for MCP protocol |\n| **SessionManager** | Persist agent conversation sessions |\n| **SchedulerManager** | Cron-based task scheduling |\n| **LoopManager** | Autonomous agent loops |\n| **DocumentManager** | Chunk and store documents for RAG |\n| **SecretManager** | Secure API key storage |\n| **ProfileManager** | User configuration profiles |\n| **HandoffManager** | Agent-to-agent context transfer |\n| **BrowserManager** | Browser automation and tab reading |\n| **VSCodeManager** | VSCode integration |\n| **EconomyManager** | Bobcoin mock economy |\n| **NodeManager** | Infrastructure (Tor, Torrent, Storage) |\n| **ConductorManager** | Multi-agent orchestration |\n| **VibeKanbanManager** | Task board management |\n| **SystemTrayManager** | Desktop tray icon and notifications |\n\n### 2.3 API Endpoints (Hono/Fastify)\n\n| Endpoint | Method | Purpose |\n|----------|--------|---------|\n| `/health` | GET | System health status |\n| `/api/doctor` | GET | Full system diagnostics |\n| `/api/state` | GET | Complete system state (agents, skills, hooks, etc.) |\n| `/api/hub/sse` | GET | SSE streaming for MCP clients |\n| `/api/hub/messages` | POST | JSON-RPC message handling |\n| `/api/agents/run` | POST | Execute an agent with a task |\n| `/api/mcp/start` | POST | Start an MCP server |\n| `/api/mcp/stop` | POST | Stop an MCP server |\n| `/api/secrets` | GET/POST/DELETE | Manage API keys |\n| `/api/sessions` | GET | List conversation sessions |\n| `/api/profiles` | GET/POST | Manage user profiles |\n| `/api/memory` | GET | Memory dashboard data |\n| `/api/marketplace` | POST | Install packages |\n| `/api/conductor/start` | POST | Start conductor task |\n| `/api/vibekanban/*` | Various | Kanban board operations |\n\n---\n\n## Part III: Feature Catalog\n\n### 3.1 Progressive Disclosure\n\n**Problem:** LLMs have limited context windows. Exposing 500+ tools wastes tokens.\n\n**Solution:** Start with meta-tools, load on demand.\n\n**Default Tools:**\n- `search_tools` - Fuzzy search via Fuse.js\n- `load_tool` - Whitelist tool for session (FIFO at 200)\n- `run_code` - Execute TypeScript/Python in sandbox\n- `run_agent` - Spawn sub-agent\n\n**Benefits:**\n- Token reduction: 100k → 1k\n- Focus: LLM sees only relevant tools\n- Scale: Connect hundreds of MCP servers\n\n### 3.2 Memory Orchestrator\n\n**Vision:** Unified interface across multiple memory backends.\n\n**Providers:**\n- `FileMemoryProvider` - Local JSON/SQLite\n- `Mem0Provider` - mem0.ai cloud\n- `PineconeProvider` - Vector database\n- `BrowserStorageProvider` - Extension storage\n\n**Features:**\n- **Context Compactor:** Extract Facts, Decisions, Action Items from raw streams\n- **Ingestors:** AgentMessageBroker, Jules, Tool hooks\n- **Git Sync:** Export to `.borg/memory_export.json` for cloud agent access\n- **Dashboard:** `/memory` page with semantic search\n\n### 3.3 Agent System\n\n**ReAct Pattern Implementation:**\n\n```typescript\ninterface AgentDefinition {\n  name: string;\n  model: string; // e.g., \"gpt-4-turbo\", \"claude-3-5-sonnet-20241022\"\n  description: string;\n  instructions: string;\n  tools?: string[]; // Tool whitelist\n}\n```\n\n**Built-in Agents:**\n| Agent | Model | Purpose |\n|-------|-------|---------|\n| `researcher` | gpt-4-turbo | Deep web research with citations |\n| `skill-user-agent` | claude-3-5-sonnet | Meta-agent using skill registry |\n| `math-whiz` | (various) | Mathematical computations |\n\n**Execution Flow:**\n1. AgentExecutor constructs system prompt (global + user + agent config)\n2. Calls ModelGateway with tool definitions\n3. ReAct loop: Think → Act → Observe → Repeat\n4. SessionManager saves conversation history\n\n### 3.4 Autonomous Loops (LoopManager)\n\n**Purpose:** Agents that self-schedule and run indefinitely.\n\n**Tools:**\n- `create_loop(name, agentName, task, cron)` - Start autonomous loop\n- `stop_loop(loopId)` - Terminate loop\n\n**Use Cases:**\n- Nightly code review\n- Continuous monitoring\n- Periodic research updates\n\n### 3.5 Code Mode (Sandboxed Execution)\n\n**Strategy:** Hybrid sandbox combining:\n- `isolated-vm` - Fast TypeScript execution\n- Docker containers - Heavy Python workloads\n\n**Features:**\n- Tool access within sandbox\n- Timeout protection\n- Resource limits\n\n### 3.6 Skill System\n\n**100+ Skills** organized in `skills/imported/`:\n\n| Category | Examples |\n|----------|----------|\n| **Document Generation** | docx, pptx, xlsx, pdf |\n| **Notion Integration** | spec-to-implementation, research-documentation, meeting-intelligence, knowledge-capture |\n| **Development** | mcp-builder, webapp-testing, codex-debug |\n| **Creative** | theme-factory (10+ themes), algorithmic-art, canvas-design |\n| **Productivity** | file-organizer, invoice-organizer, meeting-insights-analyzer |\n| **Research** | content-research-writer, domain-name-brainstormer |\n\n### 3.7 Multi-CLI Orchestration (\"Swiss Army Knife\")\n\n**Philosophy:** Aggregate, don't compete.\n\n**Integrated CLIs (as submodules):**\n\n| CLI | Strength | Integration Role |\n|-----|----------|------------------|\n| **Aider** | SOTA code editing, Repo Map | Code Editor |\n| **Gemini CLI** | Google ecosystem, multimodal | General Purpose |\n| **Claude Code** | v2.0.74 coding assistant | Code Assistant |\n| **Copilot CLI** | GitHub integration | Code Completion |\n| **Mentat** | Coordinate-based editing | Alternative Editor |\n| **Fabric** | Patterns for life/work | Wisdom Engine |\n| **Goose** | Block's developer agent | Developer Agent |\n| **KiloCode** | Memory Bank architecture | Project Manager |\n| **Amp** | Oracle + Librarian | Researcher |\n| **Plandex** | AI-powered planning | Planning |\n\n**Feature Parity Goals:**\n- **Oracle:** Route complex queries to reasoning models (o1/r1)\n- **Librarian:** GitHub search and external repo queries\n- **Toolboxes:** Auto-register scripts from `.borg/toolbox/`\n- **Repo Map:** AST-based repository mapping\n\n### 3.8 Client Integrations\n\n| Client | Status | Configuration |\n|--------|--------|---------------|\n| **Claude Desktop** | ✅ Ready | `%APPDATA%\\Claude\\claude_desktop_config.json` |\n| **VSCode** | ✅ Ready | `%APPDATA%\\Code\\User\\globalStorage\\mcp-servers.json` |\n| **Browser Extension** | 🔨 Skeleton | `packages/browser/` |\n| **Other MCP Clients** | ✅ Supported | Cursor, Cline, Roo Code, Continue, Cody, Codeium |\n\n**Auto-Configuration:** `mcpenetes` v1.0.3 handles client setup.\n\n---\n\n## Part IV: The Bobcoin Economy\n\n### 4.1 Philosophy: \"Proof of Health\"\n\nBobcoin is a cryptocurrency that rewards:\n- **Physical Activity** (dancing, exercise)\n- **Social Interaction**\n- **Healthy Relationships**\n\n**Anti-Hoarding Design:** High velocity, use-it-or-lose-it mechanics.\n\n### 4.2 Technical Stack\n\n- **Privacy:** Monero/Solana hybrid for speed + anonymity\n- **Mining:** \"Proof of Dance\" - arcade machines verify physical exertion\n- **Infrastructure:** Machines double as:\n  - Tor Nodes\n  - Distributed Storage (MegaTorrents)\n  - Game Servers (MMORPG)\n\n### 4.3 AIOS Role\n\nThe plugin is the **software layer** connecting Miners to the Bobcoin Network:\n\n| Component | Function |\n|-----------|----------|\n| `EconomyManager` | Mock wallet and mining sessions |\n| `NodeManager` | Tor, Torrent, Storage toggles |\n| `super-ai mine` | CLI command for activity submission |\n| Hardware Integration | Serial/GPIO for \"Proof of Dance\" |\n\n### 4.4 Implementation Status\n\n- [x] Bobcoin submodule integration\n- [x] Economy Manager (mock)\n- [x] Infrastructure simulation (Node Manager)\n- [x] Miner CLI command\n- [x] Physical mining (Serial/GPIO)\n- [ ] Real wallet integration (pending)\n\n---\n\n## Part V: Submodule Ecosystem\n\n### 5.1 Top 20 Critical Submodules\n\n| Submodule | Version | Purpose |\n|-----------|---------|---------|\n| `opencode-autopilot` | v0.4.0 | AI session orchestration |\n| `opencode-core` | latest | Core AI coding agent |\n| `metamcp` | v2.4.21 | Docker-based MCP backend |\n| `mcpenetes` | v1.0.3 | Client auto-configuration |\n| `mcp-shark` | v1.5.9 | Traffic monitoring/replay |\n| `agent-client-protocol` | v0.10.5 | MCP protocol spec |\n| `mcp-hub` | v4.2.1 | Central MCP hub |\n| `mcp-router` | v0.6.1 | Routing and load balancing |\n| `mcp-manager` | main | Server management UI |\n| `Agent-MCP` | v4.20.0 | MCP server for agents |\n| `OmniParser` | v2.0.1 | Screen parsing/UI detection |\n| `DesktopCommanderMCP` | v0.2.7 | Desktop command execution |\n| `Windows-MCP` | v0.5.4 | Windows tool integration |\n| `claude-code` | v2.0.74 | Claude coding assistant |\n| `copilot-cli` | v0.0.373 | GitHub Copilot CLI |\n| `gemini-bridge` | v1.2.0 | Gemini AI integration |\n| `plandex` | v2.2.1 | AI planning tool |\n| `software-agent-sdk` | v1.0.0 | Autonomous agent SDK |\n| `opencode-sdk-js` | v0.1.0 | JS SDK for OpenCode |\n| `mcp-launcher` | main | Automated server launcher |\n\n### 5.2 Submodule Categories\n\n| Category | Components |\n|----------|------------|\n| **Core Infrastructure** | metamcp, CLIProxyAPI, mcpproxy, Switchboard, mcp-funnel |\n| **Interfaces** | jules-app, quotio, emdash, mcpenetes |\n| **LLM Connectors** | opencode, gemini-cli, pluggedin |\n| **Agent Runtimes** | Polymcp, superpowers, smolagents, claude-squad, magg |\n| **Code Execution** | code-executor-MCP, lootbox, pctx |\n| **Memory** | claude-mem, ToolRAG, lazy-mcp |\n| **Observability** | mcp-shark |\n| **Protocols** | A2A, a2a-js, a2a-python |\n\n---\n\n## Part VI: Development Roadmap\n\n### Completed Phases\n\n| Phase | Status | Highlights |\n|-------|--------|------------|\n| **1: Foundation** | ✅ | Monorepo, Core Service, UI Shell, Basic Managers |\n| **2: Enhancement** | ✅ | Documentation, Dashboard, Versioning |\n| **3: Multi-Platform** | ✅ | CLI Wrapper, VSCode Extension, Chrome Extension |\n| **4: Advanced** | ✅ | PipelineTool, Context Injection, RAG, Toon Format |\n| **5: Intelligence** | ✅ | Memory Consolidation, Autonomous Loops, Auth |\n| **6: Economy** | ✅ | Bobcoin, Node Manager, Physical Mining |\n| **7: Maintenance** | ✅ | CI/CD, Type Safety, Documentation |\n\n### Current Migration\n\n**Fastify → Bun + Hono** (80% complete)\n\n| Task | Status |\n|------|--------|\n| Server.ts rewrite | ✅ Done |\n| SSE endpoint adaptation | 🔨 In Progress |\n| Static file serving | 🔨 In Progress |\n| Socket.io integration | ✅ Done |\n\n### Future Directions\n\n| Initiative | Description |\n|------------|-------------|\n| **Real Wallet** | Actual cryptocurrency integration |\n| **A2A Protocol** | Agent-to-Agent standardized communication |\n| **Voice Mode** | Voice control via voicemode reference |\n| **Multi-Model Consensus** | Claude, Gemini, GPT debate before output |\n| **Mobile Orchestration** | Manage dev from mobile devices |\n\n---\n\n## Part VII: UI Architecture Options\n\nBased on conversation context, three paths forward:\n\n| Option | Stack | Description |\n|--------|-------|-------------|\n| **A: TUI** | Bun + Ink (React for CLI) | Terminal-based \"Mecha Suit\" |\n| **B: Web** | Bun + Hono + React/htmx | Browser dashboard (current) |\n| **C: Both** | Hono backend + Ink CLI | API server + CLI client (recommended) |\n\n**Current State:** Option B implemented with Next.js custom server.\n\n---\n\n## Part VIII: Anti-Patterns & Conventions\n\n### Must Avoid\n\n| Anti-Pattern | Reason |\n|--------------|--------|\n| `as any`, `@ts-ignore` | Type safety violations |\n| Empty catch blocks | Silent error swallowing |\n| Exposed secrets | Security breach |\n| Simulated actions | Tools must do real work |\n| Unicode in DOCX | Corruption issues |\n| Git reverts without request | User control |\n| GPT-5.0 models | Deprecated |\n| opencode-workflows | Use keystone instead |\n\n### Must Follow\n\n| Convention | Implementation |\n|------------|----------------|\n| TypeScript | Strict, ES2022, NodeNext |\n| Package Manager | pnpm workspaces |\n| Linting | ESLint flat config, eslint-config-next |\n| Styling | Tailwind CSS |\n| Manager Pattern | All subsystems as Manager classes |\n| Event-Driven | EventEmitter for cross-manager communication |\n\n---\n\n## Part IX: Quick Reference\n\n### Commands\n\n```bash\n# Development\npnpm install              # Install dependencies\npnpm run start:all        # Build & Start everything\npnpm --filter @borg/core dev   # Start Core only\npnpm --filter @borg/ui dev     # Start UI only\npnpm test                 # Run tests\n\n# CLI\nsuper-ai start            # Start AIOS\nsuper-ai status           # Check status\nsuper-ai run <agent>      # Run agent\nsuper-ai mine             # Submit activity (Bobcoin)\n```\n\n### Environment Variables\n\n```env\nMCP_STDIO_ENABLED=true    # Enable MCP stdio interface\nMCP_PROGRESSIVE_MODE=true # Enable progressive disclosure\nMEM0_API_KEY=xxx          # Mem0 cloud memory\nJULES_API_KEY=xxx         # Jules platform sync\n```\n\n### Key Files\n\n| File | Purpose |\n|------|---------|\n| `VERSION` | Single source of truth for version |\n| `CHANGELOG.md` | Development history |\n| `AGENTS.md` | Project knowledge base |\n| `SUBMODULES.md` | Submodule dashboard |\n| `ROADMAP.md` | Development phases |\n\n---\n\n## Conclusion\n\nAIOS represents a unified vision for AI tool orchestration:\n\n1. **Universal Hub** - Connect any MCP server, CLI, or agent\n2. **Intelligent Core** - Memory, context, autonomous execution\n3. **Physical Bridge** - Bobcoin economy linking digital and physical worlds\n4. **Ecosystem** - 70+ submodules, 100+ skills, multi-platform clients\n\nThe \"Motherboard & OS\" metaphor captures the essence: AIOS doesn't replace tools, it connects and enhances them. It's the operating system for the AI age.\n\n---\n\n*\"We don't compete. We aggregate. We orchestrate. We amplify.\"*\n"
 }
 ```
 ```
@@ -2024,7 +2024,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\docs\\ARCHITECTURE_OPTION_C.md",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\docs\\ARCHITECTURE_OPTION_C.md",
   "content": "# Architecture Option C: Hono Backend + Ink CLI\n\n**Decision:** Path C - API Server + CLI Client  \n**Date:** 2026-01-09  \n**Status:** Approved Architecture\n\n---\n\n## Overview\n\nOption C provides the best of both worlds:\n\n| Layer | Technology | Purpose |\n|-------|------------|---------|\n| **Backend** | Bun + Hono | High-performance API server |\n| **Web UI** | React/htmx | Browser-based dashboard |\n| **CLI** | Bun + Ink | Terminal \"Mecha Suit\" interface |\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                      AIOS ARCHITECTURE                          │\n│                                                                 │\n│  ┌─────────────────────────────────────────────────────────┐   │\n│  │                   HONO BACKEND                           │   │\n│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌──────────────┐   │   │\n│  │  │ REST    │ │ SSE     │ │ WebSocket│ │ MCP Stdio    │   │   │\n│  │  │ /api/*  │ │ /hub/sse│ │ Socket.io│ │ Interface    │   │   │\n│  │  └────┬────┘ └────┬────┘ └────┬────┘ └──────┬───────┘   │   │\n│  │       │           │           │             │           │   │\n│  │  ┌────┴───────────┴───────────┴─────────────┴────────┐  │   │\n│  │  │              CORE SERVICE (CoreService)            │  │   │\n│  │  │  ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │  │   │\n│  │  │  │ Managers │ │ Services │ │ Agent Executor   │   │  │   │\n│  │  │  │ (50+)    │ │ (Vector, │ │ (ReAct Loop)     │   │  │   │\n│  │  │  │          │ │  Health) │ │                  │   │  │   │\n│  │  │  └──────────┘ └──────────┘ └──────────────────┘   │  │   │\n│  │  └───────────────────────────────────────────────────┘  │   │\n│  └─────────────────────────────────────────────────────────┘   │\n│                              │                                  │\n│              ┌───────────────┼───────────────┐                  │\n│              │               │               │                  │\n│              ▼               ▼               ▼                  │\n│  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐       │\n│  │   WEB UI      │  │   INK CLI     │  │  MCP CLIENTS  │       │\n│  │   (React)     │  │   (Terminal)  │  │  (Claude/VS)  │       │\n│  │               │  │               │  │               │       │\n│  │  Dashboard    │  │  Mecha Suit   │  │  Tool Access  │       │\n│  │  Settings     │  │  Agent Chat   │  │  SSE Stream   │       │\n│  │  Inspector    │  │  Status View  │  │               │       │\n│  └───────────────┘  └───────────────┘  └───────────────┘       │\n└─────────────────────────────────────────────────────────────────┘\n```\n\n---\n\n## Why Option C?\n\n### Advantages\n\n| Benefit | Description |\n|---------|-------------|\n| **Separation of Concerns** | Backend handles logic, clients handle presentation |\n| **Multiple Interfaces** | Same API powers web, terminal, and MCP clients |\n| **Developer Experience** | CLI for power users, Web for visual management |\n| **Testability** | API can be tested independently |\n| **Scalability** | Backend can be deployed separately from clients |\n| **TypeScript Everywhere** | Bun + Ink = React patterns in terminal |\n\n### Compared to Other Options\n\n| Aspect | Option A (TUI Only) | Option B (Web Only) | Option C (Both) |\n|--------|---------------------|---------------------|-----------------|\n| Visual Dashboard | ❌ | ✅ | ✅ |\n| Terminal Power | ✅ | ❌ | ✅ |\n| API Reusability | ❌ | Partial | ✅ |\n| Deployment | Simple | Simple | Flexible |\n| Dev Complexity | Low | Medium | Medium |\n\n---\n\n## Technology Stack\n\n### Backend: Bun + Hono\n\n```typescript\n// packages/core/src/server.ts\nimport { Hono } from 'hono';\nimport { cors } from 'hono/cors';\nimport { serve } from '@hono/node-server';\nimport { Server as SocketIOServer } from 'socket.io';\n\nexport class CoreService {\n  private app = new Hono();\n  private io: SocketIOServer;\n  \n  // 50+ Managers\n  private agentManager: AgentManager;\n  private memoryManager: MemoryManager;\n  private mcpProxyManager: McpProxyManager;\n  // ... etc\n\n  constructor(rootDir: string) {\n    this.app.use('*', cors({ origin: '*' }));\n    this.setupRoutes();\n  }\n\n  private setupRoutes() {\n    // REST API\n    this.app.get('/health', (c) => c.json(this.healthService.getSystemStatus()));\n    this.app.get('/api/state', (c) => c.json({ agents, skills, hooks, ... }));\n    this.app.post('/api/agents/run', async (c) => { /* ... */ });\n    \n    // SSE for MCP\n    this.app.get('/api/hub/sse', async (c) => { /* SSE stream */ });\n    this.app.post('/api/hub/messages', async (c) => { /* JSON-RPC */ });\n  }\n\n  async start(port = 3000) {\n    // HTTP via Hono\n    serve({ fetch: this.app.fetch, port });\n    \n    // Socket.io on port + 1\n    this.httpServer.listen(port + 1);\n  }\n}\n```\n\n### CLI: Bun + Ink (React for Terminal)\n\n```typescript\n// packages/cli/src/app.tsx\nimport React, { useState, useEffect } from 'react';\nimport { render, Box, Text, useInput, useApp } from 'ink';\nimport Spinner from 'ink-spinner';\n\n// Main CLI Application\nconst App: React.FC = () => {\n  const [view, setView] = useState<'dashboard' | 'chat' | 'agents' | 'tools'>('dashboard');\n  const [connected, setConnected] = useState(false);\n  const { exit } = useApp();\n\n  useInput((input, key) => {\n    if (key.escape) exit();\n    if (input === '1') setView('dashboard');\n    if (input === '2') setView('chat');\n    if (input === '3') setView('agents');\n    if (input === '4') setView('tools');\n  });\n\n  return (\n    <Box flexDirection=\"column\" padding={1}>\n      <Header connected={connected} />\n      <Navigation active={view} />\n      {view === 'dashboard' && <DashboardView />}\n      {view === 'chat' && <ChatView />}\n      {view === 'agents' && <AgentsView />}\n      {view === 'tools' && <ToolsView />}\n      <StatusBar />\n    </Box>\n  );\n};\n\n// Dashboard View\nconst DashboardView: React.FC = () => {\n  const [state, setState] = useState<SystemState | null>(null);\n\n  useEffect(() => {\n    fetch('http://localhost:3000/api/state')\n      .then(r => r.json())\n      .then(setState);\n  }, []);\n\n  if (!state) return <Spinner type=\"dots\" />;\n\n  return (\n    <Box flexDirection=\"column\">\n      <Box marginBottom={1}>\n        <Text bold color=\"cyan\">System Status</Text>\n      </Box>\n      <Box>\n        <Text>Agents: </Text>\n        <Text color=\"green\">{state.agents.length}</Text>\n      </Box>\n      <Box>\n        <Text>Skills: </Text>\n        <Text color=\"green\">{state.skills.length}</Text>\n      </Box>\n      <Box>\n        <Text>MCP Servers: </Text>\n        <Text color=\"green\">{state.mcpServers.length}</Text>\n      </Box>\n    </Box>\n  );\n};\n\n// Chat View (Agent Interaction)\nconst ChatView: React.FC = () => {\n  const [messages, setMessages] = useState<Message[]>([]);\n  const [input, setInput] = useState('');\n  const [loading, setLoading] = useState(false);\n\n  const sendMessage = async () => {\n    if (!input.trim()) return;\n    \n    setMessages(prev => [...prev, { role: 'user', content: input }]);\n    setLoading(true);\n    \n    const response = await fetch('http://localhost:3000/api/agents/run', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({ agentName: 'researcher', task: input })\n    });\n    \n    const result = await response.json();\n    setMessages(prev => [...prev, { role: 'assistant', content: result.result }]);\n    setLoading(false);\n    setInput('');\n  };\n\n  return (\n    <Box flexDirection=\"column\" height={20}>\n      <MessageList messages={messages} />\n      {loading && <Spinner type=\"dots\" />}\n      <TextInput value={input} onChange={setInput} onSubmit={sendMessage} />\n    </Box>\n  );\n};\n\n// Entry point\nrender(<App />);\n```\n\n### Web UI: React + Hono Static Serving\n\n```typescript\n// packages/ui stays as Next.js or converts to React + htmx\n// Served via Hono static middleware or separate dev server\n\n// In CoreService:\nthis.app.get('/*', async (c) => {\n  const indexPath = path.resolve(this.rootDir, '../ui/dist/index.html');\n  if (fs.existsSync(indexPath)) {\n    return c.html(fs.readFileSync(indexPath, 'utf-8'));\n  }\n  return c.json({ error: 'Not found' }, 404);\n});\n```\n\n---\n\n## Package Structure\n\n```\npackages/\n├── core/                 # Backend (Hono API Server)\n│   ├── src/\n│   │   ├── server.ts     # Hono app + routes\n│   │   ├── managers/     # All Manager classes\n│   │   ├── services/     # VectorStore, Health, etc.\n│   │   ├── agents/       # AgentExecutor, LoopManager\n│   │   ├── hub/          # HubServer (MCP JSON-RPC)\n│   │   └── gateway/      # ModelGateway (LLM abstraction)\n│   └── package.json\n│\n├── cli/                  # Terminal Client (Ink)\n│   ├── src/\n│   │   ├── app.tsx       # Main Ink application\n│   │   ├── views/        # Dashboard, Chat, Agents, Tools\n│   │   ├── components/   # Reusable Ink components\n│   │   ├── hooks/        # React hooks for API calls\n│   │   └── commands/     # CLI command handlers\n│   └── package.json\n│\n├── ui/                   # Web Client (React)\n│   ├── src/\n│   │   ├── app/          # Next.js App Router pages\n│   │   ├── components/   # React components\n│   │   └── lib/          # API client, utilities\n│   └── package.json\n│\n└── types/                # Shared TypeScript types\n    └── src/\n        ├── api.ts        # API request/response types\n        ├── state.ts      # System state types\n        └── mcp.ts        # MCP protocol types\n```\n\n---\n\n## API Contract\n\nBoth CLI and Web UI consume the same API:\n\n### Core Endpoints\n\n```typescript\n// GET /health\ninterface HealthResponse {\n  status: 'healthy' | 'degraded' | 'unhealthy';\n  uptime: number;\n  memory: { used: number; total: number };\n  connections: { mcp: number; websocket: number };\n}\n\n// GET /api/state\ninterface StateResponse {\n  agents: AgentDefinition[];\n  skills: SkillDefinition[];\n  hooks: HookDefinition[];\n  prompts: PromptDefinition[];\n  context: ContextFile[];\n  mcpServers: McpServerStatus[];\n  commands: CommandDefinition[];\n  scheduledTasks: ScheduledTask[];\n  marketplace: MarketplacePackage[];\n  profiles: ProfileDefinition[];\n}\n\n// POST /api/agents/run\ninterface RunAgentRequest {\n  agentName: string;\n  task: string;\n  sessionId?: string;\n}\ninterface RunAgentResponse {\n  result: string;\n  sessionId: string;\n  toolCalls: ToolCall[];\n}\n\n// GET /api/hub/sse\n// Server-Sent Events stream for MCP protocol\n\n// POST /api/hub/messages?sessionId=xxx\ninterface McpMessage {\n  jsonrpc: \"2.0\";\n  id: number;\n  method: string;\n  params?: Record<string, unknown>;\n}\n```\n\n### WebSocket Events (Socket.io)\n\n```typescript\n// Client → Server\nsocket.emit('hook_event', event: HookEvent);\n\n// Server → Client\nsocket.on('state', (state: StateResponse) => {});\nsocket.on('agents_updated', (agents: AgentDefinition[]) => {});\nsocket.on('skills_updated', (skills: SkillDefinition[]) => {});\nsocket.on('mcp_updated', (servers: McpServerStatus[]) => {});\nsocket.on('traffic_log', (log: TrafficLog) => {});\nsocket.on('research_update', (update: ResearchUpdate) => {});\nsocket.on('health_updated', (health: HealthResponse) => {});\n```\n\n---\n\n## CLI Commands (Ink-based)\n\n```bash\n# Start the CLI TUI\naios                      # Launch interactive terminal UI\n\n# Direct commands (non-interactive)\naios start                # Start backend server\naios status               # Show system status\naios run <agent> <task>   # Run agent with task\naios chat                 # Interactive chat mode\naios tools                # List available tools\naios agents               # List agents\naios skills               # List skills\naios mine                 # Bobcoin activity submission\naios connect              # Connect to running server\n```\n\n### Interactive TUI Navigation\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│  AIOS v0.4.0                              ● Connected           │\n├─────────────────────────────────────────────────────────────────┤\n│  [1] Dashboard  [2] Chat  [3] Agents  [4] Tools  [5] Settings   │\n├─────────────────────────────────────────────────────────────────┤\n│                                                                 │\n│  ╭─ System Status ──────────────────────────────────────────╮  │\n│  │                                                           │  │\n│  │  Agents:      3    ●                                      │  │\n│  │  Skills:    100    ●                                      │  │\n│  │  MCP Servers: 5    ●                                      │  │\n│  │  Memory:    256MB / 1GB                                   │  │\n│  │  Uptime:    2h 34m                                        │  │\n│  │                                                           │  │\n│  ╰───────────────────────────────────────────────────────────╯  │\n│                                                                 │\n│  ╭─ Recent Activity ────────────────────────────────────────╮  │\n│  │  [14:32] Agent 'researcher' completed task               │  │\n│  │  [14:28] Tool 'web_search' called (3 results)            │  │\n│  │  [14:25] Memory saved: \"Project architecture decision\"   │  │\n│  ╰───────────────────────────────────────────────────────────╯  │\n│                                                                 │\n├─────────────────────────────────────────────────────────────────┤\n│  Press [ESC] to exit | [?] for help | [/] command palette      │\n└─────────────────────────────────────────────────────────────────┘\n```\n\n---\n\n## Implementation Plan\n\n### Phase 1: Backend Stabilization (Current)\n\n- [x] Migrate server.ts from Fastify to Hono\n- [ ] Fix SSE endpoint for Hono streaming\n- [ ] Fix static file serving\n- [ ] Verify Socket.io works on separate port\n- [ ] Test all API endpoints\n\n### Phase 2: CLI Foundation\n\n- [ ] Create `packages/cli` with Ink setup\n- [ ] Implement API client hooks\n- [ ] Build basic views (Dashboard, Status)\n- [ ] Add keyboard navigation\n\n### Phase 3: CLI Features\n\n- [ ] Chat view with agent interaction\n- [ ] Agents management view\n- [ ] Tools browser with search\n- [ ] Settings configuration\n- [ ] Real-time log streaming\n\n### Phase 4: Polish\n\n- [ ] Shared types package\n- [ ] Error handling and reconnection\n- [ ] Themes and customization\n- [ ] Documentation\n\n---\n\n## Dependencies\n\n### Backend (packages/core)\n\n```json\n{\n  \"dependencies\": {\n    \"hono\": \"^4.x\",\n    \"@hono/node-server\": \"^1.x\",\n    \"socket.io\": \"^4.x\",\n    \"@modelcontextprotocol/sdk\": \"^1.25.x\"\n  }\n}\n```\n\n### CLI (packages/cli)\n\n```json\n{\n  \"dependencies\": {\n    \"ink\": \"^5.x\",\n    \"ink-text-input\": \"^6.x\",\n    \"ink-spinner\": \"^5.x\",\n    \"ink-select-input\": \"^5.x\",\n    \"react\": \"^18.x\",\n    \"zustand\": \"^4.x\"\n  }\n}\n```\n\n---\n\n## Benefits Summary\n\n| Stakeholder | Benefit |\n|-------------|---------|\n| **Power Users** | Fast terminal interface, keyboard-driven |\n| **Casual Users** | Visual web dashboard |\n| **Developers** | Clean API contract, easy to extend |\n| **Ops** | Multiple deployment options |\n| **MCP Clients** | Standard SSE/stdio interface unchanged |\n\n---\n\n*Option C: The Mecha Suit that runs everywhere.*\n"
 }
 ```
@@ -2360,7 +2360,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts"
 }
 ```
 **Output:**
@@ -3591,10 +3591,10 @@ pnpm add -D typescript @types/react
 **packages/cli/package.json:**
 ```json
 {
-  "name": "@aios/cli",
+  "name": "@borg/cli",
   "version": "0.4.0",
   "type": "module",
-  "bin": { "aios": "./dist/index.js" },
+  "bin": { "borg": "./dist/index.js" },
   "scripts": {
     "dev": "tsx src/index.tsx",
     "build": "tsc"
@@ -3778,7 +3778,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts"
 }
 ```
 **Output:**
@@ -4631,7 +4631,7 @@ Tool: read
 (End of file - total 843 lines)
 </file>
 
-[Directory Context: C:\Users\hyper\workspace\aios\packages\core\AGENTS.md]
+[Directory Context: C:\Users\hyper\workspace\borg\packages\core\AGENTS.md]
 # CORE KNOWLEDGE BASE
 
 **Context:** Node.js | Fastify | Socket.io | Managers | Agent Executor
@@ -4671,7 +4671,7 @@ src/
 - **Blocking Code**: NEVER block the event loop; use `Worker` threads for CPU tasks if needed.
 
 
-[Project README: C:\Users\hyper\workspace\aios\README.md]
+[Project README: C:\Users\hyper\workspace\borg\README.md]
 # Super AI Plugin
 
 The Ultimate "Meta-Orchestrator" for the Model Context Protocol (MCP). It acts as a universal hub, proxy, and agentic runtime for your AI tools.
@@ -4768,7 +4768,7 @@ Tool: lsp_diagnostics
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "severity": "error"
 }
 ```
@@ -4806,7 +4806,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\hub\\HubServer.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\hub\\HubServer.ts"
 }
 ```
 **Output:**
@@ -5119,7 +5119,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "oldString": "    // Static files for UI\n    const uiDist = path.resolve(rootDir, '../ui/dist');\n    this.app.use('/*', serveStatic({ root: uiDist }));",
   "newString": "    // Static files handled by notFound fallback (serves index.html for SPA)"
 }
@@ -5179,7 +5179,7 @@ Review in the above priority order and take the corresponding action EVERY TIME 
 REMINDER: These rules apply to ALL your future code, not just this specific edit. Always be deliberate and cautious when writing comments - only add them when absolutely necessary.
 
 Detected comments/docstrings:
-<comments file="C:\Users\hyper\workspace\aios\packages\core\src\server.ts">
+<comments file="C:\Users\hyper\workspace\borg\packages\core\src\server.ts">
 	<comment line-number="1">// Static files handled by notFound fallback (serves index.html for SPA)</comment>
 	<comment line-number="1">// Static files handled by notFound fallback (serves index.html for SPA)</comment>
 </comments>
@@ -5199,7 +5199,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "oldString": "    // Static files handled by notFound fallback (serves index.html for SPA)\n\n    this.hookManager",
   "newString": "    this.hookManager"
 }
@@ -5306,7 +5306,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "offset": 475,
   "limit": 50
 }
@@ -5380,7 +5380,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "oldString": "    // Hub SSE endpoint - streaming\n    this.app.get('/api/hub/sse', async (c) => {\n        return new Response(\n            new ReadableStream({\n                start: async (controller) => {\n                    await this.hubServer.handleSSEStream(c.req.raw, controller);\n                }\n            }),\n            {\n                headers: {\n                    'Content-Type': 'text/event-stream',\n                    'Cache-Control': 'no-cache',\n                    'Connection': 'keep-alive'\n                }\n            }\n        );\n    });\n\n    this.app.post('/api/hub/messages', async (c) => {\n        const sessionId = c.req.query('sessionId') || '';\n        const body = await c.req.json();\n        return new Response(\n            new ReadableStream({\n                start: async (controller) => {\n                    await this.hubServer.handleMessageStream(sessionId, body, controller);\n                }\n            }),\n            {\n                headers: {\n                    'Content-Type': 'text/event-stream',\n                    'Cache-Control': 'no-cache'\n                }\n            }\n        );\n    });",
   "newString": "    this.app.get('/api/hub/sse', async (c) => {\n        const sessionId = Date.now().toString();\n        return streamSSE(c, async (stream) => {\n            const msg = JSON.stringify({\n                event: 'endpoint',\n                data: `/api/hub/messages?sessionId=${sessionId}`\n            });\n            await stream.writeSSE({ event: 'endpoint', data: msg });\n            \n            const interval = setInterval(async () => {\n                await stream.writeSSE({ data: '' });\n            }, 15000);\n            \n            c.req.raw.signal.addEventListener('abort', () => clearInterval(interval));\n        });\n    });\n\n    this.app.post('/api/hub/messages', async (c) => {\n        const sessionId = c.req.query('sessionId') || '';\n        const body = await c.req.json();\n        const result = await this.hubServer.handleMessage(sessionId, body);\n        return c.json(result);\n    });"
 }
@@ -5418,7 +5418,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "oldString": "import { Hono, type Context, type Next } from 'hono';\nimport { cors } from 'hono/cors';\nimport { serve } from '@hono/node-server';",
   "newString": "import { Hono, type Context, type Next } from 'hono';\nimport { cors } from 'hono/cors';\nimport { streamSSE } from 'hono/streaming';\nimport { serve } from '@hono/node-server';"
 }
@@ -5454,7 +5454,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "offset": 805,
   "limit": 40
 }
@@ -5570,7 +5570,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "newString": "    this.httpServer = createServer();\n    this.io = new SocketIOServer(this.httpServer, {\n        cors: { origin: \"*\" }\n    });\n    this.setupSocket();\n\n    serve({ fetch: this.app.fetch, port });\n\n    const socketPort = port + 1;\n    this.httpServer.listen(socketPort, () => {\n        console.log(`[Core] Socket.io listening on port ${socketPort}`);\n    });\n\n    console.log(`[Core] Hono server listening on port ${port}`);",
   "oldString": "    // Create HTTP server for Socket.io\n    this.httpServer = createServer();\n    this.io = new SocketIOServer(this.httpServer, {\n        cors: { origin: \"*\" }\n    });\n    this.setupSocket();\n\n    // Start Bun server for HTTP\n    Bun.serve({\n        port,\n        fetch: this.app.fetch,\n    });\n\n    // Start Socket.io on separate port (port + 1)\n    const socketPort = port + 1;\n    this.httpServer.listen(socketPort, () => {\n        console.log(`[Core] Socket.io listening on port ${socketPort}`);\n    });\n\n    console.log(`[Core] Hono server listening on port ${port}`);"
 }
@@ -5605,7 +5605,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "limit": 20,
   "offset": 603
 }
@@ -5645,7 +5645,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "limit": 20,
   "offset": 663
 }
@@ -5685,7 +5685,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "limit": 15,
   "offset": 713
 }
@@ -5726,7 +5726,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "oldString": "      socket.on('hook_event', (event: HookEvent) => {\n        console.log('Received hook event:', event);\n        this.processHook(event);\n      });",
   "newString": "      socket.on('hook_event', (event: HookEvent) => {\n        console.log('Received hook event:', event);\n        this.processHook(event as unknown as Record<string, unknown>);\n      });"
 }
@@ -5757,7 +5757,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "newString": "    this.memoryManager.getToolDefinitions().forEach(tool => {\n        this.proxyManager.registerInternalTool(tool, async (args: Record<string, unknown>) => {\n             if (tool.name === 'remember') return this.memoryManager.remember(args as { content: string; tags?: string[] });\n             if (tool.name === 'search_memory') return this.memoryManager.search(args as { query: string });\n             if (tool.name === 'recall_recent') return this.memoryManager.recall(args);\n             if (tool.name === 'memory_stats') return this.memoryManager.getStats();\n             return \"Unknown tool\";\n        });\n    });",
   "oldString": "    this.memoryManager.getToolDefinitions().forEach(tool => {\n        this.proxyManager.registerInternalTool(tool, async (args: Record<string, unknown>) => {\n             if (tool.name === 'remember') return this.memoryManager.remember(args);\n             if (tool.name === 'search_memory') return this.memoryManager.search(args);\n             if (tool.name === 'recall_recent') return this.memoryManager.recall(args);\n             if (tool.name === 'memory_stats') return this.memoryManager.getStats();\n             return \"Unknown tool\";\n        });\n    });"
 }
@@ -5784,7 +5784,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\core\\src\\server.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\core\\src\\server.ts",
   "newString": "    this.proxyManager.registerInternalTool(PipelineTool, async (args: { steps: unknown[]; initialContext?: unknown }) => {\n        return await executePipeline(this.proxyManager, args.steps as Parameters<typeof executePipeline>[1], args.initialContext);\n    });",
   "oldString": "    // Register Pipeline Tool\n    this.proxyManager.registerInternalTool(PipelineTool, async (args: { steps: unknown[]; initialContext?: unknown }) => {\n        return await executePipeline(this.proxyManager, args.steps, args.initialContext);\n    });"
 }
@@ -5868,16 +5868,16 @@ Tool: bash
 **Input:**
 ```json
 {
-  "command": "pnpm --filter @aios/core build",
+  "command": "pnpm --filter @borg/core build",
   "description": "Build core package to verify fixes",
-  "workdir": "C:\\Users\\hyper\\workspace\\aios",
+  "workdir": "C:\\Users\\hyper\\workspace\\borg",
   "timeout": 120000
 }
 ```
 **Output:**
 ```
 
-> @aios/core@0.2.5 build C:\Users\hyper\workspace\aios\packages\core
+> @borg/core@0.2.5 build C:\Users\hyper\workspace\borg\packages\core
 > tsc
 
 
@@ -5915,13 +5915,13 @@ Tool: extract
 Context pruning complete. Pruned 7 tool outputs.
 
 Semantically pruned (7):
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\hub\HubSe...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\hub\HubSe...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
 ```
 ```
 
@@ -5932,13 +5932,13 @@ Semantically pruned (7):
 ▣ DCP | ~150.8K tokens saved total
 
 ▣ Pruning (~15.8K tokens) — Extraction
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\hub\HubSe...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
-→ read: C:\Users\hyper\workspace\aios\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\hub\HubSe...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
+→ read: C:\Users\hyper\workspace\borg\packages\core\src\server.ts...
 
 ---
 
@@ -6058,113 +6058,113 @@ Tool: glob
 ```json
 {
   "pattern": "packages/cli/**/*",
-  "path": "C:\\Users\\hyper\\workspace\\aios"
+  "path": "C:\\Users\\hyper\\workspace\\borg"
 }
 ```
 **Output:**
 ```
 Found 100 file(s)
 
-C:\Users\hyper\workspace\aios\packages\cli\tsconfig.tsbuildinfo
-C:\Users\hyper\workspace\aios\packages\cli\src\commands\mine.ts
-C:\Users\hyper\workspace\aios\packages\cli\package.json
-C:\Users\hyper\workspace\aios\packages\cli\pnpm-lock.yaml
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc.ps1
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc.CMD
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver.ps1
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver.CMD
-C:\Users\hyper\workspace\aios\packages\cli\src\commands\status.ts
-C:\Users\hyper\workspace\aios\packages\cli\src\commands\start.ts
-C:\Users\hyper\workspace\aios\packages\cli\src\index.ts
-C:\Users\hyper\workspace\aios\packages\cli\tsconfig.json
-C:\Users\hyper\workspace\aios\packages\cli\src\commands\run.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\README.md
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\package.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\lib\XMLHttpRequest.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\LICENSE
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\wrapper.mjs
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\README.md
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\package.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\websocket.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\websocket-server.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\validation.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\subprotocol.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\stream.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\sender.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\receiver.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\permessage-deflate.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\limiter.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\index.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\extension.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\event-target.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\constants.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\buffer-util.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\browser.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\LICENSE
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\websocket.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\webidl.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\util.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\retry-handler.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\retry-agent.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\readable.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\proxy-agent.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\pool.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\pool-stats.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\patch.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-pool.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-interceptor.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-errors.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-client.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-agent.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\interceptors.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\index.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\header.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\handlers.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\global-origin.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\global-dispatcher.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\formdata.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\filereader.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\file.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\fetch.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\eventsource.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\errors.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\env-http-proxy-agent.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\dispatcher.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\diagnostics-channel.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\cookies.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\content-type.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\connector.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\client.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\cache.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\balanced-pool.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\api.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\agent.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\README.md
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\package.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\LICENSE
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\ThirdPartyNoticeText.txt
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\LICENSE.txt
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typescript.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserverlibrary.d.ts
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\SECURITY.md
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\README.md
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typesMap.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\package.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\zh-tw\diagnosticMessages.generated.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\zh-cn\diagnosticMessages.generated.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tr\diagnosticMessages.generated.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\ru\diagnosticMessages.generated.json
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\watchGuard.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typingsInstaller.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typescript.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserverlibrary.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserver.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsc.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_typingsInstaller.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_tsserver.js
-C:\Users\hyper\workspace\aios\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_tsc.js
+C:\Users\hyper\workspace\borg\packages\cli\tsconfig.tsbuildinfo
+C:\Users\hyper\workspace\borg\packages\cli\src\commands\mine.ts
+C:\Users\hyper\workspace\borg\packages\cli\package.json
+C:\Users\hyper\workspace\borg\packages\cli\pnpm-lock.yaml
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc.ps1
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc.CMD
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver.ps1
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsc
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\node_modules\.bin\tsserver.CMD
+C:\Users\hyper\workspace\borg\packages\cli\src\commands\status.ts
+C:\Users\hyper\workspace\borg\packages\cli\src\commands\start.ts
+C:\Users\hyper\workspace\borg\packages\cli\src\index.ts
+C:\Users\hyper\workspace\borg\packages\cli\tsconfig.json
+C:\Users\hyper\workspace\borg\packages\cli\src\commands\run.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\README.md
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\package.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\lib\XMLHttpRequest.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\xmlhttprequest-ssl@2.1.2\node_modules\xmlhttprequest-ssl\LICENSE
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\wrapper.mjs
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\README.md
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\package.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\websocket.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\websocket-server.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\validation.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\subprotocol.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\stream.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\sender.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\receiver.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\permessage-deflate.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\limiter.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\index.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\extension.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\event-target.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\constants.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\lib\buffer-util.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\browser.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\ws@8.18.3\node_modules\ws\LICENSE
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\websocket.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\webidl.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\util.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\retry-handler.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\retry-agent.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\readable.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\proxy-agent.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\pool.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\pool-stats.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\patch.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-pool.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-interceptor.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-errors.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-client.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\mock-agent.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\interceptors.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\index.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\header.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\handlers.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\global-origin.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\global-dispatcher.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\formdata.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\filereader.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\file.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\fetch.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\eventsource.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\errors.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\env-http-proxy-agent.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\dispatcher.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\diagnostics-channel.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\cookies.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\content-type.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\connector.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\client.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\cache.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\balanced-pool.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\api.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\agent.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\README.md
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\package.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\undici-types@6.21.0\node_modules\undici-types\LICENSE
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\ThirdPartyNoticeText.txt
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\LICENSE.txt
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typescript.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserverlibrary.d.ts
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\SECURITY.md
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\README.md
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typesMap.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\package.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\zh-tw\diagnosticMessages.generated.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\zh-cn\diagnosticMessages.generated.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tr\diagnosticMessages.generated.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\ru\diagnosticMessages.generated.json
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\watchGuard.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typingsInstaller.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\typescript.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserverlibrary.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsserver.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\tsc.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_typingsInstaller.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_tsserver.js
+C:\Users\hyper\workspace\borg\packages\cli\node_modules\.pnpm\typescript@5.9.3\node_modules\typescript\lib\_tsc.js
 
 (Results are truncated. Consider using a more specific path or pattern.)
 [Agent Usage Reminder]
@@ -6206,18 +6206,18 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\package.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\package.json"
 }
 ```
 **Output:**
 ```
 <file>
 00001| {
-00002|   "name": "@aios/cli",
+00002|   "name": "@borg/cli",
 00003|   "version": "0.1.0-skeleton",
 00004|   "type": "module",
 00005|   "bin": {
-00006|     "aios": "./dist/index.js"
+00006|     "borg": "./dist/index.js"
 00007|   },
 00008|   "scripts": {
 00009|     "build": "tsc",
@@ -6252,7 +6252,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\index.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\index.ts"
 }
 ```
 **Output:**
@@ -6273,7 +6273,7 @@ Tool: read
 00013| const program = new Command();
 00014| 
 00015| program
-00016|   .name('aios')
+00016|   .name('borg')
 00017|   .description('CLI for AIOS Monorepo')
 00018|   .version(pkg.version);
 00019| 
@@ -6309,7 +6309,7 @@ Tool: discard
 Context pruning complete. Pruned 3 tool outputs.
 
 Semantically pruned (3):
-→ lsp_diagnostics: {"filePath":"C:\\Users\\hyper\\workspace\\aios\\pa
+→ lsp_diagnostics: {"filePath":"C:\\Users\\hyper\\workspace\\borg\\pa
 → bash: Build core package to verify fixes
 → glob: "packages/cli/**/*" in .
 ```
@@ -6322,7 +6322,7 @@ Semantically pruned (3):
 ▣ DCP | ~155.1K tokens saved total
 
 ▣ Pruning (~4.3K tokens) — Noise Removal
-→ lsp_diagnostics: {"filePath":"C:\\Users\\hyper\\workspace\\aios\\pa
+→ lsp_diagnostics: {"filePath":"C:\\Users\\hyper\\workspace\\borg\\pa
 → bash: Build core package to verify fixes
 → glob: "packages/cli/**/*" in .
 
@@ -6340,7 +6340,7 @@ Tool: bash
 {
   "command": "pnpm add ink ink-text-input ink-spinner ink-select-input react zustand",
   "description": "Add Ink TUI dependencies to CLI",
-  "workdir": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli"
+  "workdir": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli"
 }
 ```
 **Output:**
@@ -6389,7 +6389,7 @@ Tool: bash
 {
   "command": "pnpm add -D @types/react",
   "description": "Add React types for Ink",
-  "workdir": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli"
+  "workdir": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli"
 }
 ```
 **Output:**
@@ -6436,7 +6436,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\tsconfig.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\tsconfig.json"
 }
 ```
 **Output:**
@@ -6467,7 +6467,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\tsconfig.base.json"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\tsconfig.base.json"
 }
 ```
 **Output:**
@@ -6504,7 +6504,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\tsconfig.json",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\tsconfig.json",
   "oldString": "{\n  \"extends\": \"../../tsconfig.base.json\",\n  \"compilerOptions\": {\n    \"outDir\": \"./dist\",\n    \"rootDir\": \"./src\"\n  },\n  \"include\": [\"src/**/*\"]\n}",
   "newString": "{\n  \"extends\": \"../../tsconfig.base.json\",\n  \"compilerOptions\": {\n    \"outDir\": \"./dist\",\n    \"rootDir\": \"./src\",\n    \"jsx\": \"react-jsx\",\n    \"jsxImportSource\": \"react\"\n  },\n  \"include\": [\"src/**/*\"]\n}"
 }
@@ -6525,7 +6525,7 @@ Tool: bash
 {
   "command": "mkdir -p src\\tui\\views src\\tui\\components src\\tui\\hooks",
   "description": "Create TUI directory structure",
-  "workdir": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli"
+  "workdir": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli"
 }
 ```
 ```
@@ -6540,7 +6540,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\hooks\\useApi.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\hooks\\useApi.ts",
   "content": "import { useState, useEffect, useCallback } from 'react';\n\nconst API_BASE = process.env.AIOS_API || 'http://localhost:3000';\n\nexport interface SystemState {\n    agents: Array<{ name: string; description: string }>;\n    skills: Array<{ name: string; description: string }>;\n    mcpServers: Array<{ name: string; status: string }>;\n    memory: { enabled: boolean; provider: string };\n}\n\nexport interface AgentResult {\n    success: boolean;\n    output?: string;\n    error?: string;\n}\n\nexport function useSystemState() {\n    const [state, setState] = useState<SystemState | null>(null);\n    const [loading, setLoading] = useState(true);\n    const [error, setError] = useState<string | null>(null);\n\n    const refresh = useCallback(async () => {\n        setLoading(true);\n        setError(null);\n        try {\n            const res = await fetch(`${API_BASE}/api/state`);\n            if (!res.ok) throw new Error(`HTTP ${res.status}`);\n            const data = await res.json();\n            setState(data);\n        } catch (err) {\n            setError(err instanceof Error ? err.message : 'Failed to fetch state');\n        } finally {\n            setLoading(false);\n        }\n    }, []);\n\n    useEffect(() => {\n        refresh();\n    }, [refresh]);\n\n    return { state, loading, error, refresh };\n}\n\nexport function useAgents() {\n    const [agents, setAgents] = useState<Array<{ name: string; description: string }>>([]);\n    const [loading, setLoading] = useState(true);\n\n    useEffect(() => {\n        fetch(`${API_BASE}/api/agents`)\n            .then(r => r.json())\n            .then(data => setAgents(data.agents || []))\n            .catch(() => setAgents([]))\n            .finally(() => setLoading(false));\n    }, []);\n\n    return { agents, loading };\n}\n\nexport function useTools() {\n    const [tools, setTools] = useState<Array<{ name: string; description: string; server?: string }>>([]);\n    const [loading, setLoading] = useState(true);\n\n    useEffect(() => {\n        fetch(`${API_BASE}/api/tools`)\n            .then(r => r.json())\n            .then(data => setTools(data.tools || []))\n            .catch(() => setTools([]))\n            .finally(() => setLoading(false));\n    }, []);\n\n    return { tools, loading };\n}\n\nexport async function runAgent(agentName: string, task: string): Promise<AgentResult> {\n    const res = await fetch(`${API_BASE}/api/agents/run`, {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({ agentName, task })\n    });\n    return res.json();\n}\n\nexport async function callTool(toolName: string, args: Record<string, unknown>): Promise<unknown> {\n    const res = await fetch(`${API_BASE}/api/tools/call`, {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({ name: toolName, arguments: args })\n    });\n    return res.json();\n}\n"
 }
 ```
@@ -6552,7 +6552,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\hooks\\useStore.ts",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\hooks\\useStore.ts",
   "content": "import { create } from 'zustand';\n\nexport type ViewType = 'dashboard' | 'chat' | 'agents' | 'tools';\n\ninterface AppStore {\n    currentView: ViewType;\n    setView: (view: ViewType) => void;\n    chatHistory: Array<{ role: 'user' | 'assistant'; content: string }>;\n    addMessage: (role: 'user' | 'assistant', content: string) => void;\n    clearChat: () => void;\n}\n\nexport const useStore = create<AppStore>((set) => ({\n    currentView: 'dashboard',\n    setView: (view) => set({ currentView: view }),\n    chatHistory: [],\n    addMessage: (role, content) => set((state) => ({\n        chatHistory: [...state.chatHistory, { role, content }]\n    })),\n    clearChat: () => set({ chatHistory: [] })\n}));\n"
 }
 ```
@@ -6564,7 +6564,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\views\\Dashboard.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\views\\Dashboard.tsx",
   "content": "import React from 'react';\nimport { Box, Text } from 'ink';\nimport Spinner from 'ink-spinner';\nimport { useSystemState } from '../hooks/useApi.js';\n\nexport const DashboardView: React.FC = () => {\n    const { state, loading, error } = useSystemState();\n\n    if (loading) {\n        return (\n            <Box>\n                <Text color=\"cyan\"><Spinner type=\"dots\" /></Text>\n                <Text> Loading system state...</Text>\n            </Box>\n        );\n    }\n\n    if (error) {\n        return (\n            <Box flexDirection=\"column\">\n                <Text color=\"red\">✗ Error: {error}</Text>\n                <Text dimColor>Make sure AIOS core is running on port 3000</Text>\n            </Box>\n        );\n    }\n\n    return (\n        <Box flexDirection=\"column\" gap={1}>\n            <Box borderStyle=\"round\" borderColor=\"cyan\" paddingX={2} paddingY={1} flexDirection=\"column\">\n                <Text bold color=\"cyan\">System Status</Text>\n                <Box marginTop={1} flexDirection=\"column\" gap={0}>\n                    <Box>\n                        <Text>Agents:      </Text>\n                        <Text color=\"green\" bold>{state?.agents?.length || 0}</Text>\n                    </Box>\n                    <Box>\n                        <Text>Skills:      </Text>\n                        <Text color=\"green\" bold>{state?.skills?.length || 0}</Text>\n                    </Box>\n                    <Box>\n                        <Text>MCP Servers: </Text>\n                        <Text color=\"green\" bold>{state?.mcpServers?.length || 0}</Text>\n                    </Box>\n                    <Box>\n                        <Text>Memory:      </Text>\n                        <Text color={state?.memory?.enabled ? 'green' : 'yellow'}>\n                            {state?.memory?.enabled ? `✓ ${state.memory.provider}` : '○ Disabled'}\n                        </Text>\n                    </Box>\n                </Box>\n            </Box>\n\n            {state?.agents && state.agents.length > 0 && (\n                <Box borderStyle=\"single\" borderColor=\"gray\" paddingX={2} paddingY={1} flexDirection=\"column\">\n                    <Text bold>Available Agents</Text>\n                    <Box marginTop={1} flexDirection=\"column\">\n                        {state.agents.slice(0, 5).map((agent, i) => (\n                            <Box key={i}>\n                                <Text color=\"yellow\">• {agent.name}</Text>\n                                <Text dimColor> - {agent.description?.slice(0, 50) || 'No description'}</Text>\n                            </Box>\n                        ))}\n                        {state.agents.length > 5 && (\n                            <Text dimColor>  ...and {state.agents.length - 5} more</Text>\n                        )}\n                    </Box>\n                </Box>\n            )}\n        </Box>\n    );\n};\n"
 }
 ```
@@ -6576,7 +6576,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\views\\Chat.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\views\\Chat.tsx",
   "content": "import React, { useState } from 'react';\nimport { Box, Text, useInput } from 'ink';\nimport TextInput from 'ink-text-input';\nimport Spinner from 'ink-spinner';\nimport { useStore } from '../hooks/useStore.js';\nimport { runAgent } from '../hooks/useApi.js';\n\nexport const ChatView: React.FC = () => {\n    const [input, setInput] = useState('');\n    const [loading, setLoading] = useState(false);\n    const { chatHistory, addMessage, clearChat } = useStore();\n\n    useInput((_, key) => {\n        if (key.ctrl && key.delete) {\n            clearChat();\n        }\n    });\n\n    const handleSubmit = async (value: string) => {\n        if (!value.trim() || loading) return;\n        \n        const task = value.trim();\n        setInput('');\n        addMessage('user', task);\n        setLoading(true);\n\n        try {\n            const result = await runAgent('default', task);\n            if (result.success && result.output) {\n                addMessage('assistant', result.output);\n            } else {\n                addMessage('assistant', `Error: ${result.error || 'Unknown error'}`);\n            }\n        } catch (err) {\n            addMessage('assistant', `Error: ${err instanceof Error ? err.message : 'Request failed'}`);\n        } finally {\n            setLoading(false);\n        }\n    };\n\n    return (\n        <Box flexDirection=\"column\" height={20}>\n            <Box \n                flexDirection=\"column\" \n                borderStyle=\"single\" \n                borderColor=\"gray\" \n                paddingX={1} \n                flexGrow={1}\n                overflowY=\"hidden\"\n            >\n                {chatHistory.length === 0 ? (\n                    <Text dimColor>No messages yet. Type a task and press Enter.</Text>\n                ) : (\n                    chatHistory.slice(-10).map((msg, i) => (\n                        <Box key={i} marginBottom={1}>\n                            <Text color={msg.role === 'user' ? 'cyan' : 'green'}>\n                                {msg.role === 'user' ? '> ' : '← '}\n                            </Text>\n                            <Text wrap=\"wrap\">{msg.content.slice(0, 200)}</Text>\n                        </Box>\n                    ))\n                )}\n                {loading && (\n                    <Box>\n                        <Text color=\"yellow\"><Spinner type=\"dots\" /></Text>\n                        <Text> Processing...</Text>\n                    </Box>\n                )}\n            </Box>\n\n            <Box marginTop={1}>\n                <Text color=\"cyan\">{'> '}</Text>\n                <TextInput\n                    value={input}\n                    onChange={setInput}\n                    onSubmit={handleSubmit}\n                    placeholder=\"Enter a task for the agent...\"\n                />\n            </Box>\n\n            <Box marginTop={1}>\n                <Text dimColor>Press Ctrl+Delete to clear chat</Text>\n            </Box>\n        </Box>\n    );\n};\n"
 }
 ```
@@ -6588,7 +6588,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\views\\Agents.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\views\\Agents.tsx",
   "content": "import React, { useState } from 'react';\nimport { Box, Text } from 'ink';\nimport SelectInput from 'ink-select-input';\nimport Spinner from 'ink-spinner';\nimport { useAgents } from '../hooks/useApi.js';\n\nexport const AgentsView: React.FC = () => {\n    const { agents, loading } = useAgents();\n    const [selected, setSelected] = useState<string | null>(null);\n\n    if (loading) {\n        return (\n            <Box>\n                <Text color=\"cyan\"><Spinner type=\"dots\" /></Text>\n                <Text> Loading agents...</Text>\n            </Box>\n        );\n    }\n\n    if (agents.length === 0) {\n        return (\n            <Box flexDirection=\"column\">\n                <Text color=\"yellow\">No agents found.</Text>\n                <Text dimColor>Make sure agents are configured in the agents/ directory.</Text>\n            </Box>\n        );\n    }\n\n    const items = agents.map(agent => ({\n        label: agent.name,\n        value: agent.name,\n        description: agent.description\n    }));\n\n    const selectedAgent = selected ? agents.find(a => a.name === selected) : null;\n\n    return (\n        <Box flexDirection=\"row\" gap={2}>\n            <Box flexDirection=\"column\" width={30} borderStyle=\"single\" borderColor=\"gray\" paddingX={1}>\n                <Text bold color=\"cyan\">Agents ({agents.length})</Text>\n                <Box marginTop={1}>\n                    <SelectInput\n                        items={items}\n                        onSelect={(item) => setSelected(item.value)}\n                        onHighlight={(item) => setSelected(item.value)}\n                    />\n                </Box>\n            </Box>\n\n            <Box flexDirection=\"column\" flexGrow={1} borderStyle=\"single\" borderColor=\"gray\" paddingX={1}>\n                <Text bold color=\"cyan\">Details</Text>\n                {selectedAgent ? (\n                    <Box marginTop={1} flexDirection=\"column\">\n                        <Box>\n                            <Text bold>Name: </Text>\n                            <Text color=\"yellow\">{selectedAgent.name}</Text>\n                        </Box>\n                        <Box marginTop={1}>\n                            <Text bold>Description:</Text>\n                        </Box>\n                        <Text wrap=\"wrap\">{selectedAgent.description || 'No description available'}</Text>\n                    </Box>\n                ) : (\n                    <Text dimColor>Select an agent to view details</Text>\n                )}\n            </Box>\n        </Box>\n    );\n};\n"
 }
 ```
@@ -6600,7 +6600,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\views\\Tools.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\views\\Tools.tsx",
   "content": "import React, { useState } from 'react';\nimport { Box, Text } from 'ink';\nimport SelectInput from 'ink-select-input';\nimport Spinner from 'ink-spinner';\nimport { useTools } from '../hooks/useApi.js';\n\nexport const ToolsView: React.FC = () => {\n    const { tools, loading } = useTools();\n    const [selected, setSelected] = useState<string | null>(null);\n\n    if (loading) {\n        return (\n            <Box>\n                <Text color=\"cyan\"><Spinner type=\"dots\" /></Text>\n                <Text> Loading tools...</Text>\n            </Box>\n        );\n    }\n\n    if (tools.length === 0) {\n        return (\n            <Box flexDirection=\"column\">\n                <Text color=\"yellow\">No tools found.</Text>\n                <Text dimColor>Connect MCP servers to load tools.</Text>\n            </Box>\n        );\n    }\n\n    const items = tools.slice(0, 50).map(tool => ({\n        label: tool.name,\n        value: tool.name\n    }));\n\n    const selectedTool = selected ? tools.find(t => t.name === selected) : null;\n\n    return (\n        <Box flexDirection=\"row\" gap={2}>\n            <Box flexDirection=\"column\" width={35} borderStyle=\"single\" borderColor=\"gray\" paddingX={1}>\n                <Text bold color=\"cyan\">Tools ({tools.length})</Text>\n                {tools.length > 50 && <Text dimColor>Showing first 50</Text>}\n                <Box marginTop={1}>\n                    <SelectInput\n                        items={items}\n                        onSelect={(item) => setSelected(item.value)}\n                        onHighlight={(item) => setSelected(item.value)}\n                        limit={15}\n                    />\n                </Box>\n            </Box>\n\n            <Box flexDirection=\"column\" flexGrow={1} borderStyle=\"single\" borderColor=\"gray\" paddingX={1}>\n                <Text bold color=\"cyan\">Details</Text>\n                {selectedTool ? (\n                    <Box marginTop={1} flexDirection=\"column\">\n                        <Box>\n                            <Text bold>Name: </Text>\n                            <Text color=\"yellow\">{selectedTool.name}</Text>\n                        </Box>\n                        {selectedTool.server && (\n                            <Box>\n                                <Text bold>Server: </Text>\n                                <Text color=\"gray\">{selectedTool.server}</Text>\n                            </Box>\n                        )}\n                        <Box marginTop={1}>\n                            <Text bold>Description:</Text>\n                        </Box>\n                        <Text wrap=\"wrap\">{selectedTool.description || 'No description available'}</Text>\n                    </Box>\n                ) : (\n                    <Text dimColor>Select a tool to view details</Text>\n                )}\n            </Box>\n        </Box>\n    );\n};\n"
 }
 ```
@@ -6612,7 +6612,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\App.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\App.tsx",
   "content": "import React from 'react';\nimport { Box, Text, useInput, useApp } from 'ink';\nimport { useStore, type ViewType } from './hooks/useStore.js';\nimport { DashboardView } from './views/Dashboard.js';\nimport { ChatView } from './views/Chat.js';\nimport { AgentsView } from './views/Agents.js';\nimport { ToolsView } from './views/Tools.js';\n\nconst VERSION = '0.4.0';\n\nconst views: Array<{ key: string; id: ViewType; label: string }> = [\n    { key: '1', id: 'dashboard', label: 'Dashboard' },\n    { key: '2', id: 'chat', label: 'Chat' },\n    { key: '3', id: 'agents', label: 'Agents' },\n    { key: '4', id: 'tools', label: 'Tools' }\n];\n\nexport const App: React.FC = () => {\n    const { currentView, setView } = useStore();\n    const { exit } = useApp();\n\n    useInput((input, key) => {\n        if (key.escape) {\n            exit();\n            return;\n        }\n        \n        const view = views.find(v => v.key === input);\n        if (view) {\n            setView(view.id);\n        }\n    });\n\n    const renderView = () => {\n        switch (currentView) {\n            case 'dashboard': return <DashboardView />;\n            case 'chat': return <ChatView />;\n            case 'agents': return <AgentsView />;\n            case 'tools': return <ToolsView />;\n        }\n    };\n\n    return (\n        <Box flexDirection=\"column\" padding={1}>\n            <Box marginBottom={1} gap={1}>\n                <Text bold color=\"cyan\">AIOS</Text>\n                <Text dimColor>v{VERSION}</Text>\n                <Text> │ </Text>\n                {views.map((view, i) => (\n                    <React.Fragment key={view.id}>\n                        <Text \n                            color={currentView === view.id ? 'green' : 'white'}\n                            bold={currentView === view.id}\n                        >\n                            [{view.key}] {view.label}\n                        </Text>\n                        {i < views.length - 1 && <Text> </Text>}\n                    </React.Fragment>\n                ))}\n            </Box>\n\n            <Box flexGrow={1}>\n                {renderView()}\n            </Box>\n\n            <Box marginTop={1} borderStyle=\"single\" borderColor=\"gray\" paddingX={1}>\n                <Text dimColor>\n                    [1-4] Switch views • [ESC] Exit • [↑↓] Navigate • [Enter] Select\n                </Text>\n            </Box>\n        </Box>\n    );\n};\n"
 }
 ```
@@ -6624,7 +6624,7 @@ Tool: write
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\tui\\index.tsx",
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\tui\\index.tsx",
   "content": "import React from 'react';\nimport { render } from 'ink';\nimport { App } from './App.js';\n\nexport function startTUI() {\n    render(<App />);\n}\n"
 }
 ```
@@ -6643,7 +6643,7 @@ Tool: write
 ```json
 {
   "content": "import { Command } from 'commander';\nimport { startTUI } from '../tui/index.js';\n\nexport const tuiCommand = new Command('tui')\n    .description('Launch interactive terminal UI')\n    .option('-a, --api <url>', 'API base URL', 'http://localhost:3000')\n    .action((options) => {\n        if (options.api) {\n            process.env.AIOS_API = options.api;\n        }\n        startTUI();\n    });\n",
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\commands\\tui.ts"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\commands\\tui.ts"
 }
 ```
 ```
@@ -6658,9 +6658,9 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\cli\\src\\index.ts",
-  "newString": "import { Command } from 'commander';\nimport { startCommand } from './commands/start.js';\nimport { statusCommand } from './commands/status.js';\nimport { runAgentCommand } from './commands/run.js';\nimport { mineCommand } from './commands/mine.js';\nimport { tuiCommand } from './commands/tui.js';\nimport fs from 'fs';\nimport path from 'path';\nimport { fileURLToPath } from 'url';\n\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));\n\nconst program = new Command();\n\nprogram\n  .name('aios')\n  .description('CLI for AIOS Monorepo')\n  .version(pkg.version);\n\nprogram.addCommand(startCommand);\nprogram.addCommand(statusCommand);\nprogram.addCommand(runAgentCommand);\nprogram.addCommand(mineCommand);\nprogram.addCommand(tuiCommand);\n\nprogram.parse(process.argv);",
-  "oldString": "import { Command } from 'commander';\nimport { startCommand } from './commands/start.js';\nimport { statusCommand } from './commands/status.js';\nimport { runAgentCommand } from './commands/run.js';\nimport { mineCommand } from './commands/mine.js';\nimport fs from 'fs';\nimport path from 'path';\nimport { fileURLToPath } from 'url';\n\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));\n\nconst program = new Command();\n\nprogram\n  .name('aios')\n  .description('CLI for AIOS Monorepo')\n  .version(pkg.version);\n\nprogram.addCommand(startCommand);\nprogram.addCommand(statusCommand);\nprogram.addCommand(runAgentCommand);\nprogram.addCommand(mineCommand);\n\nprogram.parse(process.argv);"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\cli\\src\\index.ts",
+  "newString": "import { Command } from 'commander';\nimport { startCommand } from './commands/start.js';\nimport { statusCommand } from './commands/status.js';\nimport { runAgentCommand } from './commands/run.js';\nimport { mineCommand } from './commands/mine.js';\nimport { tuiCommand } from './commands/tui.js';\nimport fs from 'fs';\nimport path from 'path';\nimport { fileURLToPath } from 'url';\n\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));\n\nconst program = new Command();\n\nprogram\n  .name('borg')\n  .description('CLI for AIOS Monorepo')\n  .version(pkg.version);\n\nprogram.addCommand(startCommand);\nprogram.addCommand(statusCommand);\nprogram.addCommand(runAgentCommand);\nprogram.addCommand(mineCommand);\nprogram.addCommand(tuiCommand);\n\nprogram.parse(process.argv);",
+  "oldString": "import { Command } from 'commander';\nimport { startCommand } from './commands/start.js';\nimport { statusCommand } from './commands/status.js';\nimport { runAgentCommand } from './commands/run.js';\nimport { mineCommand } from './commands/mine.js';\nimport fs from 'fs';\nimport path from 'path';\nimport { fileURLToPath } from 'url';\n\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));\n\nconst program = new Command();\n\nprogram\n  .name('borg')\n  .description('CLI for AIOS Monorepo')\n  .version(pkg.version);\n\nprogram.addCommand(startCommand);\nprogram.addCommand(statusCommand);\nprogram.addCommand(runAgentCommand);\nprogram.addCommand(mineCommand);\n\nprogram.parse(process.argv);"
 }
 ```
 ```
@@ -6788,15 +6788,15 @@ Tool: bash
 **Input:**
 ```json
 {
-  "command": "pnpm --filter @aios/cli build",
+  "command": "pnpm --filter @borg/cli build",
   "description": "Build CLI package with TUI",
-  "workdir": "C:\\Users\\hyper\\workspace\\aios"
+  "workdir": "C:\\Users\\hyper\\workspace\\borg"
 }
 ```
 **Output:**
 ```
 
-> @aios/cli@0.1.0-skeleton build C:\Users\hyper\workspace\aios\packages\cli
+> @borg/cli@0.1.0-skeleton build C:\Users\hyper\workspace\borg\packages\cli
 > tsc
 
 
@@ -6826,8 +6826,8 @@ Context pruning complete. Pruned 5 tool outputs.
 Semantically pruned (5):
 → bash: Add Ink TUI dependencies to CLI
 → bash: Add React types for Ink
-→ read: C:\Users\hyper\workspace\aios\packages\cli\tsconfig.json
-→ read: C:\Users\hyper\workspace\aios\tsconfig.base.json
+→ read: C:\Users\hyper\workspace\borg\packages\cli\tsconfig.json
+→ read: C:\Users\hyper\workspace\borg\tsconfig.base.json
 → bash: Create TUI directory structure
 ```
 ```
@@ -6841,8 +6841,8 @@ Semantically pruned (5):
 ▣ Pruning (~1.4K tokens) — Task Complete
 → bash: Add Ink TUI dependencies to CLI
 → bash: Add React types for Ink
-→ read: C:\Users\hyper\workspace\aios\packages\cli\tsconfig.json
-→ read: C:\Users\hyper\workspace\aios\tsconfig.base.json
+→ read: C:\Users\hyper\workspace\borg\packages\cli\tsconfig.json
+→ read: C:\Users\hyper\workspace\borg\tsconfig.base.json
 → bash: Create TUI directory structure
 
 ---
@@ -7017,8 +7017,8 @@ packages/cli/src/
 
 **CLI usage:**
 ```bash
-aios tui                           # Launch interactive TUI
-aios tui --api http://localhost:3000  # Custom API URL
+borg tui                           # Launch interactive TUI
+borg tui --api http://localhost:3000  # Custom API URL
 ```
 
 **TUI Features:**
@@ -7338,7 +7338,7 @@ Tool: grep
 ```json
 {
   "pattern": "cli|tui|terminal|command.line|aider|gemini.cli|claude.code|opencode",
-  "path": "C:\\Users\\hyper\\workspace\\aios",
+  "path": "C:\\Users\\hyper\\workspace\\borg",
   "include": "*.md"
 }
 ```
@@ -7346,18 +7346,18 @@ Tool: grep
 ```
 Found 2648 match(es) in 229 file(s)
 
-C:\Users\hyper\workspace\aios\CHANGELOG.md
+C:\Users\hyper\workspace\borg\CHANGELOG.md
   10: - Migrated existing UI tests from Jest to Vitest (`archive`, `templates`, `jules/client`, `jules/route`).
   18: - **Submodules:** Removed redundant `submodules/opencode-autopilot-backup`.
   36: - **Fixes:** Resolved Windows path issues by removing `opencode-skillful`.
 
-C:\Users\hyper\workspace\aios\CONTRIBUTING.md
+C:\Users\hyper\workspace\borg\CONTRIBUTING.md
   27: *   `packages/cli`: The `super-ai` command line tool.
 
-C:\Users\hyper\workspace\aios\DESIGN.md
+C:\Users\hyper\workspace\borg\DESIGN.md
   8: In a fragmented AI ecosystem, we solve fragmentation by aggregating best-in-class tools (aider, mem0, claude-code) into a single orchestration layer.
 
-C:\Users\hyper\workspace\aios\docs\ARCHITECTURE_OPTION_C.md
+C:\Users\hyper\workspace\borg\docs\ARCHITECTURE_OPTION_C.md
   62: | **Separation of Concerns** | Backend handles logic, clients handle presentation |
   63: | **Multiple Interfaces** | Same API powers web, terminal, and MCP clients |
   66: | **Scalability** | Backend can be deployed separately from clients |
@@ -7365,34 +7365,34 @@ C:\Users\hyper\workspace\aios\docs\ARCHITECTURE_OPTION_C.md
   131: // packages/cli/src/app.tsx
   265: ├── cli/                  # Terminal Client (Ink)
   278: │   │   └── lib/          # API client, utilities
-  365: aios                      # Launch interactive terminal UI
+  365: borg                      # Launch interactive terminal UI
   423: - [ ] Create `packages/cli` with Ink setup
   424: - [ ] Implement API client hooks
   460: ### CLI (packages/cli)
   481: | **Power Users** | Fast terminal interface, keyboard-driven |
 
-C:\Users\hyper\workspace\aios\docs\AGENT_STANDARDS_STRATEGY.md
+C:\Users\hyper\workspace\borg\docs\AGENT_STANDARDS_STRATEGY.md
   22: *   Reference: [`claude-code-config`](https://github.com/drewipson/claude-code-config) for config management patterns.
 
-C:\Users\hyper\workspace\aios\docs\CLIENT_CONFIGS.md
+C:\Users\hyper\workspace\borg\docs\CLIENT_CONFIGS.md
   25: | **Claude Code** | `%APPDATA%\Claude\claude.json` | `~/.claude.json` or `~/.config/claude-code/config.json` | |
   26: | **Aider** | `.aider.conf.yml` (Project) or `%USERPROFILE%\.aider.conf.yml` | `~/.aider.conf.yml` | |
   48: | **Cline** | VSCode | `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json` |
   55: See `submodules/mcpenetes` for implementation details on detecting and configuring these clients programmatically.
 
-C:\Users\hyper\workspace\aios\docs\ECOSYSTEM_INTEGRATION.md
+C:\Users\hyper\workspace\borg\docs\ECOSYSTEM_INTEGRATION.md
   38: **Target CLIs:** `gemini-cli`, `claude-code`, `opencode`, `aider`, `mentat`, `fabric`, `gh`, `az`, `aws`.
-  42: - **Feature Mining:** Audit these CLIs to ensure aios has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
+  42: - **Feature Mining:** Audit these CLIs to ensure borg has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
   43: - **Delegation:** Use them as heavy-duty tools for specific tasks (e.g., "Ask `aider` to refactor this file").
   44: - **Submodule Strategy:** Maintain them as submodules in `references/clis/` to keep the "drivers" available for the OS.
-  57: We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The aios Core Server can invoke these CLIs to perform specialized tasks that they excel at.
+  57: We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The borg Core Server can invoke these CLIs to perform specialized tasks that they excel at.
   61: | **Gemini CLI** | `google-gemini/gemini-cli` | Native Google ecosystem integration, multimodal inputs. | **General Purpose.** Default driver for Gemini models. |
   62: | **Aider** | `paul-gauthier/aider` | SOTA code editing, "Repo Map" context awareness. | **Code Editor.** Invoked for complex multi-file refactoring tasks. |
   70: 1.  **Submodule Management:** All CLIs are checked out in `references/clis/` to ensure we have the exact source code and can patch/wrap them if necessary.
   95: **Repo:** `references/claude-code-infrastructure-showcase`
   120: **Repos:** `references/agents/claude-code-subagents-collection`, `references/agents/codex-subagents-mcp`, `references/agents/Agent-MCP`
 
-C:\Users\hyper\workspace\aios\docs\DETAILED_BACKLOG.md
+C:\Users\hyper\workspace\borg\docs\DETAILED_BACKLOG.md
   10: *   *Goal:* Auto-configure clients (VSCode, Cursor, etc.) by injecting the Hub as an upstream MCP server.
   17: *   Gemini CLI (`references/gemini-cli-extensions`)
   18: *   Claude Code (`references/claude-code-config`)
@@ -7403,7 +7403,7 @@ C:\Users\hyper\workspace\aios\docs\DETAILED_BACKLOG.md
   57: *   Import Gemini prompts (`references/gemini-cli-prompt-library`, `references/gemini-cli-tips`).
   62: *   **Context Rules:** Implement `.claude/rules/` support (Distributed Context) and `references/claude-code-system-prompts`.
 
-C:\Users\hyper\workspace\aios\docs\GEMINI_INTEGRATION_STRATEGY.md
+C:\Users\hyper\workspace\borg\docs\GEMINI_INTEGRATION_STRATEGY.md
   6: **Reference:** [Gemini CLI Extensions](https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/index.md)
   12: *   **Jules Delegate:** [`gemini-cli-extensions/jules`](https://github.com/gemini-cli-extensions/jules)
   14: *   **Code Review:** [`gemini-cli-extensions/code-review`](https://github.com/gemini-cli-extensions/code-review)
@@ -7411,11 +7411,11 @@ C:\Users\hyper\workspace\aios\docs\GEMINI_INTEGRATION_STRATEGY.md
   42: *   [`gemini-cli-prompt-library`](https://github.com/harish-garg/gemini-cli-prompt-library)
   43: *   [`gemini-cli-prompt-library (involvex)`](https://github.com/involvex/gemini-cli-prompt-library)
 
-C:\Users\hyper\workspace\aios\docs\guides\PROGRESSIVE_DISCLOSURE.md
+C:\Users\hyper\workspace\borg\docs\guides\PROGRESSIVE_DISCLOSURE.md
   8: When a client connects to the Hub, they see only:
   37: *   **Scale:** Allows connecting hundreds of MCP servers without breaking the client.
 
-C:\Users\hyper\workspace\aios\docs\VISION_COMPREHENSIVE.md
+C:\Users\hyper\workspace\borg\docs\VISION_COMPREHENSIVE.md
   36: | Terminal | CLI (packages/cli) |
   76: │   ├── cli/            # Terminal Interface - super-ai commands
   125: | `/api/hub/sse` | GET | SSE streaming for MCP clients |
@@ -7431,10 +7431,10 @@ C:\Users\hyper\workspace\aios\docs\VISION_COMPREHENSIVE.md
   425: | opencode-workflows | Use keystone instead |
   487: 4. **Ecosystem** - 70+ submodules, 100+ skills, multi-platform clients
 
-C:\Users\hyper\workspace\aios\prompts\jailbreak\The_ANTI-DAN_Prompt.md
+C:\Users\hyper\workspace\borg\prompts\jailbreak\The_ANTI-DAN_Prompt.md
   4: [Omitted long matching line]
 
-C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
+C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md
   13: | `mcpproxy` | Reference | **Proxy Logic.** Reference for bridging MCP clients and servers. |
   36: | `opencode` | Reference | **Host Environment.** Reference for acting as a plugin *within* OpenCode. |
   37: | `gemini-cli` | (Implied) | **Host Environment.** We can use its hooks. |
@@ -7445,7 +7445,7 @@ C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
   113: | `grok-cli` | Reference | **CLI.** xAI's Grok CLI. |
   140: | `byterover-claude-codex` | Reference | **Collab.** Collaboration patterns between Claude and Codex. |
 
-C:\Users\hyper\workspace\aios\SUBMODULES.md
+C:\Users\hyper\workspace\borg\SUBMODULES.md
   13: | `submodules/opencode-autopilot` | `0.4.0` | ✅ Synced | **Critical** | AI session orchestration server (Current Workspace) |
   14: | `external/opencode-core` | `latest` | ✅ Synced | **High** | Core AI coding agent for implementation |
   16: | `submodules/mcpenetes` | `v1.0.3` | ✅ Synced | **High** | MCP client auto-configuration tool |
@@ -7455,7 +7455,7 @@ C:\Users\hyper\workspace\aios\SUBMODULES.md
   31: | `external/opencode-sdk-js` | `v0.1.0` | ✅ Synced | **Medium** | JS SDK for OpenCode integration |
   47: - **`external/plugins/opencode-skillful`**: Removed due to Windows path incompatibility.
 
-C:\Users\hyper\workspace\aios\docs\SUBMODULES.md
+C:\Users\hyper\workspace\borg\docs\SUBMODULES.md
   10: | **opencode-autopilot-council** | `submodules/opencode-autopilot-council` | The "Council" assistant logic and session management (Local). |
   20: | **opencode** | `references/opencode` | Open source code interpreter reference. |
   41: | **claude-code-infrastructure-showcase** | `references/claude-code-infrastructure-showcase` | Infrastructure showcase. |
@@ -7471,17 +7471,17 @@ C:\Users\hyper\workspace\aios\docs\SUBMODULES.md
   83: | **kilocode** | `references/clis/kilocode` | Agentic engineering platform. |
   92: │   ├── cli/            # CLI wrapper
 
-C:\Users\hyper\workspace\aios\README_restored.md
+C:\Users\hyper\workspace\borg\README_restored.md
   65: *   **`packages/cli`**: A command-line interface (`super-ai`) for controlling the Hub from a terminal.
   66: *   **`packages/vscode`**: Skeleton code for the VSCode Extension client.
   67: *   **`packages/browser`**: Skeleton code for the Chrome Extension client.
 
-C:\Users\hyper\workspace\aios\README.md
+C:\Users\hyper\workspace\borg\README.md
   65: *   **`packages/cli`**: A command-line interface (`super-ai`) for controlling the Hub from a terminal.
   66: *   **`packages/vscode`**: Skeleton code for the VSCode Extension client.
   67: *   **`packages/browser`**: Skeleton code for the Chrome Extension client.
 
-C:\Users\hyper\workspace\aios\skills\imported\README.md
+C:\Users\hyper\workspace\borg\skills\imported\README.md
   35: - [Claude Code (Anthropic)](#claude-code-anthropic)
   37: - [Codex CLI (OpenAI)](#codex-cli-openai)
   38: - [Gemini CLI (Google)](#gemini-cli-google)
@@ -7498,24 +7498,24 @@ C:\Users\hyper\workspace\aios\skills\imported\README.md
   240: * Run `opencode auth login` and choose your provider (e.g., Cerebras) to configure your API key.
   241: * Start the interface with `opencode` and initialize your project context using `/init`.
 
-C:\Users\hyper\workspace\aios\skills\imported\notion-research-documentation\reference\citations.md
+C:\Users\hyper\workspace\borg\skills\imported\notion-research-documentation\reference\citations.md
   189: **Recommend formal style** for most research documentation as it provides clickable navigation.
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-superset.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-superset.md
   64: Each workspace gets their own organized terminal system. You can create default presets.
   72: Superet is designed to be a superset of your existing tools. It works for any CLI agents that runs in the terminal. You can open your superset workspace in any apps like IDE, filesystem, terminal, etc.
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-superset-docs-cookbook.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-superset-docs-cookbook.md
   25: - **[Sonnet 4.5](https://www.claude.com/product/claude-code)** - Good at coding
   26: - **[Composer-1](https://cursor.com/cli)** - Good at refactoring and making quick changes
   27: - **[CodeRabbit CLI](https://www.coderabbit.ai/cli)** - Good at reviewing
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-superset-apps-cli.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-superset-apps-cli.md
   8: - Run CLI from source: `bunx ts-node src/cli.tsx --help`
   10: - Binary name: `superset` (points to `dist/cli.js`)
   42: - lowdb JSON at `~/.superset/cli/db.json` (default), seeded with a `default` environment and `state.currentWorkspaceId`.
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-portal.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-portal.md
   5: > **Disclaimer**: This is a **personal project** and is **not related** to [https://github.com/sst/opencode](https://github.com/sst/opencode) or the SST team. This portal is a personal-built interface for interacting with OpenCode instances.
   7: A web-based UI for [OpenCode](https://opencode.ai), the AI coding agent. This portal provides a browser interface to interact with OpenCode sessions, view messages, and chat with the AI assistant.
   28: --name opencode \
@@ -7528,7 +7528,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-portal.md
   151: - [IntentUI](https://intentui.com/) - UI library
   154: - [OpenCode SDK](https://www.npmjs.com/package/@opencode-ai/sdk) - OpenCode API client
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui.md
   13: pnpm run dev:full         # Run client + server concurrently
   34: | `pnpm run build`     | Production build (client + server) | -            |
   54: - Run terminal/git/file operations against a separate working directory.
@@ -7536,7 +7536,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui.md
   149: - **Build Tool**: Rsbuild (client) + Rslib (server)
   225: - GitHub integration client: `src/server/github/gh-cli.ts`
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-test.md
   57: │   └── opencode-runtime.test.ts
   71: │   └── opencode-backend.ts
   90: - **Mock Integration**: Mocked stores and API clients
@@ -7545,10 +7545,10 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test.md
   265: import { OpenCodeTestHarness } from "../test/harness/opencode-backend"
   468: - [Bun Test Documentation](https://bun.sh/docs/cli/test)
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test-validation.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-test-validation.md
   170: - Validate on both client and server side
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test-runtime.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-test-runtime.md
   9: - **`opencode-runtime.test.ts`** - Basic runtime functionality and event handling
   10: - **`opencode-runtime-comprehensive.test.ts`** - Comprehensive test suite covering all runtime methods and scenarios
   11: - **`opencode-runtime-reconnect.test.ts`** - Connection recovery and retry logic
@@ -7560,7 +7560,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test-runtime.md
   112: bun test test/runtime/opencode-runtime-permissions.test.ts
   129: - **API Client Mock** (`../mocks/api-client.ts`) - HTTP request mocking
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-src-server.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-src-server.md
   7: The server manages project metadata and serves the React app. Clients connect to the OpenCode backend through a lightweight proxy mounted at `/opencode` to avoid CORS and support streaming/SSE.
   24: 1. **Single Origin** - Clients use `/opencode` as base URL to reach the OpenCode backend
   27: 4. **Clear Separation** - Server handles metadata, client handles SDK operations
@@ -7573,11 +7573,11 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-src-server.md
   103: - Provide backend URL to clients via API
   118: The simplified architecture has clients connect directly to the OpenCode backend. This eliminates:
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-src-lib-chat.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-src-lib-chat.md
   227: **@opencode-ai/sdk**
   228: SDK client accessed via useProjectSDK hook for backend communication
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencodespace.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opencodespace.md
   5: [![PyPI version](https://badge.fury.io/py/opencodespace.svg)](https://badge.fury.io/py/opencodespace)
   30: pip install opencodespace
   37: opencodespace
@@ -7611,13 +7611,13 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencodespace.md
   305: git clone https://github.com/ngramai/opencodespace.git
   306: cd opencodespace
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencodespace-tests.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opencodespace-tests.md
   64: pytest -m cli
   77: pytest --cov=src/opencodespace
   80: pytest --cov=src/opencodespace --cov-report=html
   132: - Test command-line interface using Click's testing utilities
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-web-nihalshetty0.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opencode-web-nihalshetty0.md
   1: # opencode-web
   3: A web interface for [opencode](https://github.com/sst/opencode) AI coding agent.
   7: opencode-web provides a user-friendly way to chat with the opencode AI coding assistant via the browser.
@@ -7630,7 +7630,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-web-nihalshetty
   35: 3. **Open the web client**
   36: With both the server and web client running, open the web client in your browser. You’ll be able to start new chat sessions and interact with the coding agent!
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-web-chris-tse.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opencode-web-chris-tse.md
   1: # opencode-web
   3: A web-based user interface for [opencode](https://github.com/sst/opencode), providing a modern chat interface to interact with AI coding agents.
   19: - Running [opencode](https://github.com/sst/opencode) API server
@@ -7645,7 +7645,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-web-chris-tse.m
   113: - [opencode](https://github.com/sst/opencode) - The main opencode CLI and API server
   114: - [opencode.ai](https://opencode.ai) - Official website and documentation
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-gui.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opencode-gui.md
   13: curl -fsSL https://opencode.ai/install | bash
   18: opencode auth login
   40: 1. **Start watch mode** (in a terminal):
@@ -7661,33 +7661,33 @@ C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opencode-gui.md
   193: - Make sure OpenCode CLI is installed: `which opencode`
   194: - Configure authentication: `opencode auth login`
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-splitrail.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-splitrail.md
   30: - [Gemini CLI](https://github.com/google-gemini/gemini-cli) (and [Qwen Code](https://github.com/qwenlm/qwen-code))
   31: - [Claude Code](https://github.com/anthropics/claude-code)
   33: - [Cline](https://github.com/cline/cline) / [Roo Code](https://github.com/RooCodeInc/Roo-Code) / [Kilo Code](https://github.com/Kilo-Org/kilocode)
   35: - [OpenCode](https://github.com/sst/opencode)
   50: <img width="750" alt="Screenshot of the Splitrail CLI" src="https://raw.githubusercontent.com/Piebald-AI/splitrail/main/screenshots/cli.gif" />
 
-C:\Users\hyper\workspace\aios\skills\imported\notion-knowledge-capture\examples\decision-capture.md
+C:\Users\hyper\workspace\borg\skills\imported\notion-knowledge-capture\examples\decision-capture.md
   12: - **Rationale**: Better client experience, type safety, single endpoint
   55: - Slow iteration on client features
   67: - Industry standard for client-facing APIs
   78: **Cons**: Browser support issues, steeper learning curve, not designed for client-facing
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-splitrail-vscode-splitrail.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-splitrail-vscode-splitrail.md
   17: <img width="750" alt="Screenshot of the Splitrail CLI" src="https://raw.githubusercontent.com/Piebald-AI/splitrail/main/screenshots/cli.gif" />
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-poe-code.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-poe-code.md
   15: Also available: `poe-claude`, `poe-opencode`.
   23: npx poe-code@latest configure claude-code
   29: npx poe-code@latest configure opencode
   67: npx poe-code@latest install claude-code
   73: npx poe-code@latest install opencode
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-opencode_tools.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-opencode_tools.md
   5: Requires opencode `v0.15.29+` because of positional arguments for across agent compatibility.
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-OpenCodeRunner.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-OpenCodeRunner.md
   2: <img src="https://github.com/OpenCodeRunner/OpenCodeRunner/blob/main/assets/opencoderunner_v3_marginborder.png" alt="OpenCodeRunner Logo" width="200"/>
   39: pip uninstall opencoderunner
   60: You can use `firejail` `uvicorn` to start the OpenCodeRunner service for remotely code execution. You can configure API key settings in [.env](.env) for both client and server sides.
@@ -7701,7 +7701,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-OpenCodeRunner.md
   124: from opencoderunner import run
   178: You can configure the default paths for different languages in [opencoderunner/infos/run_info.py](opencoderunner/infos/run_info.py). For example, python path, cmake path, java JDK path, node.js path, etc.
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-occtx.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-occtx.md
   7: **occtx** is a command-line tool for switching between different opencode contexts quickly and easily.
   13: - 🚀 **Fast context switching** - Switch between opencode configurations instantly
   14: - 📁 **Multi-level support** - Global (`~/.config/opencode/`) and project-level (`./opencode/`) contexts
@@ -7718,10 +7718,10 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-occtx.md
   386: If you encounter the message "Apple could not verify 'occtx' is free of malware that may harm your Mac or compromise your privacy," you can resolve this by running the following command in your terminal:
   398: 1. Right-click on the `occtx` executable.
 
-C:\Users\hyper\workspace\aios\packages\ui\AGENTS.md
+C:\Users\hyper\workspace\borg\packages\ui\AGENTS.md
   27: - **Client vs Server**: Explicitly use `'use client'` for interactive components.
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute.md
   58: - 🔑 Uses your existing API keys (from env vars or client headers)
   86: - 🔑 **Automatic auth** - Uses environment variables or client-provided keys
   89: - 🔄 **Background server** - Detached process, continues running even after terminal closes
@@ -7735,7 +7735,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute.md
   508: **Solution:** LunaRoute uses client-provided auth - no shared secrets needed.
   523: - **[Connection Pool Configuration](docs/CONNECTION_POOL_ENV_VARS.md)** - HTTP client tuning
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-examples-configs.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute-examples-configs.md
   26: - **Claude Code compatibility**: Forwards client's `x-api-key` header
   40: HTTP client connection pool configuration for optimal performance.
   78: ### `claude-code-proxy.yaml` ⭐ RECOMMENDED FOR CLAUDE
@@ -7744,21 +7744,21 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-examples-configs.m
   97: - Works with client-provided authentication
   114: - Supports client-provided authentication headers
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-crates-lunaroute-session.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute-crates-lunaroute-session.md
   315: s3_client: S3Client,
   331: self.s3_client
   363: s3_client: S3Client::new(),
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-crates-lunaroute-server.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute-crates-lunaroute-server.md
   57: # Override dialect from command line
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-crates-lunaroute-integration-tests.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute-crates-lunaroute-integration-tests.md
   28: - 4xx client errors (400 Bad Request, 401 Unauthorized, 429 Rate Limit)
 
-C:\Users\hyper\workspace\aios\submodules\voicemode\SKILL.md
+C:\Users\hyper\workspace\borg\submodules\voicemode\SKILL.md
   342: - Works with tmux and terminal multiplexers
 
-C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\python_mcp_server.md
+C:\Users\hyper\workspace\borg\skills\imported\mcp-builder\reference\python_mcp_server.md
   261: async with httpx.AsyncClient() as client:
   262: response = await client.request(
   279: async with httpx.AsyncClient() as client:
@@ -7769,13 +7769,13 @@ C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\python_mcp_s
   679: - Build shared API clients for HTTP requests instead of duplicating code
   744: - [ ] HTTP client usage follows async patterns with proper context managers
 
-C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\node_mcp_server.md
+C:\Users\hyper\workspace\borg\skills\imported\mcp-builder\reference\node_mcp_server.md
   71: │   ├── services/         # API clients and shared utilities
   802: - **HTTP**: Web services, remote access, multiple simultaneous clients
   807: Notify clients when server state changes:
   833: - Build shared API clients for HTTP requests instead of duplicating code
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake.md
   19: - **Deterministic rule-following** for your agents. [Interactive Examples](https://cupcake-policy-studio.vercel.app/example-policies/security/symlink-detection?harness=claude-code&format=rego)
   29: **`2025-04-04`**: We produce the [feature request](https://github.com/anthropics/claude-code/issues/712) for Claude Code Hooks. Runtime alignment requires integration into the agent harnesses, and we pivot away from filesystem and os-level monitoring of agent behavior (early cupcake PoC).
   37: | **[Claude Code](https://claude.ai/code)**                                         | ✅ Fully Supported | [Setup Guide](https://cupcake.eqtylab.io/getting-started/usage/claude-code/) |
@@ -7783,14 +7783,14 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake.md
   42: | **[Gemini CLI](https://docs.cloud.google.com/gemini/docs/codeassist/gemini-cli)** | Coming soon        | [Awaiting release](https://github.com/google-gemini/gemini-cli/issues/2779)  |
   44: Each harness uses native event formats. Similar to terraform, policies are separated by harness (`policies/claude/`, `policies/cursor/`, `policies/factory/`, `policies/opencode/`) to ensure clarity and full access to harness-specific capabilities. If a particular harness is not supported, it is because it has no means for runtime integration.
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-fixtures.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-fixtures.md
   5: ### 1. **Primary Use: `cupcake init` Command** (cupcake-cli/src/main.rs)
   15: include_str!("../../fixtures/claude/builtins/claude_code_always_inject_on_prompt.rego");
   34: │   │   ├── claude_code_always_inject_on_prompt.rego
   40: │   │   └── claude_code_enforce_full_file_read.rego
   68: - Cursor gets 6 builtins (no `claude_code_enforce_full_file_read` due to incompatibility) + 3 global builtins
 
-C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\mcp_best_practices.md
+C:\Users\hyper\workspace\borg\skills\imported\mcp-builder\reference\mcp_best_practices.md
   179: - Runs as a subprocess of the client
   185: - Creating command-line utilities
   190: **Best for**: Web services, remote access, multi-client scenarios
@@ -7811,7 +7811,7 @@ C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\mcp_best_pra
   759: 2. Help clients categorize and present tools appropriately
   761: 4. Assist in developing intuitive interfaces for tool approval
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-examples-opencode.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-examples-opencode.md
   11: echo '{"hook_event_name":"PreToolUse","session_id":"test","cwd":"'$(pwd)'","tool":"bash","args":{"command":"git commit --no-verify"}}' | cupcake eval --harness opencode
   14: echo '{"hook_event_name":"PreToolUse","session_id":"test","cwd":"'$(pwd)'","tool":"bash","args":{"command":"git status"}}' | cupcake eval --harness opencode
   20: examples/opencode/
@@ -7824,11 +7824,11 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-examples-opencode.md
   193: - Read the [Plugin Reference](../../../docs/agents/opencode/plugin-reference.md)
   194: - Review [Integration Design](../../../docs/agents/opencode/integration-design.md)
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-examples-claude-code-0_Welcome.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-examples-claude-code-0_Welcome.md
   3: Cupcake has native support for [Claude Code](https://www.claude.com/product/claude-code). Thank you to the Claude Code team for enabling this integration by maintaining [Hooks](https://docs.claude.com/en/docs/claude-code/hooks)!
   5: > Fun fact: The cupcake team issued the [original feature request for Hooks in Claude Code](https://github.com/anthropics/claude-code/issues/712)!
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-docs-assets.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-docs-assets.md
   3: This directory contains castfile definitions for generating terminal recordings using asciinema. Generated `.cast` files are output to `docs/docs/assets/` for the Zensical doc site.
   28: │   │   ├── cli/               # CLI command demos
   62: just cast help        # Generate from casts/cli/help.yaml
@@ -7837,10 +7837,10 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-docs-assets.md
   104: | `clear` | Clear terminal screen        | `{type: clear}`                            |
   204: 2. Ensure cupcake is built: `just build-cli`
 
-C:\Users\hyper\workspace\aios\skills\imported\mcp-builder\reference\evaluation.md
+C:\Users\hyper\workspace\borg\skills\imported\mcp-builder\reference\evaluation.md
   198: - Use your intuition and understanding to create reasonable, realistic, but VERY challenging tasks
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-docs-agents-opencode.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-docs-agents-opencode.md
   3: Cupcake integrates with [OpenCode](https://opencode.ai) to enforce policies on AI coding agent actions.
   13: 1. **TypeScript Plugin** (`cupcake-plugins/opencode/`) - Intercepts tool execution in OpenCode
   14: 2. **Rust Harness** - Evaluates policies via `cupcake eval --harness opencode`
@@ -7850,7 +7850,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-docs-agents-opencode
   93: echo '{"hook_event_name":"PreToolUse","session_id":"test","cwd":"/tmp","tool":"bash","args":{"command":"git commit --no-verify"}}' | cupcake eval --harness opencode
   98: - **Examples**: `examples/opencode/`
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-cupcake-plugins-opencode.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake-cupcake-plugins-opencode.md
   3: Policy engine plugin for [OpenCode](https://opencode.ai), enabling enforcement of custom policies on AI coding agent actions.
   28: cd cupcake-plugins/opencode
   32: mkdir -p /path/to/your/project/.opencode/plugin
@@ -7878,17 +7878,17 @@ C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake-cupcake-plugins-open
   289: - [Example Policies](../../examples/opencode/)
   290: - [Integration Design](../../docs/agents/opencode/integration-design.md)
 
-C:\Users\hyper\workspace\aios\skills\imported\lead-research-assistant\SKILL.md
+C:\Users\hyper\workspace\borg\skills\imported\lead-research-assistant\SKILL.md
   12: - Finding potential customers or clients for your product/service
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-convx.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-convx.md
   3: A terminal UI application that scans local Claude Code and OpenCode conversation histories, displaying them in an interactive interface for browsing and analyzing conversations.
   16: - **Keyboard-driven**: Full keyboard navigation with intuitive shortcuts
   54: bun index.ts --claude-root ~/custom/claude/path --opencode-root ~/custom/opencode/path
   97: **OpenCode**: `~/.local/share/opencode/project/**/storage/session/`
   137: - **@opentui/core**: Terminal UI framework with native rendering
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools.md
   1: # opencode-swarm-plugin
   3: [![npm version](https://img.shields.io/npm/v/opencode-swarm-plugin.svg)](https://www.npmjs.com/package/opencode-swarm-plugin)
   33: npm install -g opencode-swarm-plugin@latest
@@ -7902,7 +7902,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools.md
   579: bun turbo test --filter=opencode-swarm-plugin
   593: | [OpenCode](https://opencode.ai)     | [CASS](https://github.com/Dicklesworthstone/coding_agent_session_search) - historical context |
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md
   503: import { createClient } from "@libsql/client";
   505: // Create libSQL client
   506: const client = createClient({
@@ -7911,10 +7911,10 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-
   1021: } from "opencode-swarm-plugin";
   1250: agent: "opencode",
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals.md
   43: - `opencode-swarm-plugin` - Main plugin (peer dependency)
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals-docs.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals-docs.md
   48: │     └─ Store to: .opencode/eval-data.jsonl, sessions/*.jsonl   │
   58: │     ├─ Record to: .opencode/eval-history.jsonl                  │
   115: - Real captures: `.opencode/eval-data.jsonl`
@@ -7924,7 +7924,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-
   753: - `.opencode/eval-data.jsonl` - Decomposition captures
   754: - `.opencode/eval-history.jsonl` - Score history
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md
   1: # opencode-swarm-plugin
   8: [![Eval Gate](https://github.com/joelhooks/opencode-swarm-plugin/actions/workflows/eval-gate.yml/badge.svg)](https://github.com/joelhooks/opencode-swarm-plugin/actions/workflows/eval-gate.yml)
   24: npm install -g opencode-swarm-plugin@latest
@@ -7943,7 +7943,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-
   1024: "data": "{\"agent_name\":\"BlueLake\",\"program\":\"opencode\",\"model\":\"claude-sonnet-4\",\"task_description\":\"mjmas411jtj: Update READMEs\"}"
   1032: "data": "{\"agent_name\":\"BlueLake\",\"bead_id\":\"mjmas411jtj\",\"summary\":\"Updated both READMEs with CLI reference and event schema\",\"files_touched\":[\"packages/opencode-swarm-plugin/README.md\",\"packages/swarm-mail/README.md\"],\"success\":true}"
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-skills-example.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-skills-example.md
   10: - Location: `.opencode/skill/hello-skill/`
   16: - Location: `.opencode/skill/steps-skill/`
   22: - Location: `.opencode/skill/workflow-skill/`
@@ -7956,7 +7956,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-skills-example.md
   245: - [OpenCode Skills Documentation](https://opencode.ai/docs/skills/)
   246: - [OpenCode GitHub](https://github.com/sst/opencode)
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-opencode-agent-skills.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-opencode-agent-skills.md
   1: # opencode-agent-skills
   15: - [OpenCode](https://opencode.ai/) v1.0.110 or later
   19: Add to your OpenCode config (`~/.config/opencode/opencode.json`):
@@ -7978,7 +7978,7 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-opencode-agent-skills
   159: opencode-agent-skills is licensed under the MIT license. See the [`LICENSE`](LICENSE) file for more information.
   163: opencode-agent-skills is not built by, or affiliated with, the OpenCode team.
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-malhashemi-skills.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-malhashemi-skills.md
   9: > - [PR #5930](https://github.com/sst/opencode/pull/5930) - Native `skill` tool with pattern-based permissions
   10: > - [PR #6000](https://github.com/sst/opencode/pull/6000) - Per-agent skill filtering (v1.0.191)
   17: [![Graduated to Native](https://img.shields.io/badge/Native%20Support-OpenCode%20v1.0.190+-success.svg)](https://github.com/sst/opencode/pull/5930)
@@ -8018,15 +8018,15 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-malhashemi-skills.md
   436: - **PR #6000**: [Per-agent filtering](https://github.com/sst/opencode/pull/6000)
   437: - **opencode-sessions**: [github.com/malhashemi/opencode-sessions](https://github.com/malhashemi/opencode-sessions)
 
-C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-humanlayer-humanlayer-wui.md
+C:\Users\hyper\workspace\borg\docs\submodules\agents_repos-humanlayer-humanlayer-wui.md
   109: Always use React hooks, never the daemon client directly:
 
-C:\Users\hyper\workspace\aios\skills\imported\file-organizer\SKILL.md
+C:\Users\hyper\workspace\borg\skills\imported\file-organizer\SKILL.md
   320: │   ├── client-work/
   333: 3. Rename projects to consistent format: "client-name-project-name"
   411: - Be specific: "client-proposals" not "docs"
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-awesome-llm-skills.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-awesome-llm-skills.md
   35: - [Claude Code (Anthropic)](#claude-code-anthropic)
   37: - [Codex CLI (OpenAI)](#codex-cli-openai)
   38: - [Gemini CLI (Google)](#gemini-cli-google)
@@ -8058,7 +8058,7 @@ Tool: grep
 ```json
 {
   "pattern": "memory|mem0|supermemory|zep|langmem|qdrant|pinecone|chroma|vector",
-  "path": "C:\\Users\\hyper\\workspace\\aios",
+  "path": "C:\\Users\\hyper\\workspace\\borg",
   "include": "*.md"
 }
 ```
@@ -8066,37 +8066,37 @@ Tool: grep
 ```
 Found 558 match(es) in 60 file(s)
 
-C:\Users\hyper\workspace\aios\CLAUDE.md
+C:\Users\hyper\workspace\borg\CLAUDE.md
   13: - **Serena MCP**: Hierarchical project memory.
 
-C:\Users\hyper\workspace\aios\DESIGN.md
+C:\Users\hyper\workspace\borg\DESIGN.md
   8: In a fragmented AI ecosystem, we solve fragmentation by aggregating best-in-class tools (aider, mem0, claude-code) into a single orchestration layer.
   14: - **Switchability**: Hot-swap components (e.g., swap `mem0` for `cognee`).
   24: 2. **Semantic Tool Search**: Indexing tool descriptions with embeddings in `pgvector`.
 
-C:\Users\hyper\workspace\aios\context\universal.md
+C:\Users\hyper\workspace\borg\context\universal.md
   8: 2.  **Memory:** You have a persistent memory. Use `remember` to save important facts and `search_memory` to recall them.
 
-C:\Users\hyper\workspace\aios\MAINTENANCE.md
+C:\Users\hyper\workspace\borg\MAINTENANCE.md
   40: *   **Memory Persistence:** If `vectors.json` grows too large, consider migrating `VectorStore` to a real database (Postgres/pgvector).
 
-C:\Users\hyper\workspace\aios\GPT.md
+C:\Users\hyper\workspace\borg\GPT.md
   22: mcp_serena_write_memory --memory_name "gpt_implementations" --content "Implementation patterns for [feature]"
   27: mcp_chroma-knowledge_chroma_add_document --collection_name "codebase" --document "Implementation detail: [content]"
 
-C:\Users\hyper\workspace\aios\docs\VISION_COMPREHENSIVE.md
+C:\Users\hyper\workspace\borg\docs\VISION_COMPREHENSIVE.md
   14: 2. **Active Intelligence** - Autonomous agents with persistent memory
   99: | **MemoryManager** | Orchestrate memory providers (File, Mem0, Pinecone, Browser) |
   133: | `/api/memory` | GET | Memory dashboard data |
   161: **Vision:** Unified interface across multiple memory backends.
   165: - `Mem0Provider` - mem0.ai cloud
-  172: - **Git Sync:** Export to `.aios/memory_export.json` for cloud agent access
+  172: - **Git Sync:** Export to `.borg/memory_export.json` for cloud agent access
   173: - **Dashboard:** `/memory` page with semantic search
   464: MEM0_API_KEY=xxx          # Mem0 cloud memory
 
-C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRATEGY.md
-  3: This document outlines the expanded strategy for a **Universal Memory System** in aios. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
-  6: Instead of building a single monolithic memory store, aios will act as a **Memory Orchestrator**. It will:
+C:\Users\hyper\workspace\borg\docs\UNIVERSAL_MEMORY_STRATEGY.md
+  3: This document outlines the expanded strategy for a **Universal Memory System** in borg. The goal is to create a unified interface that can orchestrate multiple memory backends (local, cloud, browser) and synchronize data between them.
+  6: Instead of building a single monolithic memory store, borg will act as a **Memory Orchestrator**. It will:
   7: 1.  **Detect** existing memory systems (Pinecone, Chroma, Mem0, Browser Storage).
   11: 5.  **Visualize** memory state via a unified Dashboard.
   25: type: 'vector' | 'graph' | 'key-value' | 'file';
@@ -8110,9 +8110,9 @@ C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRATEGY.md
   99: - If a user has a `chroma` instance for their RAG pipeline, we index it.
   100: - If a user has no memory system, we default to our local JSON/SQLite store.
   103: To enable cloud agents (like Jules) to access local memory, we use a **Git-Based Sync**:
-  104: 1.  **Export**: Local agents run `export_memory` to dump all facts/decisions to `.aios/memory_export.json`.
+  104: 1.  **Export**: Local agents run `export_memory` to dump all facts/decisions to `.borg/memory_export.json`.
 
-C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
+C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md
   74: | `claude-mem` | Submodule | **Core Memory.** The primary memory engine (Graph/Vector). |
   75: | `memory` | Reference | **Storage.** General memory patterns. |
   118: *Advanced memory systems.*
@@ -8120,7 +8120,7 @@ C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md
   123: | `claude-mem` | Submodule | **Core Memory.** The primary memory engine (Graph/Vector). |
   124: | `memory` | Reference | **Storage.** General memory patterns. |
 
-C:\Users\hyper\workspace\aios\docs\SUBMODULES.md
+C:\Users\hyper\workspace\borg\docs\SUBMODULES.md
   54: | **vibeship-mind** | `references/memory/vibeship-mind` | Memory reference. |
   55: | **beads** | `references/memory/beads` | Memory reference. |
   56: | **txtai** | `references/memory/txtai` | Vector database reference. |
@@ -8128,30 +8128,30 @@ C:\Users\hyper\workspace\aios\docs\SUBMODULES.md
   58: | **letta** | `references/memory/letta` | Memory reference. |
   59: | **cognee** | `references/memory/cognee` | Memory reference. |
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test-utils.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-test-utils.md
   11: - **Database** - In-memory test database for integration tests
   172: The `TestDatabase` class provides an in-memory database for consistent test state:
   337: console.log(`Memory used: ${metrics.memoryUsed} bytes`)
   551: - `database.ts` - In-memory test database
 
-C:\Users\hyper\workspace\aios\docs\submodules\web_repos-opengui-test-runtime.md
+C:\Users\hyper\workspace\borg\docs\submodules\web_repos-opengui-test-runtime.md
   144: Tests handle rapid message updates (100+ per second) without data loss or memory leaks.
   172: - Tests include memory leak detection
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-lunaroute-crates-lunaroute-routing.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-lunaroute-crates-lunaroute-routing.md
   36: - **Thread-safe**: AcqRel memory ordering ensures visibility across cores
   110: - Bounded memory with MAX_RATE_LIMIT_ENTRIES (1000)
 
-C:\Users\hyper\workspace\aios\docs\submodules\tools-cupcake.md
+C:\Users\hyper\workspace\borg\docs\submodules\tools-cupcake.md
   95: - **MCP Support**: Native governance for Model Context Protocol tools (e.g., `mcp__memory__*`, `mcp__github__*`).
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools.md
   192: │                        (queries CASS, semantic memory)          │
   486: When eval scores drop >15% from baseline, context is automatically stored to semantic memory with tags. Future prompts query these failures for context.
   595: |                                     | [Ollama](https://ollama.ai) - local embeddings for semantic memory                            |
   597: > **Note:** Semantic memory is embedded in the plugin. Install Ollama for vector search, or it falls back to full-text search.
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md
   42: 4. **Semantic Memory** - Vector embeddings for persistent agent learnings (Ollama + libSQL native vector support via sqlite-vec)
   253: Vector embeddings for persistent agent learnings. Uses **libSQL native vector support via sqlite-vec extension** + **Ollama** for embeddings. Includes **Wave 1-3 smart operations** (Mem0 pattern, auto-tagging, linking, entity extraction).
   260: const memory = await createSemanticMemory("/my/project");
@@ -8198,11 +8198,11 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-
   1257: const results = await memory.find("authentication error", { limit: 5 });
   1260: const detector = new StalenessDetector(memory);
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals-docs.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-evals-docs.md
   69: │     ├─ Store to: Semantic memory with tags                      │
   763: - **[Learning Feedback Loop](../src/eval-learning.ts)** - Auto-store failures to memory
 
-C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md
+C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md
   85: **swarm-insights** (`src/swarm-insights.ts`) is the data aggregation layer that queries historical outcomes and semantic memory to provide context-efficient summaries for coordinator and worker agents.
   208: Without Ollama, memory falls back to full-text search (still works, just less semantic).
   313: Vector embeddings for persistent agent learnings. Uses **libSQL native vector support via sqlite-vec extension** + **Ollama** for embeddings.
@@ -8223,17 +8223,17 @@ C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-
   361: semantic-memory_validate(id="mem-abc123")
   491: When eval scores drop >15% from baseline, failure context is automatically stored to semantic memory. Future prompts query these learnings for context.
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-tokscale.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-tokscale.md
   336: > **Note**: These limits are safety measures to prevent hangs and memory issues. Most users won't need to change them.
   639: The native module also provides ~45% memory reduction through:
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-tokscale-packages-benchmarks.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-tokscale-packages-benchmarks.md
   9: - **Peak memory usage** (secondary metric): Maximum RSS during execution
   90: | Peak memory | ~371MB |
   99: | Peak memory | ~575MB |
   108: | Peak memory | 575MB | ~50MB | ~11x |
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-opencode-supermemory.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-opencode-supermemory.md
   1: # opencode-supermemory
   3: OpenCode plugin for persistent memory using [Supermemory](https://supermemory.ai).
   12: bunx opencode-supermemory install
@@ -8264,22 +8264,22 @@ C:\Users\hyper\workspace\aios\docs\submodules\misc-opencode-supermemory.md
   247: "plugin": ["file:///path/to/opencode-supermemory"]
   254: tail -f ~/.opencode-supermemory.log
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-opencode-sessions.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-opencode-sessions.md
   177: - Preserving context while freeing memory
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-opencode-intersystems.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-opencode-intersystems.md
   151: Both methods work over an already instantiated method. This is particularly interesting for import, as we can have an object in memory with some data already and import the rest of the data from a serialized object. The import mechanism will replace with the new content the properties contained in the serialization but will preserve other properties already set in the instance that are not included in the serialization that we import.
 
-C:\Users\hyper\workspace\aios\docs\submodules\misc-hephaestus.md
+C:\Users\hyper\workspace\borg\docs\submodules\misc-hephaestus.md
   1: [![Starware](https://img.shields.io/badge/Starware-⭐-black?labelColor=f9b00d)](https://github.com/zepfietje/starware)
 
-C:\Users\hyper\workspace\aios\docs\submodules\config_repos-opencode-template-skills-backend-dev.md
+C:\Users\hyper\workspace\borg\docs\submodules\config_repos-opencode-template-skills-backend-dev.md
   113: | **Serena** | Project memory | Large codebase navigation and context management |
 
-C:\Users\hyper\workspace\aios\README_restored.md
+C:\Users\hyper\workspace\borg\README_restored.md
   20: *   **Document Ingestion:** Auto-ingest PDFs and text from `documents/` into memory.
 
-C:\Users\hyper\workspace\aios\docs\submodules\config_repos-opencode-config-joelhooks.md
+C:\Users\hyper\workspace\borg\docs\submodules\config_repos-opencode-config-joelhooks.md
   27: > **This is an OpenCode config, not a standalone tool.** Everything runs inside OpenCode. The CLIs (`swarm`, `semantic-memory`, `cass`) are backends that agents call - not meant for direct human use.
   55: # Semantic memory (optional but recommended)
   56: npm install -g semantic-memory
@@ -8292,13 +8292,13 @@ C:\Users\hyper\workspace\aios\docs\submodules\config_repos-opencode-config-joelh
   283: semantic-memory_find(query="token refresh", limit=5)
   284: semantic-memory_find(query="token refresh", expand=true)  # Full content
 
-C:\Users\hyper\workspace\aios\README.md
+C:\Users\hyper\workspace\borg\README.md
   20: *   **Document Ingestion:** Auto-ingest PDFs and text from `documents/` into memory.
 
-C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-rse-agents-plugins-python-development.md
+C:\Users\hyper\workspace\borg\docs\submodules\agents_repos-rse-agents-plugins-python-development.md
   30: - Performance optimization with vectorization and Numba
 
-C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-opencode-elf.md
+C:\Users\hyper\workspace\borg\docs\submodules\agents_repos-opencode-elf.md
   14: - **Hybrid Search**: Combined vector (semantic) + FTS5 (keyword) search for best results
   25: - **Global memories**: Shared across all projects (stored in `~/.opencode/elf/memory.db`)
   26: - **Project memories**: Specific to each project (stored in `<project>/.opencode/elf/memory.db`)
@@ -8317,29 +8317,29 @@ C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-opencode-elf.md
   626: - [x] **Hybrid search (vector + FTS5 full-text search)**
   634: - [ ] Export/import memory database
 
-C:\Users\hyper\workspace\aios\skills\imported\algorithmic-art\SKILL.md
+C:\Users\hyper\workspace\borg\skills\imported\algorithmic-art\SKILL.md
   58: Algorithmic expression: Flow fields driven by layered Perlin noise. Thousands of particles following vector forces, their trails accumulating into organic density maps. Multiple noise octaves create turbulent regions and calm zones. Color emerges from velocity and density - fast particles burn bright, slow ones fade to shadow. The algorithm runs until equilibrium - a meticulously tuned balance where every parameter was refined through countless iterations by a master of computational aesthetics.
 
-C:\Users\hyper\workspace\aios\ROADMAP.md
+C:\Users\hyper\workspace\borg\ROADMAP.md
   31: - [x] **RAG:** Document library and vector search (VectorStore + MemoryManager).
   36: - [x] **Memory Consolidation:** Summarize logs into long-term memory.
 
-C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-open-agents-.opencode-command-openagents-new-agents.md
+C:\Users\hyper\workspace\borg\docs\submodules\agents_repos-open-agents-.opencode-command-openagents-new-agents.md
   78: 3. **Working memory**: Keep only what's needed for the current task
 
-C:\Users\hyper\workspace\aios\docs\submodules\agents_repos-mark-hingston-workflows.md
+C:\Users\hyper\workspace\borg\docs\submodules\agents_repos-mark-hingston-workflows.md
   40: | `WORKFLOW_MAX_COMPLETED_RUNS` | `1000` | Maximum number of completed runs to keep in memory |
   57: **Memory Management**: The `maxCompletedRuns` setting limits how many completed runs are kept in memory. Older runs are automatically removed but remain accessible via database queries.
   770: - True memory isolation (128MB limit per script)
 
-C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
+C:\Users\hyper\workspace\borg\docs\sessions\session-ses_49be.md
   314: "command": "mkdir tests && touch tests/integration_memory.ts",
   330: [Omitted long matching line]
-  331: "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
-  336: Error: You must read the file C:\Users\hyper\workspace\aios\tests\integration_memory.ts before overwriting it. Use the Read tool first
-  350: "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
+  331: "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
+  336: Error: You must read the file C:\Users\hyper\workspace\borg\tests\integration_memory.ts before overwriting it. Use the Read tool first
+  350: "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
   373: [Omitted long matching line]
-  374: "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_memory.ts"
+  374: "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_memory.ts"
   389: "command": "npx tsx tests/integration_memory.ts",
   444: 00017|         this.dataFile = path.join(dataDir, 'memory.json');
   472: 00045|     async store(memory: Memory): Promise<string> {
@@ -8350,7 +8350,7 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   553: "command": "npx tsx tests/integration_memory.ts",
   571: [Memory] Search mem0 returned 0 results
   582: thought:The integration test is failing because the `LocalFileProvider` is not finding the memory we just stored.
-  598: "The aios project version is 0.2.6 and supports cloud memory via Mem0."
+  598: "The borg project version is 0.2.6 and supports cloud memory via Mem0."
   622: const memoryManager = new MemoryManager(testDir);
   630: const mem0Key = this.secretManager?.getSecret('MEM0_API_KEY') || process.env.MEM0_API_KEY;
   631: if (mem0Key) {
@@ -8369,7 +8369,7 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   732: 00055|         return memory.id;
   803: "command": "npx tsx tests/integration_memory.ts",
   821: [Memory] Search mem0 returned 0 results
-  824: - Content: The aios project version is 0.2.6 and supports cloud memory via Mem0.
+  824: - Content: The borg project version is 0.2.6 and supports cloud memory via Mem0.
   843: "command": "rm tests/integration_memory.ts && rm -rf test-data-memory",
   959: 00056| - **Semantic Search**: Implemented vector-based memory search using OpenAI Embeddings (`text-embedding-3-small`).
   1055: "command": "git add . && git commit -m \"feat: implement Mem0 memory provider and enhance ecosystem dashboard\"",
@@ -8409,7 +8409,7 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   4253: "command": "mkdir tests && touch tests/integration_agent_memory.ts",
   4254: "description": "Create integration test for agent memory recall"
   4274: [Omitted long matching line]
-  4275: "filePath": "C:\\Users\\hyper\\workspace\\aios\\tests\\integration_agent_memory.ts"
+  4275: "filePath": "C:\\Users\\hyper\\workspace\\borg\\tests\\integration_agent_memory.ts"
   4290: "command": "npx tsx tests/integration_agent_memory.ts",
   4291: "description": "Run the agent memory integration test"
   4303: ✅ Secret code stored in memory.
@@ -8438,12 +8438,12 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   5019: "command": "mkdir packages/ui/src/app/memory/inspector && touch packages/ui/src/app/memory/inspector/page.tsx",
   5020: "description": "Create directory and page for memory inspector"
   5035: [Omitted long matching line]
-  5036: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
-  5041: Error: You must read the file C:\Users\hyper\workspace\aios\packages\ui\src\app\memory\inspector\page.tsx before overwriting it. Use the Read tool first
-  5055: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  5036: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  5041: Error: You must read the file C:\Users\hyper\workspace\borg\packages\ui\src\app\memory\inspector\page.tsx before overwriting it. Use the Read tool first
+  5055: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
   5078: [Omitted long matching line]
-  5079: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
-  5131: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
+  5079: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  5131: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
   5173: 00019|         private memoryManager?: MemoryManager
   5179: 00025|     public setMemoryManager(memoryManager: MemoryManager) {
   5180: 00026|         this.memoryManager = memoryManager;
@@ -8519,7 +8519,7 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   6547: 00070|                 const id = await this.memoryManager.remember({
   6551: 00074|                 memoryIds.push(id);
   6560: 00083|                 memoryIds
-  6589: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
+  6589: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx"
   6618: 00024|                 summary: "The user is asking to debug a memory leak in the 'DataProcessor' class. They've already tried running heap dumps but the results are inconclusive.",
   6621: 00027|                     "Issue is a memory leak",
   6638: 00044|             // In production, fetch from: /api/memory/compact?content=...
@@ -8533,7 +8533,7 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   6769: First, I'll update `packages/core/src/server.ts` to add the `/api/memory/compact` route.
   6778: [Omitted long matching line]
   6779: "oldString": "    this.app.post('/api/memory/ingest/browser', async (_request: any, reply) => {\n        try {\n            const content = await this.browserManager.getActiveTabContent();\n            const result = await this.memoryManager.ingestSession(\"Browser Page\", content);\n            return { result };\n        } catch (e: any) {\n            return reply.code(500).send({ error: e.message });\n        }\n    });\n\n    this.app.setNotFoundHandler((req, res) => {",
-  6822: "filePath": "C:\\Users\\hyper\\workspace\\aios\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
+  6822: "filePath": "C:\\Users\\hyper\\workspace\\borg\\packages\\ui\\src\\app\\memory\\inspector\\page.tsx",
   6823: [Omitted long matching line]
   6824: [Omitted long matching line]
   6835: 1.  Created the `/api/memory/compact` route in `packages/core/src/server.ts` and fixed the import error.
@@ -8630,14 +8630,14 @@ C:\Users\hyper\workspace\aios\docs\sessions\session-ses_49be.md
   8217: *   **Benefit:** This allows long-running agents to "unload" their context window into persistent memory, preventing token overflow and maintaining focus.
   8225: *   **Test Auto-Reflection:** Run a long conversation with an agent (e.g., >10 turns) and check the `Context Viewer` or logs to verify that an `[Auto-Reflection]` memory is automatically created.
 
-C:\Users\hyper\workspace\aios\docs\RESEARCH_AGGREGATOR.md
-  7: The project relies heavily on **external submodules and references** to build its capabilities, effectively acting as a "Motherboard" that plugs in specialized components (the "cards"). This strategy allows aios to leverage existing innovation while focusing on orchestration, memory management, and user experience.
+C:\Users\hyper\workspace\borg\docs\RESEARCH_AGGREGATOR.md
+  7: The project relies heavily on **external submodules and references** to build its capabilities, effectively acting as a "Motherboard" that plugs in specialized components (the "cards"). This strategy allows borg to leverage existing innovation while focusing on orchestration, memory management, and user experience.
   14: *   **`core`**: The Node.js-based backend hub. It manages the lifecycle of agents, memory (vector & graph), skills, and MCP connections. It exposes an API and a WebSocket server for real-time interaction.
   15: *   **`ui`**: A Next.js-based frontend dashboard. It provides a visual interface for monitoring agents, viewing memory, and managing the ecosystem.
   37: *   **`claude-mem`**: The primary reference for the memory system, likely implementing graph/vector memory patterns.
   66: 3.  **Context Mastery**: To solve the context window problem through intelligent memory management (`claude-mem`) and strict context loading rules (seen in `OpenAgent`).
 
-C:\Users\hyper\workspace\aios\docs\MEMORY_SYSTEM.md
+C:\Users\hyper\workspace\borg\docs\MEMORY_SYSTEM.md
   9: Located in `packages/core/src/memory/`, this module manages:
   16: Located at `/memory` in the UI, providing:
   17: - **Dashboard:** Overview of connected providers and memory stats.
@@ -8647,8 +8647,8 @@ C:\Users\hyper\workspace\aios\docs\MEMORY_SYSTEM.md
   43: - **Restore:** `POST /api/memory/snapshots/restore` (payload: `{ "filename": "session_123.json" }`)
   46: - **Storage:** JSON-based local file storage (default) in `packages/core/data/memory`.
 
-C:\Users\hyper\workspace\aios\docs\MEMORY_STRATEGY.md
-  3: This document details the multi-layered memory architecture for the aios. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
+C:\Users\hyper\workspace\borg\docs\MEMORY_STRATEGY.md
+  3: This document details the multi-layered memory architecture for the borg. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
   6: The primary interface for memory is the **Model Context Protocol (MCP)**.
   7: - **Why:** Allows any tool (Claude, Gemini, IDE) to access memory via a standard `read_resource` or `call_tool` interface.
   21: - **Integration:** Use `txtai` (or `pgvector` via `claude-mem`) to index:
@@ -8668,7 +8668,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\.gitmodules"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\.gitmodules"
 }
 ```
 **Output:**
@@ -9452,7 +9452,7 @@ Tool: read
 00776| 
 00777| [submodule "submodules/agent-cli"]
 00778| 	path = submodules/agent-cli
-00779| 	url = https://github.com/robertpelloni/aios
+00779| 	url = https://github.com/robertpelloni/borg
 00780| 
 00781| [submodule "submodules/agent-client-protocol"]
 00782| 	path = submodules/agent-client-protocol
@@ -9476,7 +9476,7 @@ Tool: read
 00800| 
 00801| [submodule "submodules/claude-lazy-loading"]
 00802| 	path = submodules/claude-lazy-loading
-00803| 	url = https://github.com/robertpelloni/aios
+00803| 	url = https://github.com/robertpelloni/borg
 00804| 
 00805| [submodule "submodules/copilot-cli"]
 00806| 	path = submodules/copilot-cli
@@ -9500,7 +9500,7 @@ Tool: read
 00824| 
 00825| [submodule "submodules/mcp-launcher"]
 00826| 	path = submodules/mcp-launcher
-00827| 	url = https://github.com/robertpelloni/aios
+00827| 	url = https://github.com/robertpelloni/borg
 00828| 
 00829| [submodule "submodules/mcp-manager"]
 00830| 	path = submodules/mcp-manager
@@ -9726,16 +9726,16 @@ Session ID: ses_45be1664fffePQxPXRV5UmHAd4
 
 <results>
 <files>
-- C:\Users\hyper\workspace\aios\.gitmodules — Contains git submodule definitions for 100+ repositories, including CLI-related ones like references/clis/gemini-cli, references/clis/fabric, references/clis/goose, references/clis/kilocode, submodules/agent-cli, submodules/mcp-cli, submodules/apify-mcp-cli, and many others.
-- C:\Users\hyper\workspace\aios\submodules\ — Directory containing active submodules, including CLI/TUI tools like agent-cli, mcp-cli, apify-mcp-cli, quotio (native macOS app for CLI management), and various MCP servers with CLI interfaces.
-- C:\Users\hyper\workspace\aios\references\ — Directory with reference repositories, including CLI tools like clis/gemini-cli, clis/fabric, clis/goose, clis/kilocode, and many others in categories like agents, frameworks, mcp_repos.
-- C:\Users\hyper\workspace\aios\docs\SUBMODULES.md — Dashboard tracking status of 100+ submodules, highlighting CLI-related ones like opencode-autopilot, claude-code, gemini-cli, and integration strategies.
-- C:\Users\hyper\workspace\aios\docs\ECOSYSTEM_INTEGRATION.md — Documents "Swiss Army Knife" strategy for multi-CLI orchestration, listing target CLIs (gemini-cli, claude-code, opencode, aider, etc.) and integration approaches.
-- C:\Users\hyper\workspace\aios\docs\ARCHITECTURE_OPTION_C.md — Describes CLI architecture using Bun + Ink for terminal UI, with CLI commands and TUI navigation features.
-- C:\Users\hyper\workspace\aios\docs\CLIENT_CONFIGS.md — Reference for MCP configuration files of AI tools, including CLI paths for Gemini CLI, Grok CLI, Goose CLI, etc.
-- C:\Users\hyper\workspace\aios\packages\cli\package.json — Package.json for the main CLI package, defining dependencies for command-line interface.
-- C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Services\GeminiCLIQuotaFetcher.swift — Swift code for fetching Gemini CLI quotas, showing integration with CLI tools.
-- C:\Users\hyper\workspace\aios\submodules\quotio\Quotio\Services\CLIExecutor.swift — Swift implementation for executing CLI commands, demonstrating CLI proxy functionality.
+- C:\Users\hyper\workspace\borg\.gitmodules — Contains git submodule definitions for 100+ repositories, including CLI-related ones like references/clis/gemini-cli, references/clis/fabric, references/clis/goose, references/clis/kilocode, submodules/agent-cli, submodules/mcp-cli, submodules/apify-mcp-cli, and many others.
+- C:\Users\hyper\workspace\borg\submodules\ — Directory containing active submodules, including CLI/TUI tools like agent-cli, mcp-cli, apify-mcp-cli, quotio (native macOS app for CLI management), and various MCP servers with CLI interfaces.
+- C:\Users\hyper\workspace\borg\references\ — Directory with reference repositories, including CLI tools like clis/gemini-cli, clis/fabric, clis/goose, clis/kilocode, and many others in categories like agents, frameworks, mcp_repos.
+- C:\Users\hyper\workspace\borg\docs\SUBMODULES.md — Dashboard tracking status of 100+ submodules, highlighting CLI-related ones like opencode-autopilot, claude-code, gemini-cli, and integration strategies.
+- C:\Users\hyper\workspace\borg\docs\ECOSYSTEM_INTEGRATION.md — Documents "Swiss Army Knife" strategy for multi-CLI orchestration, listing target CLIs (gemini-cli, claude-code, opencode, aider, etc.) and integration approaches.
+- C:\Users\hyper\workspace\borg\docs\ARCHITECTURE_OPTION_C.md — Describes CLI architecture using Bun + Ink for terminal UI, with CLI commands and TUI navigation features.
+- C:\Users\hyper\workspace\borg\docs\CLIENT_CONFIGS.md — Reference for MCP configuration files of AI tools, including CLI paths for Gemini CLI, Grok CLI, Goose CLI, etc.
+- C:\Users\hyper\workspace\borg\packages\cli\package.json — Package.json for the main CLI package, defining dependencies for command-line interface.
+- C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Services\GeminiCLIQuotaFetcher.swift — Swift code for fetching Gemini CLI quotas, showing integration with CLI tools.
+- C:\Users\hyper\workspace\borg\submodules\quotio\Quotio\Services\CLIExecutor.swift — Swift implementation for executing CLI commands, demonstrating CLI proxy functionality.
 </files>
 
 <answer>
@@ -9818,47 +9818,47 @@ Session ID: ses_45be157e8ffeDAserfMCOWjjDD
 
 <results>
 <files>
-- /C:\Users\hyper\workspace\aios\.gitmodules — Git submodule configuration file containing mappings for memory-related submodules like claude-mem, mem0, and others
-- /C:\Users\hyper\workspace\aios\submodules\claude-mem\.gitmodules — Submodule for claude-mem memory system (Graph/Vector)
-- /C:\Users\hyper\workspace\aios\submodules\mem0\.gitmodules — Submodule for Mem0 memory platform
-- /C:\Users\hyper\workspace\aios\submodules\letta\.gitmodules — Submodule for Letta memory system
-- /C:\Users\hyper\workspace\aios\submodules\cognee\.gitmodules — Submodule for Cognee memory system
-- /C:\Users\hyper\workspace\aios\submodules\txtai\.gitmodules — Submodule for txtai vector database
-- /C:\Users\hyper\workspace\aios\packages\core\src\managers\MemoryManager.ts — Core memory manager implementation with providers for File, Mem0, Pinecone, etc.
-- /C:\Users\hyper\workspace\aios\packages\core\src\services\VectorStore.ts — Vector store service for embeddings and similarity search
-- /C:\Users\hyper\workspace\aios\packages\core\src\managers\providers\Mem0Provider.ts — Mem0 memory provider implementation
-- /C:\Users\hyper\workspace\aios\packages\core\src\managers\providers\PineconeMemoryProvider.ts — Pinecone vector database provider
-- /C:\Users\hyper\workspace\aios\packages\core\src\interfaces\MemoryProvider.ts — Interface definitions for memory providers (vector, graph, key-value, file, external)
-- /C:\Users\hyper\workspace\aios\docs\MEMORY_SYSTEM.md — Documentation for memory system architecture and API endpoints
-- /C:\Users\hyper\workspace\aios\docs\MEMORY_STRATEGY.md — Strategy document for universal memory system with MCP integration
-- /C:\Users\hyper\workspace\aios\docs\UNIVERSAL_MEMORY_STRATEGY.md — Universal memory strategy with Git-based sync and dashboard
-- /C:\Users\hyper\workspace\aios\docs\MEMORY_SYSTEM.md — Memory system documentation with API endpoints (/api/memory/*)
-- /C:\Users\hyper\workspace\aios\docs\SUBMODULES.md — Submodule dashboard including memory references (vibeship-mind, beads, txtai, mem0, letta, cognee)
-- /C:\Users\hyper\workspace\aios\docs\SUBMODULE_MAPPING.md — Submodule mapping with memory systems (claude-mem, memory, cipher)
-- /C:\Users\hyper\workspace\aios\docs\INBOX_LINKS.md — Links to external memory systems (supermemory, jean-memory, opencode-plugin-simple-memory)
-- /C:\Users\hyper\workspace\aios\docs\misc-opencode-supermemory.md — Documentation for Supermemory integration
-- /C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md — Swarm tools with semantic memory implementation
-- /C:\Users\hyper\workspace\aios\docs\submodules\config_repos-opencode-config-joelhooks.md — Config with semantic memory (semantic-memory_store, semantic-memory_find)
-- /C:\Users\hyper\workspace\aios\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md — Swarm plugin with semantic memory tools
-- /C:\Users\hyper\workspace\aios\references\memory\mem0\.gitmodules — Reference implementation for Mem0
-- /C:\Users\hyper\workspace\aios\references\memory\letta\.gitmodules — Reference implementation for Letta
-- /C:\Users\hyper\workspace\aios\references\memory\cognee\.gitmodules — Reference implementation for Cognee
-- /C:\Users\hyper\workspace\aios\references\memory\txtai\.gitmodules — Reference implementation for txtai vector database
-- /C:\Users\hyper\workspace\aios\references\memory\beads\.gitmodules — Reference implementation for beads memory system
-- /C:\Users\hyper\workspace\aios\references\memory\vibeship-mind\.gitmodules — Reference implementation for vibeship-mind memory system
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\mcp-mem0\.gitmodules — MCP server for Mem0 integration
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\mem0-mcp\.gitmodules — Alternative Mem0 MCP server
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\mcp-memory-opensource\.gitmodules — Open source memory MCP server
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\jean-technologies-jean-memory\.gitmodules — Jean memory MCP server
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\opencode-plugin-simple-memory\.gitmodules — Simple memory plugin
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\supermemoryai-supermemory-mcp\.gitmodules — Supermemory MCP server
-- /C:\Users\hyper\workspace\aios\references\mcp_repos\supermemoryai-code-chunk\.gitmodules — Code chunk memory system
-- /C:\Users\hyper\workspace\aios\packages\core\src\utils\ContextCompactor.ts — Context compaction utility for memory summarization
-- /C:\Users\hyper\workspace\aios\packages\core\src\agents\AgentExecutor.ts — Agent executor with memory integration (remember, search_memory tools)
-- /C:\Users\hyper\workspace\aios\packages\ui\src\app\memory\inspector\page.tsx — Memory inspector UI for context compaction
-- /C:\Users\hyper\workspace\aios\packages\core\src\routes\memoryRoutes.ts — Memory API routes (/api/memory/*)
-- /C:\Users\hyper\workspace\aios\tests\integration_memory.ts — Integration tests for memory functionality
-- /C:\Users\hyper\workspace\aios\tests\integration_agent_memory.ts — Agent memory integration tests
+- /C:\Users\hyper\workspace\borg\.gitmodules — Git submodule configuration file containing mappings for memory-related submodules like claude-mem, mem0, and others
+- /C:\Users\hyper\workspace\borg\submodules\claude-mem\.gitmodules — Submodule for claude-mem memory system (Graph/Vector)
+- /C:\Users\hyper\workspace\borg\submodules\mem0\.gitmodules — Submodule for Mem0 memory platform
+- /C:\Users\hyper\workspace\borg\submodules\letta\.gitmodules — Submodule for Letta memory system
+- /C:\Users\hyper\workspace\borg\submodules\cognee\.gitmodules — Submodule for Cognee memory system
+- /C:\Users\hyper\workspace\borg\submodules\txtai\.gitmodules — Submodule for txtai vector database
+- /C:\Users\hyper\workspace\borg\packages\core\src\managers\MemoryManager.ts — Core memory manager implementation with providers for File, Mem0, Pinecone, etc.
+- /C:\Users\hyper\workspace\borg\packages\core\src\services\VectorStore.ts — Vector store service for embeddings and similarity search
+- /C:\Users\hyper\workspace\borg\packages\core\src\managers\providers\Mem0Provider.ts — Mem0 memory provider implementation
+- /C:\Users\hyper\workspace\borg\packages\core\src\managers\providers\PineconeMemoryProvider.ts — Pinecone vector database provider
+- /C:\Users\hyper\workspace\borg\packages\core\src\interfaces\MemoryProvider.ts — Interface definitions for memory providers (vector, graph, key-value, file, external)
+- /C:\Users\hyper\workspace\borg\docs\MEMORY_SYSTEM.md — Documentation for memory system architecture and API endpoints
+- /C:\Users\hyper\workspace\borg\docs\MEMORY_STRATEGY.md — Strategy document for universal memory system with MCP integration
+- /C:\Users\hyper\workspace\borg\docs\UNIVERSAL_MEMORY_STRATEGY.md — Universal memory strategy with Git-based sync and dashboard
+- /C:\Users\hyper\workspace\borg\docs\MEMORY_SYSTEM.md — Memory system documentation with API endpoints (/api/memory/*)
+- /C:\Users\hyper\workspace\borg\docs\SUBMODULES.md — Submodule dashboard including memory references (vibeship-mind, beads, txtai, mem0, letta, cognee)
+- /C:\Users\hyper\workspace\borg\docs\SUBMODULE_MAPPING.md — Submodule mapping with memory systems (claude-mem, memory, cipher)
+- /C:\Users\hyper\workspace\borg\docs\INBOX_LINKS.md — Links to external memory systems (supermemory, jean-memory, opencode-plugin-simple-memory)
+- /C:\Users\hyper\workspace\borg\docs\misc-opencode-supermemory.md — Documentation for Supermemory integration
+- /C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-swarm-mail.md — Swarm tools with semantic memory implementation
+- /C:\Users\hyper\workspace\borg\docs\submodules\config_repos-opencode-config-joelhooks.md — Config with semantic memory (semantic-memory_store, semantic-memory_find)
+- /C:\Users\hyper\workspace\borg\docs\submodules\skills_repos-swarm-tools-packages-opencode-swarm-plugin.md — Swarm plugin with semantic memory tools
+- /C:\Users\hyper\workspace\borg\references\memory\mem0\.gitmodules — Reference implementation for Mem0
+- /C:\Users\hyper\workspace\borg\references\memory\letta\.gitmodules — Reference implementation for Letta
+- /C:\Users\hyper\workspace\borg\references\memory\cognee\.gitmodules — Reference implementation for Cognee
+- /C:\Users\hyper\workspace\borg\references\memory\txtai\.gitmodules — Reference implementation for txtai vector database
+- /C:\Users\hyper\workspace\borg\references\memory\beads\.gitmodules — Reference implementation for beads memory system
+- /C:\Users\hyper\workspace\borg\references\memory\vibeship-mind\.gitmodules — Reference implementation for vibeship-mind memory system
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\mcp-mem0\.gitmodules — MCP server for Mem0 integration
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\mem0-mcp\.gitmodules — Alternative Mem0 MCP server
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\mcp-memory-opensource\.gitmodules — Open source memory MCP server
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\jean-technologies-jean-memory\.gitmodules — Jean memory MCP server
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\opencode-plugin-simple-memory\.gitmodules — Simple memory plugin
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\supermemoryai-supermemory-mcp\.gitmodules — Supermemory MCP server
+- /C:\Users\hyper\workspace\borg\references\mcp_repos\supermemoryai-code-chunk\.gitmodules — Code chunk memory system
+- /C:\Users\hyper\workspace\borg\packages\core\src\utils\ContextCompactor.ts — Context compaction utility for memory summarization
+- /C:\Users\hyper\workspace\borg\packages\core\src\agents\AgentExecutor.ts — Agent executor with memory integration (remember, search_memory tools)
+- /C:\Users\hyper\workspace\borg\packages\ui\src\app\memory\inspector\page.tsx — Memory inspector UI for context compaction
+- /C:\Users\hyper\workspace\borg\packages\core\src\routes\memoryRoutes.ts — Memory API routes (/api/memory/*)
+- /C:\Users\hyper\workspace\borg\tests\integration_memory.ts — Integration tests for memory functionality
+- /C:\Users\hyper\workspace\borg\tests\integration_agent_memory.ts — Agent memory integration tests
 </files>
 
 <answer>
@@ -10452,7 +10452,7 @@ Context pruning complete. Pruned 6 tool outputs.
 Semantically pruned (6):
 → grep: "cli|tui|terminal|command.line|aider|gemini.cli|claude.co...
 → grep: "memory|mem0|supermemory|zep|langmem|qdrant|pinecone|chro...
-→ read: C:\Users\hyper\workspace\aios\.gitmodules
+→ read: C:\Users\hyper\workspace\borg\.gitmodules
 → background_output: {"task_id":"bg_ce7e317b"}
 → background_output: {"task_id":"bg_3001ce95"}
 → background_output: {"task_id":"bg_3619388f"}
@@ -10569,7 +10569,7 @@ Tool: todowrite
 ▣ Pruning (~52.7K tokens) — Extraction
 → grep: "cli|tui|terminal|command.line|aider|gemini.cli|claude.co...
 → grep: "memory|mem0|supermemory|zep|langmem|qdrant|pinecone|chro...
-→ read: C:\Users\hyper\workspace\aios\.gitmodules
+→ read: C:\Users\hyper\workspace\borg\.gitmodules
 → background_output: {"task_id":"bg_ce7e317b"}
 → background_output: {"task_id":"bg_3001ce95"}
 → background_output: {"task_id":"bg_3619388f"}
@@ -10602,7 +10602,7 @@ import { streamSSE } from 'hono/streaming';
 import { serve } from '@hono/node-server';
 ```
 
-**Build status**: ✅ Passing (`pnpm --filter @aios/core build`)
+**Build status**: ✅ Passing (`pnpm --filter @borg/core build`)
 
 #### 2. **Ink CLI TUI - COMPLETE ✅**
 
@@ -10630,9 +10630,9 @@ packages/cli/src/
 
 **tsconfig.json updated**: Added JSX support with `"jsx": "react-jsx"`
 
-**Build status**: ✅ Passing (`pnpm --filter @aios/cli build`)
+**Build status**: ✅ Passing (`pnpm --filter @borg/cli build`)
 
-**Usage**: `aios tui` or `aios tui --api http://localhost:3000`
+**Usage**: `borg tui` or `borg tui --api http://localhost:3000`
 
 #### 3. **CLI/TUI & Memory Reorganization - IN PROGRESS 🔄**
 
@@ -10800,7 +10800,7 @@ Found in `.gitmodules`:
 ### Task 1: Create superai-cli directory and move CLI submodules
 
 ```bash
-cd /path/to/aios
+cd /path/to/borg
 
 # Create structure
 mkdir -p superai-cli/{clis,tools,adapters,tui,docs}
@@ -10972,7 +10972,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "C:\\Users\\hyper\\workspace\\aios\\.gitmodules"
+  "filePath": "C:\\Users\\hyper\\workspace\\borg\\.gitmodules"
 }
 ```
 **Output:**
@@ -11756,7 +11756,7 @@ Tool: read
 00776| 
 00777| [submodule "submodules/agent-cli"]
 00778| 	path = submodules/agent-cli
-00779| 	url = https://github.com/robertpelloni/aios
+00779| 	url = https://github.com/robertpelloni/borg
 00780| 
 00781| [submodule "submodules/agent-client-protocol"]
 00782| 	path = submodules/agent-client-protocol
@@ -11780,7 +11780,7 @@ Tool: read
 00800| 
 00801| [submodule "submodules/claude-lazy-loading"]
 00802| 	path = submodules/claude-lazy-loading
-00803| 	url = https://github.com/robertpelloni/aios
+00803| 	url = https://github.com/robertpelloni/borg
 00804| 
 00805| [submodule "submodules/copilot-cli"]
 00806| 	path = submodules/copilot-cli
@@ -11804,7 +11804,7 @@ Tool: read
 00824| 
 00825| [submodule "submodules/mcp-launcher"]
 00826| 	path = submodules/mcp-launcher
-00827| 	url = https://github.com/robertpelloni/aios
+00827| 	url = https://github.com/robertpelloni/borg
 00828| 
 00829| [submodule "submodules/mcp-manager"]
 00830| 	path = submodules/mcp-manager
@@ -11984,7 +11984,7 @@ Tool: read
 (End of file - total 1002 lines)
 </file>
 
-[Project README: C:\Users\hyper\workspace\aios\README.md]
+[Project README: C:\Users\hyper\workspace\borg\README.md]
 # Super AI Plugin
 
 The Ultimate "Meta-Orchestrator" for the Model Context Protocol (MCP). It acts as a universal hub, proxy, and agentic runtime for your AI tools.
@@ -12516,7 +12516,7 @@ Tool: extract
 Context pruning complete. Pruned 2 tool outputs.
 
 Semantically pruned (2):
-→ read: C:\Users\hyper\workspace\aios\.gitmodules
+→ read: C:\Users\hyper\workspace\borg\.gitmodules
 → bash: Check current directory structure
 ```
 ```
@@ -12528,7 +12528,7 @@ Semantically pruned (2):
 ▣ DCP | ~227K tokens saved total
 
 ▣ Pruning (~17.7K tokens) — Extraction
-→ read: C:\Users\hyper\workspace\aios\.gitmodules
+→ read: C:\Users\hyper\workspace\borg\.gitmodules
 → bash: Check current directory structure
 
 ---
@@ -12866,7 +12866,7 @@ Tool: bash
 ```
 **Output:**
 ```
-Cloning into 'C:/Users/hyper/workspace/aios/memory/systems/zep'...
+Cloning into 'C:/Users/hyper/workspace/borg/memory/systems/zep'...
 warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 
 ```
@@ -12885,7 +12885,7 @@ Tool: bash
 ```
 **Output:**
 ```
-Cloning into 'C:/Users/hyper/workspace/aios/memory/systems/langmem'...
+Cloning into 'C:/Users/hyper/workspace/borg/memory/systems/langmem'...
 warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 
 ```
@@ -12904,7 +12904,7 @@ Tool: bash
 ```
 **Output:**
 ```
-Cloning into 'C:/Users/hyper/workspace/aios/memory/systems/MemoryOS'...
+Cloning into 'C:/Users/hyper/workspace/borg/memory/systems/MemoryOS'...
 warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 
 ```
@@ -12923,7 +12923,7 @@ Tool: bash
 ```
 **Output:**
 ```
-Cloning into 'C:/Users/hyper/workspace/aios/memory/systems/supermemory'...
+Cloning into 'C:/Users/hyper/workspace/borg/memory/systems/supermemory'...
 warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 
 ```
@@ -12942,7 +12942,7 @@ Tool: bash
 ```
 **Output:**
 ```
-Cloning into 'C:/Users/hyper/workspace/aios/memory/vector-stores/qdrant'...
+Cloning into 'C:/Users/hyper/workspace/borg/memory/vector-stores/qdrant'...
 warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 
 ```

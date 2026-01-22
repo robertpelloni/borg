@@ -95,7 +95,7 @@ Extended MCP management with:
 ### Accessing MCP Tools
 
 ```typescript
-import { McpManager } from '@aios/core';
+import { McpManager } from '@borg/core';
 
 const manager = McpManager.getInstance();
 
@@ -109,7 +109,7 @@ const result = await manager.callTool('namespace', 'tool_name', { arg: 'value' }
 ### Using Code Mode
 
 ```typescript
-import { CodeExecutorService } from '@aios/core';
+import { CodeExecutorService } from '@borg/core';
 
 const executor = new CodeExecutorService(manager);
 
@@ -124,7 +124,7 @@ const result = await executor.execute(`
 ### Searching for Tools
 
 ```typescript
-import { ToolSearchService } from '@aios/core';
+import { ToolSearchService } from '@borg/core';
 
 const searchService = new ToolSearchService(manager);
 

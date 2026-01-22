@@ -1,6 +1,6 @@
 # Memory Strategy: MCP, Handoff, and Persistence
 
-This document details the multi-layered memory architecture for the aios. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
+This document details the multi-layered memory architecture for the borg. The goal is to move beyond simple "context packing" (stuffing everything into the prompt) to a smart "Handoff & Resume" system.
 
 ## 1. Core Architecture: MCP-First
 The primary interface for memory is the **Model Context Protocol (MCP)**.
@@ -57,7 +57,7 @@ Instead of picking one winner, we define a `MemoryProvider` interface.
     *   `mem0` adapter for User Profiles.
     *   `letta` adapter for Stateful Agents.
     *   `cognee` adapter for Knowledge Graphs.
-*   **User Choice:** The user can configure which memory backend to use for which purpose in `aios.config.json`.
+*   **User Choice:** The user can configure which memory backend to use for which purpose in `borg.config.json`.
 
 ## 6. Implementation Plan
 1.  **File System Layer:** Implement a `ContextManager` in `packages/core` that watches the `.context/` directory (inspired by `beads`).

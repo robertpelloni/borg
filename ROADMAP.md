@@ -1,4 +1,4 @@
-# aios Roadmap: The Ultimate SuperAI
+# borg Roadmap: The Ultimate SuperAI
 
 ## Phase 13: Local AI Tool Governance (In Progress)
 - [x] **Tool Spreadsheet:** Dashboard inventory of local tools (Docker, Redis, etc.).
@@ -41,7 +41,7 @@
 **Goal:** Match and exceed the capabilities of Amp, Auggie, Claude Code, Codebuff, and OpenCode.
 
 ### Core Engine
-- [x] **Unified CLI Runner:** Create `aios cli` wrapper to transparently invoke any integrated CLI (`superai-cli/`).
+- [x] **Unified CLI Runner:** Create `borg cli` wrapper to transparently invoke any integrated CLI (`superai-cli/`).
 - [x] **Unified TUI/WebUI:** Ensure 100% feature parity between terminal and web interfaces.
 - [ ] **Mobile Remote Control:** Responsive mobile UI for monitoring and intervening in agent sessions.
 - [ ] **Shell Integration:** Deep shell history integration and context awareness (Warp-style).

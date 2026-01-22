@@ -14,7 +14,7 @@ The system follows the **"Director + Swarm"** architecture:
 We will use a **Turborepo** structure for maximum modularity and build speed.
 
 ```
-/aios
+/borg
   /apps
     /web             # "Mission Control" Dashboard (Next.js 14, React, Tailwind)
     /extension       # Browser Extension (Plasmo or standard WebExt)

@@ -1,8 +1,8 @@
 # Project Structure
 
-## **Core Philosophy: "aios as the Central Router"**
+## **Core Philosophy: "borg as the Central Router"**
 
-aios (Artificial Intelligence Operating System) acts as the central nervous system for your development workflow. It is not just a collection of tools, but a **Hub** that routes intelligence, commands, and context between two primary domains:
+borg (Artificial Intelligence Operating System) acts as the central nervous system for your development workflow. It is not just a collection of tools, but a **Hub** that routes intelligence, commands, and context between two primary domains:
 
 1.  **Remote (Cloud/Jules App):** Managed via the `Jules App` submodule. This handles persistent, cloud-based sessions, long-running tasks, and collaborative features.
 2.  **Local (Autopilot Council):** Managed via the `opencode-autopilot-council` submodule. This handles local repository interactions, transient sessions, and direct file system manipulations on your machine.
@@ -30,16 +30,16 @@ Contains external repositories and plugins that are **not** core submodules but 
 
 ### `packages/`
 The monorepo's internal packages.
-*   **`ui/`:** The Next.js-based Dashboard. This is the "Face" of aios.
+*   **`ui/`:** The Next.js-based Dashboard. This is the "Face" of borg.
     *   **Tabs:**
         *   **Sessions:** View and manage active Jules (Remote) sessions.
         *   **Analytics:** System performance and usage stats.
         *   **Council (NEW):** View and manage local Autopilot sessions.
 *   **`core/`:** Shared types, utilities, and the base SDK logic.
-*   **`cli/`:** The command-line interface for interacting with aios directly.
+*   **`cli/`:** The command-line interface for interacting with borg directly.
 
 ### `submodules/`
-Core components that are developed as separate repositories but are essential to aios.
+Core components that are developed as separate repositories but are essential to borg.
 *   **`jules-app/`:** The Remote Session Manager.
 *   **`opencode-autopilot-council/`:** The Local Session Manager. Handles "Transient" sessions that exist only while you are working on a specific local repository.
 *   **`mcp-shark/`:** MCP Server management.

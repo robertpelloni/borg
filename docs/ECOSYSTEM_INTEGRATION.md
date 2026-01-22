@@ -1,12 +1,12 @@
 # Ecosystem Integration Strategy
 
-This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "aios".
+This document outlines the strategy for integrating the extensive list of submodules added to the project. These repositories serve as references, foundations, or direct library integrations to power the "borg".
 
 ## 1. Browser Extension & Connectivity
 **Repo:** `references/MCP-SuperAssistant`
 - **Role:** Foundation.
 - **Integration:** This codebase will serve as the reference implementation for the project's Browser Extension interface and the WebSocket/StreamingHTTP server.
-- **Goal:** Enable the "aios" to interact directly with web pages and browser events.
+- **Goal:** Enable the "borg" to interact directly with web pages and browser events.
 
 ## 2. Data Sources & Voice
 **Repos:** `references/notebooklm-mcp`, `references/voicemode`
@@ -30,7 +30,7 @@ This document outlines the strategy for integrating the extensive list of submod
 **Repos:** `references/mux`, `references/smolagents`
 - **Role:** UI & Logic.
 - **Integration:**
-    - `mux`: Its "autonomous agentic loop" logic will be integrated into the aios UI, providing a "Jules-like" interface for long-running tasks.
+    - `mux`: Its "autonomous agentic loop" logic will be integrated into the borg UI, providing a "Jules-like" interface for long-running tasks.
     - `smolagents`: Will be implemented to allow for a powerful autonomous cloud/local agentic development loop, utilizing skills and subagents.
 
 ## 6. Multi-CLI Orchestration (The "Swiss Army Knife")
@@ -39,22 +39,22 @@ This document outlines the strategy for integrating the extensive list of submod
 - **Role:** Orchestration & Capability Library.
 - **Integration:**
     - **Super-Wrapper:** Wrap these CLIs to provide them with a Web UI and history.
-    - **Feature Mining:** Audit these CLIs to ensure aios has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
+    - **Feature Mining:** Audit these CLIs to ensure borg has feature parity (e.g., `aider`'s git handling, `opencode`'s state management).
     - **Delegation:** Use them as heavy-duty tools for specific tasks (e.g., "Ask `aider` to refactor this file").
     - **Submodule Strategy:** Maintain them as submodules in `references/clis/` to keep the "drivers" available for the OS.
 
 ### Feature Parity Goals (from Amp & Aider)
 *   **Oracle:** Implement an `oracle` tool (via `metamcp`) that routes complex queries to a reasoning model (o1/r1).
 *   **Librarian:** Implement a `librarian` tool that uses `pluggedin-app` or GitHub search to query external repos.
-*   **Toolboxes:** Allow users to drop scripts into `.aios/toolbox/` to auto-register them as MCP tools (inspired by Amp).
+*   **Toolboxes:** Allow users to drop scripts into `.borg/toolbox/` to auto-register them as MCP tools (inspired by Amp).
 *   **Repo Map:** Implement AST-based repository mapping (inspired by Aider).
 
 ## 7. The "Swiss Army Knife" Strategy (Multi-CLI Orchestration)
 
-To ensure the aios is the "Universal" operating system, we adopt a "Swiss Army Knife" strategy. Instead of competing with individual CLI tools (like Aider, Gemini CLI, or Claude Code), we **aggregate** them. The aios acts as the "Motherboard" that can mount and drive any of these tools as plugins.
+To ensure the borg is the "Universal" operating system, we adopt a "Swiss Army Knife" strategy. Instead of competing with individual CLI tools (like Aider, Gemini CLI, or Claude Code), we **aggregate** them. The borg acts as the "Motherboard" that can mount and drive any of these tools as plugins.
 
 ### 7.1. Integrated CLI Drivers
-We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The aios Core Server can invoke these CLIs to perform specialized tasks that they excel at.
+We maintain a collection of industry-leading CLIs as submodules in `references/clis/`. The borg Core Server can invoke these CLIs to perform specialized tasks that they excel at.
 
 | CLI Tool | Repository | Primary Strength | Integration Role |
 | :--- | :--- | :--- | :--- |
@@ -69,7 +69,7 @@ We maintain a collection of industry-leading CLIs as submodules in `references/c
 ### 7.2. Integration Architecture
 1.  **Submodule Management:** All CLIs are checked out in `references/clis/` to ensure we have the exact source code and can patch/wrap them if necessary.
 2.  **Unified Interface:** The `metamcp` server exposes a unified tool interface (e.g., `run_code_edit`, `ask_oracle`) that routes to the appropriate CLI.
-3.  **Context Sharing:** The aios Hub generates a "Universal Context" (e.g., `aios.md` or `context.md`) that these CLIs are instructed to read, ensuring they share the same memory state.
+3.  **Context Sharing:** The borg Hub generates a "Universal Context" (e.g., `borg.md` or `context.md`) that these CLIs are instructed to read, ensuring they share the same memory state.
 
 ## 8. Registry & Package Management
 **Repo:** `references/mcpm.sh`

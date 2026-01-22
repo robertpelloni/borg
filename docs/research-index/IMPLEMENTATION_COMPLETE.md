@@ -53,7 +53,7 @@ The Ultimate MCP Router implementation is **COMPLETE**. All core services have b
 **File**: `packages/core/src/services/ConfigurationService.ts`
 
 **Features**:
-- Auto-detect .mcp.json and .aios.json config files
+- Auto-detect .mcp.json and .borg.json config files
 - Multi-format support (Claude, OpenAI, Google, AIOS)
 - Environment variable expansion ($VAR)
 - Secret expansion ({secret:NAME})

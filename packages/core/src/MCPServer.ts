@@ -21,6 +21,7 @@ import { ConfigTools } from "./tools/ConfigTools.js";
 import { LogTools } from "./tools/LogTools.js";
 import { SearchTools } from "./tools/SearchTools.js";
 import { Director } from "./agents/Director.js";
+import { Council } from "./agents/Council.js";
 import { PermissionManager, AutonomyLevel } from "./security/PermissionManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,7 +34,9 @@ export class MCPServer {
     private modelSelector: ModelSelector;
     private skillRegistry: SkillRegistry;
     private director: Director;
+    private council: Council;
     private permissionManager: PermissionManager;
+    private pendingRequests: Map<string, (response: any) => void> = new Map();
     public wssInstance: any; // WebSocket.Server
 
     constructor() {
@@ -44,6 +47,7 @@ export class MCPServer {
             path.join(process.env.HOME || process.env.USERPROFILE || '', '.borg', 'skills')
         ]);
         this.director = new Director(this.router, this.modelSelector);
+        this.council = new Council(this.modelSelector);
         this.permissionManager = new PermissionManager('low'); // Default safety
 
         // @ts-ignore
@@ -106,6 +110,55 @@ export class MCPServer {
                         },
                         required: ["text"]
                     }
+                },
+                {
+                    name: "chat_submit",
+                    description: "Simulate pressing Enter in the chat input",
+                    inputSchema: { type: "object", properties: {} }
+                },
+                {
+                    name: "click_element",
+                    description: "Click a button or link on the page by identifying text",
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            target: { type: "string", description: "Text content of the button/link to click" }
+                        },
+                        required: ["target"]
+                    }
+                },
+                {
+                    name: "native_input",
+                    description: "Simulate global keyboard input (for Native Apps/IDE)",
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            keys: { type: "string", description: "Keys: enter, esc, ctrl+r, f5, etc." }
+                        },
+                        required: ["keys"]
+                    }
+                },
+                {
+                    name: "vscode_execute_command",
+                    description: "Execute a VS Code command via the installed extension",
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            command: { type: "string", description: "Command ID (e.g. workbench.action.files.save)" },
+                            args: { type: "array", description: "Optional arguments", items: { type: "string" } }
+                        },
+                        required: ["command"]
+                    }
+                },
+                {
+                    name: "vscode_get_status",
+                    description: "Get the current status of the VS Code editor (Active File, Terminal, etc.)",
+                    inputSchema: { type: "object", properties: {} }
+                },
+                {
+                    name: "vscode_read_selection",
+                    description: "Read the currently selected text or the entire active document from VS Code",
+                    inputSchema: { type: "object", properties: {} }
                 }
             ];
 
@@ -195,6 +248,109 @@ export class MCPServer {
                 };
             }
 
+            if (request.params.name === "chat_submit") {
+                if (this.wssInstance) {
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) client.send(JSON.stringify({ type: 'SUBMIT_CHAT' }));
+                    });
+                    return { content: [{ type: "text", text: "Sent SUBMIT_CHAT signal." }] };
+                }
+                return { content: [{ type: "text", text: "Error: No WebSocket server." }] };
+            }
+
+            if (request.params.name === "click_element") {
+                const target = request.params.arguments?.target as string;
+                if (this.wssInstance) {
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) client.send(JSON.stringify({ type: 'CLICK_ELEMENT', target }));
+                    });
+                    return { content: [{ type: "text", text: `Sent CLICK_ELEMENT signal for "${target}".` }] };
+                }
+                return { content: [{ type: "text", text: "Error: No WebSocket server." }] };
+            }
+
+            if (request.params.name === "native_input") {
+                const keys = request.params.arguments?.keys as string;
+                // Try to find the tool in standard router
+                try {
+                    return await this.router.callTool("simulate_input", { keys });
+                } catch (e) {
+                    return { content: [{ type: "text", text: "Error: Supervisor (simulate_input) not available. Is borg-supervisor running?" }] };
+                }
+            }
+
+            if (request.params.name === "vscode_execute_command") {
+                const command = request.params.arguments?.command as string;
+                const args = request.params.arguments?.args as any[] || [];
+
+                if (this.wssInstance) {
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) {
+                            client.send(JSON.stringify({
+                                type: 'VSCODE_COMMAND',
+                                command,
+                                args
+                            }));
+                        }
+                    });
+                    return { content: [{ type: "text", text: `Sent VSCODE_COMMAND: ${command}` }] };
+                }
+                return { content: [{ type: "text", text: "Error: No WebSocket server (Extension bridge) active." }] };
+            }
+
+            if (request.params.name === "vscode_get_status") {
+                if (!this.wssInstance || this.wssInstance.clients.size === 0) {
+                    return { content: [{ type: "text", text: "Error: No Native Extension connected." }] };
+                }
+
+                return new Promise((resolve) => {
+                    const requestId = `req_${Date.now()}_${Math.random()}`;
+
+                    // Timeout safety
+                    const timeout = setTimeout(() => {
+                        this.pendingRequests.delete(requestId);
+                        resolve({ content: [{ type: "text", text: "Error: Extension timed out." }] });
+                    }, 3000);
+
+                    this.pendingRequests.set(requestId, (status: any) => {
+                        clearTimeout(timeout);
+                        resolve({ content: [{ type: "text", text: JSON.stringify(status, null, 2) }] });
+                    });
+
+                    // Broadcast request (assuming one main editor connected)
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) {
+                            client.send(JSON.stringify({ type: 'GET_STATUS', requestId }));
+                        }
+                    });
+                });
+            }
+
+            if (request.params.name === "vscode_read_selection") {
+                if (!this.wssInstance || this.wssInstance.clients.size === 0) {
+                    return { content: [{ type: "text", text: "Error: No Native Extension connected." }] };
+                }
+
+                return new Promise((resolve) => {
+                    const requestId = `req_${Date.now()}_${Math.random()}`;
+                    const timeout = setTimeout(() => {
+                        this.pendingRequests.delete(requestId);
+                        resolve({ content: [{ type: "text", text: "Error: Extension timed out." }] });
+                    }, 3000);
+
+                    this.pendingRequests.set(requestId, (data: any) => {
+                        clearTimeout(timeout);
+                        resolve({ content: [{ type: "text", text: data.content || "No content." }] });
+                    });
+
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) {
+                            client.send(JSON.stringify({ type: 'GET_SELECTION', requestId }));
+                        }
+                    });
+                });
+            }
+
             if (request.params.name === "start_task") {
                 const goal = request.params.arguments?.goal as string;
                 const maxSteps = request.params.arguments?.maxSteps as number || 10;
@@ -247,6 +403,44 @@ export class MCPServer {
         httpServer.listen(PORT, () => {
             console.error(`Borg Core: WebSocket Transport Active on ws://localhost:${PORT}`);
         });
+
+        // 2.5 Setup WS Message Handling mechanism
+        wss.on('connection', (ws: any) => {
+            ws.on('message', (data: any) => {
+                try {
+                    const msg = JSON.parse(data.toString());
+                    if (msg.type === 'STATUS_UPDATE' && msg.requestId) {
+                        const resolve = this.pendingRequests.get(msg.requestId);
+                        if (resolve) {
+                            resolve(msg.status);
+                            this.pendingRequests.delete(msg.requestId);
+                        }
+                    }
+                } catch (e) {
+                    // Ignore non-JSON
+                }
+            });
+        });
+
+        // 3. Connect to Supervisor (Native Automation)
+        // We assume we are running from the monorepo root
+        const supervisorPath = path.resolve(process.cwd(), 'packages/borg-supervisor/dist/index.js');
+
+        try {
+            // Check if file exists first? Router will fail if node can't find it.
+            // As this is "Execution", we want to be robust.
+            // But we assume monorepo structure:
+            // root/packages/core
+            // root/packages/borg-supervisor
+            // CWD is packages/core usually.
+
+            // Actually, best to use absolute path based on __dirname source knowledge or relative to CWD
+            // If CWD is `packages/core`
+            await this.router.connectToServer('borg-supervisor', 'node', [supervisorPath]);
+            console.error(`Borg Core: Connected to Supervisor at ${supervisorPath}`);
+        } catch (e) {
+            console.error("Borg Core: Failed to connect to Supervisor. Native automation disabled.", e);
+        }
 
         await this.wsServer.connect(wsTransport);
     }

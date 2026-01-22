@@ -32,7 +32,7 @@ AIOS uses a layered configuration system:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DATABASE_PATH` | `./data/aios.db` | SQLite database file path |
+| `DATABASE_PATH` | `./data/borg.db` | SQLite database file path |
 | `DATABASE_WAL` | `true` | Enable WAL mode for better concurrency |
 
 ### MCP Settings
@@ -399,7 +399,7 @@ LOG_OUTPUT=console
 
 # File
 LOG_OUTPUT=file
-LOG_FILE_PATH=./logs/aios.log
+LOG_FILE_PATH=./logs/borg.log
 LOG_FILE_MAX_SIZE=10485760  # 10MB
 LOG_FILE_MAX_FILES=5
 
@@ -430,7 +430,7 @@ NODE_ENV=production
 LOG_LEVEL=info
 
 # Database
-DATABASE_PATH=./data/aios.db
+DATABASE_PATH=./data/borg.db
 DATABASE_WAL=true
 
 # MCP
@@ -461,7 +461,7 @@ METRICS_PATH=/metrics
 
 # Logging
 LOG_OUTPUT=file
-LOG_FILE_PATH=./logs/aios.log
+LOG_FILE_PATH=./logs/borg.log
 LOG_FORMAT=json
 LOG_RETENTION_DAYS=30
 ```
@@ -476,7 +476,7 @@ On startup, AIOS validates all configuration:
 [INFO] Configuration loaded
 [INFO]   - Environment: production
 [INFO]   - Port: 3000
-[INFO]   - Database: ./data/aios.db
+[INFO]   - Database: ./data/borg.db
 [INFO]   - Auth: enabled
 [INFO]   - Code execution: enabled
 [WARN]   - TELEMETRY_ENABLED=false, metrics will not be reported

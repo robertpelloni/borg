@@ -1216,7 +1216,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ReAct loop skeleton (placeholder for LLM integration)
 - MCP hub client
   - HTTP client for tool discovery
-  - Connects to aios hub at localhost:3000
+  - Connects to borg hub at localhost:3000
 - Hotkeys: `q`/`Ctrl+C` quit, `j`/`k` navigate, `s` start agent, `t` test tool
 - Built-in `ls` tool for demonstration
 

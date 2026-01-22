@@ -87,6 +87,30 @@ export const appRouter = t.router({
             return 'low';
         })
     }),
+    director: t.router({
+        chat: t.procedure.input(z.object({ message: z.string() })).mutation(async ({ input }) => {
+            // @ts-ignore
+            if (global.mcpServerInstance) {
+                // @ts-ignore
+                // Director.executeTask is basically "Run this goal".
+                // In a chat UI, user says "Do X". Director does X and returns summary.
+                const result = await global.mcpServerInstance.director.executeTask(input.message);
+                return result;
+            }
+            throw new Error("MCPServer instance not found");
+        })
+    }),
+    council: t.router({
+        startDebate: t.procedure.input(z.object({ proposal: z.string() })).mutation(async ({ input }) => {
+            // @ts-ignore
+            if (global.mcpServerInstance) {
+                // @ts-ignore
+                const result = await global.mcpServerInstance.council.startDebate(input.proposal);
+                return result;
+            }
+            throw new Error("MCPServer instance not found");
+        })
+    }),
     runCommand: t.procedure.input(z.object({ command: z.string() })).mutation(async ({ input }) => {
         const { TerminalTools } = await import('./tools/TerminalTools.js');
         // @ts-ignore

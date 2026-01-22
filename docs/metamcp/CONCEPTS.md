@@ -76,7 +76,7 @@ Every installation has a `default` namespace. Servers without an explicit namesp
 ### Creating Namespaces
 
 ```typescript
-import { DatabaseManager } from '@aios/core';
+import { DatabaseManager } from '@borg/core';
 
 const db = DatabaseManager.getInstance();
 
@@ -142,7 +142,7 @@ Each endpoint exposes three URLs:
 ```json
 {
   "mcpServers": {
-    "aios": {
+    "borg": {
       "url": "http://localhost:3000/metamcp/default/sse",
       "headers": {
         "X-API-Key": "your-api-key"
