@@ -1,11 +1,11 @@
-# AIOS Vision: The Ultimate AI Coding Harness & Dashboard
+# Borg Vision: The Ultimate AI Coding Harness & Dashboard
 
-AIOS is a unified operating system for PC-based local AI tools. It aims to be the **definitive AI coding companion**, replacing the need for disparate CLI tools by offering a superset of their features in a cohesive, high-fidelity TUI and WebUI.
+Borg is a unified operating system for PC-based local AI tools. It aims to be the **definitive AI coding companion**, replacing the need for disparate CLI tools by offering a superset of their features in a cohesive, high-fidelity TUI and WebUI.
 
 ## Core Philosophy
 
 **"Don't Wrap—Replace."**
-Originally conceived as a plugin to orchestrate other tools, AIOS has evolved. We no longer just wrap tools like OpenCode or Aider; we aim to **be** the best-in-class CLI/TUI/WebUI harness that controls itself, offering feature parity with the entire ecosystem while providing superior orchestration and observability.
+Originally conceived as a plugin to orchestrate other tools, Borg has evolved. We no longer just wrap tools like OpenCode or Aider; we aim to **be** the best-in-class CLI/TUI/WebUI harness that controls itself, offering feature parity with the entire ecosystem while providing superior orchestration and observability.
 
 ## Strategic Pillars
 
@@ -27,11 +27,11 @@ The foundation for robust autonomy. We don't just "read" files; we understand th
 *   **Context Pinning:** Manual and automatic context curation to keep the agent focused.
 
 ### 3. The Universal Browser Extension
-A powerful bridge between your local AIOS context and web-based AI models.
+A powerful bridge between your local Borg context and web-based AI models.
 *   **MCP Provider:** Inject local MCP server functionality directly into web interfaces like ChatGPT, Claude.ai, Gemini, Grok, and DeepSeek.
-*   **Memory Bridge:** Record web browsing context, chat histories, and research directly into AIOS memory.
+*   **Memory Bridge:** Record web browsing context, chat histories, and research directly into Borg memory.
 *   **Browser Control:** Scrape pages, read debug consoles, access history, and manage email via MCP.
-*   **Dashboard Link:** Instant access to your local AIOS dashboard and billing stats from the browser toolbar.
+*   **Dashboard Link:** Instant access to your local Borg dashboard and billing stats from the browser toolbar.
 
 ### 4. Universal MCP Control Plane
 *   **Hub & Proxy:** Serve local tools to remote clients and vice versa.

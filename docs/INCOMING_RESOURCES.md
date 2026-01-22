@@ -1,11 +1,11 @@
 # Incoming Resources & Links to Process
 
-This file contains a raw dump of resources, tools, and libraries identified for integration into AIOS.
+This file contains a raw dump of resources, tools, and libraries identified for integration into Borg.
 Each entry should be:
 1. Researched and summarized.
 2. Submoduled if appropriate (codebase/tool).
 3. Indexed in the appropriate category documentation.
-4. Integrated into the AIOS capability set (via wrapper, MCP, or direct code usage).
+4. Integrated into the Borg capability set (via wrapper, MCP, or direct code usage).
 
 ## MCP Directories
 - https://github.com/punkpeye/awesome-mcp-servers?tab=readme-ov-file#finance--fintech

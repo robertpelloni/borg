@@ -4,7 +4,7 @@
 
 ## Overview
 
-Memory systems provide persistent storage and retrieval of context across AI sessions. This category tracks vector stores, memory architectures, and MCP memory servers for AIOS's universal memory management.
+Memory systems provide persistent storage and retrieval of context across AI sessions. This category tracks vector stores, memory architectures, and MCP memory servers for Borg's universal memory management.
 
 ## Known Memory Systems
 
@@ -98,9 +98,9 @@ Memory systems provide persistent storage and retrieval of context across AI ses
 
 ---
 
-## AIOS Memory Architecture
+## Borg Memory Architecture
 
-AIOS should provide:
+Borg should provide:
 - **Multi-backend support**: Chroma, Qdrant, Mem0, Letta, SuperMemory, etc.
 - **Short-term memory**: Session context with pruning/summarization
 - **Long-term memory**: Persistent vector store with semantic search

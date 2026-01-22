@@ -54,7 +54,7 @@ The Ultimate MCP Router implementation is **COMPLETE**. All core services have b
 
 **Features**:
 - Auto-detect .mcp.json and .borg.json config files
-- Multi-format support (Claude, OpenAI, Google, AIOS)
+- Multi-format support (Claude, OpenAI, Google, Borg)
 - Environment variable expansion ($VAR)
 - Secret expansion ({secret:NAME})
 - Import/export and validation
@@ -138,7 +138,7 @@ export {
 
 ### Existing Integration
 
-The new services integrate with existing AIOS components:
+The new services integrate with existing Borg components:
 
 | Component | Integration |
 |-----------|-------------|
@@ -231,7 +231,7 @@ bun run src/examples/04-session-management.ts
 - All services use singleton pattern via `getInstance()`
 - All services extend `EventEmitter` for state changes
 - All services integrate with `DatabaseManager` for persistence
-- All services follow AIOS architecture patterns
+- All services follow Borg architecture patterns
 - Pre-existing LSP errors in `McpManager.ts` are not related to this implementation
 
 ---

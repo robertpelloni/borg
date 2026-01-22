@@ -4,7 +4,7 @@
 
 ## Overview
 
-MCP directories are curated lists of Model Context Protocol servers that serve as discovery mechanisms for finding new tools and capabilities. These directories are critical for building AIOS's universal MCP registry.
+MCP directories are curated lists of Model Context Protocol servers that serve as discovery mechanisms for finding new tools and capabilities. These directories are critical for building Borg's universal MCP registry.
 
 ## Known Directories
 
@@ -39,7 +39,7 @@ MCP directories are curated lists of Model Context Protocol servers that serve a
 2. **Parse README/registry data** programmatically to extract server URLs
 3. **Deduplicate entries** across multiple directories
 4. **Categorize servers** by functionality (memory, finance, browser, etc.)
-5. **Rate relevance** to AIOS goals
+5. **Rate relevance** to Borg goals
 6. **Auto-install capability** for top-priority servers
 
 ---

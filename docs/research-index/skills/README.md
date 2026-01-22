@@ -4,7 +4,7 @@
 
 ## Overview
 
-Skills are reusable prompt templates, agent behaviors, and configurations that can be applied across different AI tools (Claude Code, OpenCode, Copilot, etc.). This category tracks skill repositories for integration into AIOS's universal skill library.
+Skills are reusable prompt templates, agent behaviors, and configurations that can be applied across different AI tools (Claude Code, OpenCode, Copilot, etc.). This category tracks skill repositories for integration into Borg's universal skill library.
 
 ## Known Skill Repositories
 
@@ -24,16 +24,16 @@ Skills are reusable prompt templates, agent behaviors, and configurations that c
 
 1. **Add as submodules** for reference
 2. **Extract skill definitions** (YAML, JSON, or markdown format)
-3. **Normalize formats** to AIOS standard skill format
+3. **Normalize formats** to Borg standard skill format
 4. **Categorize skills** by purpose (coding, debugging, refactoring, etc.)
 5. **Create skill search and rating** system
 6. **Enable skill conversion** between tool formats
 
 ---
 
-## AIOS Skill Architecture
+## Borg Skill Architecture
 
-AIOS should support:
+Borg should support:
 - **Universal skill format** that works with all models/providers
 - **Skill chaining** and composition
 - **Skill versioning** and updates

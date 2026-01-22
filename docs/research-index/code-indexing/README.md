@@ -4,7 +4,7 @@
 
 ## Overview
 
-Code indexing systems provide deep understanding of codebases through parsing, AST analysis, and semantic search. This category tracks tools and frameworks for AIOS's code understanding capabilities.
+Code indexing systems provide deep understanding of codebases through parsing, AST analysis, and semantic search. This category tracks tools and frameworks for Borg's code understanding capabilities.
 
 ## Known Systems
 
@@ -56,9 +56,9 @@ Code indexing systems provide deep understanding of codebases through parsing, A
 
 ---
 
-## AIOS Code Indexing Architecture
+## Borg Code Indexing Architecture
 
-AIOS should provide:
+Borg should provide:
 - **AST parsing**: Parse code to abstract syntax trees
 - **Semantic search**: Find code by meaning, not just keywords
 - **Code graph**: Visualize codebase dependencies

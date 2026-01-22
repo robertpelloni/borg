@@ -1,4 +1,4 @@
-# AIOS Comprehensive Research Summary
+# Borg Comprehensive Research Summary
 
 **Date**: 2026-01-17  
 **Session**: Comprehensive Resource Integration & Research Initiative
@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-AIOS has launched an ambitious initiative to systematically catalog, research, and integrate 200+ AI tools, MCP servers, frameworks, and resources. The goal is to achieve complete feature parity with all major tools while building an ultimate universal AI operating system.
+Borg has launched an ambitious initiative to systematically catalog, research, and integrate 200+ AI tools, MCP servers, frameworks, and resources. The goal is to achieve complete feature parity with all major tools while building an ultimate universal AI operating system.
 
 ---
 
@@ -142,7 +142,7 @@ Parallel research agents studying:
 
 ---
 
-## AIOS Core Systems to Implement
+## Borg Core Systems to Implement
 
 ### 1. Ultimate MCP Router/Aggregator 🎯
 **Priority**: CRITICAL
@@ -283,7 +283,7 @@ Parallel research agents studying:
 **Features**:
 - Store memories: Save conversations and insights
 - Universal memory: Access from any AI chat interface
-- Export/import browser sessions: Transfer to AIOS
+- Export/import browser sessions: Transfer to Borg
 - Computer-use bridge: Control desktop from browser
 - Console access: Read debug logs
 - Page scraping: Extract content for RAG
@@ -291,11 +291,11 @@ Parallel research agents studying:
 - Provider dashboards: Link to credit/balance pages
 - Email integration: Gmail access for documents
 - Connect to all interfaces: Work with any AI platform
-- MCP SuperAssistant: Inject AIOS capabilities
+- MCP SuperAssistant: Inject Borg capabilities
 
 **Implementation Approach**:
 - Build Chrome extension with content script injection
-- Implement message passing to AIOS
+- Implement message passing to Borg
 - Create memory synchronization service
 - Build computer-use bridge via MCP
 - Implement OAuth flows for providers
@@ -417,8 +417,8 @@ Parallel research agents studying:
 
 ### 3. Integration Approach
 - **MCP Servers**: Wrap as MCP client (preferred) or reimplement for critical
-- **Memory**: Use as MCP client, build pluggable system for AIOS
-- **CLI Tools**: Study patterns, reimplement features for AIOS
+- **Memory**: Use as MCP client, build pluggable system for Borg
+- **CLI Tools**: Study patterns, reimplement features for Borg
 - **Frameworks**: Study patterns, don't integrate entire codebases
 - **Browser**: Build custom extension, don't reuse existing
 
@@ -486,7 +486,7 @@ docs/research-index/
 
 ### Git Submodules
 1. **Index lock conflicts**: Occurs when operations overlap
-   - Solution: Remove `.git/modules/AIOS/index.lock` between batches
+   - Solution: Remove `.git/modules/Borg/index.lock` between batches
    
 2. **Large repo timeouts**: repos like kilocode, llama_index time out
    - Solution: Always use `--depth 1` for large repos
@@ -507,7 +507,7 @@ docs/research-index/
    - Solution: Create unified entry with "source" field
    
 2. **Forks vs upstream**: Track both versions
-   - AIOS should study custom features in forks
+   - Borg should study custom features in forks
    - Track upstream changes via submodule updates
 
 ---
@@ -522,7 +522,7 @@ docs/research-index/
 
 ### Short-Term (Next 1-2 hours)
 5. **Deduplicate resources**: Merge duplicate entries across sources
-6. **Rate relevance**: Assess each resource for AIOS goals
+6. **Rate relevance**: Assess each resource for Borg goals
 7. **Update documentation**: Refresh all category READMEs and master index
 
 ### Medium-Term (Next 4-8 hours)
@@ -558,7 +558,7 @@ docs/research-index/
 
 ## Vision Realization
 
-AIOS is positioned to become the **ultimate AI operating system** by:
+Borg is positioned to become the **ultimate AI operating system** by:
 
 1. **Aggregating**: 200+ resources into unified platform
 2. **Integrating**: Best features from all major tools
@@ -567,7 +567,7 @@ AIOS is positioned to become the **ultimate AI operating system** by:
 5. **Orchestrating**: Multi-model debate and consensus
 6. **Unifying**: CLI, TUI, WebUI, and mobile into one system
 
-This comprehensive approach ensures AIOS will achieve and **exceed** feature parity with all referenced tools.
+This comprehensive approach ensures Borg will achieve and **exceed** feature parity with all referenced tools.
 
 ---
 

@@ -1,6 +1,6 @@
 # Supervisor Plugin Development Guide
 
-AIOS allows extending the Supervisor Council with external plugins. This guide explains how to create, test, and register your own supervisor plugins.
+Borg allows extending the Supervisor Council with external plugins. This guide explains how to create, test, and register your own supervisor plugins.
 
 ## Plugin Architecture
 
@@ -84,7 +84,7 @@ Create a `manifest.json` in the same directory:
 
 ### Via Directory Loading
 
-AIOS Hub scans the `plugins/supervisors` directory on startup. Simply place your plugin folder there.
+Borg Hub scans the `plugins/supervisors` directory on startup. Simply place your plugin folder there.
 
 ### Via API
 

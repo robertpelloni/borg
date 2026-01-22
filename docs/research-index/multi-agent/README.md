@@ -4,7 +4,7 @@
 
 ## Overview
 
-Multi-agent orchestration systems enable teams of AI agents to collaborate, debate, and coordinate on complex tasks. This category tracks frameworks, SDKs, and reference implementations for AIOS's autonomous agent council and supervisor functionality.
+Multi-agent orchestration systems enable teams of AI agents to collaborate, debate, and coordinate on complex tasks. This category tracks frameworks, SDKs, and reference implementations for Borg's autonomous agent council and supervisor functionality.
 
 ## Known Frameworks & Systems
 
@@ -56,9 +56,9 @@ Multi-agent orchestration systems enable teams of AI agents to collaborate, deba
 
 ---
 
-## AIOS Agent Architecture
+## Borg Agent Architecture
 
-AIOS should implement:
+Borg should implement:
 - **Agent Council**: Multiple models debating high-stakes decisions
 - **Supervisor Agent**: Orchestrates subagents for complex tasks
 - **Autopilot**: Autonomous multi-step task execution
@@ -78,7 +78,7 @@ AIOS should implement:
 - [ ] Study OpenHands controller architecture
 - [ ] Analyze Agent Client Protocol
 - [ ] Extract patterns from all frameworks
-- [ ] Design AIOS agent council system
+- [ ] Design Borg agent council system
 - [ ] Implement supervisor/autopilot
 - [ ] Create agent registry and spawning system
 

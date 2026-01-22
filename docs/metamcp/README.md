@@ -1,10 +1,10 @@
 # MetaMCP Integration Guide
 
-> **MetaMCP**: MCP Aggregator, Orchestrator, Middleware, and Gateway integrated into AIOS
+> **MetaMCP**: MCP Aggregator, Orchestrator, Middleware, and Gateway integrated into Borg
 
 ## Overview
 
-MetaMCP functionality has been migrated into AIOS Core (Phase 10), providing a unified MCP proxy that dynamically aggregates MCP servers into a single unified endpoint with middleware support. This enables:
+MetaMCP functionality has been migrated into Borg Core (Phase 10), providing a unified MCP proxy that dynamically aggregates MCP servers into a single unified endpoint with middleware support. This enables:
 
 - **Progressive Tool Disclosure**: Minimize context window usage by exposing only meta-tools
 - **Semantic Tool Search**: "Tool RAG" using embeddings for intelligent tool discovery
@@ -17,7 +17,7 @@ MetaMCP functionality has been migrated into AIOS Core (Phase 10), providing a u
 
 ```
                     ┌─────────────────────────────────────────┐
-                    │           AIOS Core Engine               │
+                    │           Borg Core Engine               │
                     │  ┌─────────────────────────────────────┐ │
                     │  │         McpManager                  │ │
                     │  │  ┌───────────┐  ┌───────────────┐  │ │
@@ -149,7 +149,7 @@ const hybridResults = await searchService.searchTools(
 
 ## Transports
 
-AIOS supports multiple MCP transport mechanisms:
+Borg supports multiple MCP transport mechanisms:
 
 | Transport | Use Case | Configuration |
 |-----------|----------|---------------|
@@ -167,9 +167,9 @@ AIOS supports multiple MCP transport mechanisms:
 
 ## Migration from Standalone MetaMCP
 
-If you were using the standalone MetaMCP Docker image, the core functionality is now available directly in AIOS:
+If you were using the standalone MetaMCP Docker image, the core functionality is now available directly in Borg:
 
-| MetaMCP Feature | AIOS Equivalent |
+| MetaMCP Feature | Borg Equivalent |
 |-----------------|-----------------|
 | `docker compose up` | `pnpm run start:all` |
 | Dashboard at `:12009` | Dashboard at `:3000` |
@@ -179,13 +179,13 @@ If you were using the standalone MetaMCP Docker image, the core functionality is
 
 ### Key Differences
 
-1. **Database**: AIOS uses SQLite instead of PostgreSQL. No external database required.
+1. **Database**: Borg uses SQLite instead of PostgreSQL. No external database required.
 2. **Embeddings**: Semantic search uses cosine similarity on pre-computed embeddings rather than pgvector.
 3. **API**: REST endpoints instead of tRPC. See [API Reference](./API.md).
 4. **Auth**: Bearer token via `SUPER_AI_TOKEN` environment variable.
 
 ## Related Documentation
 
-- [AIOS API Reference](../API_REFERENCE.md) - Full REST API documentation
-- [AIOS Deployment Guide](../DEPLOYMENT.md) - Production deployment
+- [Borg API Reference](../API_REFERENCE.md) - Full REST API documentation
+- [Borg Deployment Guide](../DEPLOYMENT.md) - Production deployment
 - [Original MetaMCP](https://docs.metamcp.com) - Reference documentation

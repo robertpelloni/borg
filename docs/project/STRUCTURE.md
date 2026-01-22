@@ -4,7 +4,7 @@
 ```
 .
 ├── packages/
-│   ├── core/         # The long-running AIOS background service
+│   ├── core/         # The long-running Borg background service
 │   │   ├── src/
 │   │   │   ├── agents/      # ArchitectMode, AgentExecutor, LoopManager
 │   │   │   ├── managers/    # Core lifecycle managers (MCP, Secret, Skill, etc.)

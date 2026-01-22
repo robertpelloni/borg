@@ -4,7 +4,7 @@
 
 ## Overview
 
-Router and provider systems manage API access, load balancing, and intelligent model selection across multiple AI providers. This category tracks aggregators, gateways, and provider management tools for AIOS's routing capabilities.
+Router and provider systems manage API access, load balancing, and intelligent model selection across multiple AI providers. This category tracks aggregators, gateways, and provider management tools for Borg's routing capabilities.
 
 ## Known Systems
 
@@ -44,9 +44,9 @@ Router and provider systems manage API access, load balancing, and intelligent m
 
 ---
 
-## AIOS Router Architecture
+## Borg Router Architecture
 
-AIOS should implement:
+Borg should implement:
 - **Multi-provider support**: OpenAI, Anthropic, Google, xAI, etc.
 - **Intelligent routing**: Select model based on task, cost, quality
 - **Load balancing**: Distribute requests across providers

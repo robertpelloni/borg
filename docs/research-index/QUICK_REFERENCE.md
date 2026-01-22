@@ -1,4 +1,4 @@
-# AIOS Research - Quick Reference & Next Steps
+# Borg Research - Quick Reference & Next Steps
 
 **Purpose**: Quick reference for ongoing research initiative
 **Last Updated**: 2026-01-17
@@ -206,7 +206,7 @@ git diff .gitmodules | grep "^\+submodule"
 5. **Deduplicate resources** - Merge duplicate entries
 
 ### Medium-Term (Next 1-2 hours)
-6. **Rate relevance** - Assess each resource for AIOS
+6. **Rate relevance** - Assess each resource for Borg
 7. **Create database** - Build master JSON
 8. **Update master index** - Refresh stats and changelog
 
@@ -259,7 +259,7 @@ background_cancel --task_id=bg_XXXXX
 ### If Git Submodule Fails
 ```bash
 # Remove lock file
-rm .git/modules/AIOS/index.lock
+rm .git/modules/Borg/index.lock
 
 # Check if already exists
 cat .gitmodules | grep "path/to/repo"

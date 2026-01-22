@@ -6,7 +6,7 @@
 - **Crypto**: Bobcoin (Proof of Health)
 ├── bobcoin/                # 💰 Proof of Health crypto
 - ❌ Never put Bobcoin references in non-crypto projects
-     BOBCOIN              AIOS              GAMES
+     BOBCOIN              Borg              GAMES
 
 
 ### From docs/VISION_DOCUMENT.md

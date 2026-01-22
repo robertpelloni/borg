@@ -1,6 +1,6 @@
 # MetaMCP Core Concepts
 
-This document explains the fundamental concepts of MetaMCP as integrated into AIOS.
+This document explains the fundamental concepts of MetaMCP as integrated into Borg.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ This document explains the fundamental concepts of MetaMCP as integrated into AI
 
 ## MCP Servers
 
-MCP (Model Context Protocol) Servers are external processes that expose tools, resources, and prompts to LLM clients. AIOS aggregates multiple MCP servers into a unified interface.
+MCP (Model Context Protocol) Servers are external processes that expose tools, resources, and prompts to LLM clients. Borg aggregates multiple MCP servers into a unified interface.
 
 ### Server Types
 
@@ -90,7 +90,7 @@ db.createNamespace({
 ### Namespace Hierarchy
 
 ```
-AIOS Instance
+Borg Instance
 ├── Namespace: default
 │   ├── Server: filesystem
 │   ├── Server: git
@@ -197,7 +197,7 @@ interface ToolSet {
 
 ## Progressive Tool Disclosure
 
-Progressive Tool Disclosure is AIOS's strategy for managing large tool inventories without overwhelming the LLM.
+Progressive Tool Disclosure is Borg's strategy for managing large tool inventories without overwhelming the LLM.
 
 ### The Problem
 

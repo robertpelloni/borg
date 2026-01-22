@@ -1,13 +1,13 @@
-# AIOS Research Initiative - Detailed Progress
+# Borg Research Initiative - Detailed Progress
 
 **Last Updated**: 2026-01-17
-**Session**: AIOS Resource Integration & Research
+**Session**: Borg Resource Integration & Research
 
 ---
 
 ## Executive Summary
 
-I've established a comprehensive research infrastructure for AIOS and launched 10 parallel research tasks to systematically catalog and analyze all AI tools, MCP servers, frameworks, and libraries. The goal is to achieve feature parity with all major tools while building an ultimate universal system.
+I've established a comprehensive research infrastructure for Borg and launched 10 parallel research tasks to systematically catalog and analyze all AI tools, MCP servers, frameworks, and libraries. The goal is to achieve feature parity with all major tools while building an ultimate universal system.
 
 ---
 
@@ -35,8 +35,8 @@ docs/research-index/
 ### Documentation System
 Each category has its own README with:
 - Repository/Resource list with status tracking
-- Integration strategy for AIOS
-- AIOS architecture goals
+- Integration strategy for Borg
+- Borg architecture goals
 - Research task list
 - Cross-references to related categories
 
@@ -78,7 +78,7 @@ Note: Initial 5 tasks had launch issues, but I successfully relaunched 6 tasks c
 ## Submodules Added 📝
 
 ### Already Existed (Before This Session)
-AIOS already had **200+ submodules** including:
+Borg already had **200+ submodules** including:
 - All major MCP directories (punkpeye, appcypher, wong2)
 - Skills repos (anthropics/skills, openai/skills)
 - Multi-agent frameworks (metamcp, OpenHands, A2A, TaskSync)
@@ -153,7 +153,7 @@ AIOS already had **200+ submodules** including:
 
 ## Key Resources to Research
 
-### Highest Priority (Critical for AIOS)
+### Highest Priority (Critical for Borg)
 1. **MCP Router/Aggregator Architecture**
    - mcpproxy, meta-mcp-proxy, mcp-router
    - Goal: Combine many MCP servers into one "master" MCP
@@ -192,9 +192,9 @@ AIOS already had **200+ submodules** including:
 
 ---
 
-## AIOS Core Systems to Implement
+## Borg Core Systems to Implement
 
-Based on your comprehensive vision, AIOS needs:
+Based on your comprehensive vision, Borg needs:
 
 ### 1. Ultimate MCP Router/Aggregator 🎯
 ```
@@ -359,7 +359,7 @@ MadAppGang/claude-code (reference)
 
 ## Integration Decision Framework
 
-For each researched resource, AIOS chooses:
+For each researched resource, Borg chooses:
 
 ### Option A: Wrap/Call Directly
 **When to use:**
@@ -376,9 +376,9 @@ For each researched resource, AIOS chooses:
 - Can be used by multiple AI tools
 - Protocol is well-defined
 
-**Example:** All MCP servers in references/mcp_repos/ - configure in AIOS MCP client
+**Example:** All MCP servers in references/mcp_repos/ - configure in Borg MCP client
 
-### Option C: Reimplement in AIOS Core
+### Option C: Reimplement in Borg Core
 **When to use:**
 - Critical functionality
 - Need tight integration
@@ -396,7 +396,7 @@ For each researched resource, AIOS chooses:
 - Large codebase, not feasible to integrate
 - Only for inspiration
 - Completely redundant with existing feature
-- Not relevant to AIOS goals
+- Not relevant to Borg goals
 
 **Example:**
 - Large frameworks like entire LangChain (use specific components)
@@ -496,7 +496,7 @@ cat docs/research-index/[category]/README.md
 ### Git Issues Encountered
 1. **Index lock file**: `Another git process seems to be running`
    - Cause: Previous git operation crashed or didn't clean up
-   - Solution: Remove `.git/modules/AIOS/index.lock` manually
+   - Solution: Remove `.git/modules/Borg/index.lock` manually
    - Pattern: Recurring, requires cleanup between operations
 
 2. **Path already exists**:
@@ -535,7 +535,7 @@ Best approach appears to be:
 
 ## Questions for Decision Making
 
-1. Should AIOS implement ALL memory systems or just top 3-5?
+1. Should Borg implement ALL memory systems or just top 3-5?
 2. Should we prioritize certain CLI tools for feature parity first?
 3. Should we implement custom MCP protocol or stick to official spec?
 4. Should agent council be multi-model or multi-provider (different models from same provider)?

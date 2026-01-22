@@ -1,10 +1,10 @@
-# AIOS AGENT KNOWLEDGE BASE
+# Borg AGENT KNOWLEDGE BASE
 
 **Context:** The Ultimate AI Coding Harness & Tool Dashboard
 **Version:** 0.4.0 (Pivot)
 
 ## OVERVIEW
-The AIOS is an operating system designed specifically for local AI tool management and high-fidelity autonomous coding. It bridges Model Context Protocol (MCP) servers with specialized reasoning and editing agents.
+The Borg is an operating system designed specifically for local AI tool management and high-fidelity autonomous coding. It bridges Model Context Protocol (MCP) servers with specialized reasoning and editing agents.
 
 ## CORE AGENT SQUADS
 
@@ -24,7 +24,7 @@ The AIOS is an operating system designed specifically for local AI tool manageme
 
 ### 4. Research Squad (`Librarian`)
 - **Submodule Analyst:** specialized in scraping, summarizing, and indexing external repositories added as submodules.
-- **Feature Mapper:** Maps features from external tools to AIOS feature parity requirements.
+- **Feature Mapper:** Maps features from external tools to Borg feature parity requirements.
 - **Documentation Indexer:** Maintains `resources.json` with up-to-date capabilities of all integrated tools.
 
 ## WHERE TO LOOK

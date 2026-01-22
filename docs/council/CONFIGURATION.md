@@ -132,5 +132,5 @@ For self-hosted or other OpenAI-compatible APIs:
 
 - API keys are never logged or exposed via API
 - Use environment variables, not hardcoded keys
-- Consider using AIOS SecretManager for key rotation
+- Consider using Borg SecretManager for key rotation
 - Enable rate limiting for production deployments

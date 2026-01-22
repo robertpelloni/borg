@@ -90,7 +90,7 @@
 ## Research Tasks
 
 - [ ] Categorize each uncategorized resource
-- [ ] Determine relevance to AIOS goals
+- [ ] Determine relevance to Borg goals
 - [ ] Move to appropriate category if needed
 - [ ] Document findings
 - [ ] Integrate valuable features

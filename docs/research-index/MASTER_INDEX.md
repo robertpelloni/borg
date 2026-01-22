@@ -1,6 +1,6 @@
-# AIOS Universal Resource Index
+# Borg Universal Resource Index
 
-**Purpose**: Comprehensive index of all AI tools, MCP servers, libraries, frameworks, CLIs, and resources researched and integrated into AIOS.
+**Purpose**: Comprehensive index of all AI tools, MCP servers, libraries, frameworks, CLIs, and resources researched and integrated into Borg.
 
 **Last Updated**: 2026-01-17
 
@@ -152,7 +152,7 @@ Each entry follows this format:
 1. Add as submodule for reference
 2. Research thoroughly (docs, source, issues, PRs)
 3. Categorize and document features
-4. Assess relevance to AIOS goals
+4. Assess relevance to Borg goals
 5. Decide: Wrap | Call Directly | Reimplement | Reference Only
 6. Document decision and reasoning
 
@@ -177,7 +177,7 @@ For each CLI harness, track parity status:
 
 ### MCP Architecture Notes
 
-AIOS should serve as both:
+Borg should serve as both:
 1. **Ultimate MCP Client**: Aggregating, routing, traffic inspection, progressive disclosure
 2. **Ultimate MCP Server**: Universal configuration, session management, tool grouping
 
@@ -206,7 +206,7 @@ Key features to implement:
 
 ## References
 
-- [AIOS Vision](../VISION.md)
-- [AIOS Roadmap](../ROADMAP.md)
+- [Borg Vision](../VISION.md)
+- [Borg Roadmap](../ROADMAP.md)
 - [Submodules Guide](../SUBMODULES.md)
 - [Memory Architecture](../memory/ARCHITECTURE.md)

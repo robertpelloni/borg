@@ -1,10 +1,10 @@
 # Code Execution Guide
 
-This document covers the sandboxed code execution capabilities in AIOS, including `run_code`, `run_agent`, and saved scripts.
+This document covers the sandboxed code execution capabilities in Borg, including `run_code`, `run_agent`, and saved scripts.
 
 ## Overview
 
-AIOS provides secure code execution via an isolated V8 sandbox. This enables:
+Borg provides secure code execution via an isolated V8 sandbox. This enables:
 
 - **Tool Chaining**: Execute multiple tools in a single request
 - **Data Processing**: Transform and filter tool outputs

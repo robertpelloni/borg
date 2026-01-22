@@ -1,4 +1,4 @@
-# AIOS: The Comprehensive Vision Document
+# Borg: The Comprehensive Vision Document
 
 **Version:** 0.4.0  
 **Last Updated:** 2026-01-09  
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-**AIOS (Super AI Plugin)** is a **Meta-Orchestrator** for the Model Context Protocol (MCP). It serves as the universal operating system for AI tools, acting as a "Motherboard" that connects, coordinates, and enhances any AI agent, tool, or service. The project embodies three core philosophies:
+**Borg (Super AI Plugin)** is a **Meta-Orchestrator** for the Model Context Protocol (MCP). It serves as the universal operating system for AI tools, acting as a "Motherboard" that connects, coordinates, and enhances any AI agent, tool, or service. The project embodies three core philosophies:
 
 1. **Universal Integration** - Aggregate, don't compete
 2. **Active Intelligence** - Autonomous agents with persistent memory
@@ -20,9 +20,9 @@
 
 ### 1.1 Core Metaphor
 
-AIOS is to AI tools what an operating system is to hardware:
+Borg is to AI tools what an operating system is to hardware:
 
-| Computer | AIOS |
+| Computer | Borg |
 |----------|------|
 | Motherboard | Core Service (Hub) |
 | CPU | ModelGateway (LLM abstraction) |
@@ -39,7 +39,7 @@ AIOS is to AI tools what an operating system is to hardware:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         AIOS HUB                                │
+│                         Borg HUB                                │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
 │  │  HubServer  │  │ McpProxy    │  │    ProgressiveDisclose  │  │
 │  │  (JSON-RPC) │  │ Manager     │  │    (search_tools,       │  │
@@ -278,7 +278,7 @@ interface AgentDefinition {
 
 ### 4.1 Philosophy: Extensible Platform
 
-AIOS is designed to be an extensible platform that can integrate with various hardware and infrastructure components.
+Borg is designed to be an extensible platform that can integrate with various hardware and infrastructure components.
 
 ### 4.2 Technical Stack
 
@@ -287,7 +287,7 @@ AIOS is designed to be an extensible platform that can integrate with various ha
   - Distributed Storage
   - Game/Application Servers
 
-### 4.3 AIOS Role
+### 4.3 Borg Role
 
 The plugin is the **software layer** connecting hardware and services:
 
@@ -437,7 +437,7 @@ pnpm --filter @borg/ui dev     # Start UI only
 pnpm test                 # Run tests
 
 # CLI
-super-ai start            # Start AIOS
+super-ai start            # Start Borg
 super-ai status           # Check status
 super-ai run <agent>      # Run agent
 super-ai mine             # Submit activity (Bobcoin)
@@ -466,14 +466,14 @@ JULES_API_KEY=xxx         # Jules platform sync
 
 ## Conclusion
 
-AIOS represents a unified vision for AI tool orchestration:
+Borg represents a unified vision for AI tool orchestration:
 
 1. **Universal Hub** - Connect any MCP server, CLI, or agent
 2. **Intelligent Core** - Memory, context, autonomous execution
 3. **Physical Bridge** - Bobcoin economy linking digital and physical worlds
 4. **Ecosystem** - 70+ submodules, 100+ skills, multi-platform clients
 
-The "Motherboard & OS" metaphor captures the essence: AIOS doesn't replace tools, it connects and enhances them. It's the operating system for the AI age.
+The "Motherboard & OS" metaphor captures the essence: Borg doesn't replace tools, it connects and enhances them. It's the operating system for the AI age.
 
 ---
 

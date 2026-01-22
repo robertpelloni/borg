@@ -4,7 +4,7 @@
 
 ## Overview
 
-RAG (Retrieval-Augmented Generation) systems provide external knowledge to AI models. This category tracks vector databases, document parsers, embedding systems, and retrieval frameworks for AIOS's RAG capabilities.
+RAG (Retrieval-Augmented Generation) systems provide external knowledge to AI models. This category tracks vector databases, document parsers, embedding systems, and retrieval frameworks for Borg's RAG capabilities.
 
 ## Known RAG Systems
 
@@ -70,9 +70,9 @@ RAG (Retrieval-Augmented Generation) systems provide external knowledge to AI mo
 
 ---
 
-## AIOS RAG Architecture
+## Borg RAG Architecture
 
-AIOS should provide:
+Borg should provide:
 - **Multi-format ingestion**: PDF, DOCX, web pages, code, images
 - **OCR**: Text extraction from images/PDFs
 - **Smart chunking**: Semantic-aware document splitting

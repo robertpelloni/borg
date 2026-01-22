@@ -1,6 +1,6 @@
 # MetaMCP Middleware
 
-This document explains the middleware pipeline system for customizing tool execution in AIOS.
+This document explains the middleware pipeline system for customizing tool execution in Borg.
 
 ## Overview
 

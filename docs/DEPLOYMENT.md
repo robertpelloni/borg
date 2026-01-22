@@ -1,4 +1,4 @@
-# AIOS Deployment Guide
+# Borg Deployment Guide
 
 ## Prerequisites
 

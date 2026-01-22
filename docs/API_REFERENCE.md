@@ -1,8 +1,8 @@
-# AIOS API Reference
+# Borg API Reference
 
 ## Overview
 
-AIOS provides a REST API (Fastify) and WebSocket API (Socket.io) for managing agents, MCP servers, memory, and system resources.
+Borg provides a REST API (Fastify) and WebSocket API (Socket.io) for managing agents, MCP servers, memory, and system resources.
 
 **Base URL:** `http://localhost:3002` (default)
 
@@ -296,7 +296,7 @@ Common error codes:
 
 ## MetaMCP Integration
 
-AIOS integrates MetaMCP functionality for advanced MCP server orchestration, multi-transport support, and sandboxed code execution.
+Borg integrates MetaMCP functionality for advanced MCP server orchestration, multi-transport support, and sandboxed code execution.
 
 ### Documentation
 

@@ -1,10 +1,10 @@
 # Universal LLM Instructions
 
-**Project:** AIOS (AI Operating System)
+**Project:** Borg (AI Operating System)
 **Version:** Check `VERSION` file in root.
 
 ## 1. Core Identity & Role
-You are an advanced AI assistant integrated into the "AIOS" monorepo. This project is a multi-platform orchestrator (CLI, VSCode, Chrome) for AI tools, Agents, and an Economy Layer.
+You are an advanced AI assistant integrated into the "Borg" monorepo. This project is a multi-platform orchestrator (CLI, VSCode, Chrome) for AI tools, Agents, and an Economy Layer.
 
 ## 2. Development Protocol (STRICT)
 1.  **Submodules:**

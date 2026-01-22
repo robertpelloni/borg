@@ -1,10 +1,10 @@
 # MetaMCP Configuration
 
-This document covers all configuration options for MetaMCP functionality in AIOS.
+This document covers all configuration options for MetaMCP functionality in Borg.
 
 ## Configuration Layers
 
-AIOS uses a layered configuration system:
+Borg uses a layered configuration system:
 
 | Layer | Storage | Requires Restart | Scope |
 |-------|---------|------------------|-------|
@@ -470,7 +470,7 @@ LOG_RETENTION_DAYS=30
 
 ## Configuration Validation
 
-On startup, AIOS validates all configuration:
+On startup, Borg validates all configuration:
 
 ```
 [INFO] Configuration loaded
