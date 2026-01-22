@@ -71,7 +71,7 @@ export class MCPServer {
 
     private broadcastRequestAndAwait(messageType: string, payload: any = {}): Promise<any> {
         if (!this.wssInstance || this.wssInstance.clients.size === 0) {
-            return { content: [{ type: "text", text: "Error: No Native Extension connected." }] };
+            return Promise.resolve({ content: [{ type: "text", text: "Error: No Native Extension connected." }] });
         }
 
         return new Promise((resolve) => {

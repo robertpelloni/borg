@@ -148,16 +148,40 @@ async function handleMessage(msg: any) {
 
         if (socket) {
             socket.send(JSON.stringify({
-                type: 'STATUS_UPDATE', // Re-use STATUS_UPDATE or create GENERIC_RESPONSE. Let's reuse pendingRequests logic which expects a response.
-                // Wait, MCPServer pendingRequests logic listens for 'STATUS_UPDATE'?
-                // MCPServer.ts line: if (msg.type === 'STATUS_UPDATE' && msg.requestId)
-                // So we MUST use 'STATUS_UPDATE' type or change MCPServer.
-                // Let's us 'STATUS_UPDATE' for now as a generic callback carrier, but the payload will be different.
-                // Actually, MCPServer expects `msg.status`. 
-                // Let's wrap it: status: { content: ... }
+                type: 'STATUS_UPDATE',
                 requestId: msg.requestId,
                 status: { content }
             }));
+        }
+    }
+
+    if (msg.type === 'GET_TERMINAL') {
+        // "The Clipboard Hack" to read terminal
+        try {
+            await vscode.commands.executeCommand('workbench.action.terminal.focus');
+            await new Promise(r => setTimeout(r, 100)); // Wait for focus
+            await vscode.commands.executeCommand('workbench.action.terminal.selectAll');
+            await vscode.commands.executeCommand('workbench.action.terminal.copySelection');
+            await vscode.commands.executeCommand('workbench.action.terminal.clearSelection');
+
+            const content = await vscode.env.clipboard.readText();
+
+            if (socket) {
+                socket.send(JSON.stringify({
+                    type: 'STATUS_UPDATE',
+                    requestId: msg.requestId,
+                    status: { content }
+                }));
+            }
+        } catch (e: any) {
+            log(`Terminal Read Error: ${e.message}`);
+            if (socket) {
+                socket.send(JSON.stringify({
+                    type: 'STATUS_UPDATE',
+                    requestId: msg.requestId,
+                    status: { content: `Error reading terminal: ${e.message}` }
+                }));
+            }
         }
     }
 }
