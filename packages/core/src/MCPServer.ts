@@ -159,6 +159,11 @@ export class MCPServer {
                     name: "vscode_read_selection",
                     description: "Read the currently selected text or the entire active document from VS Code",
                     inputSchema: { type: "object", properties: {} }
+                },
+                {
+                    name: "vscode_read_terminal",
+                    description: "Read the content of the active terminal (Uses Clipboard: SelectAll -> Copy)",
+                    inputSchema: { type: "object", properties: {} }
                 }
             ];
 
@@ -346,6 +351,31 @@ export class MCPServer {
                     this.wssInstance.clients.forEach((client: any) => {
                         if (client.readyState === 1) {
                             client.send(JSON.stringify({ type: 'GET_SELECTION', requestId }));
+                        }
+                    });
+                });
+            }
+
+            if (request.params.name === "vscode_read_terminal") {
+                if (!this.wssInstance || this.wssInstance.clients.size === 0) {
+                    return { content: [{ type: "text", text: "Error: No Native Extension connected." }] };
+                }
+
+                return new Promise((resolve) => {
+                    const requestId = `req_${Date.now()}_${Math.random()}`;
+                    const timeout = setTimeout(() => {
+                        this.pendingRequests.delete(requestId);
+                        resolve({ content: [{ type: "text", text: "Error: Extension timed out." }] });
+                    }, 5000); // Higher timeout for UI interactions
+
+                    this.pendingRequests.set(requestId, (data: any) => {
+                        clearTimeout(timeout);
+                        resolve({ content: [{ type: "text", text: data.content || "No content." }] });
+                    });
+
+                    this.wssInstance.clients.forEach((client: any) => {
+                        if (client.readyState === 1) {
+                            client.send(JSON.stringify({ type: 'GET_TERMINAL', requestId }));
                         }
                     });
                 });
