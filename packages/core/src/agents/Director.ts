@@ -1,5 +1,6 @@
 import { MCPServer } from "../MCPServer.js";
 import { LLMService } from "../ai/LLMService.js";
+import { Council } from "./Council.js";
 
 interface AgentContext {
     goal: string;
@@ -10,11 +11,14 @@ interface AgentContext {
 export class Director {
     private server: MCPServer;
     private llmService: LLMService;
+    private council: Council;
     private lastSelection: string = "";
 
     constructor(server: MCPServer) {
         this.server = server;
         this.llmService = new LLMService();
+        // Instantiate Council with server's model selector
+        this.council = new Council(server.modelSelector);
     }
 
     /**
@@ -43,6 +47,18 @@ export class Director {
                 return plan.result || "Task completed successfully.";
             }
 
+            // 1b. COUNCIL ADVICE (Advisory Only)
+            // If the action is significant (not just reading), consult the Council for optimization/insight.
+            if (!plan.toolName.startsWith('vscode_read') && !plan.toolName.startsWith('list_')) {
+                const debate = await this.council.startDebate(`Action: ${plan.toolName}(${JSON.stringify(plan.params)}). Reasoning: ${plan.reasoning}`);
+
+                // We add the Council's wisdom to the context history so the Agent can see it for the NEXT step.
+                // But we DO NOT block the current action.
+                context.history.push(`Council Advice for '${plan.toolName}': ${debate.summary}`);
+
+                console.log(`[Director] 🛡️ Council Advice: ${debate.summary}`);
+            }
+
             // 2. Act: Execute tool
             try {
                 console.log(`[Director] Executing: ${plan.toolName}`);
@@ -69,7 +85,7 @@ export class Director {
         console.log(`[Director] Starting Watchdog (Limit: ${maxCycles} cycles)`);
 
         for (let i = 0; i < maxCycles; i++) {
-            console.log(`[Director] Watchdog Cycle ${i + 1}/${maxCycles}`);
+            if (i % 5 === 0) console.log(`[Director] ❤️ HEARTBEAT - Watchdog Cycle ${i + 1}/${maxCycles} (Listening for prompts...)`);
 
             // 1. Read State (Terminal)
             try {
@@ -158,7 +174,7 @@ export class Director {
                 // @ts-ignore
                 const selection = selResult.content?.[0]?.text || "";
 
-                if (selection && selection !== this.lastSelection && selection.trim().length > 0) {
+                if (selection && selection !== this.lastSelection && selection.trim().length > 0 && !selection.toLowerCase().includes("no content") && !selection.includes("undefined")) {
                     console.log(`[Director] New Instruction Detected: "${selection.substring(0, 50)}..."`);
                     this.lastSelection = selection;
 
@@ -189,70 +205,64 @@ export class Director {
     async startAutoDrive(): Promise<string> {
         console.log(`[Director] Starting Auto-Drive...`);
 
-        // 1. Start Auto-Accepter (Blindly presses Alt+Enter every 5s to accept diffs/commands)
-        // This is risky but requested by the User for "uninterrupted" flow.
+        // 1. Start Auto-Accepter (Focuses Chat & Hits Alt+Enter)
         this.startAutoAccepter();
 
-        // 2. Drive the Chat
+        // 2. Drive the Chat (Infinite Loop)
         while (true) {
             try {
-                // Read task.md directly (assuming standard location)
-                const fs = await import('fs/promises');
-                const path = await import('path');
-                // Find task.md in brain or root
-                // For now, we assume we can find it via a known path or search. 
-                // Since this is running in Core, we might need to search.
-                // Simplified: Just prompt the AI to "Check what needs to be done next"
-
                 console.log("[Director] Auto-Drive: Deciding next move...");
 
-                // We inject a prompt to the Agent to read task.md and continue
-                await this.server.executeTool('vscode_submit_chat', {
-                    text: "Please read task.md, identify the next incomplete task, and proceed with implementing it. If all tasks are done, identify the next logical step for the project."
-                });
+                // A. Execute the task INTERNALLY (Headless Autonomy)
+                console.log("[Director] Executing task internally...");
+                const result = await this.executeTask("Read task.md, identify the next incomplete task, and proceed with implementing it.", 20);
 
-                // Wait for a long period (e.g. 5 minutes) before intervening again?
-                // Or monitor status?
-                // For now, simple loop: Prompt -> Wait 60s -> Check if idle?
-                // Better: The User Prompt above will trigger a long chain. We only need to trigger it once if it finishes.
-                // But the user wants "continue indefinitely". 
+                // B. POST-TASK HANDOFF (The "Supervisor" Step)
+                // The task is done. Now we must type into the chat to prompt the NEXT cycle.
+                console.log("[Director] Task Finished. Consulting Council for Handoff...");
 
-                // Let's rely on the prompt to be recursive or just fire once and wait.
-                // Actually, if I fire "vscode_submit_chat", the *Main Agent* (Gemini) picks it up.
-                // I should wait until that agent is done. I don't have a signal for that easily.
+                // Consult Council for the handoff message
+                const debate = await this.council.startDebate(`Task finished with result: "${result.substring(0, 100)}...". What should I tell the Chat to do next?`);
+                const nextInstruction = debate.summary.replace("Council Advice: ", "") || "Proceed to the next item in task.md.";
 
-                // Hack: Wait 2 minutes then check logic? 
-                // Safer: Just start the infinite loop of "Do next task".
+                const message = `Task Complete. Council Advice: ${nextInstruction}. Continuing...`;
 
-                await new Promise(r => setTimeout(r, 60000 * 5)); // Wait 5 minutes between "Prods"
+                console.log(`[Director] Typing into Chat: "${message}"`);
 
-            } catch (e) {
-                console.error("[Director] Auto-Drive Error:", e);
-                await new Promise(r => setTimeout(r, 10000));
+                // 1. Focus Chat
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
+                // 2. Type Message
+                await this.server.executeTool('chat_reply', { text: message });
+                // 3. Submit (Hit Enter)
+                await this.server.executeTool('vscode_submit_chat', {});
+
+                // Small rest to let the Chat Agent react (if any)
+                await new Promise(r => setTimeout(r, 5000));
+
+            } catch (e: any) {
+                console.error("[Director] Auto-Drive Error:", e.message);
+                await new Promise(r => setTimeout(r, 10000)); // Backoff
             }
         }
     }
 
     private startAutoAccepter() {
+        // Re-enabled per user request to handle "Accept" / "Allow" prompts automatically.
+        // KEY CHANGE: We must FOCUS the Chat Panel before sending keys to avoid typing in the Terminal.
+        console.log("[Director] Auto-Accepter active (Interval: 10s). Focusing Chat -> Alt+Enter.");
+
         setInterval(async () => {
             try {
-                // Press Alt+Enter (Accept CMD/Diff)
-                // We use native_input tool.
-                // Note: This might interfere with typing!
-                // We should only do it if we detect a "CommandRunner" active? Hard to know.
-                // Per user request: "buttons to always be clicked automatically".
-                // Alt+Enter is the VS Code default for "Accept Inline Edit".
+                // 1. Focus the Chat Panel (Crucial!)
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
 
-                // console.log("[Director] Auto-Accepter: Pressing Alt+Enter...");
-                // await this.server.executeTool('native_input', { keys: 'alt+enter' });
-
-                // Also Enter for "Run Command?" dialogs? 
-                // That might just be 'enter'.
+                // 2. Send "Alt+Enter" (Common shortcut to Accept/Allow in many MCP UIs)
+                await this.server.executeTool('native_input', { keys: 'alt+enter' });
 
             } catch (e) {
-                // Ignore
+                // Ignored.
             }
-        }, 5000);
+        }, 10000);
     }
 
     private async think(context: AgentContext): Promise<{ action: 'CONTINUE' | 'FINISH', toolName: string, params: any, result?: string, reasoning: string }> {

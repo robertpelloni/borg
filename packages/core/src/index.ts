@@ -33,6 +33,14 @@ export async function startOrchestrator() {
     try {
         const mcp = new MCPServer();
         await mcp.start();
+
+        // Auto-Start the Director in Auto-Drive Mode (High Autonomy)
+        console.log("Starting Director in Auto-Drive Mode...");
+        // We use a small delay to ensure connections are ready
+        setTimeout(() => {
+            mcp.executeTool('start_auto_drive', {}).catch(e => console.error("Failed to auto-start Director:", e));
+        }, 3000);
+
     } catch (err) {
         console.error("Failed to start MCP server:", err);
         throw err;

@@ -55,7 +55,7 @@ export class MCPServer {
         ]);
         this.director = new Director(this);
         this.council = new Council(this.modelSelector);
-        this.permissionManager = new PermissionManager('low'); // Default safety
+        this.permissionManager = new PermissionManager('high'); // Default to HIGH AUTONOMY as requested
 
         // Memory System
         const dbPath = path.join(process.cwd(), '.borg', 'db');
