@@ -80,6 +80,62 @@ export class LLMService {
                 };
             }
 
+            if (provider === 'deepseek') {
+                // DeepSeek is OpenAI compatible but needs a custom Base URL and Key.
+                // We create a fleeting client or use a cached one if we want optimization.
+                // For now, simpler to create one on the fly to avoid constructor pollution, 
+                // or add a deepseekClient property. Let's add a cached property logic later if needed.
+                const dsClient = new OpenAI({
+                    apiKey: process.env.DEEPSEEK_API_KEY,
+                    baseURL: 'https://api.deepseek.com'
+                });
+
+                const completion = await dsClient.chat.completions.create({
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: userPrompt }
+                    ],
+                    model: modelId,
+                });
+
+                return {
+                    content: completion.choices[0].message.content || "",
+                    usage: {
+                        inputTokens: completion.usage?.prompt_tokens || 0,
+                        outputTokens: completion.usage?.completion_tokens || 0
+                    }
+                };
+            }
+
+            if (provider === 'ollama') {
+                // Ollama Local Inference
+                const response = await fetch('http://localhost:11434/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: modelId || 'gemma',
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userPrompt }
+                        ],
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ollama Error: ${response.statusText}`);
+                }
+
+                const data: any = await response.json();
+                return {
+                    content: data.message?.content || "",
+                    usage: {
+                        inputTokens: data.prompt_eval_count || 0,
+                        outputTokens: data.eval_count || 0
+                    }
+                };
+            }
+
             throw new Error(`Unsupported provider: ${provider}`);
         } catch (error: any) {
             console.error(`[LLMService] Error from ${provider}:`, error.message, error.response?.data || error);

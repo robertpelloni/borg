@@ -21,15 +21,17 @@ interface ModelStatus {
 const MODEL_CHAINS = {
     // Fast, cheap models for bulk work
     worker: [
-        { provider: 'google', modelId: 'gemini-2.5-flash-image' }, // High Quota, Fast
-        { provider: 'openrouter', modelId: 'glm-4' }, // GLM 4.7
-        { provider: 'anthropic', modelId: 'claude-3-haiku-20240307' }
+        { provider: 'ollama', modelId: 'gemma' }, // Local First!
+        { provider: 'google', modelId: 'gemini-2.5-flash-image' },
+        { provider: 'deepseek', modelId: 'deepseek-chat' },
+        { provider: 'openrouter', modelId: 'glm-4' }
     ],
     // Intelligence-heavy models for planning/review
     supervisor: [
-        { provider: 'google', modelId: 'gemini-2.5-flash-image' }, // Using 2.5 Flash for Council (Speed + Quota)
-        { provider: 'openai', modelId: 'gpt-4o' },
-        { provider: 'anthropic', modelId: 'claude-3-5-sonnet-20240620' }
+        { provider: 'ollama', modelId: 'gemma' }, // Local Council
+        { provider: 'deepseek', modelId: 'deepseek-reasoner' },
+        { provider: 'google', modelId: 'gemini-2.5-flash-image' },
+        { provider: 'openai', modelId: 'gpt-4o' }
     ]
 };
 

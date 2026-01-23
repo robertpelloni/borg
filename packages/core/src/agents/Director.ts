@@ -206,7 +206,8 @@ export class Director {
         console.log(`[Director] Starting Auto-Drive...`);
 
         // 1. Start Auto-Accepter (Focuses Chat & Hits Alt+Enter)
-        this.startAutoAccepter();
+        // DISABLED (Step 5689): User reported annoying focus stealing.
+        // this.startAutoAccepter();
 
         // 2. Drive the Chat (Infinite Loop)
         while (true) {
