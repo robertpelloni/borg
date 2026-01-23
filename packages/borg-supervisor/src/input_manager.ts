@@ -10,7 +10,11 @@ export class InputManager {
             'ctrl+r': '^{r}',
             'f5': '{F5}',
             'enter': '{ENTER}',
-            'esc': '{ESC}'
+            'esc': '{ESC}',
+            'control+enter': '^{ENTER}',
+            'ctrl+enter': '^{ENTER}',
+            'shift+enter': '+{ENTER}',
+            'alt+enter': '%{ENTER}'
         };
 
         const command = keyMap[keys.toLowerCase()] || keys;

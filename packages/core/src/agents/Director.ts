@@ -221,17 +221,35 @@ export class Director {
             try {
                 // A. Prompt the Agent
                 // We assume the Agent (You) has the context.
-                const prompt = "⚠️ DIRECTOR INTERVENTION: Please check `task.md`. Find the next unchecked item in **Phase 27 (Dashboard Polish)** or **Phase 31**. Implement it immediately. I am auto-accepting your changes.";
+                const prompt = "⚠️ DIRECTOR INTERVENTION: Please check `task.md` for any remaining unchecked items. If all tasks are effectively done, verify the robustness of the 'Auto-Drive' mechanism itself. I am auto-accepting your changes.";
 
                 console.log(`[Director] Directing Agent: "${prompt}"`);
 
                 // Focus Chat & Send
                 await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
+                // Give it a moment to open
+                await new Promise(r => setTimeout(r, 500));
+
                 await this.server.executeTool('chat_reply', { text: prompt });
 
-                // Double tap enter/submit
+                // Wait for text to appear/type
+                await new Promise(r => setTimeout(r, 2000)); // Increased wait
+
+                // 1. Try VS Code Command FIRST
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' }); // Ensure Focus again
+                await new Promise(r => setTimeout(r, 300));
+
+                // console.log("[Director] Triggering VS Code Chat Submit...");
                 await this.server.executeTool('vscode_submit_chat', {});
+
+                // 2. Fallback: Native Enter
+                await new Promise(r => setTimeout(r, 500));
+                // console.log("[Director] Pressing Native Enter...");
                 await this.server.executeTool('native_input', { keys: 'enter' });
+
+                // 3. Force Submit (Ctrl+Enter)
+                await new Promise(r => setTimeout(r, 200));
+                await this.server.executeTool('native_input', { keys: 'control+enter' });
 
                 // B. Wait / Supervise (Run for 3 minutes before re-prompting)
                 // The Auto-Accepter is running in the background every 1s.
@@ -252,18 +270,15 @@ export class Director {
 
         setInterval(async () => {
             try {
-                // 1. Focus Chat (Ensure we target the right window)
-                // await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
-
-                // 2. Click "Accept" / "Submit" button via Command
-                await this.server.executeTool('vscode_submit_chat', {});
-
-                // 3. Try "Accept Changes" for Inline Chat / Refactoring
+                // 1. Click "Accept" / "Submit" button via Command
+                // We blindly fire these to catch any pending acceptance state
                 await this.server.executeTool('vscode_execute_command', { command: 'inlineChat.accept' });
                 await this.server.executeTool('vscode_execute_command', { command: 'editor.action.inlineSuggest.commit' });
                 await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' });
+                await this.server.executeTool('vscode_execute_command', { command: 'chat.action.accept' }); // New
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.applyInEditor' }); // New
 
-                // 4. Fallback: Native Keys (Alt+Enter)
+                // 2. Fallback: Native Keys (Alt+Enter)
                 // Use only if commands fail or for non-command dialogs
                 await this.server.executeTool('native_input', { keys: 'alt+enter' });
 

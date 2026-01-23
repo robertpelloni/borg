@@ -6,7 +6,15 @@
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@borg/core": [
+        "../core/src/index.ts"
+      ],
+      "@borg/core/*": [
+        "../core/src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"
