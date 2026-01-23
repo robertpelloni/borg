@@ -33,6 +33,12 @@ export function Navigation() {
                     >
                         System Status
                     </Link>
+                    <Link
+                        href="/dashboard/council"
+                        className={`text-sm font-medium transition-colors hover:text-purple-500 ${isActive('/dashboard/council') ? 'text-purple-500' : 'text-zinc-500 dark:text-zinc-400'}`}
+                    >
+                        Council
+                    </Link>
                 </div>
             </div>
             <div className="text-xs text-zinc-400">

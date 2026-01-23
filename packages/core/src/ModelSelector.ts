@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 
 export interface ModelSelectionRequest {
     provider?: string;
@@ -9,6 +11,7 @@ export interface SelectedModel {
     provider: string;
     modelId: string;
     reason: string;
+    systemPrompt?: string; // New: Persona Support
 }
 
 interface ModelStatus {
@@ -17,37 +20,30 @@ interface ModelStatus {
     retryAfter?: number; // timestamp
 }
 
-// Configuration for fallback chains
-const MODEL_CHAINS = {
-    // Fast, cheap models for bulk work
+// Default Fallback
+const DEFAULT_CHAINS = {
     worker: [
-        { provider: 'ollama', modelId: 'gemma' }, // Local First!
-        { provider: 'google', modelId: 'gemini-2.5-flash-image' },
-        { provider: 'deepseek', modelId: 'deepseek-chat' },
-        { provider: 'openrouter', modelId: 'glm-4' }
+        { provider: 'lmstudio', modelId: 'local' },
+        { provider: 'ollama', modelId: 'gemma:2b' }
     ],
-    // Intelligence-heavy models for planning/review
     supervisor: [
-        { provider: 'ollama', modelId: 'gemma' }, // Local Council
-        { provider: 'deepseek', modelId: 'deepseek-reasoner' },
-        { provider: 'google', modelId: 'gemini-2.5-flash-image' },
-        { provider: 'openai', modelId: 'gpt-4o' }
+        { provider: 'lmstudio', modelId: 'local' },
+        { provider: 'ollama', modelId: 'gemma:2b' }
     ]
 };
 
-const COOL_DOWN_MS = 60 * 1000; // 1 minute cool down for depleted models
+const COOL_DOWN_MS = 60 * 1000;
 
 export class ModelSelector {
     private modelStates: Map<string, ModelStatus> = new Map();
+    private configPath: string;
 
     constructor() {
-        console.log("ModelSelector initialized with Fallback Chains");
+        // Assume running fro dist/ so go up to config
+        this.configPath = path.resolve(process.cwd(), 'packages/core/config/council.json');
+        console.log("ModelSelector initialized. Config Path:", this.configPath);
     }
 
-    /**
-     * Reports a model failure (e.g. Quota Limit 429/403).
-     * The selector will mark this model as depleted for the cool-down period.
-     */
     public reportFailure(modelId: string) {
         console.warn(`[ModelSelector] Reporting failure for ${modelId}. Marking as DEPLETED.`);
         this.modelStates.set(modelId, {
@@ -57,43 +53,60 @@ export class ModelSelector {
         });
     }
 
+    private loadConfig() {
+        try {
+            if (fs.existsSync(this.configPath)) {
+                const raw = fs.readFileSync(this.configPath, 'utf-8');
+                return JSON.parse(raw);
+            }
+        } catch (e) {
+            console.error("Failed to load council config:", e);
+        }
+        return null;
+    }
+
     public async selectModel(req: ModelSelectionRequest): Promise<SelectedModel> {
-        // 1. Determine Chain
-        let chain = MODEL_CHAINS.worker; // Default to worker
-        if (req.taskType === 'supervisor' || req.taskComplexity === 'high') {
-            chain = MODEL_CHAINS.supervisor;
+        let chain = DEFAULT_CHAINS.worker;
+
+        // Dynamic Load
+        const config = this.loadConfig();
+
+        if (config && config.members) {
+            // Map council members to a chain
+            chain = config.members.map((m: any) => ({
+                provider: m.provider,
+                modelId: m.modelId,
+                systemPrompt: m.systemPrompt
+            }));
+        } else if (req.taskType === 'supervisor' || req.taskComplexity === 'high') {
+            chain = DEFAULT_CHAINS.supervisor;
         }
 
-        // 2. Iterate Chain to find first non-depleted model
+        // Iterate
         for (const candidate of chain) {
             const status = this.modelStates.get(candidate.modelId);
 
-            // Check if depleted
             if (status && status.isDepleted) {
                 if (Date.now() > (status.retryAfter || 0)) {
-                    // Cool down expired, reset status
-                    console.log(`[ModelSelector] Cool-down expired for ${candidate.modelId}. Re-enabling.`);
                     this.modelStates.delete(candidate.modelId);
                 } else {
-                    // Still depleted, skip
-                    console.log(`[ModelSelector] Skipping ${candidate.modelId} (Depleted until ${new Date(status.retryAfter!).toISOString()})`);
                     continue;
                 }
             }
 
-            // Found valid model
             return {
                 provider: candidate.provider,
                 modelId: candidate.modelId,
-                reason: status ? 'RECOVERED' : 'PRIMARY_CHOICE'
+                reason: status ? 'RECOVERED' : 'PRIMARY_CHOICE',
+                // @ts-ignore
+                systemPrompt: candidate.systemPrompt
             };
         }
 
-        // 3. Fallback of last resort (if all chains depleted)
         console.error("[ModelSelector] ALL MODELS DEPLETED! Returning default fallback.");
         return {
-            provider: 'google',
-            modelId: 'gemini-1.5-pro',
+            provider: 'lmstudio',
+            modelId: 'local',
             reason: 'EMERGENCY_FALLBACK'
         };
     }
