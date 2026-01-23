@@ -112,6 +112,22 @@ async function handleMessage(msg: any) {
         }
     }
 
+    if (msg.type === 'PASTE_INTO_CHAT') {
+        try {
+            // 1. Write to Clipboard
+            await vscode.env.clipboard.writeText(msg.text);
+            // 2. Focus Chat
+            await vscode.commands.executeCommand('workbench.action.chat.open');
+            // 3. Paste
+            // We use a small delay to ensure focus
+            await new Promise(r => setTimeout(r, 200));
+            await vscode.commands.executeCommand('editor.action.clipboardPasteAction');
+            log(`Executed: Paste into Chat`);
+        } catch (e: any) {
+            log(`Failed to paste into chat: ${e.message}`);
+        }
+    }
+
     if (msg.type === 'SUBMIT_CHAT_HOOK') {
         // Try to submit the chat
         try {

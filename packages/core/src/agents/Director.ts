@@ -267,13 +267,18 @@ export class Director {
                 // 1. Focus the Chat Panel (Crucial!)
                 await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
 
-                // 2. Send "Alt+Enter" (Common shortcut to Accept/Allow in many MCP UIs)
-                await this.server.executeTool('native_input', { keys: 'alt+enter' });
-                // 3. Try standard Enter just in case
-                await this.server.executeTool('native_input', { keys: 'enter' });
+                // 2. Click "Accept" / "Submit" button via Command
+                // This is clearer and less error-prone than Alt+Enter
+                await this.server.executeTool('vscode_submit_chat', {});
 
-                // 4. Try "Accept Changes" (hypothetical command)
+                // 3. Try "Accept Changes" for Inline Chat
+                // Blue "Accept" button
+                await this.server.executeTool('vscode_execute_command', { command: 'inlineChat.accept' });
                 await this.server.executeTool('vscode_execute_command', { command: 'editor.action.inlineSuggest.commit' });
+
+                // 4. Fallback: Native Keys (Alt+Enter)
+                // Use only if commands fail or for non-command dialogs
+                await this.server.executeTool('native_input', { keys: 'alt+enter' });
 
             } catch (e) {
                 // Ignored.
