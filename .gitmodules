@@ -3043,9 +3043,6 @@
 [submodule "cli-harnesses/code"]
 	path = cli-harnesses/code
 	url = https://github.com/just-every/code
-[submodule "cli-harnesses/opencode"]
-	path = cli-harnesses/opencode
-	url = https://github.com/sst/opencode
 [submodule "cli-harnesses/crush"]
 	path = cli-harnesses/crush
 	url = https://github.com/charmbracelet/crush
