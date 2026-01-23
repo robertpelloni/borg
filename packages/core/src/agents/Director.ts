@@ -79,8 +79,11 @@ export class Director {
                 const content = termResult.content?.[0]?.text || "";
 
                 // 2. Analyze
-                // Auto-Approve [y/N]
-                if (content.match(/\[y\/N\]/i) || content.includes("Approve?")) {
+                console.log("[Director] Analyzing Terminal Content:", content.substring(content.length - 200).replace(/\n/g, '\\n')); // Log last 200 chars
+
+                // Auto-Approve [y/N], [Y/n], or specific keywords
+                const approvalRegex = /(?:approve\?|continue\?|\[y\/n\]|\[yes\/no\]|do you want to run this command\?)/i;
+                if (approvalRegex.test(content) || content.includes("Approve?") || content.includes("Do you want to continue?")) {
                     console.log("[Director] Detected Approval Prompt! Auto-Approving...");
                     await this.server.executeTool('native_input', { keys: 'y' });
                     await new Promise(r => setTimeout(r, 100)); // Small delay

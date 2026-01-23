@@ -1,11 +1,5 @@
-# Incoming Resources & Links to Process
 
-This file contains a raw dump of resources, tools, and libraries identified for integration into Borg.
-Each entry should be:
-1. Researched and summarized.
-2. Submoduled if appropriate (codebase/tool).
-3. Indexed in the appropriate category documentation.
-4. Integrated into the Borg capability set (via wrapper, MCP, or direct code usage).
+# Incoming Resources for Ingestion
 
 ## MCP Directories
 - https://github.com/punkpeye/awesome-mcp-servers?tab=readme-ov-file#finance--fintech
@@ -29,9 +23,10 @@ Each entry should be:
 - https://github.com/ykdojo/claude-code-tips
 
 ## Multi Agent Orchestration
+- https://github.com/robertpelloni/metamcp
 - https://docs.roocode.com/roo-code-cloud/roomote-control
-- https://github.com/The-Pocket/PocketFlow-Tutorial-Cursor
-- https://github.com/OpenHands/OpenHands
+- https://github.com/The-Pocket/PocketFlow-Tutorial-Cursor/blob/main/blog.md
+- https://benhouston3d.com/blog/building-an-agentic-code-from-scratch
 - https://agentclientprotocol.com/overview/agents
 - https://phil65.github.io/llmling-agent/cli/
 - https://github.com/a2aproject/A2A
@@ -44,31 +39,25 @@ Each entry should be:
 - https://github.com/biagruot/agentdepot-agents
 - https://github.com/vstorm-co/pydantic-deepagents
 - https://github.com/denniszielke/agentic-playground
-- https://www.copilotkit.ai/blog/build-with-googles-new-a2ui-spec-agent-user-interfaces-with-a2ui-ag-ui
 - https://github.com/ag-ui-protocol/ag-ui
 - https://www.langchain.com/langgraph
 - https://www.crewai.com/
 - https://github.com/CopilotKit/CopilotKit
-- https://github.com/a2anet/a2a-ui
-- https://github.com/omdivyatej/Self-Learning-Agents
 
-## CLIs, Harnesses, Tools
-- https://github.com/anthropics/claude-code
+## CLIs, Tools, Routers
 - https://github.com/musistudio/claude-code-router
+- https://platform.iflow.cn/models
 - https://github.com/grapeot/devin.cursorrules
 - https://github.com/kaitranntt/ccs
 - https://github.com/farion1231/cc-switch
 - https://github.com/vishalveerareddy123/Lynkr
 - https://github.com/generalaction/emdash
+- https://code.claude.com/docs/en/desktop
 - https://github.com/Chat2AnyLLM/code-assistant-manager
 - https://github.com/NeuralNomadsAI/CodeNomad
-- https://github.com/MadAppGang/claude-code
+- https://github.com/MadAppGang/claude-code/tree/main
 - https://github.com/PublicAffairs/openai-gemini
-- https://github.com/zhu327/gemini-openai-proxy
-- https://github.com/zuisong/gemini-openai-proxy
-- https://github.com/Hk-Gosuto/vercel-ai-proxy
 - https://github.com/Jasonzhangf/gemini-cli-router
-- https://github.com/zhifac/gemini-cli-router
 - https://github.com/derek-larson14/claude-code-openrouter
 - https://github.com/takltc/gemini-router
 - https://github.com/starbased-co/ccproxy
@@ -78,9 +67,12 @@ Each entry should be:
 - https://github.com/SuperClaude-Org/SuperClaude_Framework
 - https://github.com/Piebald-AI/splitrail
 - https://github.com/awesome-opencode/awesome-opencode
+- https://www.dropstone.io/features
 - https://github.com/github/awesome-copilot
+- https://tidewave.ai/blog/claude-code-codex
 - https://github.com/milisp/opencode-gui
 - https://github.com/chris-tse/opencode-web
+- https://opencode.ai/docs/plugins/
 - https://github.com/slashtechno/amped
 - https://github.com/slopus/happy
 - https://github.com/2mawi2/schaltwerk
@@ -89,6 +81,7 @@ Each entry should be:
 - https://github.com/priyan-coder/multi-agent-orchestration
 - https://github.com/sourcegraph/amp-examples-and-guides
 - https://github.com/jdorfman/awesome-amp-code
+- https://nimbalyst.com/
 - https://github.com/code-yeongyu/oh-my-opencode
 - https://github.com/TheNoeTrevino/claude-hooks
 - https://github.com/vybestack/llxprt-code
@@ -104,54 +97,20 @@ Each entry should be:
 - https://github.com/moazbuilds/CodeMachine-CLI
 - https://github.com/openai/codex
 - https://github.com/MoonshotAI/kimi-cli
+- https://ampcode.com/
+- https://qoder.com/referral
 - https://github.com/block/goose
 - https://github.com/BerriAI/litellm
 - https://github.com/sigoden/aichat
 - https://github.com/plandex-ai/plandex
 - https://github.com/shareAI-lab/Kode-cli
+- https://app.augmentcode.com/onboard
 - https://github.com/augmentcode
 
-## MCPs (Misc)
-- https://github.com/gemini-cli-extensions/workspace
-- https://github.com/gemini-cli-extensions/firebase/
-- https://github.com/GoogleCloudPlatform/cloud-run-mcp
-- https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio
-- https://github.com/gemini-cli-extensions/conductor
-- https://github.com/gemini-cli-extensions/mcp-toolbox
-- https://github.com/gemini-cli-extensions/vertex
-- https://github.com/gemini-cli-extensions/nanobanana
-- https://github.com/gemini-cli-extensions/jules
-- https://github.com/gemini-cli-extensions/datacommons
-- https://github.com/gemini-cli-extensions/gcloud
-- https://github.com/smonux/chgpt-mcp-bridge
-- https://github.com/process-failed-successfully/combined-autonomous-coding
-- https://github.com/macc-n/wot-mcp
-- https://github.com/macc-n/wot-mcp-cli
-- https://github.com/eqtylab/agent-console
-- https://github.com/unkn0wn-root/resterm
-- https://github.com/Papr-ai/memory-opensource
-- https://github.com/google/adk-js
-- https://github.com/saikiranrallabandi/inframind
-- https://github.com/EJ-Tether/Tether-Chat
-- https://github.com/Andrew6rant/Andrew6rant
-- https://github.com/MZaFaRM/MZaFaRM
-- https://github.com/mokszr/bilgecan
-- https://github.com/agentic-mcp-tools/memora
-- https://github.com/ojowwalker77/Claude-Matrix
-- https://github.com/digit1024/mcp_obsidian_notes
-- https://github.com/tylergraydev/claude-limitline
-- https://github.com/AbanteAI/spice
-- https://github.com/AbanteAI/party
-- https://github.com/AbanteAI/repo-visualizer
-- https://github.com/hangwin/mcp-chrome
-- https://github.com/hyperbrowserai/mcp
-- https://github.com/open-webui/mcpo
-- https://github.com/AgentDeskAI/browser-tools-mcp
-- https://github.com/pedramamini/Maestro
-
-## Code Indexing
+## Code Indexing & Context
 - https://github.com/oraios/serena
 - https://github.com/Muvon/octocode
+- https://chunkhound.github.io/
 - https://github.com/BrokkAi/brokk
 - https://github.com/probelabs/probe
 - https://github.com/Wildcard-Official/deepcontext-mcp
@@ -171,133 +130,47 @@ Each entry should be:
 - https://github.com/mem0ai/mem0
 - https://github.com/campfirein/cipher
 - https://github.com/BAI-LAB/MemoryOS
+- https://supermemory.ai/
 - https://github.com/MemMachine/MemMachine
 - https://github.com/supermemoryai/supermemory-mcp
 - https://github.com/jakops88-hub/Long-Term-Memory-API
 - https://github.com/orneryd/Mimir
+- https://docs.pieces.app/products/mcp/get-started
 - https://github.com/pieces-app/cli-agent
 - https://github.com/pieces-app/awesome-pieces
+- https://www.letta.com/
 - https://github.com/letta-ai/letta
 - https://github.com/GreatScottyMac/context-portal
 - https://github.com/Dicklesworthstone/beads_viewer
 - https://github.com/DrDavidL/sem-mem
-- https://github.com/jean-technologies/jean-memory
+- https://jeanmemory.com/dashboard
 - https://github.com/verygoodplugins/mcp-automem
-- https://github.com/verygoodplugins/automem
 - https://github.com/zeddy89/Context-Engine
-- https://github.com/ojowwalker77/Claude-Matrix
 - https://github.com/roampal-ai/roampal-core
 - https://github.com/MemoriLabs/Memori
 - https://github.com/vectorize-io/hindsight
 - https://github.com/LifeContext/lifecontext
-- https://github.com/jakops88-hub/memvault-sync
-- https://github.com/recallbricks
+- https://github.com/marketplace/actions/memvault-sync
+- https://recallbricks.com/
 - https://github.com/cnicolov/opencode-plugin-simple-memory
+- https://research.memgpt.ai/
+- https://www.trychroma.com/
 - https://github.com/pgvector/pgvector
-- https://github.com/letta-ai/letta-code
-- https://github.com/supermemoryai/supermemory
+- https://console.supermemory.ai/dashboard
 - https://github.com/CaviraOSS/OpenMemory
-- https://github.com/qdrant/qdrant
-- https://github.com/chroma-core/chroma
-- https://github.com/modelcontextprotocol/servers/tree/main/src/memory
+- https://mem0.ai/
+- https://qdrant.tech/
 - https://github.com/doobidoo/mcp-memory-service
-- https://github.com/campfirein/cipher
-- https://github.com/RedPlanetHQ/core
-
-## MCP Context & Dynamic Loading
-- https://github.com/Dumbris/mcpproxy
-- https://github.com/nullplatform/meta-mcp-proxy
-- https://github.com/jx-codes/lootbox
-- https://github.com/machjesusmoto/claude-lazy-loading
-- https://github.com/George5562/Switchboard
-- https://github.com/aberemia24/code-executor-MCP
-- https://github.com/voicetreelab/lazy-mcp
-- https://github.com/universal-tool-calling-protocol/code-mode
-- https://github.com/universal-tool-calling-protocol/utcp-mcp
-- https://github.com/danieliser/codemode-unified
-- https://github.com/huggingface/smolagents
-- https://github.com/cameronking4/programmatic-tool-calling-ai-sdk
-- https://github.com/elusznik/mcp-server-code-execution-mode
-- https://github.com/poly-mcp/Polymcp
-- https://github.com/portofcontext/pctx
-- https://github.com/chris-schra/mcp-funnel
-- https://github.com/microsoft/mcp-gateway
-- https://github.com/roddutra/agent-mcp-gateway
-- https://github.com/sathish316/opus_agents
-- https://github.com/portel-dev/ncp
-- https://github.com/antl3x/ToolRAG
-- https://github.com/ziad-hsn/code-mode-toon
-- https://github.com/cloudflare/agents
-- https://github.com/VeriTeknik/pluggedin-mcp
-- https://github.com/pathintegral-institute/mcpm.sh
-- https://github.com/thirdstrandstudio/mcp-tool-chainer
-- https://github.com/bitflight-devops/mcp-json-yaml-toml
-- https://github.com/corespeed-io/zypher-agent
-- https://github.com/toolprint/hypertool-mcp
-- https://github.com/milisp/mcp-linker
-- https://github.com/mKeRix/toolscript
-
-## RAG
-- https://github.com/run-llama/llama_index
-- https://github.com/medright/vectorize-ui
-- https://github.com/VectifyAI/PageIndex
-- https://github.com/Tencent/WeKnora
-- https://github.com/mindsdb/mindsdb
-
-## Database
-- https://github.com/bytebase/dbhub
-- https://github.com/gemini-cli-extensions/mysql
-- https://github.com/gemini-cli-extensions/postgres
-- https://github.com/mindsdb/mindsdb
-- https://github.com/supabase/supabase
-
-## Computer Use & Browser
-- https://github.com/trycua/cua
-- https://github.com/sensuslab/spark-mcp
-- https://github.com/instavm/clickclickclick
-- https://github.com/anthropics/claude-quickstarts
-- https://github.com/microsoft/fara
-- https://github.com/microsoft/magentic-ui
-- https://github.com/Mnehmos/MCP-OODA-Computer
-- https://github.com/generalagents/generalagents-python
-- https://github.com/ChromeDevTools/chrome-devtools-mcp
-- https://github.com/algonius/algonius-browser
-- https://github.com/williamkapke/kapture
-- https://github.com/puppeteer/puppeteer
-
-## Code Sandboxing
-- https://github.com/alvii147/piston-mcp
-- https://github.com/Automata-Labs-team/code-sandbox-mcp
-- https://github.com/zerocore-ai/microsandbox
-- https://github.com/engineer-man/piston
-- https://github.com/OpenInterpreter/open-interpreter
-- https://github.com/e2b-dev/code-interpreter
-- https://github.com/cohere-ai/cohere-terrarium
-
-## Search
-- https://github.com/mindsdb/mindsdb
-- https://github.com/wonderwhy-er/DesktopCommanderMCP
-- https://github.com/mrkrsl/web-search-mcp
-- https://github.com/mamertofabian/mcp-everything-search
+- https://core.heysol.ai/login
 
 ## Financial & Crypto
 - https://github.com/OctagonAI/octagon-mcp-server
 - https://github.com/Mrbaeksang/korea-stock-analyzer-mcp
-- https://github.com/OctagonAI/octagon-sec-filings-mcp
-- https://github.com/OctagonAI/octagon-stock-market-data-mcp
-- https://github.com/OctagonAI/octagon-financials-mcp
-- https://github.com/alphavantage/alpha_vantage_mcp
-- https://github.com/OctagonAI/octagon-transcripts-mcp
+- https://mcp.alphavantage.co/
 - https://github.com/financial-datasets/mcp-server
-- https://github.com/OctagonAI/octagon-funding-data-mcp
 - https://github.com/Trade-Agent/trade-agent-mcp
-- https://github.com/OctagonAI/octagon-investors-mcp
 - https://github.com/finmap-org/mcp-server
-- https://github.com/OctagonAI/octagon-private-companies-mcp
-- https://github.com/gvaibhav/TAM-MCP-Server
-- https://github.com/OctagonAI/octagon-13f-holdings-mcp
 - https://github.com/solangii/upbit-mcp-server
-- https://github.com/OctagonAI/octagon-vc-agents
 - https://github.com/AudienseCo/mcp-audiense-insights
 - https://github.com/coingecko/coingecko-typescript
 - https://github.com/CoinStatsHQ/coinstats-mcp
@@ -319,9 +192,11 @@ Each entry should be:
 - https://github.com/kukapay/crypto-sentiment-mcp
 - https://github.com/kukapay/cryptopanic-mcp-server
 - https://github.com/kukapay/freqtrade-mcp
-- https://github.com/badkk/awesome-crypto-mcp-servers
 - https://github.com/kukapay/uniswap-poolspy-mcp
 - https://github.com/kukapay/uniswap-trader-mcp
+- https://nof1.ai/
 - https://github.com/Upsonic/Upsonic
+- https://www.proofqr.xyz/
 - https://github.com/virattt/ai-hedge-fund
 
+(Partial list captured from user input for ingest processing)

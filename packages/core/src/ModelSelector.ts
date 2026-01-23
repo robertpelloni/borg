@@ -21,13 +21,13 @@ interface ModelStatus {
 const MODEL_CHAINS = {
     // Fast, cheap models for bulk work
     worker: [
-        { provider: 'google', modelId: 'gemini-2.0-flash-exp' }, // "Gemini 3 Flash" equivalent in current API
+        { provider: 'google', modelId: 'gemini-2.5-flash-image' }, // High Quota, Fast
         { provider: 'openrouter', modelId: 'glm-4' }, // GLM 4.7
         { provider: 'anthropic', modelId: 'claude-3-haiku-20240307' }
     ],
     // Intelligence-heavy models for planning/review
     supervisor: [
-        { provider: 'google', modelId: 'gemini-2.0-flash-exp' }, // High IQ, Fast, Free-tier friendly
+        { provider: 'google', modelId: 'gemini-2.5-flash-image' }, // Using 2.5 Flash for Council (Speed + Quota)
         { provider: 'openai', modelId: 'gpt-4o' },
         { provider: 'anthropic', modelId: 'claude-3-5-sonnet-20240620' }
     ]
