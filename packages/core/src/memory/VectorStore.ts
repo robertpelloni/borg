@@ -105,7 +105,22 @@ export class VectorStore {
         if (!this.initialized) await this.initialize();
 
         const queryVector = await this.embed(query);
-        const results = await this.table.search(queryVector).limit(limit).execute();
+        const execution = await this.table.search(queryVector).limit(limit).execute();
+
+        let results: any[] = [];
+        if (Array.isArray(execution)) {
+            results = execution;
+        } else {
+            // Handle AsyncGenerator or Iterator
+            // @ts-ignore
+            try {
+                for await (const row of execution) {
+                    results.push(row);
+                }
+            } catch (e) {
+                console.error("[VectorStore] Failed to iterate results:", e);
+            }
+        }
 
         // Map back to CodeDocument
         return results.map((r: any) => ({
