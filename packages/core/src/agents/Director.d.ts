@@ -1,4 +1,4 @@
-import type { MCPServer } from "../MCPServer.js";
+import type { IMCPServer } from "../adk/AgentInterfaces.js";
 export declare class Director {
     private server;
     private llmService;
@@ -7,7 +7,7 @@ export declare class Director {
     private isAutoDriveActive;
     private currentStatus;
     private monitor;
-    constructor(server: MCPServer);
+    constructor(server: IMCPServer);
     /**
      * Executes a single goal using the Director's reasoning loop.
      */

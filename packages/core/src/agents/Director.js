@@ -13,6 +13,7 @@ export class Director {
     constructor(server) {
         this.server = server;
         this.llmService = new LLMService();
+        // @ts-ignore
         this.council = new Council(server.modelSelector);
     }
     /**
@@ -308,8 +309,10 @@ class ConversationMonitor {
             `;
             const response = await this.llmService.generateText(model.provider, model.modelId, "Council", prompt);
             const msg = response.content.trim();
-            const directiveMatch = msg.match(/DIRECTIVE:\s*"(.*)"/);
-            const directive = directiveMatch ? directiveMatch[1] : null;
+            // Robust Regex: Matches "DIRECTIVE: ..." or "DIRECTIVE: "..." 
+            // Captures rest of line
+            const directiveMatch = msg.match(/DIRECTIVE:\s*"?([^"\n]+)"?/i) || msg.match(/DIRECTIVE:\s*(.*)/i);
+            const directive = directiveMatch ? directiveMatch[1].trim() : null;
             // 1. Log Dialogue to Console (Safe, no UI interferance)
             console.error(`\n\n🏛️ **COUNCIL HALL** 🏛️\n------------------------\n${msg}\n------------------------\n`);
             if (directive) {

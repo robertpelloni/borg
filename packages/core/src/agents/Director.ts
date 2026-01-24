@@ -1,4 +1,4 @@
-import type { MCPServer } from "../MCPServer.js";
+import type { IMCPServer } from "../adk/AgentInterfaces.js";
 import { LLMService } from "../ai/LLMService.js";
 import { Council } from "./Council.js";
 import { DIRECTOR_SYSTEM_PROMPT, GEMMA_ENCOURAGEMENT_MESSAGES } from "../prompts/SystemPrompts.js";
@@ -10,7 +10,7 @@ interface AgentContext {
 }
 
 export class Director {
-    private server: MCPServer;
+    private server: IMCPServer;
     private llmService: LLMService;
     private council: Council;
     private lastSelection: string = "";
@@ -20,9 +20,10 @@ export class Director {
     private currentStatus: 'IDLE' | 'THINKING' | 'DRIVING' = 'IDLE';
     private monitor: ConversationMonitor | null = null; // Smart Supervisor
 
-    constructor(server: MCPServer) {
+    constructor(server: IMCPServer) {
         this.server = server;
         this.llmService = new LLMService();
+        // @ts-ignore
         this.council = new Council(server.modelSelector);
     }
 
@@ -201,14 +202,14 @@ export class Director {
 }
 
 class ConversationMonitor {
-    private server: MCPServer;
+    private server: IMCPServer;
     private llmService: LLMService;
     private director: Director;
     private interval: NodeJS.Timeout | null = null;
     private lastActivityTime: number = Date.now();
     private isRunningTask: boolean = false;
 
-    constructor(server: MCPServer, llmService: LLMService, director: Director) {
+    constructor(server: IMCPServer, llmService: LLMService, director: Director) {
         this.server = server;
         this.llmService = llmService;
         this.director = director;
@@ -327,8 +328,10 @@ class ConversationMonitor {
             const response = await this.llmService.generateText(model.provider, model.modelId, "Council", prompt);
             const msg = response.content.trim();
 
-            const directiveMatch = msg.match(/DIRECTIVE:\s*"(.*)"/);
-            const directive = directiveMatch ? directiveMatch[1] : null;
+            // Robust Regex: Matches "DIRECTIVE: ..." or "DIRECTIVE: "..." 
+            // Captures rest of line
+            const directiveMatch = msg.match(/DIRECTIVE:\s*"?([^"\n]+)"?/i) || msg.match(/DIRECTIVE:\s*(.*)/i);
+            const directive = directiveMatch ? directiveMatch[1].trim() : null;
 
             // 1. Log Dialogue to Console (Safe, no UI interferance)
             console.error(`\n\n🏛️ **COUNCIL HALL** 🏛️\n------------------------\n${msg}\n------------------------\n`);
