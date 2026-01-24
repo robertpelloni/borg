@@ -2,6 +2,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { VectorStore } from './VectorStore.js';
+import { CodeSplitter } from './CodeSplitter.js';
 import crypto from 'crypto';
 
 // Basic list of extensions to index
@@ -36,7 +37,7 @@ export class Indexer {
                 // Real impl should check hash in DB. (Skipped for speed in MVP)
 
                 // Chunking
-                const chunks = this.chunkText(content, 1000); // 1000 chars ~ 200 tokens
+                const chunks = CodeSplitter.split(content, path.extname(file));
 
                 chunks.forEach((chunk, index) => {
                     codeDocs.push({
@@ -88,11 +89,5 @@ export class Indexer {
         return results;
     }
 
-    private chunkText(text: string, size: number): string[] {
-        const chunks = [];
-        for (let i = 0; i < text.length; i += size) {
-            chunks.push(text.slice(i, i + size));
-        }
-        return chunks;
-    }
 }
+
