@@ -316,4 +316,15 @@ class ConversationMonitor {
                 // 2. EXECUTE DIRECTLY
                 await this.director.executeTask(directive);
             }
-            
+            else {
+                console.error("[Director] No directive found in Council output.");
+            }
+        }
+        catch (e) {
+            console.error("Council Error:", e);
+        }
+        finally {
+            this.isRunningTask = false;
+        }
+    }
+}
