@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0] - 2026-01-24
+### Added
+- **Smart Auto-Drive:** Robust state detection, LLM-based steering during idle times, and strict `Alt+Enter` safety guards.
+- **Deep Indexing:** `CodeSplitter.ts` for semantic chunking (function/class aware) to improve RAG quality.
+- **Traffic Inspector:** Real-time visualization of MCP tool traffic at `/dashboard/inspector`.
+- **Gemini Ecosystem:** Integration with Google Jules (`JulesWrapper`) and ADK interfaces.
+- **Infrastructure:** Stubs for `GraphMemory` and `AutoConfig` (Universal Client).
+
+### Fixed
+- **Web App:** Resolved production build failures (`.next/BUILD_ID` missing).
+- **Dashboard:** Fixed React Query syntax making dashboard usable again.
+
+
 All notable changes to this project will be documented in this file.
 
 ## [0.5.1] - 2026-01-14
