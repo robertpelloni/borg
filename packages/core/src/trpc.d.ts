@@ -164,7 +164,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             command: string;
         };
-        output: string;
+        output: any;
         meta: object;
     }>;
     skills: import("@trpc/server").TRPCBuiltRouter<{

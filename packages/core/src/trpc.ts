@@ -151,7 +151,8 @@ export const appRouter = t.router({
     runCommand: t.procedure.input(z.object({ command: z.string() })).mutation(async ({ input }) => {
         const { TerminalTools } = await import('./tools/TerminalTools.js');
         // @ts-ignore
-        const result = await TerminalTools[0].handler({ command: input.command, cwd: process.cwd() });
+        // @ts-ignore
+        const result = await TerminalTools[0].handler({ command: input.command, cwd: process.cwd() }) as any;
         return result.content[0].text;
     }),
     skills: t.router({

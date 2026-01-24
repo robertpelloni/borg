@@ -18,11 +18,6 @@ export declare const TerminalTools: {
     handler: (args: {
         command: string;
         cwd?: string;
-    }) => Promise<{
-        content: {
-            type: string;
-            text: string;
-        }[];
-    }>;
+    }) => Promise<unknown>;
 }[];
 //# sourceMappingURL=TerminalTools.d.ts.map

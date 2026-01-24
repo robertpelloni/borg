@@ -28,6 +28,9 @@ export const TerminalTools = [
                     stdio: ['inherit', 'pipe', 'pipe']
                 });
 
+                // Track process for Direct Input Injection
+                ProcessRegistry.register('latest', child);
+
                 let stdoutData = "";
                 let stderrData = "";
 
@@ -43,10 +46,7 @@ export const TerminalTools = [
                 });
 
                 child.on('close', (code) => {
+                    // @ts-ignore
+                    ProcessRegistry.unregister('latest');
                     const output = stdoutData + (stderrData ? `\nSTDERR:\n${stderrData}` : "");
-                    resolve({ content: [{ type: "text", text: output.trim() || `Command exited with code ${code}` }] });
-                });
-            });
-        }
-    }
-];
+                    resolve({ content: [{ type: "text", tex

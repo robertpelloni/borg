@@ -14,14 +14,32 @@ export const TerminalTools = [
             required: ["command"]
         },
         handler: async (args) => {
-            try {
-                const { stdout, stderr } = await execAsync(args.command, { cwd: args.cwd });
-                const output = stdout + (stderr ? `\nSTDERR:\n${stderr}` : "");
-                return { content: [{ type: "text", text: output.trim() || "Command executed successfully with no output." }] };
-            }
-            catch (err) {
-                return { content: [{ type: "text", text: `Error: ${err.message}\nSTDOUT: ${err.stdout}\nSTDERR: ${err.stderr}` }] };
-            }
+            const { spawn } = await import("child_process");
+            return new Promise((resolve) => {
+                // Use spawn to allow finer control
+                // stdio: [stdin, stdout, stderr]
+                // inherit stdin so user/simulator can type into the process
+                const child = spawn(args.command, {
+                    cwd: args.cwd,
+                    shell: true,
+                    stdio: ['inherit', 'pipe', 'pipe']
+                });
+                let stdoutData = "";
+                let stderrData = "";
+                if (child.stdout) {
+                    child.stdout.on('data', (d) => { stdoutData += d.toString(); });
+                }
+                if (child.stderr) {
+                    child.stderr.on('data', (d) => { stderrData += d.toString(); });
+                }
+                child.on('error', (err) => {
+                    resolve({ content: [{ type: "text", text: `Error: ${err.message}` }] });
+                });
+                child.on('close', (code) => {
+                    const output = stdoutData + (stderrData ? `\nSTDERR:\n${stderrData}` : "");
+                    resolve({ content: [{ type: "text", text: output.trim() || `Command exited with code ${code}` }] });
+                });
+            });
         }
     }
 ];
