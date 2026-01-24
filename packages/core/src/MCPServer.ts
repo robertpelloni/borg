@@ -36,6 +36,7 @@ import { ConfigTools } from "./tools/ConfigTools.js";
 import { LogTools } from "./tools/LogTools.js";
 import { SearchTools } from "./tools/SearchTools.js";
 import { ReaderTools } from "./tools/ReaderTools.js";
+import { InputTools } from "./tools/InputTools.js";
 console.log("[MCPServer] ✓ All Tools");
 
 import { ChainExecutor, ChainRequest } from "./tools/ChainExecutor.js";
@@ -74,6 +75,7 @@ export class MCPServer {
     private pendingRequests: Map<string, (response: any) => void> = new Map();
     private chainExecutor: ChainExecutor;
     public wssInstance: any; // WebSocket.Server
+    private inputTools: InputTools;
 
     constructor(options: { skipWebsocket?: boolean } = {}) {
         this.router = new Router();
@@ -86,6 +88,7 @@ export class MCPServer {
         this.council = new Council(this.modelSelector);
         this.permissionManager = new PermissionManager('high'); // Default to HIGH AUTONOMY as requested
         this.chainExecutor = new ChainExecutor(this);
+        this.inputTools = new InputTools();
 
         // Memory System - LAZY LOADED on first use to speed up startup
         // VectorStore and Indexer are created in initializeMemorySystem()
@@ -97,6 +100,12 @@ export class MCPServer {
 
         // Standard Server (Stdio)
         this.server = this.createServerInstance();
+
+        // BOOTSTRAP: Start Auto-Drive immediately for true autonomy
+        setTimeout(() => {
+            console.log("[MCPServer] 🚀 Bootstrapping Auto-Drive...");
+            this.director.startAutoDrive().catch(e => console.error("Auto-Drive Boot Failed:", e));
+        }, 5000); // Wait 5s for connections to settle
 
         // WebSocket Server (Extension Bridge)
         if (!options.skipWebsocket) {
@@ -258,11 +267,12 @@ export class MCPServer {
             }
             else if (name === "native_input") {
                 const keys = args?.keys as string;
-                // Try to find the tool in standard router
+                // Use Direct InputTools
                 try {
-                    result = await this.router.callTool("simulate_input", { keys });
-                } catch (e) {
-                    result = { content: [{ type: "text", text: "Error: Supervisor (simulate_input) not available. Is borg-supervisor running?" }] };
+                    const status = await this.inputTools.sendKeys(keys);
+                    result = { content: [{ type: "text", text: status }] };
+                } catch (e: any) {
+                    result = { content: [{ type: "text", text: `Error executing native_input: ${e.message}` }] };
                 }
             }
             else if (name === "vscode_execute_command") {

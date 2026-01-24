@@ -36,7 +36,7 @@ export class Director {
             maxSteps
         };
 
-        console.log(`[Director] Starting task: "${goal}" (Limit: ${maxSteps} steps)`);
+        console.error(`[Director] Starting task: "${goal}" (Limit: ${maxSteps} steps)`);
         await this.broadcast(`🎬 **Director Action**: ${goal}`);
 
         for (let step = 1; step <= maxSteps; step++) {
@@ -44,14 +44,14 @@ export class Director {
                 // pass
             }
 
-            console.log(`[Director] Step ${step}/${maxSteps}`);
+            console.error(`[Director] Step ${step}/${maxSteps}`);
 
             // 1. Think
             const plan = await this.think(context);
             context.history.push(`Thinking: ${plan.reasoning}`);
 
             if (plan.action === 'FINISH') {
-                console.log("[Director] Task Completed.");
+                console.error("[Director] Task Completed.");
                 return plan.result || "Task completed successfully.";
             }
 
@@ -61,12 +61,12 @@ export class Director {
                 // Quick consult, no blocking UI
                 const debate = await this.council.startDebate(`Action: ${plan.toolName}. Reasoning: ${plan.reasoning}`);
                 context.history.push(`Council Advice: ${debate.summary}`);
-                console.log(`[Director] 🛡️ Council Advice: ${debate.summary}`);
+                console.error(`[Director] 🛡️ Council Advice: ${debate.summary}`);
             }
 
             // 2. Act
             try {
-                console.log(`[Director] Executing: ${plan.toolName}`);
+                console.error(`[Director] Executing: ${plan.toolName}`);
                 const result = await this.server.executeTool(plan.toolName, plan.params);
                 const observation = JSON.stringify(result);
                 context.history.push(`Action: ${plan.toolName}(${JSON.stringify(plan.params)})`);
@@ -92,7 +92,7 @@ export class Director {
         this.isAutoDriveActive = true;
         this.currentStatus = 'DRIVING';
 
-        console.log(`[Director] Starting Auto-Drive (Internal Loop)...`);
+        console.error(`[Director] Starting Auto-Drive (Internal Loop)...`);
         await this.broadcast("⚡ **Auto-Drive Engaged**\nI am now operating autonomously. The Council will direct the workflow.");
 
         // Start Monitor to handle Idle states by triggering Council
@@ -102,7 +102,7 @@ export class Director {
     }
 
     stopAutoDrive() {
-        console.log("[Director] Stopping Auto-Drive...");
+        console.error("[Director] Stopping Auto-Drive...");
         this.isAutoDriveActive = false;
         this.currentStatus = 'IDLE';
         if (this.monitor) {
@@ -123,11 +123,8 @@ export class Director {
     // --- Helpers ---
 
     private async broadcast(message: string) {
-        try {
-            await this.server.executeTool('chat_reply', { text: message });
-        } catch (e) {
-            console.error("Failed to broadcast:", e);
-        }
+        // SAFE MODE: Console Log only. No chat_reply.
+        console.error(`\n📢 [Director]: ${message}\n`);
     }
 
     private async think(context: AgentContext): Promise<any> {
@@ -210,9 +207,14 @@ class ConversationMonitor {
             return;
         }
 
+        // AGGRESSIVE MODE: Always try to accept pending changes or prompts
+        // This restores "How we had it before" (Blind Watchdog behavior)
+        try { await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' }); } catch (e) { }
+        try { await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' }); } catch (e) { }
+        try { await this.server.executeTool('native_input', { keys: 'alt+enter' }); } catch (e) { }
+
         // If Director is busy executing a task, don't interrupt (unless stuck?)
         if (this.isRunningTask) {
-            // Maybe check if stuck? For now, just wait.
             return;
         }
 
@@ -221,7 +223,7 @@ class ConversationMonitor {
     }
 
     private async detectState(): Promise<'NEEDS_APPROVAL' | 'IDLE' | 'BUSY'> {
-        // 1. Check Terminal for "Approve?"
+        // 1. Check Terminal for "Approve?" (Explicit)
         try {
             // @ts-ignore
             const termResult = await this.server.executeTool('vscode_read_terminal', {});
@@ -232,14 +234,24 @@ class ConversationMonitor {
 
         // 2. Check Time
         const idleTime = Date.now() - this.lastActivityTime;
-        if (idleTime > 10000) return 'IDLE'; // 10s idle = summon council
+
+        // 3. Infer UI Blockage (Inline Chat / Alt-Enter)
+        // If we are technically "Running a Task" but have been idle for > 5s, 
+        // we are likely waiting for an "Alt-Enter" confirmation in the UI.
+        if (this.isRunningTask && idleTime > 5000) {
+            console.error("[Director] ⚠️ Mid-Task Stall detected (UI Block?). Triggering Approval...");
+            return 'NEEDS_APPROVAL';
+        }
+
+        // 4. True Idle (Council)
+        if (idleTime > 10000 && !this.isRunningTask) return 'IDLE';
 
         return 'BUSY';
     }
 
     private async respondToState(state: string) {
         if (state === 'NEEDS_APPROVAL') {
-            console.log("[Director] 🟢 Auto-Approving...");
+            console.error("[Director] 🟢 Auto-Approving...");
             // Try all acceptance methods, NO Typing in Chat.
             try { await this.server.executeTool('native_input', { keys: 'alt+enter' }); } catch (e) { }
             try { await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' }); } catch (e) { }
@@ -256,7 +268,7 @@ class ConversationMonitor {
     private async runCouncilLoop() {
         this.isRunningTask = true;
         try {
-            console.log(`[Director] 🤖 Convening Council...`);
+            console.error(`[Director] 🤖 Convening Council...`);
 
             const model = await this.server.modelSelector.selectModel({ taskComplexity: 'high' });
 
@@ -278,13 +290,13 @@ class ConversationMonitor {
             const directive = directiveMatch ? directiveMatch[1] : null;
 
             // 1. Log Dialogue to Console (Safe, no UI interferance)
-            console.log(`\n\n🏛️ **COUNCIL HALL** 🏛️\n------------------------\n${msg}\n------------------------\n`);
+            console.error(`\n\n🏛️ **COUNCIL HALL** 🏛️\n------------------------\n${msg}\n------------------------\n`);
 
             if (directive) {
                 // 2. EXECUTE DIRECTLY
                 await this.director.executeTask(directive);
             } else {
-                console.log("[Director] No directive found in Council output.");
+                console.error("[Director] No directive found in Council output.");
             }
 
         } catch (e: any) {

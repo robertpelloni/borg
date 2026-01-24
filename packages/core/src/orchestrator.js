@@ -1,4 +1,6 @@
 console.log("[Core:Orchestrator] Starting imports...");
+import { spawn } from 'child_process';
+import path from 'path';
 import express from 'express';
 console.log("[Core:Orchestrator] ✓ express");
 import cors from 'cors';
@@ -24,6 +26,20 @@ export async function startOrchestrator() {
     app.listen(TRPC_PORT, () => {
         console.log(`[Core] tRPC Server running at http://localhost:${TRPC_PORT}/trpc`);
     });
+    // 1.5. Start Supervisor (Native Input / Watchdog)
+    try {
+        console.log("[Core] 1.5 Starting Borg Supervisor...");
+        const supervisorPath = path.resolve(process.cwd(), 'packages/borg-supervisor/dist/index.js');
+        const supervisor = spawn('node', [supervisorPath], {
+            stdio: 'inherit',
+            detached: false
+        });
+        supervisor.on('error', (err) => console.error("[Supervisor] Failed to start:", err));
+        console.log(`[Core] Supervisor running (PID: ${supervisor.pid})`);
+    }
+    catch (e) {
+        console.error("[Core] Failed to spawn Supervisor:", e);
+    }
     // 2. Start MCP Server (Bridged: Stdio + WebSocket)
     try {
         console.log("[Core] 2. Instantiating MCPServer...");

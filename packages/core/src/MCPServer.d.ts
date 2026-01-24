@@ -15,6 +15,7 @@ export declare class MCPServer {
     private pendingRequests;
     private chainExecutor;
     wssInstance: any;
+    private inputTools;
     constructor(options?: {
         skipWebsocket?: boolean;
     });
