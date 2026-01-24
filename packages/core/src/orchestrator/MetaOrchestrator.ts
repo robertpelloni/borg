@@ -1,5 +1,5 @@
 
-import { AgentInterface, AgentMessage } from './AgentCommunication';
+import { AgentInterface, AgentMessage } from './AgentCommunication.js';
 
 export class MetaOrchestrator {
     private agents: Map<string, AgentInterface> = new Map();

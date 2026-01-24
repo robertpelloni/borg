@@ -339,19 +339,7 @@ export class MCPServer {
                     content: [{ type: "text", text: resultStr }]
                 };
             }
-            else if (name === "start_watchdog") {
-                const maxCycles = args?.maxCycles || 20;
-                this.director.startWatchdog(maxCycles);
-                result = {
-                    content: [{ type: "text", text: `Watchdog started for ${maxCycles} cycles (~${maxCycles * 5}s).` }]
-                };
-            }
-            else if (name === "start_chat_daemon") {
-                this.director.startChatDaemon();
-                result = {
-                    content: [{ type: "text", text: "Chat Daemon started. Use 'Director, read selection' or select text in chat to trigger." }]
-                };
-            }
+            // Removed obsolete start_watchdog and start_chat_daemon handlers
             else if (name === "start_auto_drive") {
                 this.director.startAutoDrive();
                 result = {
