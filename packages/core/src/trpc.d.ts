@@ -194,6 +194,46 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         output: any;
         meta: object;
     }>;
+    git: import("@trpc/server").TRPCBuiltRouter<{
+        ctx: object;
+        meta: object;
+        errorShape: import("@trpc/server").TRPCDefaultErrorShape;
+        transformer: false;
+    }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
+        getSubmodules: import("@trpc/server").TRPCQueryProcedure<{
+            input: void;
+            output: any[];
+            meta: object;
+        }>;
+    }>>;
+    billing: import("@trpc/server").TRPCBuiltRouter<{
+        ctx: object;
+        meta: object;
+        errorShape: import("@trpc/server").TRPCDefaultErrorShape;
+        transformer: false;
+    }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
+        getStatus: import("@trpc/server").TRPCQueryProcedure<{
+            input: void;
+            output: {
+                keys: {
+                    openai: boolean;
+                    anthropic: boolean;
+                    gemini: boolean;
+                    mistral: boolean;
+                };
+                usage: {
+                    currentMonth: number;
+                    limit: number;
+                    breakdown: {
+                        provider: string;
+                        cost: number;
+                        requests: number;
+                    }[];
+                };
+            };
+            meta: object;
+        }>;
+    }>>;
 }>>;
 export type AppRouter = typeof appRouter;
 //# sourceMappingURL=trpc.d.ts.map

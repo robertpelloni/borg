@@ -569,4 +569,6 @@ class ConversationMonitor {
 
     private async sendEncouragement() {
         const msg = this.messages[Math.floor(Math.random() * this.messages.length)];
-        console.log(`[Director] 💎 Gemma: "
+        console.log(`[Director] 💎 Gemma: "${msg}"`);
+    }
+}

@@ -185,5 +185,62 @@ export const appRouter = t.router({
             return result.content[0].text;
         }
         throw new Error("MCPServer not found");
+    }),
+    git: t.router({
+        getSubmodules: t.procedure.query(async () => {
+            const fs = await import('fs/promises');
+            const path = await import('path');
+            const gitModulesPath = path.join(process.cwd(), '.gitmodules');
+            try {
+                const content = await fs.readFile(gitModulesPath, 'utf-8');
+                const modules = [];
+                // Simple regex parser
+                const lines = content.split('\n');
+                let current = {};
+                for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith('[submodule')) {
+                        if (current.path)
+                            modules.push(current);
+                        current = { name: trimmed.match(/"(.+)"/)?.[1] || 'unknown' };
+                    }
+                    else if (trimmed.startsWith('path = ')) {
+                        current.path = trimmed.split(' = ')[1];
+                    }
+                    else if (trimmed.startsWith('url = ')) {
+                        current.url = trimmed.split(' = ')[1];
+                    }
+                }
+                if (current.path)
+                    modules.push(current);
+                return modules;
+            }
+            catch (e) {
+                console.error("Failed to read .gitmodules", e);
+                return [];
+            }
+        })
+    }),
+    billing: t.router({
+        getStatus: t.procedure.query(async () => {
+            // Check Env Keys (MASKED)
+            const keys = {
+                openai: !!process.env.OPENAI_API_KEY,
+                anthropic: !!process.env.ANTHROPIC_API_KEY,
+                gemini: !!process.env.GEMINI_API_KEY,
+                mistral: !!process.env.MISTRAL_API_KEY
+            };
+            // Mock Usage (In real app, read from SQL/Graph)
+            const usage = {
+                currentMonth: 42.50,
+                limit: 100.00,
+                breakdown: [
+                    { provider: 'OpenAI', cost: 12.50, requests: 1540 },
+                    { provider: 'Anthropic', cost: 25.00, requests: 890 },
+                    { provider: 'Gemini', cost: 5.00, requests: 3020 } // Cheap!
+                ]
+            };
+            return { keys, usage };
+        })
     })
 });
