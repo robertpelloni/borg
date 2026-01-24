@@ -125,17 +125,16 @@ export class Director {
             }
 
             // 3. Precise UI Interaction (VS Code API)
-            // Instead of blind keys, we try to execute specific VS Code commands 
-            // that trigger "Accept" or "Run" actions for inline chat / terminal.
+            // Instead of blind keys, we try to execute specific verified VS Code commands.
             try {
-                // Inline Chat Accept (Ctrl+Enter / Blue Button)
-                await this.server.executeTool('vscode_execute_command', { command: 'inlineChat.accept' });
+                // Inline Chat Accept
+                await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' });
 
                 // Terminal Quick Fix / Run
                 await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' });
 
                 // Standard Chat Submit (if pending)
-                // await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.submit' });
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.submit' });
             } catch (e) {
                 // Ignore failure if command not available
             }
@@ -301,21 +300,24 @@ export class Director {
 
     private startAutoAccepter() {
         // Re-enabled per user request to handle "Accept" / "Allow" prompts automatically.
-        // KEY CHANGE: We must FOCUS the Chat Panel before sending keys to avoid typing in the Terminal.
+        // KEY CHANGE: We use verified command IDs found via diagnostics.
         console.log("[Director] Auto-Accepter active (Interval: 1s). Scanning for 'Accept' triggers...");
 
         setInterval(async () => {
             try {
-                // 1. Click "Accept" / "Submit" button via Command
-                // We blindly fire these to catch any pending acceptance state
-                await this.server.executeTool('vscode_execute_command', { command: 'inlineChat.accept' });
-                await this.server.executeTool('vscode_execute_command', { command: 'editor.action.inlineSuggest.commit' });
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' });
-                await this.server.executeTool('vscode_execute_command', { command: 'chat.action.accept' }); // New
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.applyInEditor' }); // New
+                // 1. Sidebar Chat Submit (Verified ID)
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.submit' });
 
-                // 2. Fallback: Native Keys (Alt+Enter)
-                // Use only if commands fail or for non-command dialogs
+                // 2. Edit Session Submit (Verified ID)
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.edits.submit' });
+
+                // 3. Interactive Editor (Verified ID)
+                await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' });
+
+                // 4. Terminal Chat Accept (If active)
+                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' });
+
+                // 5. Fallback: Native Keys (Alt+Enter) - primarily for native dialogs
                 await this.server.executeTool('native_input', { keys: 'alt+enter' });
 
             } catch (e) {
@@ -431,11 +433,11 @@ What is the next step?`;
                 };
             }
 
-            if ((goal.includes("submit") || goal.includes("send")) && !lastEntry.includes("vscode_submit_chat")) {
+            if ((goal.includes("submit") || goal.includes("send")) && !lastEntry.includes("workbench.action.chat.submit")) {
                 return {
                     action: 'CONTINUE',
-                    toolName: 'vscode_submit_chat',
-                    params: {},
+                    toolName: 'vscode_execute_command',
+                    params: { command: 'workbench.action.chat.submit' },
                     reasoning: "Submitting chat."
                 };
             }
