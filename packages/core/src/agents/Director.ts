@@ -209,6 +209,7 @@ class ConversationMonitor {
     private llmService: LLMService;
     private director: Director;
     private interval: NodeJS.Timeout | null = null;
+    private summaryInterval: NodeJS.Timeout | null = null; // 2-min summary timer
     private lastActivityTime: number = Date.now();
     private isRunningTask: boolean = false;
 
@@ -223,11 +224,67 @@ class ConversationMonitor {
         this.interval = setInterval(async () => {
             await this.checkAndAct();
         }, 5000);
+
+        // Periodic Summary: Every 2 minutes, read context and post to chat
+        if (this.summaryInterval) clearInterval(this.summaryInterval);
+        this.summaryInterval = setInterval(async () => {
+            await this.postPeriodicSummary();
+        }, 120000); // 2 minutes
     }
 
     stop() {
         if (this.interval) clearInterval(this.interval);
+        if (this.summaryInterval) clearInterval(this.summaryInterval);
         this.interval = null;
+        this.summaryInterval = null;
+    }
+
+    /**
+     * Posts a periodic summary to the chat to keep the development loop alive.
+     * Reads context files (README, ROADMAP, DIRECTOR_LIVE) and generates summary.
+     */
+    private async postPeriodicSummary() {
+        if (!this.director.getIsActive()) return;
+        if (this.isRunningTask) return; // Don't interrupt ongoing work
+
+        try {
+            const fs = await import('fs');
+            const path = await import('path');
+            const cwd = process.cwd();
+
+            // Read context files
+            let context = '## Current Context\n';
+            const readFile = (name: string) => {
+                try {
+                    const p = path.join(cwd, name);
+                    if (fs.existsSync(p)) {
+                        const content = fs.readFileSync(p, 'utf8').substring(0, 1000);
+                        return `### ${name}\n${content}\n`;
+                    }
+                } catch (e) { }
+                return '';
+            };
+
+            context += readFile('README.md');
+            context += readFile('docs/ROADMAP.md');
+            context += readFile('docs/USER_DIRECTIVES_INBOX.md');
+            context += readFile('DIRECTOR_LIVE.md');
+
+            // Generate brief summary via LLM
+            const prompt = `You are the Director. Based on the following context, write a 1-2 sentence status update for the development chat. Keep it brief and actionable.\n\n${context}`;
+            const model = await this.server.modelSelector.selectModel({ task: 'summary' });
+            const response = await this.llmService.generateText(model.provider, model.modelId, 'Director Status', prompt);
+            const summary = response.content.trim().substring(0, 200);
+
+            // Broadcast to chat with Alt-Enter submit
+            await this.server.executeTool('chat_reply', { text: `📊 [Director Status]: ${summary}` });
+            await new Promise(r => setTimeout(r, 500));
+            await this.server.executeTool('vscode_submit_chat', {});
+
+            console.error(`[Director] 📊 Posted periodic summary.`);
+        } catch (e: any) {
+            console.error(`[Director] Summary Error: ${e.message}`);
+        }
     }
 
     private async checkAndAct() {
@@ -237,11 +294,11 @@ class ConversationMonitor {
             return;
         }
 
-        // AGGRESSIVE MODE: Always try to accept pending changes or prompts
-        // This restores "How we had it before" (Blind Watchdog behavior)
+        // Accept pending changes via Extension (Safe, no terminal spam)
+        // Only uses WebSocket bridge to VS Code Extension
         try { await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' }); } catch (e) { }
         try { await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.terminal.chat.accept' }); } catch (e) { }
-        try { await this.server.executeTool('native_input', { keys: 'alt+enter' }); } catch (e) { }
+        // REMOVED: native_input causes terminal spam. Alt-Enter handled by vscode_submit_chat instead.
 
         // If Director is busy executing a task, don't interrupt (unless stuck?)
         if (this.isRunningTask) {
