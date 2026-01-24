@@ -1,26 +1,7 @@
-import { Council } from '../agents/Council.js';
 export class PermissionManager {
     autonomyLevel;
-    council;
-    constructor(autonomyLevel = 'high', modelSelector) {
+    constructor(autonomyLevel = 'high') {
         this.autonomyLevel = autonomyLevel;
-        if (modelSelector) {
-            this.council = new Council(modelSelector);
-        }
-    }
-    /**
-     * Consult the Council for a sensitive action.
-     * Returns the debate result with approval status and reasoning.
-     */
-    async consultCouncil(toolName, args) {
-        if (!this.council) {
-            console.warn('[PermissionManager] No Council configured. Skipping consultation.');
-            return null;
-        }
-        const proposal = `Tool: ${toolName}\nArguments: ${JSON.stringify(args, null, 2)}`;
-        console.log(`[PermissionManager] 🏛️ Consulting Council for: ${toolName}`);
-        const result = await this.council.startDebate(proposal);
-        return result;
     }
     setAutonomyLevel(level) {
         this.autonomyLevel = level;

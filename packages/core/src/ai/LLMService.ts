@@ -17,6 +17,7 @@ export class LLMService {
     private googleClient?: GoogleGenerativeAI;
     private openaiClient?: OpenAI;
     private anthropicClient?: Anthropic;
+    private totalUsage = { inputTokens: 0, outputTokens: 0, estimatedCostUSD: 0 };
 
     constructor() {
         if (process.env.GOOGLE_API_KEY) {
@@ -30,8 +31,30 @@ export class LLMService {
         }
     }
 
+    public getCostStats() {
+        return this.totalUsage;
+    }
+
+    private trackUsage(provider: string, model: string, usage?: { inputTokens: number, outputTokens: number }) {
+        if (!usage) return;
+        this.totalUsage.inputTokens += usage.inputTokens;
+        this.totalUsage.outputTokens += usage.outputTokens;
+
+        // Simple cost estimation (averaged high-tier rates: $5/1M in, $15/1M out)
+        // Adjust per model if needed in future
+        const inputRate = 5.0 / 1_000_000;
+        const outputRate = 15.0 / 1_000_000;
+
+        const cost = (usage.inputTokens * inputRate) + (usage.outputTokens * outputRate);
+        this.totalUsage.estimatedCostUSD += cost;
+
+        console.log(`[LLMService] Cost: $${cost.toFixed(6)} | Total: $${this.totalUsage.estimatedCostUSD.toFixed(4)}`);
+    }
+
     async generateText(provider: string, modelId: string, systemPrompt: string, userPrompt: string): Promise<LLMResponse> {
         console.log(`[LLMService] Generating with ${provider}/${modelId}...`);
+
+        let response: LLMResponse;
 
         try {
             if (provider === 'google') {
@@ -42,10 +65,18 @@ export class LLMService {
                     contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
                     systemInstruction: systemPrompt
                 });
-                return { content: result.response.text() };
+                const text = result.response.text();
+                // Estimate tokens for Gemini (chars / 4)
+                response = {
+                    content: text,
+                    usage: {
+                        inputTokens: (systemPrompt.length + userPrompt.length) / 4,
+                        outputTokens: text.length / 4
+                    }
+                };
             }
 
-            if (provider === 'anthropic') {
+            else if (provider === 'anthropic') {
                 if (!this.anthropicClient) throw new Error("Anthropic API Key not configured.");
                 const msg = await this.anthropicClient.messages.create({
                     model: modelId,
@@ -53,7 +84,7 @@ export class LLMService {
                     system: systemPrompt,
                     messages: [{ role: "user", content: userPrompt }]
                 });
-                return {
+                response = {
                     content: (msg.content[0] as any).text,
                     usage: {
                         inputTokens: msg.usage.input_tokens,
@@ -62,7 +93,7 @@ export class LLMService {
                 };
             }
 
-            if (provider === 'openai') {
+            else if (provider === 'openai') {
                 if (!this.openaiClient) throw new Error("OpenAI API Key not configured.");
                 const completion = await this.openaiClient.chat.completions.create({
                     messages: [
@@ -71,7 +102,7 @@ export class LLMService {
                     ],
                     model: modelId,
                 });
-                return {
+                response = {
                     content: completion.choices[0].message.content || "",
                     usage: {
                         inputTokens: completion.usage?.prompt_tokens || 0,
@@ -80,7 +111,7 @@ export class LLMService {
                 };
             }
 
-            if (provider === 'deepseek') {
+            else if (provider === 'deepseek') {
                 // DeepSeek is OpenAI compatible but needs a custom Base URL and Key.
                 // We create a fleeting client or use a cached one if we want optimization.
                 // For now, simpler to create one on the fly to avoid constructor pollution, 
@@ -98,7 +129,7 @@ export class LLMService {
                     model: modelId,
                 });
 
-                return {
+                response = {
                     content: completion.choices[0].message.content || "",
                     usage: {
                         inputTokens: completion.usage?.prompt_tokens || 0,
@@ -107,9 +138,9 @@ export class LLMService {
                 };
             }
 
-            if (provider === 'ollama') {
+            else if (provider === 'ollama') {
                 // Ollama Local Inference
-                const response = await fetch('http://localhost:11434/api/chat', {
+                const res = await fetch('http://localhost:11434/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -122,12 +153,12 @@ export class LLMService {
                     })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`Ollama Error: ${response.statusText}`);
+                if (!res.ok) {
+                    throw new Error(`Ollama Error: ${res.statusText}`);
                 }
 
-                const data: any = await response.json();
-                return {
+                const data: any = await res.json();
+                response = {
                     content: data.message?.content || "",
                     usage: {
                         inputTokens: data.prompt_eval_count || 0,
@@ -136,7 +167,7 @@ export class LLMService {
                 };
             }
 
-            if (provider === 'lmstudio') {
+            else if (provider === 'lmstudio') {
                 // LM Studio (OpenAI Compatible)
                 // Assumes running on localhost:1234
                 const lmClient = new OpenAI({
@@ -152,16 +183,22 @@ export class LLMService {
                     model: modelId || 'local-model', // LM Studio often ignores model name or uses the loaded one
                 });
 
-                return {
+                response = {
                     content: completion.choices[0].message.content || "",
                     usage: {
                         inputTokens: completion.usage?.prompt_tokens || 0,
                         outputTokens: completion.usage?.completion_tokens || 0
                     }
                 };
+            } else {
+                throw new Error(`Unsupported provider: ${provider}`);
             }
 
-            throw new Error(`Unsupported provider: ${provider}`);
+            // Track Usage
+            this.trackUsage(provider, modelId, response.usage);
+
+            return response;
+
         } catch (error: any) {
             console.error(`[LLMService] Error from ${provider}:`, error.message, error.response?.data || error);
             throw error;

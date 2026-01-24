@@ -1,5 +1,3 @@
-import * as lancedb from '@lancedb/lancedb';
-import { pipeline } from '@xenova/transformers';
 export class VectorStore {
     dbPath;
     db;
@@ -13,10 +11,12 @@ export class VectorStore {
         if (this.initialized)
             return;
         console.log(`[VectorStore] Initializing LanceDB at ${this.dbPath}...`);
-        // 1. Connect to DB
+        // 1. Connect to DB (LAZY LOAD)
+        const lancedb = await import('@lancedb/lancedb');
         this.db = await lancedb.connect(this.dbPath);
-        // 2. Initialize Embedding Model (Local)
+        // 2. Initialize Embedding Model (LAZY LOAD)
         console.log(`[VectorStore] Loading Embedding Model (Xenova/all-MiniLM-L6-v2)...`);
+        const { pipeline } = await import('@xenova/transformers');
         this.embeddingPipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
         // 3. Open or Create Table
         const tableName = 'codebase_v1';

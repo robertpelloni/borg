@@ -4,7 +4,9 @@ export declare class Director {
     private llmService;
     private council;
     private lastSelection;
-    private log;
+    private isAutoDriveActive;
+    private currentStatus;
+    private monitor;
     constructor(server: MCPServer);
     /**
      * Starts an autonomous task loop.
@@ -21,8 +23,6 @@ export declare class Director {
      * It polls 'vscode_read_selection'. If text changes, it treats it as a prompt.
      */
     startChatDaemon(): Promise<string>;
-    private isAutoDriveActive;
-    private currentStatus;
     /**
      * Stops the Auto-Drive loop.
      */
@@ -40,19 +40,14 @@ export declare class Director {
      * 1. Reads task.md
      * 2. Finds next task.
      * 3. Submits to Chat.
-     * 4. Auto-Accepts (periodically presses Alt+Enter via native_input).
+     * 4. Auto-Accepts (via Smart Monitor).
      */
     startAutoDrive(): Promise<string>;
-    private autoAccepterInterval;
-    private lastActivityTime;
-    private consecutiveIdleChecks;
-    private lastEncouragementTime;
-    private detectConversationState;
-    private respondToState;
-    private sendGemmaEncouragement;
-    recordActivity(): void;
+    /**
+     * Starts the smart, state-aware auto-accepter.
+     * Unlike the old "blind" clicker, this monitors the conversation state.
+     */
     private startAutoAccepter;
-    private stopAutoAccepter;
     private think;
     private heuristicFallback;
 }

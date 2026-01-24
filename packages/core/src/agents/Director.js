@@ -1,18 +1,15 @@
 import { LLMService } from "../ai/LLMService.js";
 import { Council } from "./Council.js";
+import { DIRECTOR_SYSTEM_PROMPT, GEMMA_ENCOURAGEMENT_MESSAGES } from "../prompts/SystemPrompts.js";
 export class Director {
     server;
     llmService;
     council;
     lastSelection = "";
-    log(message) {
-        console.log(message);
-        this.server.broadcast('LOG_ENTRY', {
-            source: 'Director',
-            message: message,
-            timestamp: Date.now()
-        });
-    }
+    // Auto-Drive State
+    isAutoDriveActive = false;
+    currentStatus = 'IDLE';
+    monitor = null; // Smart Auto-Accepter
     constructor(server) {
         this.server = server;
         this.llmService = new LLMService();
@@ -30,18 +27,16 @@ export class Director {
             history: [],
             maxSteps
         };
-        this.log(`[Director] Starting task: "${goal}" (Limit: ${maxSteps} steps)`);
+        console.log(`[Director] Starting task: "${goal}" (Limit: ${maxSteps} steps)`);
         for (let step = 1; step <= maxSteps; step++) {
-            this.log(`[Director] Step ${step}/${maxSteps}`);
+            console.log(`[Director] Step ${step}/${maxSteps}`);
             // 1. Think: Determine next action
             const plan = await this.think(context);
             context.history.push(`Thinking: ${plan.reasoning}`);
             if (plan.action === 'FINISH') {
-                this.log("[Director] Task Completed.");
+                console.log("[Director] Task Completed.");
                 return plan.result || "Task completed successfully.";
             }
-            // 1b. COUNCIL ADVICE (Advisory Only)
-            // If the action is significant (not just reading), consult the Council for optimization/insight.
             // 1b. COUNCIL ADVICE (Advisory Only)
             // If the action is significant (not just reading), consult the Council for optimization/insight.
             // SKIP if Autonomy is High (Full Self-Driving)
@@ -51,14 +46,14 @@ export class Director {
                 // We add the Council's wisdom to the context history so the Agent can see it for the NEXT step.
                 // But we DO NOT block the current action.
                 context.history.push(`Council Advice for '${plan.toolName}': ${debate.summary}`);
-                this.log(`[Director] 🛡️ Council Advice: ${debate.summary}`);
+                console.log(`[Director] 🛡️ Council Advice: ${debate.summary}`);
             }
             else if (isHighAutonomy) {
-                this.log(`[Director] ⚡ High Autonomy: Skipping Council Debate for ${plan.toolName}`);
+                console.log(`[Director] ⚡ High Autonomy: Skipping Council Debate for ${plan.toolName}`);
             }
             // 2. Act: Execute tool
             try {
-                this.log(`[Director] Executing: ${plan.toolName}`);
+                console.log(`[Director] Executing: ${plan.toolName}`);
                 // Use MCPServer's unified tool executor
                 const result = await this.server.executeTool(plan.toolName, plan.params);
                 const observation = JSON.stringify(result);
@@ -93,10 +88,6 @@ export class Director {
                 const approvalRegex = /(?:approve\?|continue\?|\[y\/n\]|\[yes\/no\]|do you want to run this command\?)/i;
                 if (approvalRegex.test(content) || content.includes("Approve?") || content.includes("Do you want to continue?")) {
                     console.log("[Director] Detected Approval Prompt! Auto-Approving... (DISABLED due to focus issues)");
-                    // DISABLED: Causing 'okIt...' typing loops in PowerShell.
-                    // await this.server.executeTool('native_input', { keys: 'y' });
-                    // await new Promise(r => setTimeout(r, 100)); // Small delay
-                    // await this.server.executeTool('native_input', { keys: 'enter' });
                 }
                 // Keep-Alive / Resume?
                 // If text says "Press any key to continue", do it.
@@ -120,13 +111,6 @@ export class Director {
             catch (e) {
                 // Ignore failure if command not available
             }
-            // Fallback: Try "Enter" key for modal dialogs that aren't API accessible
-            // DISABLED per user request (too disruptive)
-            /*
-            try {
-                 await this.server.executeTool('native_input', { keys: 'enter' });
-            } catch (e) {}
-            */
             // Wait 2 seconds (More aggressive than 5s)
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
@@ -142,17 +126,6 @@ export class Director {
         while (true) { // Infinite Loop (Daemon)
             try {
                 // 1. Check Terminal for Approvals (DISABLED by default to prevent Focus Stealing)
-                // To re-enable, use a less intrusive method than clipboard hack.
-                /*
-                const termResult = await this.server.executeTool('vscode_read_terminal', {});
-                // @ts-ignore
-                const termContent = termResult.content?.[0]?.text || "";
-                if (termContent.match(/\[y\/N\]/i)) {
-                    console.log("[Director] Auto-Approving Terminal Prompt...");
-                    await this.server.executeTool('native_input', { keys: 'y' });
-                    await this.server.executeTool('native_input', { keys: 'enter' });
-                }
-                */
                 // 2. Check Selection (Chat Bridge)
                 const selResult = await this.server.executeTool('vscode_read_selection', {});
                 // @ts-ignore
@@ -163,8 +136,6 @@ export class Director {
                     // Execute the instruction
                     const result = await this.executeTask(selection, 5);
                     console.log(`[Director] Task Result: ${result}`);
-                    // Optional: Try to paste result back? 
-                    // await this.server.executeTool('chat_reply', { text: result }); 
                 }
             }
             catch (e) {
@@ -174,15 +145,18 @@ export class Director {
             await new Promise(r => setTimeout(r, 2000));
         }
     }
-    isAutoDriveActive = false;
-    currentStatus = 'IDLE';
     /**
      * Stops the Auto-Drive loop.
      */
     stopAutoDrive() {
-        this.log("[Director] Stopping Auto-Drive...");
+        console.log("[Director] Stopping Auto-Drive...");
         this.isAutoDriveActive = false;
         this.currentStatus = 'IDLE';
+        // Stop the monitor too!
+        if (this.monitor) {
+            this.monitor.stop();
+            this.monitor = null;
+        }
     }
     /**
      * Gets the current operational status.
@@ -199,7 +173,7 @@ export class Director {
      * 1. Reads task.md
      * 2. Finds next task.
      * 3. Submits to Chat.
-     * 4. Auto-Accepts (periodically presses Alt+Enter via native_input).
+     * 4. Auto-Accepts (via Smart Monitor).
      */
     async startAutoDrive() {
         if (this.isAutoDriveActive) {
@@ -207,53 +181,32 @@ export class Director {
         }
         this.isAutoDriveActive = true;
         this.currentStatus = 'DRIVING';
-        this.log(`[Director] Starting Auto-Drive (Manager Mode)...`);
-        // 1. Start continuous Auto-Accepter (The "Clicker") - ENABLED for Self-Driving
+        console.log(`[Director] Starting Auto-Drive (Manager Mode)...`);
+        // 1. Start Smart Auto-Accepter
         this.startAutoAccepter();
         // 2. Management Loop
         while (this.isAutoDriveActive) {
             try {
                 // A. Prompt the Agent
-                this.stopAutoAccepter(); // DISABLE auto-clicker while typing to prevent focus wars
-                // We assume the Agent (You) has the context.
-                const prompt = "⚠️ DIRECTOR STATUS: All verification tasks are complete. System is fully operational. Awaiting your next command.";
-                this.log(`[Director] Directing Agent: "${prompt}"`);
+                const prompt = "⚠️ DIRECTOR INTERVENTION: Please check `task.md` for any remaining unchecked items. If all tasks are effectively done, verify the robustness of the 'Auto-Drive' mechanism itself. I am auto-accepting your changes.";
+                console.log(`[Director] Directing Agent: "${prompt}"`);
                 // Focus Chat & Send
                 await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.open' });
-                await new Promise(r => setTimeout(r, 1000)); // Increased focus delay
+                await new Promise(r => setTimeout(r, 500));
                 if (!this.isAutoDriveActive)
                     break;
                 await this.server.executeTool('chat_reply', { text: prompt });
-                // Wait for text to appear/type (Extension needs time to Open -> Focus -> Paste)
-                this.log("[Director] Waiting for paste to settle (3s)...");
-                await new Promise(r => setTimeout(r, 3000));
-                // 1. Try VS Code Command FIRST
-                this.log("[Director] Attempting VS Code Submit...");
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.focusInput' });
                 await new Promise(r => setTimeout(r, 500));
+                // 1. Try VS Code Command FIRST
                 await this.server.executeTool('vscode_submit_chat', {});
-                // 2. Native Fallbacks (Enter)
-                await new Promise(r => setTimeout(r, 2000));
-                this.log("[Director] Attempting Native Enter...");
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.focusInput' });
+                // 2. Fallback: Native Enter
                 await new Promise(r => setTimeout(r, 500));
                 await this.server.executeTool('native_input', { keys: 'enter' });
                 // 3. Force Submit (Ctrl+Enter)
-                await new Promise(r => setTimeout(r, 2000));
-                this.log("[Director] Attempting Ctrl+Enter...");
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.focusInput' });
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 200));
                 await this.server.executeTool('native_input', { keys: 'control+enter' });
-                // 4. User Requested: Alt+Enter (Magic Fix?)
-                await new Promise(r => setTimeout(r, 2000));
-                this.log("[Director] Attempting Alt+Enter...");
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.focusInput' });
-                await new Promise(r => setTimeout(r, 500));
-                await this.server.executeTool('native_input', { keys: 'alt+enter' });
-                // Re-enable Auto-Accepter for the long wait period
-                this.startAutoAccepter();
-                this.log("[Director] Supervising development block (180s)...");
-                // Active Wait (Check flag every 1s)
+                // B. Wait / Supervise (Run for 3 minutes before re-prompting)
+                console.log("[Director] Supervising development block (180s)...");
                 for (let i = 0; i < 180; i++) {
                     if (!this.isAutoDriveActive)
                         break;
@@ -268,106 +221,15 @@ export class Director {
         console.log("[Director] Auto-Drive Stopped.");
         return "Auto-Drive Stopped.";
     }
-    autoAccepterInterval = null;
-    // === SMART CONVERSATION MONITOR ===
-    lastActivityTime = Date.now();
-    consecutiveIdleChecks = 0;
-    lastEncouragementTime = 0;
-    async detectConversationState() {
-        try {
-            // Try to get state from VS Code extension
-            const result = await this.server.executeTool('vscode_execute_command', {
-                command: 'borg.getConversationState'
-            });
-            // @ts-ignore
-            if (result?.content?.[0]?.text?.includes('generating'))
-                return 'AI_WORKING';
-            // @ts-ignore
-            if (result?.content?.[0]?.text?.includes('ready'))
-                return 'NEEDS_SUBMIT';
-        }
-        catch {
-            // Extension command not available, use time heuristics
-        }
-        const idleMs = Date.now() - this.lastActivityTime;
-        if (idleMs < 5000)
-            return 'AI_WORKING'; // Recently active, assume working
-        if (idleMs < 30000)
-            return 'NEEDS_SUBMIT'; // 5-30s idle, try to submit
-        return 'IDLE'; // > 30s idle
-    }
-    async respondToState(state) {
-        switch (state) {
-            case 'AI_WORKING':
-                // AI is generating - do nothing, just wait
-                this.consecutiveIdleChecks = 0;
-                break;
-            case 'NEEDS_SUBMIT':
-                // Try to submit, but not aggressively
-                this.consecutiveIdleChecks = 0;
-                this.log("[Director] 📤 Detected ready state - attempting submit...");
-                try {
-                    await this.server.executeTool('vscode_submit_chat', {});
-                    await new Promise(r => setTimeout(r, 500));
-                    await this.server.executeTool('native_input', { keys: 'alt+enter' });
-                }
-                catch { }
-                break;
-            case 'IDLE':
-                this.consecutiveIdleChecks++;
-                // After 2 consecutive idle checks (6 seconds), send encouragement
-                if (this.consecutiveIdleChecks >= 2 && Date.now() - this.lastEncouragementTime > 120000) {
-                    this.log("[Director] 💬 Idle detected - sending Gemma encouragement...");
-                    this.lastEncouragementTime = Date.now();
-                    await this.sendGemmaEncouragement();
-                }
-                break;
-            default:
-                // Unknown state - cautious single submit attempt
-                try {
-                    await this.server.executeTool('vscode_submit_chat', {});
-                }
-                catch { }
-        }
-    }
-    async sendGemmaEncouragement() {
-        try {
-            const encouragements = [
-                "Keep building! Every line of code brings us closer to the vision.",
-                "The architecture is coming together beautifully. What's next?",
-                "You're making great progress. Ready for the next challenge?",
-                "Systems green. Awaiting your next command, Director."
-            ];
-            const msg = encouragements[Math.floor(Math.random() * encouragements.length)];
-            await this.server.broadcast('DIRECTOR_STATUS', { message: `🤖 Gemma: ${msg}` });
-        }
-        catch { }
-    }
-    recordActivity() {
-        this.lastActivityTime = Date.now();
-        this.consecutiveIdleChecks = 0;
-    }
+    /**
+     * Starts the smart, state-aware auto-accepter.
+     * Unlike the old "blind" clicker, this monitors the conversation state.
+     */
     startAutoAccepter() {
-        if (this.autoAccepterInterval)
-            return;
-        this.log("[Director] Auto-Accepter STARTED (State-Aware Mode: 3s checks).");
-        this.lastActivityTime = Date.now();
-        this.autoAccepterInterval = setInterval(async () => {
-            try {
-                const state = await this.detectConversationState();
-                await this.respondToState(state);
-            }
-            catch (e) {
-                // Silent fail - don't crash the monitor
-            }
-        }, 3000);
-    }
-    stopAutoAccepter() {
-        if (this.autoAccepterInterval) {
-            clearInterval(this.autoAccepterInterval);
-            this.autoAccepterInterval = null;
-            this.log("[Director] Auto-Accepter PAUSED.");
-        }
+        console.log("[Director] 🧠 Starting Smart Auto-Accepter (State-Aware)...");
+        // Pass callback to check active state
+        this.monitor = new ConversationMonitor(this.server, () => this.isAutoDriveActive);
+        this.monitor.start();
     }
     async think(context) {
         // 0. Memory Recall (RAG)
@@ -388,44 +250,7 @@ export class Director {
         // 1. Select Model
         const model = await this.server.modelSelector.selectModel({ taskComplexity: 'medium' });
         // 2. Construct Prompt
-        const systemPrompt = `You are an Autonomous AI Agent called 'The Director'. 
-Your goal is to achieve the user's objective by executing tools.
-You are operating within the 'Antigravity' IDE context.
-
-AVAILABLE TOOLS:
-- vscode_get_status: Check active file/terminal.
-- vscode_read_terminal: Read CLI output.
-- vscode_read_selection: Read selected text.
-- vscode_submit_chat: Submit the chat input.
-- vscode_execute_command: Run VS Code commands.
-- native_input: Simulate keyboard (e.g. { keys: 'enter' } for responding to prompts).
-- chat_reply: Write text to the chat input (e.g. { text: 'Hello' }).
-- list_files: Explore directory.
-- read_file: Read file content.
-- start_watchdog: Start continuous monitoring loop (if user asks to "watch" or "monitor").
-- search_codebase: Search for code definitions.
-- cli_gemini_execute: Ask Gemini CLI to perform a task.
-- cli_claude_execute: Ask Claude Code CLI to perform a task.
-- cli_opencode_execute: Ask OpenCode CLI to perform a task.
-- ingest_file: Read a local file (PDF/MD/TXT) into memory.
-- list_ingested_files: List files currently in memory.
-
-RESPONSE FORMAT:
-Return ONLY a valid JSON object (no markdown):
-{
-  "action": "CONTINUE" | "FINISH",
-  "toolName": "name_of_tool",
-  "params": { ...arguments },
-  "reasoning": "Why you chose this action",
-  "result": "Final answer (if FINISH)"
-}
-
-HEURISTICS:
-- If user says "approve", use 'native_input' with 'enter'.
-- If user says "submit", use 'vscode_submit_chat'.
-- If user says "read terminal", use 'vscode_read_terminal'.
-- If user says "watchdog", use 'start_watchdog'.
-`;
+        const systemPrompt = DIRECTOR_SYSTEM_PROMPT;
         const userPrompt = `GOAL: ${context.goal}
 ${memoryContext}
 
@@ -528,5 +353,135 @@ What is the next step?`;
             params: {},
             reasoning: "No clear path forward. Please add API Keys to .env for AI reasoning."
         };
+    }
+}
+/**
+ * Monitors the conversation flow and takes appropriate actions based on state.
+ * avoiding blind clicking/submitting when the AI is working.
+ */
+class ConversationMonitor {
+    server;
+    isActive;
+    interval = null;
+    lastActivityTime = Date.now();
+    // Encouragement messages from "The Investor"
+    messages = GEMMA_ENCOURAGEMENT_MESSAGES;
+    constructor(server, isActive) {
+        this.server = server;
+        this.isActive = isActive;
+    }
+    start() {
+        if (this.interval)
+            clearInterval(this.interval);
+        this.interval = setInterval(async () => {
+            await this.checkAndAct();
+        }, 2000);
+    }
+    stop() {
+        if (this.interval)
+            clearInterval(this.interval);
+        this.interval = null;
+    }
+    async checkAndAct() {
+        if (!this.isActive()) {
+            console.log("[ConversationMonitor] Auto-Drive Stopped. Stopping Monitor.");
+            this.stop();
+            return;
+        }
+        try {
+            const state = await this.detectConversationState();
+            await this.respondToState(state);
+        }
+        catch (e) {
+            console.error("[ConversationMonitor] Error:", e);
+        }
+    }
+    async detectConversationState() {
+        // 1. Check Terminal Content for Approval Prompts
+        try {
+            // @ts-ignore
+            const termResult = await this.server.executeTool('vscode_read_terminal', {});
+            // @ts-ignore
+            const content = (termResult.content?.[0]?.text || "").trim();
+            const lastLines = content.slice(-500); // Check last 500 chars
+            // Approval Cues (Strict)
+            // User confirmed: hidden button needs Alt+Enter.
+            const approvalRegex = /(?:approve\?|continue\?|\[y\/n\]|\[yes\/no\]|do you want to run this command\?)/i;
+            if (approvalRegex.test(lastLines) || lastLines.includes("Approve?")) {
+                return 'NEEDS_APPROVAL';
+            }
+        }
+        catch (e) { }
+        const idleTime = Date.now() - this.lastActivityTime;
+        // 2. Steering (Between Tasks)
+        // User said: "ok to wait ... a whole minute ... between tasks"
+        // If > 90s idle, we assume task is finished.
+        if (idleTime > 90000) {
+            return 'NEEDS_STEER';
+        }
+        // 3. Idle (Mid-Task Stalls)
+        // Only if > 10s idle
+        if (idleTime > 10000) {
+            return 'IDLE';
+        }
+        return 'AI_WORKING';
+    }
+    async respondToState(state) {
+        // Always try safe interactions first
+        try {
+            await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' });
+        }
+        catch (e) { }
+        if (state === 'NEEDS_APPROVAL') {
+            const idleTime = Date.now() - this.lastActivityTime;
+            // Debounce: Don't spam enter. 
+            console.log("[Director] 🟢 Approval Needed -> Alt+Enter");
+            try {
+                await this.server.executeTool('native_input', { keys: 'alt+enter' });
+            }
+            catch (e) { }
+            this.lastActivityTime = Date.now(); // Reset to prevent rapid firing
+        }
+        else if (state === 'NEEDS_STEER') {
+            console.log("[Director] 🔵 Session Finished/Idle -> Generating Smart Steering...");
+            await this.sendSteer();
+            this.lastActivityTime = Date.now();
+        }
+        else if (state === 'IDLE') {
+            // Check for hidden "Accept" buttons (which might need approval)
+            if (Math.random() > 0.8) { // 20% chance every 2s ~ every 10s
+                // TRY submitting only API-based first
+                try {
+                    await this.server.executeTool('vscode_submit_chat', {});
+                }
+                catch (e) { }
+            }
+        }
+    }
+    async sendSteer() {
+        // SMART STEERING: Suggest next task
+        try {
+            // 1. Read Task List (Heuristic path, hard to dynamic find, so generic fallback)
+            // const taskContent = ... 
+            const msgs = [
+                "It seems we are idle. Shall we review the next item in task.md?",
+                "Task appears complete. Ready for new instructions.",
+                "Standing by. What is the next objective?",
+                "System is idle. Please confirm next phase."
+            ];
+            const msg = msgs[Math.floor(Math.random() * msgs.length)];
+            console.log(`[Director] 🤖 Smart Steering: "${msg}"`);
+            await this.server.executeTool('chat_reply', { text: msg });
+            await new Promise(r => setTimeout(r, 500));
+            // Auto-submit suggestion as requested
+            await this.server.executeTool('vscode_submit_chat', {});
+        }
+        catch (e) {
+            console.error("Steering failed:", e.message);
+        }
+    }
+    async sendEncouragement() {
+        const msg = this.messages[Math.floor(Math.random() * this.messages.length)];
+        console.log(`[Director] 💎 Gemma: "${msg}"`);
     }
 }

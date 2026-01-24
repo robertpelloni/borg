@@ -1,8 +1,14 @@
+console.log("[Core:Orchestrator] Starting imports...");
 import express from 'express';
+console.log("[Core:Orchestrator] ✓ express");
 import cors from 'cors';
+console.log("[Core:Orchestrator] ✓ cors");
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
+console.log("[Core:Orchestrator] ✓ @trpc/server/adapters/express");
 import { appRouter } from './trpc.js';
+console.log("[Core:Orchestrator] ✓ trpc.js");
 import { MCPServer } from './MCPServer.js';
+console.log("[Core:Orchestrator] ✓ MCPServer.js");
 export const name = "@borg/core";
 export async function startOrchestrator() {
     console.log(`[Core] Initializing ${name}...`);

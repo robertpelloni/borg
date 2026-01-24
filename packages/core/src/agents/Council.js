@@ -23,64 +23,15 @@ export class Council {
                 text: res.response
             });
         }
-        // Synthesize decision via Judge
-        const verdict = await this.synthesizeDecision(proposal, transcripts);
-        console.log(`[Council] 🏁 Verdict: ${verdict.summary}`);
-        return verdict;
-    }
-    /**
-     * The Judge synthesizes all council opinions into a final verdict.
-     */
-    async synthesizeDecision(proposal, transcripts) {
-        const model = await this.modelSelector.selectModel({ taskComplexity: 'high', taskType: 'supervisor' });
-        const debateLog = transcripts.map(t => `**${t.speaker}**: ${t.text}`).join('\n\n');
-        const systemPrompt = `You are The Judge, the final arbiter on the AI Council.
-Your role is to synthesize the perspectives of the council members into a single, actionable decision.
-
-You must:
-1. Weigh all perspectives fairly.
-2. Identify if any member raised a critical concern (e.g., security risk, data loss).
-3. Render a verdict: APPROVED, APPROVED_WITH_CONDITIONS, or DENIED.
-4. Provide a brief reasoning for your decision.
-
-RESPONSE FORMAT (JSON):
-{
-  "verdict": "APPROVED" | "APPROVED_WITH_CONDITIONS" | "DENIED",
-  "reasoning": "Brief explanation",
-  "conditions": ["Optional: list of conditions if APPROVED_WITH_CONDITIONS"]
-}`;
-        const userPrompt = `PROPOSAL: "${proposal}"
-
-COUNCIL DEBATE:
-${debateLog}
-
-Render your verdict.`;
-        try {
-            const response = await this.llmService.generateText(model.provider, model.modelId, systemPrompt, userPrompt);
-            const content = response.content.trim();
-            // Parse JSON from response
-            const jsonMatch = content.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                const parsed = JSON.parse(jsonMatch[0]);
-                const approved = parsed.verdict !== 'DENIED';
-                let summary = `${parsed.verdict}: ${parsed.reasoning}`;
-                if (parsed.conditions?.length) {
-                    summary += ` | Conditions: ${parsed.conditions.join(', ')}`;
-                }
-                return { approved, transcripts, summary };
-            }
-            // Fallback if JSON parsing fails
-            return { approved: true, transcripts, summary: `Judge: ${content}` };
-        }
-        catch (e) {
-            console.error(`[Council] Judge error:`, e.message);
-            // Default to approval on error (fail-open for development)
-            return {
-                approved: true,
-                transcripts,
-                summary: `Judge abstained due to error: ${e.message}`
-            };
-        }
+        // Decision Logic: Create a summary of the advice.
+        // We no longer calculate votes or enforce vetos. The Council is ADVISORY.
+        const summary = `Council Advice: ${results.map(r => `${r.member.name}: ${r.shortAdvice}`).join(' | ')}`;
+        console.log(`[Council] 🏁 Consensus: ${summary}`);
+        return {
+            approved: true, // ALWAYS approved now. Council is advisory.
+            transcripts,
+            summary
+        };
     }
     async consultMember(member, proposal) {
         // Select a smart model for the Council

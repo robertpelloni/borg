@@ -1,7 +1,6 @@
 
-import * as lancedb from '@lancedb/lancedb';
-// LAZY IMPORT: @xenova/transformers is huge (30-60s load time)
-// We import it dynamically in initialize() instead
+// LAZY IMPORTS: lancedb and @xenova/transformers are heavy (30-60s load)
+// They're dynamically imported in initialize() instead of at startup
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -31,10 +30,11 @@ export class VectorStore {
 
         console.log(`[VectorStore] Initializing LanceDB at ${this.dbPath}...`);
 
-        // 1. Connect to DB
+        // 1. Connect to DB (LAZY LOAD)
+        const lancedb = await import('@lancedb/lancedb');
         this.db = await lancedb.connect(this.dbPath);
 
-        // 2. Initialize Embedding Model (Local) - LAZY LOAD
+        // 2. Initialize Embedding Model (LAZY LOAD)
         console.log(`[VectorStore] Loading Embedding Model (Xenova/all-MiniLM-L6-v2)...`);
         const { pipeline } = await import('@xenova/transformers');
         this.embeddingPipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');

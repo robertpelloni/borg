@@ -6,21 +6,25 @@ export declare class MCPServer {
     private router;
     modelSelector: ModelSelector;
     private skillRegistry;
-    private mcpmRegistry;
     private director;
     private council;
-    private spawner;
     permissionManager: PermissionManager;
     private vectorStore;
     private indexer;
+    private memoryInitialized;
     private pendingRequests;
+    private chainExecutor;
     wssInstance: any;
     constructor(options?: {
         skipWebsocket?: boolean;
     });
+    /**
+     * Lazy initialization of memory system (VectorStore + Indexer)
+     * Only loaded when memory tools are first used to speed up startup
+     */
+    private initializeMemorySystem;
     private createServerInstance;
     private broadcastRequestAndAwait;
-    broadcast(type: string, payload: any): void;
     executeTool(name: string, args: any): Promise<any>;
     private setupHandlers;
     start(): Promise<void>;

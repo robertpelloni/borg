@@ -46,18 +46,18 @@ export default function DashboardHome() {
                     {isDriving ? (
                         <button
                             onClick={() => stopMutation.mutate()}
-                            disabled={stopMutation.isLoading}
+                            disabled={stopMutation.isPending}
                             className="h-12 px-6 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/50 rounded-lg font-bold transition-all flex items-center gap-2"
                         >
-                            {stopMutation.isLoading ? 'STOPPING...' : '⏹ STOP AUTO-DRIVE'}
+                            {stopMutation.isPending ? 'STOPPING...' : '⏹ STOP AUTO-DRIVE'}
                         </button>
                     ) : (
                         <button
                             onClick={() => startMutation.mutate()}
-                            disabled={startMutation.isLoading}
+                            disabled={startMutation.isPending}
                             className="h-12 px-6 bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 rounded-lg font-bold transition-all flex items-center gap-2"
                         >
-                            {startMutation.isLoading ? 'STARTING...' : '▶ ENGAGE AUTO-DRIVE'}
+                            {startMutation.isPending ? 'STARTING...' : '▶ ENGAGE AUTO-DRIVE'}
                         </button>
                     )}
                 </div>
@@ -88,24 +88,17 @@ export default function DashboardHome() {
                 />
                 <ShortcutCard
                     title="System Logs"
-                    desc="View live stream"
+                    desc="View live stream (Coming Soon)"
                     href="/dashboard/logs"
                     icon="terminal"
                     color="text-green-400"
                 />
                 <ShortcutCard
-                    title="Documentation"
-                    desc="Read project docs"
-                    href="/dashboard/docs"
-                    icon="📚"
-                    color="text-purple-400"
-                />
-                <ShortcutCard
-                    title="Voice Command"
-                    desc="Hands-free Coding"
-                    href="/dashboard/voice"
-                    icon="🎙️"
-                    color="text-red-400"
+                    title="Traffic Inspector"
+                    desc="Real-time MCP packet capture"
+                    href="/dashboard/inspector"
+                    icon="📡"
+                    color="text-green-400"
                 />
             </div>
 
@@ -119,18 +112,6 @@ export default function DashboardHome() {
                         <span className="text-zinc-600 italic">No active goal context via search...</span>
                     )}
                 </div>
-                <div className="bg-black/40 p-4 rounded-lg border border-zinc-800 font-mono text-sm text-zinc-300">
-                    {status?.goal ? (
-                        <span>{status.goal}</span>
-                    ) : (
-                        <span className="text-zinc-600 italic">No active goal context via search...</span>
-                    )}
-                </div>
-            </div>
-
-            {/* Embedded Live Logs (Mini) */}
-            <div className="h-64 border border-zinc-800 rounded-xl overflow-hidden shadow-inner">
-                <iframe src="/dashboard/logs" className="w-full h-full pointer-events-none opacity-90" />
             </div>
         </div>
     );

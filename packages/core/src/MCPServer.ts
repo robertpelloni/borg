@@ -1,19 +1,33 @@
 
 
+console.log("[MCPServer] Starting imports...");
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
     CallToolRequestSchema,
     ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+console.log("[MCPServer] ✓ @modelcontextprotocol/sdk");
+
 import { fileURLToPath } from 'url';
 import path from 'path';
+console.log("[MCPServer] ✓ path/url");
+
 import { Router } from "./Router.js";
+console.log("[MCPServer] ✓ Router");
+
 import { ModelSelector } from './ModelSelector.js';
+console.log("[MCPServer] ✓ ModelSelector");
+
 import { WebSocketServer } from 'ws';
 import { WebSocketServerTransport } from './transports/WebSocketServerTransport.js';
 import http from 'http';
+console.log("[MCPServer] ✓ ws/http");
+
 import { SkillRegistry } from "./skills/SkillRegistry.js";
+console.log("[MCPServer] ✓ SkillRegistry");
+
 import { FileSystemTools } from "./tools/FileSystemTools.js";
 import { TerminalTools } from "./tools/TerminalTools.js";
 import { MemoryTools } from "./tools/MemoryTools.js";
@@ -22,21 +36,28 @@ import { ConfigTools } from "./tools/ConfigTools.js";
 import { LogTools } from "./tools/LogTools.js";
 import { SearchTools } from "./tools/SearchTools.js";
 import { ReaderTools } from "./tools/ReaderTools.js";
-import { OrchestrationTools } from "./tools/OrchestrationTools.js";
-import { IngestionTools } from "./tools/IngestionTools.js";
-import { TestRunnerTools } from "./tools/TestRunnerTools.js";
-import { McpmRegistry } from "./skills/McpmRegistry.js";
+console.log("[MCPServer] ✓ All Tools");
+
+import { ChainExecutor, ChainRequest } from "./tools/ChainExecutor.js";
+console.log("[MCPServer] ✓ ChainExecutor");
+
 import { Director } from "./agents/Director.js";
+console.log("[MCPServer] ✓ Director");
+
 import { Council } from "./agents/Council.js";
-import { Spawner, SpawnerTools } from "./agents/Spawner.js";
+console.log("[MCPServer] ✓ Council");
+
 import { PermissionManager, AutonomyLevel } from "./security/PermissionManager.js";
+console.log("[MCPServer] ✓ PermissionManager");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-import { VectorStore } from './memory/VectorStore.js';
-import { Indexer } from './memory/Indexer.js';
+// LAZY: VectorStore and Indexer are imported dynamically when needed
+// import { VectorStore } from './memory/VectorStore.js';
+// import { Indexer } from './memory/Indexer.js';
+console.log("[MCPServer] All imports complete!");
 
 export class MCPServer {
     private server: Server; // Stdio Server
@@ -44,14 +65,14 @@ export class MCPServer {
     private router: Router;
     public modelSelector: ModelSelector;
     private skillRegistry: SkillRegistry;
-    private mcpmRegistry: McpmRegistry;
     private director: Director;
     private council: Council;
-    private spawner: Spawner;
     public permissionManager: PermissionManager;
-    private vectorStore: VectorStore;
-    private indexer: Indexer;
+    private vectorStore: any; // Lazy loaded
+    private indexer: any; // Lazy loaded
+    private memoryInitialized: boolean = false;
     private pendingRequests: Map<string, (response: any) => void> = new Map();
+    private chainExecutor: ChainExecutor;
     public wssInstance: any; // WebSocket.Server
 
     constructor(options: { skipWebsocket?: boolean } = {}) {
@@ -61,16 +82,15 @@ export class MCPServer {
             path.join(process.cwd(), '.borg', 'skills'),
             path.join(process.env.HOME || process.env.USERPROFILE || '', '.borg', 'skills')
         ]);
-        this.mcpmRegistry = new McpmRegistry();
         this.director = new Director(this);
         this.council = new Council(this.modelSelector);
-        this.spawner = new Spawner(this.modelSelector);
         this.permissionManager = new PermissionManager('high'); // Default to HIGH AUTONOMY as requested
+        this.chainExecutor = new ChainExecutor(this);
 
-        // Memory System
-        const dbPath = path.join(process.cwd(), '.borg', 'db');
-        this.vectorStore = new VectorStore(dbPath);
-        this.indexer = new Indexer(this.vectorStore);
+        // Memory System - LAZY LOADED on first use to speed up startup
+        // VectorStore and Indexer are created in initializeMemorySystem()
+        this.vectorStore = null;
+        this.indexer = null;
 
         // @ts-ignore
         global.mcpServerInstance = this;
@@ -85,6 +105,28 @@ export class MCPServer {
             // @ts-ignore
             this.wsServer = null;
         }
+    }
+
+    /**
+     * Lazy initialization of memory system (VectorStore + Indexer)
+     * Only loaded when memory tools are first used to speed up startup
+     */
+    private async initializeMemorySystem() {
+        if (this.memoryInitialized) return;
+
+        console.log("[MCPServer] Lazy-loading memory system...");
+        const startTime = Date.now();
+
+        // Dynamic imports to avoid loading heavy deps at startup
+        const { VectorStore } = await import('./memory/VectorStore.js');
+        const { Indexer } = await import('./memory/Indexer.js');
+
+        const dbPath = path.join(process.cwd(), '.borg', 'db');
+        this.vectorStore = new VectorStore(dbPath);
+        this.indexer = new Indexer(this.vectorStore);
+        this.memoryInitialized = true;
+
+        console.log(`[MCPServer] Memory system loaded in ${Date.now() - startTime}ms`);
     }
 
     private createServerInstance(): Server {
@@ -123,33 +165,21 @@ export class MCPServer {
         });
     }
 
-    public broadcast(type: string, payload: any) {
-        if (this.wssInstance) {
-            this.wssInstance.clients.forEach((client: any) => {
-                if (client.readyState === 1) {
-                    client.send(JSON.stringify({ type, ...payload }));
-                }
-            });
-        }
-    }
-
     public async executeTool(name: string, args: any): Promise<any> {
-        // Special routing for MCPM tools manually since they are dynamic
-        const mcpmTool = this.mcpmRegistry.getTools().find(t => t.name === name);
-        if (mcpmTool) {
-            // @ts-ignore
-            return await mcpmTool.handler(args);
-        }
-
         const callId = Math.random().toString(36).substring(7);
         const startTime = Date.now();
 
         // Broadcast Start
-        this.broadcast('TOOL_CALL_START', {
-            id: callId,
-            tool: name,
-            args: args
-        });
+        if (this.wssInstance) {
+            this.wssInstance.clients.forEach((c: any) => {
+                if (c.readyState === 1) c.send(JSON.stringify({
+                    type: 'TOOL_CALL_START',
+                    id: callId,
+                    tool: name,
+                    args: args
+                }));
+            });
+        }
 
         try {
             // 0. Permission Check
@@ -366,6 +396,12 @@ export class MCPServer {
                     content: [{ type: "text", text: "Auto-Drive started. The Director will now proactively drive the development loop." }]
                 };
             }
+            else if (name === "stop_auto_drive") {
+                this.director.stopAutoDrive();
+                result = {
+                    content: [{ type: "text", text: "Auto-Drive Stopped." }]
+                };
+            }
             else if (name === "list_skills") {
                 result = this.skillRegistry.listSkills();
             }
@@ -373,6 +409,7 @@ export class MCPServer {
                 result = this.skillRegistry.readSkill(args?.skillName as string);
             }
             else if (name === "index_codebase") {
+                await this.initializeMemorySystem(); // Lazy load memory system
                 const dir = args?.path || process.cwd();
                 console.log(`[Borg Core] Indexing codebase at ${dir}...`);
                 const count = await this.indexer.indexDirectory(dir);
@@ -381,12 +418,13 @@ export class MCPServer {
                 };
             }
             else if (name === "search_codebase") {
+                await this.initializeMemorySystem(); // Lazy load memory system
                 const query = args?.query as string;
                 console.log(`[Borg Core] Semantic Searching for: ${query}`);
                 const matches = await this.vectorStore.search(query);
 
                 let text = `Searching for: "${query}"\n\n`;
-                matches.forEach((m, i) => {
+                matches.forEach((m: any, i: number) => {
                     text += `${i + 1}. [${m.file_path}]\n${m.content.substring(0, 200)}...\n\n`;
                 });
 
@@ -394,9 +432,14 @@ export class MCPServer {
                     content: [{ type: "text", text: text }]
                 };
             }
+            else if (name === "chain_tools") {
+                result = {
+                    content: [{ type: "text", text: JSON.stringify(await this.chainExecutor.executeChain(args as unknown as ChainRequest), null, 2) }]
+                };
+            }
             else {
                 // Check Standard Library
-                const standardTool = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools, ...ReaderTools, ...OrchestrationTools, ...IngestionTools, ...SpawnerTools(this.spawner), ...TestRunnerTools()].find(t => t.name === name);
+                const standardTool = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools, ...ReaderTools].find(t => t.name === name);
                 if (standardTool) {
                     // @ts-ignore
                     result = await standardTool.handler(args);
@@ -411,24 +454,34 @@ export class MCPServer {
             }
 
             // Broadcast Success
-            this.broadcast('TOOL_CALL_END', {
-                id: callId,
-                tool: name,
-                success: true,
-                duration: Date.now() - startTime,
-                result: JSON.stringify(result).substring(0, 200) // Summarize
-            });
+            if (this.wssInstance) {
+                this.wssInstance.clients.forEach((c: any) => {
+                    if (c.readyState === 1) c.send(JSON.stringify({
+                        type: 'TOOL_CALL_END',
+                        id: callId,
+                        tool: name,
+                        success: true,
+                        duration: Date.now() - startTime,
+                        result: JSON.stringify(result).substring(0, 200) // Summarize
+                    }));
+                });
+            }
             return result;
 
         } catch (e: any) {
             // Broadcast Error
-            this.broadcast('TOOL_CALL_END', {
-                id: callId,
-                tool: name,
-                success: false,
-                duration: Date.now() - startTime,
-                result: e.message
-            });
+            if (this.wssInstance) {
+                this.wssInstance.clients.forEach((c: any) => {
+                    if (c.readyState === 1) c.send(JSON.stringify({
+                        type: 'TOOL_CALL_END',
+                        id: callId,
+                        tool: name,
+                        success: false,
+                        duration: Date.now() - startTime,
+                        result: e.message
+                    }));
+                });
+            }
             // Return Error as Content (Don't throw, it kills the MCP stream)
             return {
                 isError: true,
@@ -475,6 +528,11 @@ export class MCPServer {
                 {
                     name: "start_auto_drive",
                     description: "Start the Autonomous Development Loop (Reads task.md, Drives Chat, Auto-Approves)",
+                    inputSchema: { type: "object", properties: {} }
+                },
+                {
+                    name: "stop_auto_drive",
+                    description: "Stop the Autonomous Development Loop",
                     inputSchema: { type: "object", properties: {} }
                 },
                 {
@@ -583,11 +641,32 @@ export class MCPServer {
                         },
                         required: ["query"]
                     }
+                },
+                {
+                    name: "chain_tools",
+                    description: "Execute a sequence of tools where outputs can be piped to inputs. Use {{prev.content[0].text}} for variable substitution.",
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            tools: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        toolName: { type: "string" },
+                                        args: { type: "object" }
+                                    },
+                                    required: ["toolName"]
+                                }
+                            }
+                        },
+                        required: ["tools"]
+                    }
                 }
             ];
 
             // Standard Library Tools
-            const standardTools = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools, ...ReaderTools, ...OrchestrationTools, ...IngestionTools, ...SpawnerTools(this.spawner), ...TestRunnerTools()].map(t => ({
+            const standardTools = [...FileSystemTools, ...TerminalTools, ...MemoryTools, ...TunnelTools, ...LogTools, ...ConfigTools, ...SearchTools, ...ReaderTools].map(t => ({
                 name: t.name,
                 description: t.description,
                 inputSchema: t.inputSchema
@@ -595,11 +674,6 @@ export class MCPServer {
 
             // Skills
             const skillTools = this.skillRegistry.getSkillTools();
-            const mcpmTools = this.mcpmRegistry.getTools().map(t => ({
-                name: t.name,
-                description: t.description,
-                inputSchema: t.inputSchema
-            }));
 
             // Aggregation: Fetch tools from all connected sub-MCPs
             const externalTools = await this.router.listTools();

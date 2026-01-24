@@ -1,5 +1,5 @@
 import { ModelSelector } from "../ModelSelector.js";
-export interface DebateResult {
+interface DebateResult {
     approved: boolean;
     transcripts: {
         speaker: string;
@@ -13,10 +13,7 @@ export declare class Council {
     private llmService;
     constructor(modelSelector: ModelSelector);
     startDebate(proposal: string): Promise<DebateResult>;
-    /**
-     * The Judge synthesizes all council opinions into a final verdict.
-     */
-    private synthesizeDecision;
     private consultMember;
 }
+export {};
 //# sourceMappingURL=Council.d.ts.map
