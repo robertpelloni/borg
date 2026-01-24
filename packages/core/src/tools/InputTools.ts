@@ -1,10 +1,5 @@
 
-import { exec } from 'child_process';
-import util from 'util';
-
-const execAsync = util.promisify(exec);
-
-
+import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
@@ -34,6 +29,7 @@ export class InputTools {
             focusLogic = `
             ' Try to focus commonly used windows
             On Error Resume Next
+            Set WshShell = WScript.CreateObject("WScript.Shell")
             WshShell.AppActivate "Code - Insiders"
             WshShell.AppActivate "Visual Studio Code"
             WshShell.AppActivate "Code"
@@ -46,21 +42,31 @@ export class InputTools {
         const vbsContent = `
 Set WshShell = WScript.CreateObject("WScript.Shell")
 ${focusLogic}
-WScript.Sleep 100
+WScript.Sleep 50
 WshShell.SendKeys "${command}"
 `;
 
         const tempFile = path.join(os.tmpdir(), `borg_input_${Date.now()}.vbs`);
+        fs.writeFileSync(tempFile, vbsContent);
 
-        try {
-            fs.writeFileSync(tempFile, vbsContent);
-            await execAsync(`cscript //Nologo "${tempFile}"`);
-            fs.unlinkSync(tempFile);
-            return `Sent keys via VBS: ${keys}`;
-        } catch (error: any) {
-            console.error(`[InputTools] VBS Error: ${error.message}`);
-            return `Error sending keys: ${error.message}`;
-        }
+        return new Promise((resolve, reject) => {
+            // Use wscript (GUI) + windowsHide: true to prevent focus stealing console
+            const child = spawn('wscript', ['//Nologo', tempFile], {
+                stdio: 'ignore',
+                windowsHide: true,
+                detached: false
+            });
+
+            child.on('close', (code) => {
+                try { fs.unlinkSync(tempFile); } catch (e) { }
+                if (code === 0) resolve(`Sent keys: ${keys}`);
+                else reject(new Error(`wscript exited with code ${code}`));
+            });
+
+            child.on('error', (err) => {
+                try { fs.unlinkSync(tempFile); } catch (e) { }
+                reject(err);
+            });
+        });
     }
 }
-
