@@ -31,9 +31,21 @@ This session focused on hardening the Agentic Framework (`@borg/core`) and compl
     -   Resolved "Missing Production Build" error by cleaning `.next` and running a fresh `pnpm build`.
 
 ### 📂 Project State
-- **Version:** `1.3.0`
-- **Build Status:** Clean (`@borg/core`, `@borg/web` verified).
-- **Backlog:** Phases 1-10 in `task.md` are effectively COMPLETE or STUBBED.
+- **Version:** `1.4.0` (Core Feature Set + Phase 11 Integrations).
+- **Build Status:** Clean (`@borg/web` verified with `.next` artifacts).
+- **Backlog:** Phase 11 (Submodules, Dashboards) is COMPLETE.
+
+### 🌟 New in v1.4.0
+1.  **Submodules:** `jules-autopilot`, `opencode-autopilot`, `awesome-mcp` added.
+2.  **Dashboards:** 
+    -   **Architecture:** Live submodules monitor.
+    -   **Billing:** API Key status & cost estimator.
+    -   **Inspector:** Historical log replay.
+3.  **Docs:** `docs/AI_MASTER_INSTRUCTIONS.md` created.
+4.  **Auto-Drive:** **Significantly Tuned.**
+    -   Interval: 5s (Reduced aggression).
+    -   Focus Guard: Removed random "idle pokes".
+    -   Approval: Broadened regex for `(y/n)` prompts.
 
 ### 🔮 Next Steps (Incoming Agent)
 1.  **Process Massive Directive Inbox (See `docs/USER_DIRECTIVES_INBOX.md`):**
