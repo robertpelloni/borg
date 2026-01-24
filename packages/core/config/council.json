@@ -1,0 +1,10 @@
+{
+    "members": [
+        {
+            "name": "New Member",
+            "provider": "ollama",
+            "modelId": "gemma",
+            "systemPrompt": "You are a helpful assistant."
+        }
+    ]
+}

@@ -305,13 +305,11 @@ export class Director {
 
         setInterval(async () => {
             try {
-                // 1. Sidebar Chat Submit (Verified ID)
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.chat.submit' });
+                // 1. Use the robust "Shotgun" submit module in the Extension
+                // This ensures Focus + Multiple Command attempts
+                await this.server.executeTool('vscode_submit_chat', {});
 
-                // 2. Edit Session Submit (Verified ID)
-                await this.server.executeTool('vscode_execute_command', { command: 'workbench.action.edits.submit' });
-
-                // 3. Interactive Editor (Verified ID)
+                // 2. Interactive Editor (Verified ID)
                 await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' });
 
                 // 4. Terminal Chat Accept (If active)
@@ -433,11 +431,11 @@ What is the next step?`;
                 };
             }
 
-            if ((goal.includes("submit") || goal.includes("send")) && !lastEntry.includes("workbench.action.chat.submit")) {
+            if ((goal.includes("submit") || goal.includes("send")) && !lastEntry.includes("vscode_submit_chat")) {
                 return {
                     action: 'CONTINUE',
-                    toolName: 'vscode_execute_command',
-                    params: { command: 'workbench.action.chat.submit' },
+                    toolName: 'vscode_submit_chat',
+                    params: {},
                     reasoning: "Submitting chat."
                 };
             }

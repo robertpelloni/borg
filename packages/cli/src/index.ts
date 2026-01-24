@@ -9,9 +9,9 @@ const command = args[0] || 'start';
 if (command === 'start') {
   (async () => {
     try {
-      console.log("[CLI] Importing @borg/core...");
+      console.log("[CLI] Importing @borg/core/orchestrator...");
       // Dynamic import to avoid top-level side effects
-      const { startOrchestrator } = await import('@borg/core');
+      const { startOrchestrator } = await import('@borg/core/orchestrator');
       console.log("[CLI] Core Imported. Launching...");
       await startOrchestrator();
     } catch (e) {

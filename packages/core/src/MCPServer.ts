@@ -655,9 +655,8 @@ export class MCPServer {
 
         // 3. Connect to Supervisor (Native Automation)
         console.log("[MCPServer] Connecting to Supervisor...");
-        // We assume we are running from the monorepo root
-        const supervisorPath = path.resolve(process.cwd(), 'packages/borg-supervisor/dist/index.js');
-        //const supervisorPath = 'C:\\Users\\hyper\\workspace\\borg\\packages\\borg-supervisor\\dist\\index.js'; // Hardcoded check?
+        // Use __dirname to find sibling package reliably, regardless of CWD
+        const supervisorPath = path.resolve(__dirname, '..', '..', 'borg-supervisor', 'dist', 'index.js');
 
         try {
             console.log(`[MCPServer] Supervisor Path: ${supervisorPath}`);

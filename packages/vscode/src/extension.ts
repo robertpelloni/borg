@@ -116,13 +116,19 @@ async function handleMessage(msg: any) {
         try {
             // 1. Write to Clipboard
             await vscode.env.clipboard.writeText(msg.text);
-            // 2. Focus Chat
+            log(`[DEBUG] Copied to clipboard: ${msg.text.substring(0, 20)}...`);
+
+            // 2. Open & Focus Chat
             await vscode.commands.executeCommand('workbench.action.chat.open');
-            // 3. Paste
-            // We use a small delay to ensure focus
+            await new Promise(r => setTimeout(r, 300)); // Wait for UI
+
+            // 3. Force Focus Input (Crucial)
+            await vscode.commands.executeCommand('workbench.action.chat.focusInput');
             await new Promise(r => setTimeout(r, 200));
+
+            // 4. Paste
             await vscode.commands.executeCommand('editor.action.clipboardPasteAction');
-            log(`Executed: Paste into Chat`);
+            log(`[DEBUG] Executed: editor.action.clipboardPasteAction`);
         } catch (e: any) {
             log(`Failed to paste into chat: ${e.message}`);
         }
@@ -138,6 +144,8 @@ async function handleMessage(msg: any) {
             // 2. Fire EVERYTHING
             const commands = [
                 'workbench.action.chat.submit',
+                'workbench.action.edits.submit', // Crucial for Edit Sessions
+                'workbench.action.chat.send',   // Fallback
                 'chat.action.accept',
                 'interactive.acceptChanges',
                 'workbench.action.terminal.chat.accept'
