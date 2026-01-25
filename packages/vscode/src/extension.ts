@@ -129,47 +129,10 @@ async function handleMessage(msg: any) {
 
             // 4. Paste
             await vscode.commands.executeCommand('editor.action.clipboardPasteAction');
-            log(`[DEBUG] Executed: editor.action.clipboardPasteAction`);
+            log(`[DEBUG] Pasted to chat successfully`);
 
-            // 5. AUTO-SUBMIT if requested (combined atomic action)
-            log(`[DEBUG] msg.submit = ${msg.submit}`);
-            if (msg.submit) {
-                await new Promise(r => setTimeout(r, 500)); // Wait for paste
-
-                // Re-focus input just before submit
-                try { await vscode.commands.executeCommand('workbench.action.chat.focusInput'); } catch (e) { }
-                await new Promise(r => setTimeout(r, 200));
-
-                // Try multiple submit commands including Gemini-specific ones
-                const submitCommands = [
-                    'workbench.action.chat.submit',       // Standard chat submit
-                    'gemini.chat.submit',                  // Gemini-specific?
-                    'google.gemini.submitChat',            // Another possibility
-                    'workbench.action.edits.submit',       // Edit sessions
-                    'workbench.action.chat.send',          // Fallback
-                    'chat.action.accept',
-                    'acceptSelectedSuggestion',            // Inline suggestions
-                    'editor.action.insertLineAfter'        // Fallback Enter?
-                ];
-
-                for (const cmd of submitCommands) {
-                    try {
-                        log(`[SUBMIT] Trying: ${cmd}`);
-                        await vscode.commands.executeCommand(cmd);
-                        await new Promise(r => setTimeout(r, 100));
-                    } catch (e) { }
-                }
-
-                // Last resort: Simulate Enter key via type command
-                try {
-                    log(`[SUBMIT] Simulating Enter key...`);
-                    await vscode.commands.executeCommand('type', { text: '\\n' });
-                    await new Promise(r => setTimeout(r, 100));
-                    await vscode.commands.executeCommand('default:type', { text: '\\n' });
-                } catch (e) { }
-
-                log(`[DEBUG] Auto-submit attempts complete`);
-            }
+            // NOTE: Submit is handled by Director via native_input alt+enter
+            // The Extension no longer attempts submit commands since they don't work for this chat.
         } catch (e: any) {
             log(`Failed to paste into chat: ${e.message}`);
         }

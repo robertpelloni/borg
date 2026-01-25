@@ -305,9 +305,11 @@ class ConversationMonitor {
 
         // Accept pending changes via Extension (Safe, no terminal spam)
         // Only uses WebSocket bridge to VS Code Extension
-        // REMOVED terminal.chat.accept as it steals terminal focus
         try { await this.server.executeTool('vscode_execute_command', { command: 'interactive.acceptChanges' }); } catch (e) { }
-        // REMOVED: native_input and terminal.chat.accept cause focus issues.
+
+        // PERIODIC ALT+ENTER: Click Accept buttons that pause development
+        // This runs every 30 seconds (heartbeat interval) to keep things moving
+        try { await this.server.executeTool('native_input', { keys: 'alt+enter' }); } catch (e) { }
 
         // If Director is busy executing a task, don't interrupt (unless stuck?)
         if (this.isRunningTask) {
@@ -408,21 +410,55 @@ class ConversationMonitor {
             // 1. Log Dialogue to Console (Safe, no UI interference)
             console.error(`\n\n🏛️ **COUNCIL HALL** 🏛️\n------------------------\n${msg}\n------------------------\n`);
 
-            // 1b. Broadcast Council Summary to Chat
+            // 1b. Broadcast Council Summary to Chat (with auto-submit)
             try {
                 // @ts-ignore
                 await this.server.executeTool('chat_reply', { text: `🏛️ [Council]: ${directive || 'Deliberating...'}` });
+                await new Promise(r => setTimeout(r, 1000));
+                await this.server.executeTool('native_input', { keys: 'alt+enter' });
             } catch (e) { }
 
             if (directive) {
                 // 2. EXECUTE DIRECTLY
                 await this.director.executeTask(directive);
 
-                // 3. Broadcast Completion
+                // 3. Generate Intelligent Summary (not just "task completed")
                 try {
+                    const fs = await import('fs');
+                    const path = await import('path');
+                    const cwd = process.cwd();
+
+                    // Read context for intelligent summary
+                    let context = '';
+                    const readFile = (name: string) => {
+                        try {
+                            const p = path.join(cwd, name);
+                            if (fs.existsSync(p)) return fs.readFileSync(p, 'utf8').substring(0, 500);
+                        } catch (e) { }
+                        return '';
+                    };
+                    context += readFile('README.md');
+                    context += readFile('docs/ROADMAP.md');
+
+                    // Generate brief summary via LLM
+                    const model = await this.server.modelSelector.selectModel({ task: 'summary' });
+                    const summaryPrompt = `You just completed: "${directive}". Based on the project context, write a 1-sentence update for the development chat about what was done and what might be next. Be specific and actionable.\n\nContext:\n${context}`;
+                    const response = await this.llmService.generateText(model.provider, model.modelId, 'Director Summary', summaryPrompt);
+                    const summary = response.content.trim().substring(0, 200);
+
+                    // Broadcast intelligent update with auto-submit
                     // @ts-ignore
-                    await this.server.executeTool('chat_reply', { text: `✅ [Director]: Task completed.` });
-                } catch (e) { }
+                    await this.server.executeTool('chat_reply', { text: `📋 [Director]: ${summary}` });
+                    await new Promise(r => setTimeout(r, 1000));
+                    await this.server.executeTool('native_input', { keys: 'alt+enter' });
+                } catch (e: any) {
+                    console.error(`[Director] Summary generation failed: ${e.message}`);
+                    // Fallback to simple message
+                    // @ts-ignore
+                    await this.server.executeTool('chat_reply', { text: `✅ [Director]: Completed task.` });
+                    await new Promise(r => setTimeout(r, 1000));
+                    await this.server.executeTool('native_input', { keys: 'alt+enter' });
+                }
             } else {
                 console.error("[Director] No directive found in Council output.");
             }
