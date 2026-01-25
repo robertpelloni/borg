@@ -1,0 +1,35 @@
+{
+    "name": "@borg/memory",
+    "version": "0.1.0",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "lint": "eslint src/"
+    },
+    "dependencies": {
+        "@borg/ai": "workspace:*",
+        "@lancedb/lancedb": "^0.23.0",
+        "vectordb": "^0.21.2",
+        "apache-arrow": "^21.1.0",
+        "ignore": "^7.0.5",
+        "fast-glob": "^3.3.3",
+        "gray-matter": "^4.0.3",
+        "pdf-parse": "^1.1.1",
+        "zod": "^3.22.4",
+        "@xenova/transformers": "^2.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "eslint": "^8.56.0",
+        "typescript": "^5.3.3"
+    }
+}

@@ -2,7 +2,6 @@
   "extends": "../../packages/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "module": "NodeNext",

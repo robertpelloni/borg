@@ -146,6 +146,34 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             meta: object;
         }>;
     }>>;
+    directorConfig: import("@trpc/server").TRPCBuiltRouter<{
+        ctx: object;
+        meta: object;
+        errorShape: import("@trpc/server").TRPCDefaultErrorShape;
+        transformer: false;
+    }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
+        get: import("@trpc/server").TRPCQueryProcedure<{
+            input: void;
+            output: any;
+            meta: object;
+        }>;
+        update: import("@trpc/server").TRPCMutationProcedure<{
+            input: {
+                taskCooldownMs?: number | undefined;
+                heartbeatIntervalMs?: number | undefined;
+                periodicSummaryMs?: number | undefined;
+                pasteToSubmitDelayMs?: number | undefined;
+                acceptDetectionMode?: "state" | "polling" | undefined;
+                pollingIntervalMs?: number | undefined;
+                council?: {
+                    personas?: string[] | undefined;
+                    contextFiles?: string[] | undefined;
+                } | undefined;
+            };
+            output: any;
+            meta: object;
+        }>;
+    }>>;
     council: import("@trpc/server").TRPCBuiltRouter<{
         ctx: object;
         meta: object;

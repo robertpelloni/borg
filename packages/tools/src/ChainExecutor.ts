@@ -1,5 +1,4 @@
-
-import { MCPServer } from "../MCPServer.js";
+import { IMCPServer } from "@borg/adk";
 
 export interface ChainStep {
     toolName: string;
@@ -11,9 +10,9 @@ export interface ChainRequest {
 }
 
 export class ChainExecutor {
-    private server: MCPServer;
+    private server: IMCPServer;
 
-    constructor(server: MCPServer) {
+    constructor(server: IMCPServer) {
         this.server = server;
     }
 

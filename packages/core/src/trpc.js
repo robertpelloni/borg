@@ -19,38 +19,38 @@ export const appRouter = t.router({
     }),
     remoteAccess: t.router({
         start: t.procedure.mutation(async () => {
-            const { TunnelTools } = await import('./tools/TunnelTools.js');
+            const { TunnelTools } = await import('@borg/tools');
             const result = await TunnelTools[0].handler({ port: 3000 });
             return result.content[0].text;
         }),
         stop: t.procedure.mutation(async () => {
-            const { TunnelTools } = await import('./tools/TunnelTools.js');
+            const { TunnelTools } = await import('@borg/tools');
             const result = await TunnelTools[1].handler({});
             return result.content[0].text;
         }),
         status: t.procedure.query(async () => {
-            const { TunnelTools } = await import('./tools/TunnelTools.js');
+            const { TunnelTools } = await import('@borg/tools');
             const result = await TunnelTools[2].handler({});
             return JSON.parse(result.content[0].text);
         })
     }),
     config: t.router({
         readAntigravity: t.procedure.query(async () => {
-            const { ConfigTools } = await import('./tools/ConfigTools.js');
+            const { ConfigTools } = await import('@borg/tools');
             // @ts-ignore
             const result = await ConfigTools[0].handler({});
             // Parse JSON content from the tool output
             return JSON.parse(result.content[0].text);
         }),
         writeAntigravity: t.procedure.input(z.object({ content: z.string() })).mutation(async ({ input }) => {
-            const { ConfigTools } = await import('./tools/ConfigTools.js');
+            const { ConfigTools } = await import('@borg/tools');
             const result = await ConfigTools[1].handler({ content: input.content });
             return result.content[0].text;
         })
     }),
     logs: t.router({
         read: t.procedure.input(z.object({ lines: z.number().optional() })).query(async ({ input }) => {
-            const { LogTools } = await import('./tools/LogTools.js');
+            const { LogTools } = await import('@borg/tools');
             // @ts-ignore
             const result = await LogTools[0].handler({ lines: input.lines });
             return result.content[0].text;
@@ -131,6 +131,61 @@ export const appRouter = t.router({
             throw new Error("MCPServer instance not found");
         })
     }),
+    directorConfig: t.router({
+        get: t.procedure.query(async () => {
+            // @ts-ignore
+            if (global.mcpServerInstance?.directorConfig) {
+                // @ts-ignore
+                return global.mcpServerInstance.directorConfig;
+            }
+            // Default config
+            return {
+                taskCooldownMs: 10000,
+                heartbeatIntervalMs: 30000,
+                periodicSummaryMs: 120000,
+                pasteToSubmitDelayMs: 1000,
+                acceptDetectionMode: 'polling',
+                pollingIntervalMs: 30000,
+                council: {
+                    personas: ['Architect', 'Product', 'Critic'],
+                    contextFiles: ['README.md', 'docs/ROADMAP.md', 'task.md']
+                }
+            };
+        }),
+        update: t.procedure.input(z.object({
+            taskCooldownMs: z.number().optional(),
+            heartbeatIntervalMs: z.number().optional(),
+            periodicSummaryMs: z.number().optional(),
+            pasteToSubmitDelayMs: z.number().optional(),
+            acceptDetectionMode: z.enum(['state', 'polling']).optional(),
+            pollingIntervalMs: z.number().optional(),
+            council: z.object({
+                personas: z.array(z.string()).optional(),
+                contextFiles: z.array(z.string()).optional()
+            }).optional()
+        })).mutation(async ({ input }) => {
+            // @ts-ignore
+            if (global.mcpServerInstance) {
+                // @ts-ignore
+                const current = global.mcpServerInstance.directorConfig || {};
+                // Merge nested council config
+                const council = {
+                    ...(current.council || {}),
+                    ...(input.council || {})
+                };
+                // @ts-ignore
+                global.mcpServerInstance.directorConfig = {
+                    ...current,
+                    ...input,
+                    council
+                };
+                console.log('[tRPC] Director config updated:', input);
+                // @ts-ignore
+                return global.mcpServerInstance.directorConfig;
+            }
+            throw new Error("MCPServer instance not found");
+        })
+    }),
     council: t.router({
         startDebate: t.procedure.input(z.object({ proposal: z.string() })).mutation(async ({ input }) => {
             // @ts-ignore
@@ -143,7 +198,7 @@ export const appRouter = t.router({
         })
     }),
     runCommand: t.procedure.input(z.object({ command: z.string() })).mutation(async ({ input }) => {
-        const { TerminalTools } = await import('./tools/TerminalTools.js');
+        const { TerminalTools } = await import('@borg/tools');
         // @ts-ignore
         // @ts-ignore
         const result = await TerminalTools[0].handler({ command: input.command, cwd: process.cwd() });

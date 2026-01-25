@@ -23,7 +23,9 @@
 - [x] **ModelSelector:** Quota management logic and **Automatic Fallback** (Priority).
 - [x] **Universal MCP Host:** Basic `MCPServer` wrapper created.
 - [x] **Router Logic:** Implement sub-MCP routing.
+- [x] **Router Logic:** Implement sub-MCP routing.
 - [x] **Dashboard UI:** Connect WebUI to Core via tRPC/WebSockets.
+- [x] **Modular Architecture:** Extracted `@borg/ai`, `@borg/adk`, and `@borg/agents` from Core.
 
 ## Phase 14: Deep Code Intelligence (The Foundation)
 **Goal:** Establish the robust indexing and execution layer required for high-fidelity coding.

@@ -32,6 +32,8 @@
     "@borg/ai": "workspace:*",
     "@borg/adk": "workspace:*",
     "@borg/agents": "workspace:*",
+    "@borg/tools": "workspace:*",
+    "@borg/memory": "workspace:*",
     "@lancedb/lancedb": "^0.23.0",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@modelcontextprotocol/server-filesystem": "^2026.1.14",

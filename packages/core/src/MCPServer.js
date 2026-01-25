@@ -9,7 +9,7 @@ import path from 'path';
 console.log("[MCPServer] ✓ path/url");
 import { Router } from "./Router.js";
 console.log("[MCPServer] ✓ Router");
-import { ModelSelector } from './ModelSelector.js';
+import { ModelSelector } from "@borg/ai";
 console.log("[MCPServer] ✓ ModelSelector");
 import { WebSocketServer } from 'ws';
 import { WebSocketServerTransport } from './transports/WebSocketServerTransport.js';
@@ -17,21 +17,11 @@ import http from 'http';
 console.log("[MCPServer] ✓ ws/http");
 import { SkillRegistry } from "./skills/SkillRegistry.js";
 console.log("[MCPServer] ✓ SkillRegistry");
-import { FileSystemTools } from "./tools/FileSystemTools.js";
-import { TerminalTools } from "./tools/TerminalTools.js";
-import { MemoryTools } from "./tools/MemoryTools.js";
-import { TunnelTools } from "./tools/TunnelTools.js";
-import { ConfigTools } from "./tools/ConfigTools.js";
-import { LogTools } from "./tools/LogTools.js";
-import { SearchTools } from "./tools/SearchTools.js";
-import { ReaderTools } from "./tools/ReaderTools.js";
-import { InputTools } from "./tools/InputTools.js";
-console.log("[MCPServer] ✓ All Tools");
-import { ChainExecutor } from "./tools/ChainExecutor.js";
-console.log("[MCPServer] ✓ ChainExecutor");
-import { Director } from "./agents/Director.js";
-console.log("[MCPServer] ✓ Director");
-import { Council } from "./agents/Council.js";
+import { FileSystemTools, TerminalTools, MemoryTools, TunnelTools, ConfigTools, LogTools, SearchTools, ReaderTools, InputTools, ChainExecutor } from "@borg/tools";
+console.log("[MCPServer] ✓ All Tools & ChainExecutor");
+import { Director } from "@borg/agents";
+// @ts-ignore
+import { Council } from "@borg/agents";
 console.log("[MCPServer] ✓ Council");
 import { PermissionManager } from "./security/PermissionManager.js";
 console.log("[MCPServer] ✓ PermissionManager");
@@ -57,6 +47,19 @@ export class MCPServer {
     chainExecutor;
     wssInstance; // WebSocket.Server
     inputTools;
+    lastUserActivityTime = 0;
+    directorConfig = {
+        taskCooldownMs: 10000,
+        heartbeatIntervalMs: 30000,
+        periodicSummaryMs: 120000,
+        pasteToSubmitDelayMs: 1000,
+        acceptDetectionMode: 'polling', // Polling is robust!
+        pollingIntervalMs: 30000,
+        council: {
+            personas: ['Architect', 'Product', 'Critic'],
+            contextFiles: ['README.md', 'docs/ROADMAP.md']
+        }
+    };
     constructor(options = {}) {
         this.router = new Router();
         this.modelSelector = new ModelSelector();
@@ -109,8 +112,7 @@ export class MCPServer {
         console.log("[MCPServer] Lazy-loading memory system...");
         const startTime = Date.now();
         // Dynamic imports to avoid loading heavy deps at startup
-        const { VectorStore } = await import('./memory/VectorStore.js');
-        const { Indexer } = await import('./memory/Indexer.js');
+        const { VectorStore, Indexer } = await import('@borg/memory');
         const dbPath = path.join(process.cwd(), '.borg', 'db');
         this.vectorStore = new VectorStore(dbPath);
         this.indexer = new Indexer(this.vectorStore);
@@ -190,18 +192,20 @@ export class MCPServer {
             }
             else if (name === "chat_reply") {
                 const text = args?.text;
-                console.log(`[Borg Core] Chat Reply Requested: ${text}`);
+                const submit = args?.submit ?? true; // Default to auto-submit
+                console.log(`[Borg Core] Chat Reply Requested: ${text} (submit: ${submit})`);
                 if (this.wssInstance) {
                     this.wssInstance.clients.forEach((client) => {
                         if (client.readyState === 1) { // OPEN
                             client.send(JSON.stringify({
                                 type: 'PASTE_INTO_CHAT',
-                                text: text
+                                text: text,
+                                submit: submit // Include submit flag for atomic paste+submit
                             }));
                         }
                     });
                     result = {
-                        content: [{ type: "text", text: `Sent to browser/IDE: "${text}"` }]
+                        content: [{ type: "text", text: `Sent to browser/IDE: "${text}" (submit: ${submit})` }]
                     };
                 }
                 else {
@@ -690,6 +694,10 @@ export class MCPServer {
                                 resolve(msg.status);
                                 this.pendingRequests.delete(msg.requestId);
                             }
+                        }
+                        if (msg.type === 'USER_ACTIVITY') {
+                            // Track global user activity
+                            this.lastUserActivityTime = Math.max(this.lastUserActivityTime, msg.lastActivityTime);
                         }
                     }
                     catch (e) {

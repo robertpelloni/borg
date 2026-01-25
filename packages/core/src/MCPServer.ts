@@ -29,19 +29,20 @@ console.log("[MCPServer] ✓ ws/http");
 import { SkillRegistry } from "./skills/SkillRegistry.js";
 console.log("[MCPServer] ✓ SkillRegistry");
 
-import { FileSystemTools } from "./tools/FileSystemTools.js";
-import { TerminalTools } from "./tools/TerminalTools.js";
-import { MemoryTools } from "./tools/MemoryTools.js";
-import { TunnelTools } from "./tools/TunnelTools.js";
-import { ConfigTools } from "./tools/ConfigTools.js";
-import { LogTools } from "./tools/LogTools.js";
-import { SearchTools } from "./tools/SearchTools.js";
-import { ReaderTools } from "./tools/ReaderTools.js";
-import { InputTools } from "./tools/InputTools.js";
-console.log("[MCPServer] ✓ All Tools");
-
-import { ChainExecutor, ChainRequest } from "./tools/ChainExecutor.js";
-console.log("[MCPServer] ✓ ChainExecutor");
+import {
+    FileSystemTools,
+    TerminalTools,
+    MemoryTools,
+    TunnelTools,
+    ConfigTools,
+    LogTools,
+    SearchTools,
+    ReaderTools,
+    InputTools,
+    ChainExecutor,
+    type ChainRequest
+} from "@borg/tools";
+console.log("[MCPServer] ✓ All Tools & ChainExecutor");
 
 import { Director } from "@borg/agents";
 // @ts-ignore
@@ -147,8 +148,7 @@ export class MCPServer {
         const startTime = Date.now();
 
         // Dynamic imports to avoid loading heavy deps at startup
-        const { VectorStore } = await import('./memory/VectorStore.js');
-        const { Indexer } = await import('./memory/Indexer.js');
+        const { VectorStore, Indexer } = await import('@borg/memory');
 
         const dbPath = path.join(process.cwd(), '.borg', 'db');
         this.vectorStore = new VectorStore(dbPath);
@@ -810,4 +810,3 @@ export class MCPServer {
     }
 }
 
-          

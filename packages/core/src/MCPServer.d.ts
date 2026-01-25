@@ -1,5 +1,5 @@
 import './debug_marker.js';
-import { ModelSelector } from './ModelSelector.js';
+import { ModelSelector } from "@borg/ai";
 import { PermissionManager } from "./security/PermissionManager.js";
 export declare class MCPServer {
     private server;
@@ -17,6 +17,19 @@ export declare class MCPServer {
     private chainExecutor;
     wssInstance: any;
     private inputTools;
+    lastUserActivityTime: number;
+    directorConfig: {
+        taskCooldownMs: number;
+        heartbeatIntervalMs: number;
+        periodicSummaryMs: number;
+        pasteToSubmitDelayMs: number;
+        acceptDetectionMode: "polling";
+        pollingIntervalMs: number;
+        council: {
+            personas: string[];
+            contextFiles: string[];
+        };
+    };
     constructor(options?: {
         skipWebsocket?: boolean;
     });
