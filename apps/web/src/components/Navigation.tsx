@@ -51,6 +51,24 @@ export function Navigation() {
                     >
                         Reader
                     </Link>
+                    <Link
+                        href="/dashboard/command"
+                        className={`text-sm font-medium transition-colors hover:text-red-500 ${isActive('/dashboard/command') ? 'text-red-500' : 'text-zinc-500 dark:text-zinc-400'}`}
+                    >
+                        Command Center
+                    </Link>
+                    <Link
+                        href="/dashboard/inspector"
+                        className={`text-sm font-medium transition-colors hover:text-yellow-500 ${isActive('/dashboard/inspector') ? 'text-yellow-500' : 'text-zinc-500 dark:text-zinc-400'}`}
+                    >
+                        Traffic
+                    </Link>
+                    <Link
+                        href="/dashboard/config"
+                        className={`text-sm font-medium transition-colors hover:text-slate-500 ${isActive('/dashboard/config') ? 'text-slate-500' : 'text-zinc-500 dark:text-zinc-400'}`}
+                    >
+                        Settings
+                    </Link>
                 </div>
             </div>
             <div className="text-xs text-zinc-400">
