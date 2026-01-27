@@ -6,7 +6,7 @@
   "dependencies": {
     "@qwen-code/qwen-code": "^0.5.0",
     "clipboardy": "^4.0.0",
-    "diff": "^8.0.2",
+    "diff": "^8.0.3",
     "he": "^1.2.0",
     "ink": "^4.0.0",
     "ink-select-input": "^5.0.0",
