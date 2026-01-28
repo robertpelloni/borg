@@ -2359,9 +2359,6 @@
 [submodule "external/unsorted/brainkernel"]
 	path = external/unsorted/brainkernel
 	url = https://github.com/mprajyothreddy/brainkernel
-[submodule "external/unsorted/BeatDrop"]
-	path = external/unsorted/BeatDrop
-	url = https://github.com/mvsoft74/BeatDrop
 [submodule "external/unsorted/opencode-type-inject"]
 	path = external/unsorted/opencode-type-inject
 	url = https://github.com/nick-vi/opencode-type-inject
@@ -3073,3 +3070,18 @@
 [submodule "references/awesome-mcp-servers"]
 	path = references/awesome-mcp-servers
 	url = https://github.com/punkpeye/awesome-mcp-servers
+[submodule "external/awesome-mcp-servers"]
+	path = external/awesome-mcp-servers
+	url = https://github.com/punkpeye/awesome-mcp-servers.git
+[submodule "external/mcp-servers-official"]
+	path = external/mcp-servers-official
+	url = https://github.com/modelcontextprotocol/servers.git
+[submodule "external/skills_repos/humanizer"]
+	path = external/skills_repos/humanizer
+	url = https://github.com/blader/humanizer.git
+[submodule "external/skills_repos/anthropic-skills"]
+	path = external/skills_repos/anthropic-skills
+	url = https://github.com/anthropics/skills.git
+[submodule "external/skills_repos/openai-skills"]
+	path = external/skills_repos/openai-skills
+	url = https://github.com/openai/skills.git
